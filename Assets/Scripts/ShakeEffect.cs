@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +13,7 @@ public class ShakeEffect : MonoBehaviour
     private void Start()
     {
         _camera = GetComponent<Transform>();
-        ShakeCamera(0.3f, 3f);
     }
-
     /// <summary>
     /// Эффект тряски камеры в течении указанного времени и с указанной амплитудой 
     /// </summary>
