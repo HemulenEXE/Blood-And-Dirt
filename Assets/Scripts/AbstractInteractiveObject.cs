@@ -1,71 +1,71 @@
-using System;
+п»їusing System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
 /// <summary>
-/// Абстрактный класс интерактивного объекта
+/// РђР±СЃС‚СЂР°РєС‚РЅС‹Р№ РєР»Р°СЃСЃ РёРЅС‚РµСЂР°РєС‚РёРІРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°
 /// </summary>
 public abstract class AbstractInteractiveObject : MonoBehaviour
 {
     private CircleCollider2D _collider;
     /// <summary>
-    /// Текст, который высвечивается над объектом, когда игрок подходит к нему достаточно близко
+    /// РўРµРєСЃС‚, РєРѕС‚РѕСЂС‹Р№ РІС‹СЃРІРµС‡РёРІР°РµС‚СЃСЏ РЅР°Рґ РѕР±СЉРµРєС‚РѕРј, РєРѕРіРґР° РёРіСЂРѕРє РїРѕРґС…РѕРґРёС‚ Рє РЅРµРјСѓ РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ Р±Р»РёР·РєРѕ
     /// </summary>
     private TextMeshProUGUI _description;
     /// <summary>
-    /// Кнопка, при нажатии на которую происходит взаимодействие с объектом
+    /// РљРЅРѕРїРєР°, РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РєРѕС‚РѕСЂСѓСЋ РїСЂРѕРёСЃС…РѕРґРёС‚ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёРµ СЃ РѕР±СЉРµРєС‚РѕРј
     /// </summary>
     [SerializeField] private KeyCode _key = KeyCode.E;
     /// <summary>
-    /// Название типа используемого шрифта (без расширения)
+    /// РќР°Р·РІР°РЅРёРµ С‚РёРїР° РёСЃРїРѕР»СЊР·СѓРµРјРѕРіРѕ С€СЂРёС„С‚Р° (Р±РµР· СЂР°СЃС€РёСЂРµРЅРёСЏ)
     /// </summary>
     [SerializeField] private string _fontType = "PixelFont";
     /// <summary>
-    /// Размер шрифта
+    /// Р Р°Р·РјРµСЂ С€СЂРёС„С‚Р°
     /// </summary>
     [SerializeField] private float _fontSize = 40.0f;
     /// <summary>
-    /// Радиус поля взаимодейтсвия _collider
+    /// Р Р°РґРёСѓСЃ РїРѕР»СЏ РІР·Р°РёРјРѕРґРµР№С‚СЃРІРёСЏ _collider
     /// </summary>
     [SerializeField] private float _distance = 5.0f;
     protected virtual void Start()
     {
-        //Настройка поля взаимодействия
+        //РќР°СЃС‚СЂРѕР№РєР° РїРѕР»СЏ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ
         _collider = this.GetComponent<CircleCollider2D>();
         if (_collider == null) throw new ArgumentNullException("AbstractInteractiveObject: _collider is null");
         _collider.radius = _distance;
         _collider.isTrigger = true;
 
-        //Настройка используемого шрифта
-        TMP_FontAsset loadedFont = Resources.Load<TMP_FontAsset>($"Fonts/{_fontType}"); //Загрузка шрифта из папки Resources/Fonts
+        //РќР°СЃС‚СЂРѕР№РєР° РёСЃРїРѕР»СЊР·СѓРµРјРѕРіРѕ С€СЂРёС„С‚Р°
+        TMP_FontAsset loadedFont = Resources.Load<TMP_FontAsset>($"Fonts/{_fontType}"); //Р—Р°РіСЂСѓР·РєР° С€СЂРёС„С‚Р° РёР· РїР°РїРєРё Resources/Fonts
         if (loadedFont == null) throw new ArgumentNullException("AbstractInteractiveObject: loadedFont is null");
 
-        //Настройка описания объекта
+        //РќР°СЃС‚СЂРѕР№РєР° РѕРїРёСЃР°РЅРёСЏ РѕР±СЉРµРєС‚Р°
         _description = new GameObject("TextMeshProUGUI").AddComponent<TextMeshProUGUI>();
         _description.gameObject.SetActive(false);
-        _description.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform.Find("InteractiveUI"), false); //Установка связи с канвасом
+        _description.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform.Find("InteractiveUI"), false); //РЈСЃС‚Р°РЅРѕРІРєР° СЃРІСЏР·Рё СЃ РєР°РЅРІР°СЃРѕРј
         _description.fontSize = _fontSize;
         _description.text = $"Press {_key}";
         _description.font = loadedFont;
     }
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if (other != null && other.gameObject.CompareTag("Player")) //Только игрок может взаимодействовать с интерактивными объектами
+        if (other != null && other.gameObject.CompareTag("Player")) //РўРѕР»СЊРєРѕ РёРіСЂРѕРє РјРѕР¶РµС‚ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРѕРІР°С‚СЊ СЃ РёРЅС‚РµСЂР°РєС‚РёРІРЅС‹РјРё РѕР±СЉРµРєС‚Р°РјРё
         {
             _description.gameObject?.SetActive(true);
         }
     }
     /// <summary>
-    /// Обрабатывает столкновение с объектом, имеющем тег Player.
-    /// Если игрок находится в поле взаимодействия с данным объектом и нажал на кнопку _key, то происходит взаимодействие с этим объектом
+    /// РћР±СЂР°Р±Р°С‚С‹РІР°РµС‚ СЃС‚РѕР»РєРЅРѕРІРµРЅРёРµ СЃ РѕР±СЉРµРєС‚РѕРј, РёРјРµСЋС‰РµРј С‚РµРі Player.
+    /// Р•СЃР»Рё РёРіСЂРѕРє РЅР°С…РѕРґРёС‚СЃСЏ РІ РїРѕР»Рµ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ СЃ РґР°РЅРЅС‹Рј РѕР±СЉРµРєС‚РѕРј Рё РЅР°Р¶Р°Р» РЅР° РєРЅРѕРїРєСѓ _key, С‚Рѕ РїСЂРѕРёСЃС…РѕРґРёС‚ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёРµ СЃ СЌС‚РёРј РѕР±СЉРµРєС‚РѕРј
     /// </summary>
     /// <param name="collision"></param>
     protected virtual void OnTriggerStay2D(Collider2D other)
     {
-        if (other != null && other.gameObject.CompareTag("Player")) //Только игрок может взаимодействовать с интерактивными объектами
+        if (other != null && other.gameObject.CompareTag("Player")) //РўРѕР»СЊРєРѕ РёРіСЂРѕРє РјРѕР¶РµС‚ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРѕРІР°С‚СЊ СЃ РёРЅС‚РµСЂР°РєС‚РёРІРЅС‹РјРё РѕР±СЉРµРєС‚Р°РјРё
         {
-            if (Input.GetKey(_key)) //Взаимодействие происходит при нажатии на кнопку
+            if (Input.GetKey(_key)) //Р’Р·Р°РёРјРѕРґРµР№СЃС‚РІРёРµ РїСЂРѕРёСЃС…РѕРґРёС‚ РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РєРЅРѕРїРєСѓ
             {
                 Interact();
             }
@@ -73,13 +73,13 @@ public abstract class AbstractInteractiveObject : MonoBehaviour
     }
     protected virtual void OnTriggerExit2D(Collider2D other)
     {
-        if (other != null && other.gameObject.CompareTag("Player")) //Только игрок может взаимодействовать с интерактивными объектами
+        if (other != null && other.gameObject.CompareTag("Player")) //РўРѕР»СЊРєРѕ РёРіСЂРѕРє РјРѕР¶РµС‚ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРѕРІР°С‚СЊ СЃ РёРЅС‚РµСЂР°РєС‚РёРІРЅС‹РјРё РѕР±СЉРµРєС‚Р°РјРё
         {
             _description.gameObject?.SetActive(false);
         }
     }
     /// <summary>
-    /// Взаимодействие с объектом
+    /// Р’Р·Р°РёРјРѕРґРµР№СЃС‚РІРёРµ СЃ РѕР±СЉРµРєС‚РѕРј
     /// </summary>
     public abstract void Interact();
 }

@@ -1,11 +1,11 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemPickUp : AbstractInteractiveObject
 {
     /// <summary>
-    /// Взаимодействие с объектом
+    /// Р’Р·Р°РёРјРѕРґРµР№СЃС‚РІРёРµ СЃ РѕР±СЉРµРєС‚РѕРј
     /// </summary>
     public override void Interact()
     {
