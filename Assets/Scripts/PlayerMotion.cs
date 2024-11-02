@@ -1,21 +1,21 @@
-using System;
+п»їusing System;
 using UnityEngine;
 
 /// <summary>
-/// Класс передвижения игрока посредством клавиш WASD и компьютерной мыши
+/// РљР»Р°СЃСЃ РїРµСЂРµРґРІРёР¶РµРЅРёСЏ РёРіСЂРѕРєР° РїРѕСЃСЂРµРґСЃС‚РІРѕРј РєР»Р°РІРёС€ WASD Рё РєРѕРјРїСЊСЋС‚РµСЂРЅРѕР№ РјС‹С€Рё
 /// </summary>
 public class PlayerMotion : MonoBehaviour
 {
     /// <summary>
-    /// Промежуток времени
+    /// РџСЂРѕРјРµР¶СѓС‚РѕРє РІСЂРµРјРµРЅРё
     /// </summary>
     private static float deltaTime;
     /// <summary>
-    /// Главная камера
+    /// Р“Р»Р°РІРЅР°СЏ РєР°РјРµСЂР°
     /// </summary>
     private Camera mainCamera;
     /// <summary>
-    /// Скорость передвижения игрока пешком
+    /// РЎРєРѕСЂРѕСЃС‚СЊ РїРµСЂРµРґРІРёР¶РµРЅРёСЏ РёРіСЂРѕРєР° РїРµС€РєРѕРј
     /// </summary>
     [SerializeField] private float _speedWalk;
     public float SpeedWalk
@@ -28,7 +28,7 @@ public class PlayerMotion : MonoBehaviour
         }
     }
     /// <summary>
-    /// Скорость передвижения игрока при беге
+    /// РЎРєРѕСЂРѕСЃС‚СЊ РїРµСЂРµРґРІРёР¶РµРЅРёСЏ РёРіСЂРѕРєР° РїСЂРё Р±РµРіРµ
     /// </summary>
     [SerializeField] private float _speedRun;
     public float SpeedRun
@@ -42,7 +42,7 @@ public class PlayerMotion : MonoBehaviour
     }
     private void Awake()
     {
-        //Настройка полей при запуске сцены
+        //РќР°СЃС‚СЂРѕР№РєР° РїРѕР»РµР№ РїСЂРё Р·Р°РїСѓСЃРєРµ СЃС†РµРЅС‹
         mainCamera = Camera.main;
         deltaTime = Time.fixedDeltaTime;
     }
@@ -52,13 +52,13 @@ public class PlayerMotion : MonoBehaviour
         Rotate();
     }
     /// <summary>
-    /// Передвижение игрока посредством клавиш WASD
+    /// РџРµСЂРµРґРІРёР¶РµРЅРёРµ РёРіСЂРѕРєР° РїРѕСЃСЂРµРґСЃС‚РІРѕРј РєР»Р°РІРёС€ WASD
     /// </summary>
     private void Move()
     {
-        //Текущая скорость игрока в зависимости от состояния нажатия клавиши LeftShift
+        //РўРµРєСѓС‰Р°СЏ СЃРєРѕСЂРѕСЃС‚СЊ РёРіСЂРѕРєР° РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЃРѕСЃС‚РѕСЏРЅРёСЏ РЅР°Р¶Р°С‚РёСЏ РєР»Р°РІРёС€Рё LeftShift
         float speedCurrent = Input.GetKey(KeyCode.LeftShift) ? SpeedRun : SpeedWalk;
-        //Отслеживание нажатия клавиш
+        //РћС‚СЃР»РµР¶РёРІР°РЅРёРµ РЅР°Р¶Р°С‚РёСЏ РєР»Р°РІРёС€
         if (Input.GetKey(KeyCode.A))
         {
             this.transform.position += Vector3.left * speedCurrent * deltaTime;
@@ -77,16 +77,16 @@ public class PlayerMotion : MonoBehaviour
         }
     }
     /// <summary>
-    /// Поворот игрока за компьтерной мышью
+    /// РџРѕРІРѕСЂРѕС‚ РёРіСЂРѕРєР° Р·Р° РєРѕРјРїСЊС‚РµСЂРЅРѕР№ РјС‹С€СЊСЋ
     /// </summary>
     private void Rotate()
     {
-        //Вычисление положения компьютерной мыши в мировом пространстве
+        //Р’С‹С‡РёСЃР»РµРЅРёРµ РїРѕР»РѕР¶РµРЅРёСЏ РєРѕРјРїСЊСЋС‚РµСЂРЅРѕР№ РјС‹С€Рё РІ РјРёСЂРѕРІРѕРј РїСЂРѕСЃС‚СЂР°РЅСЃС‚РІРµ
         Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
-        //Вычисление угла поворота игрока за мышью
+        //Р’С‹С‡РёСЃР»РµРЅРёРµ СѓРіР»Р° РїРѕРІРѕСЂРѕС‚Р° РёРіСЂРѕРєР° Р·Р° РјС‹С€СЊСЋ
         Vector3 direction = mousePosition - this.transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; //Преобразование радиан в градусы - равен 360 / (2 * pi)
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; //РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЂР°РґРёР°РЅ РІ РіСЂР°РґСѓСЃС‹ - СЂР°РІРµРЅ 360 / (2 * pi)
         this.transform.rotation = Quaternion.Euler(Vector3.forward * angle);
     }
 }
