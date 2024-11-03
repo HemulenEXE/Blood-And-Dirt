@@ -1,8 +1,8 @@
-using System;
+п»їusing System;
 using UnityEngine;
 
 /// <summary>
-/// Класс Fader отвечает за затемнение и осветления экрана
+/// РљР»Р°СЃСЃ Fader РѕС‚РІРµС‡Р°РµС‚ Р·Р° Р·Р°С‚РµРјРЅРµРЅРёРµ Рё РѕСЃРІРµС‚Р»РµРЅРёСЏ СЌРєСЂР°РЅР°
 /// </summary>
 public class Fader : MonoBehaviour
 {
@@ -26,7 +26,7 @@ public class Fader : MonoBehaviour
         }
     }
     /// <summary>
-    /// Затемняет экран
+    /// Р—Р°С‚РµРјРЅСЏРµС‚ СЌРєСЂР°РЅ
     /// </summary>
     /// <param name="fadeInCallback"></param>
     public void FadeIn(Action fadeInCallback)
@@ -35,7 +35,7 @@ public class Fader : MonoBehaviour
         animator.SetBool(name: "isFaded", false);
     }
     /// <summary>
-    /// Осветляет экран
+    /// РћСЃРІРµС‚Р»СЏРµС‚ СЌРєСЂР°РЅ
     /// </summary>
     /// <param name="fadeOutCallback"></param>
     public void FadeOut(Action fadeOutCallback)
@@ -44,7 +44,7 @@ public class Fader : MonoBehaviour
         animator.SetBool(name: "isFaded", true);
     }
     /// <summary>
-    /// Вызывает указанный делегат после затемнения экрана
+    /// Р’С‹Р·С‹РІР°РµС‚ СѓРєР°Р·Р°РЅРЅС‹Р№ РґРµР»РµРіР°С‚ РїРѕСЃР»Рµ Р·Р°С‚РµРјРЅРµРЅРёСЏ СЌРєСЂР°РЅР°
     /// </summary>
     private void FadeInCallbackHandler()
     {
@@ -52,7 +52,7 @@ public class Fader : MonoBehaviour
         _fadeInCallback = null;
     }
     /// <summary>
-    /// Вызывает указанный делегат после осветления экрана
+    /// Р’С‹Р·С‹РІР°РµС‚ СѓРєР°Р·Р°РЅРЅС‹Р№ РґРµР»РµРіР°С‚ РїРѕСЃР»Рµ РѕСЃРІРµС‚Р»РµРЅРёСЏ СЌРєСЂР°РЅР°
     /// </summary>
     private void FadeOutCallbackHandler()
     {

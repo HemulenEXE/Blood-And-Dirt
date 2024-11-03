@@ -1,11 +1,11 @@
-using System;
+п»їusing System;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Навешивается на Main Camera
+/// РќР°РІРµС€РёРІР°РµС‚СЃСЏ РЅР° Main Camera
 /// </summary>
 public class ShakeEffect : MonoBehaviour
 {
@@ -15,12 +15,15 @@ public class ShakeEffect : MonoBehaviour
         _camera = GetComponent<Transform>();
     }
     /// <summary>
-    /// Эффект тряски камеры в течении указанного времени и с указанной амплитудой 
+    /// Р­С„С„РµРєС‚ С‚СЂСЏСЃРєРё РєР°РјРµСЂС‹ РІ С‚РµС‡РµРЅРёРё СѓРєР°Р·Р°РЅРЅРѕРіРѕ РІСЂРµРјРµРЅРё Рё СЃ СѓРєР°Р·Р°РЅРЅРѕР№ Р°РјРїР»РёС‚СѓРґРѕР№ 
     /// </summary>
     /// <param name="time"></param>
     /// <param name="amplitude"></param>
     public void ShakeCamera(float time, float amplitude)
     {
+        if (time <= 0) throw new ArgumentException("time should be > 0!");
+        if (amplitude <= 0) throw new ArgumentException("amplitude should be > 0!");
+
         StartCoroutine(_ShakeCamera(time, amplitude));
     }
     private IEnumerator _ShakeCamera(float time, float amplitude)
