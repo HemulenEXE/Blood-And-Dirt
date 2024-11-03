@@ -2,16 +2,23 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Абстрактный класс интерактивного объекта
 /// </summary>
 public abstract class AbstractInteractiveObject : MonoBehaviour
 {
-
+    /// <summary>
+    /// Компонент, отвечающий за визуальное представление этого объекта
+    /// </summary>
+    private Renderer _renderer;
+    /// <summary>
+    /// Коллайдер данного объекта
+    /// </summary>
     private CircleCollider2D _collider;
     /// <summary>
-    /// Текст, который высвечивается над объектом, когда игрок подходит к нему достаточно близко
+    /// Текст, который высвечивается над данным объектом, когда игрок подходит к нему достаточно близко
     /// </summary>
     private TextMeshProUGUI _description;
     /// <summary>
@@ -34,9 +41,13 @@ public abstract class AbstractInteractiveObject : MonoBehaviour
     /// Радиус поля взаимодейтсвия _collider
     /// </summary>
     [SerializeField] private float _distance = 5.0f;
+    /// <summary>
+    /// Смещение по вертикали положения интерактивного текста относительно данного объекта
+    /// </summary>
+    [SerializeField] private float _offSet = 0.5f;
     protected virtual void Start()
     {
-        //Настройка поля взаимодействия
+        //Настройка поля взаимодействия с интерактивным объектом
         _collider = this.GetComponent<CircleCollider2D>();
         if (_collider == null) throw new ArgumentNullException("AbstractInteractiveObject: _collider is null");
         _collider.radius = _distance;
@@ -51,12 +62,16 @@ public abstract class AbstractInteractiveObject : MonoBehaviour
         _description.gameObject.SetActive(false);
         _description.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform.Find("InteractiveUI"), false); //Установка связи с канвасом
         _description.fontSize = _fontSize;
-        _description.text = $"Press {_key}";
+        _description.text = _key.ToString();
         _description.font = loadedFont;
         _description.alignment = TextAlignmentOptions.Center;
 
         //Найстройка главной камеры
         mainCamera = Camera.main;
+
+        //Настройка визуального представления интерактивного объекта
+        _renderer = this.GetComponent<Renderer>();
+        if (_renderer == null) throw new ArgumentNullException("AbstractInteractiveObject: _renderer is null");
     }
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
@@ -65,7 +80,10 @@ public abstract class AbstractInteractiveObject : MonoBehaviour
             if (_description != null)
             {
                 _description.gameObject.SetActive(true);
-                _description.transform.position = RectTransformUtility.WorldToScreenPoint(mainCamera, this.transform.position + Vector3.up);
+                Vector3 positionObject = this.transform.position;
+                positionObject.y = _renderer.bounds.max.y + _offSet; //Получение верхней границы визуала интерактивного объекта
+                Vector3 positionInWorld = RectTransformUtility.WorldToScreenPoint(mainCamera, positionObject);
+                _description.transform.position = positionInWorld;
             }
         }
     }
