@@ -8,11 +8,16 @@ using UnityEngine.TextCore.Text;
 /// </summary>
 public abstract class AbstractInteractiveObject : MonoBehaviour
 {
+
     private CircleCollider2D _collider;
     /// <summary>
     /// Текст, который высвечивается над объектом, когда игрок подходит к нему достаточно близко
     /// </summary>
     private TextMeshProUGUI _description;
+    /// <summary>
+    /// Главная камера
+    /// </summary>
+    private Camera mainCamera;
     /// <summary>
     /// Кнопка, при нажатии на которую происходит взаимодействие с объектом
     /// </summary>
@@ -48,12 +53,20 @@ public abstract class AbstractInteractiveObject : MonoBehaviour
         _description.fontSize = _fontSize;
         _description.text = $"Press {_key}";
         _description.font = loadedFont;
+        _description.alignment = TextAlignmentOptions.Center;
+
+        //Найстройка главной камеры
+        mainCamera = Camera.main;
     }
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other != null && other.gameObject.CompareTag("Player")) //Только игрок может взаимодействовать с интерактивными объектами
         {
-            _description.gameObject?.SetActive(true);
+            if (_description != null)
+            {
+                _description.gameObject.SetActive(true);
+                _description.transform.position = RectTransformUtility.WorldToScreenPoint(mainCamera, this.transform.position + Vector3.up);
+            }
         }
     }
     /// <summary>
@@ -75,7 +88,10 @@ public abstract class AbstractInteractiveObject : MonoBehaviour
     {
         if (other != null && other.gameObject.CompareTag("Player")) //Только игрок может взаимодействовать с интерактивными объектами
         {
-            _description.gameObject?.SetActive(false);
+            if (_description != null)
+            {
+                _description.gameObject.SetActive(false);
+            }
         }
     }
     /// <summary>
