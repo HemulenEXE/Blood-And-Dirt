@@ -59,7 +59,7 @@ public class PlayerInventory : MonoBehaviour
         for (int i = 49; i < 49 + _slots.Count; i++)
         {
             KeyCode key = (KeyCode)i;
-            if (Input.GetKeyDown(key))
+            if (Input.GetKey(key))
             {
                 SelectSlot(i - 49);
             }
@@ -91,9 +91,11 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public void SelectNextSlot()
     {
+        _slots[_currSlot].StoredItem?.SetActive(false);
         InventorySlot currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _minSizeSlot;
         _currSlot = (_currSlot + 1) % _slots.Count;
+        _slots[_currSlot].StoredItem?.SetActive(true);
         currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _maxSizeSlot;
     }
@@ -102,9 +104,11 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public void SelectPrevSlot()
     {
+        _slots[_currSlot].StoredItem?.SetActive(false);
         InventorySlot currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _minSizeSlot;
         _currSlot = (_currSlot - 1 + _slots.Count) % _slots.Count;
+        _slots[_currSlot].StoredItem?.SetActive(true);
         currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _maxSizeSlot;
     }
@@ -114,9 +118,11 @@ public class PlayerInventory : MonoBehaviour
     /// <param name="index"></param>
     public void SelectSlot(int index)
     {
+        _slots[_currSlot].StoredItem?.SetActive(false);
         InventorySlot currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _minSizeSlot;
         _currSlot = index;
+        _slots[_currSlot].StoredItem?.SetActive(true);
         currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _maxSizeSlot;
     }
@@ -134,6 +140,17 @@ public class PlayerInventory : MonoBehaviour
             image.sprite = Resources.Load<Sprite>("Textures/EmptyInventorySlot");
             slot.transform.localScale = Vector3.one * _minSizeSlot;
             _slots.Add(slot.AddComponent<InventorySlot>());
+        }
+    }
+    /// <summary>
+    /// Сброс выбранного предмета и очистка текущего слота.
+    /// </summary>
+    public void DropSelectionSlot()
+    {
+        if (_slots[_currSlot].StoredItem != null)
+        {
+            _slots[_currSlot].StoredItem.gameObject.SetActive(true);
+            _slots[_currSlot].RemoveItem(); //Очистка выбранного слота
         }
     }
 }
