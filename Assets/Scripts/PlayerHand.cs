@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Класс руки игрока
+/// Класс руки игрока.
 /// </summary>
 public class PlayerHand : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class PlayerHand : MonoBehaviour
         TakeSelectionSlotInHand();
     }
     /// <summary>
-    /// Берёт выбранный предмет в руку игрока
+    /// Помещает предмет выбранного слота в руку игрока.
     /// </summary>
     public void TakeSelectionSlotInHand()
     {

@@ -3,54 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Класс инвентаря игрока
+/// Класс инвентаря игрока.
 /// </summary>
 public class PlayerInventory : MonoBehaviour
 {
     /// <summary>
-    /// Список инвентарных слотов игрока
+    /// Список слотов.
     /// </summary>
     public static List<IInventorySlot> _slots; //В список, в отличие от массива, эффективнее добавляются новые элементы
     /// <summary>
-    /// Текущий слот, выбранный игроком
+    /// Текущий, выбранный игроком слот.
     /// </summary>
-    public static int _currSlot;
+    public static int _currSlot = 0;
     /// <summary>
-    /// Максимальное число слотов инвентаря
+    /// Максимальное число слотов.
     /// </summary>
-    public static int _maxCountSlots = 5;
+    public int _maxCountSlots = 5;
     /// <summary>
-    /// Минимальное число слотов инвентаря
+    /// Минимальное число слотов.
     /// </summary>
-    public static int _minCountSlots = 3;
+    public int _minCountSlots = 3;
     /// <summary>
-    /// Максимальный размер слота
+    /// Максимальный размер изображения слота.
     /// </summary>
-    public float _maxSizeSlot = 1f;
+    [SerializeField] private float _maxSizeSlot = 1f;
     /// <summary>
-    /// Минимальный размер слота
+    /// Минимальный размер изображения слота.
     /// </summary>
-    public float _minSizeSlot = 0.8f;
+    [SerializeField] private float _minSizeSlot = 0.8f;
     private void Awake()
     {
-        //Проверка на корректность данных _minCountSlots и _maxCountSlots
+        //Проверка полей _minCountSlots и _maxCountSlots на корректность.
         if (_minCountSlots < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _minCountSlots < 0");
         if (_maxCountSlots < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _maxCountSlots < 0");
         if (_maxCountSlots < _minCountSlots) throw new ArgumentOutOfRangeException("PlayerInventory: _maxCountSlots < _minCountSlots");
-        
-        //Проверка корректности 
+
+        //Проверка полей _minSizeSlot и _maxSizeSlot на корректность.
         if (_maxSizeSlot < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _maxSizeSlot < 0");
         if (_minSizeSlot < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _minSizeSlot < 0");
         if (_maxSizeSlot < _minSizeSlot) throw new ArgumentOutOfRangeException("PlayerInventory: _maxSizeSlot < _minSizeSlot");
 
-        //Настройка списка слотов инвентаря игрока
+        //Настройка (заполнение) списка слотов.
         _slots = new List<IInventorySlot>(_maxCountSlots);
         for (int i = 0; i < _minCountSlots; i++)
-        {
             AddSlot();
-        }
 
-        //По умолчанию, выбираем слот с нулевым индексом
+        //По умолчанию, выбираем слот с нулевым индексом.
         SelectSlot(0);
     }
     private void Update()
@@ -65,7 +63,7 @@ public class PlayerInventory : MonoBehaviour
             }
         }
 
-        //Перемещение между слотами посредством компьютерной мыши
+        //Перемещение между слотами посредством колёсика компьютерной мыши.
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             SelectNextSlot();
@@ -75,59 +73,76 @@ public class PlayerInventory : MonoBehaviour
             SelectPrevSlot();
         }
 
-        //Освобождение текущего слота
+        //Освобождение выбранного слота.
         if (Input.GetKeyDown(KeyCode.Q))
         {
             _slots[_currSlot].RemoveItem();
         }
 
-        //Добавление дополнительного слота
-        if (Input.GetKeyDown(KeyCode.V))
+        //Внедрение дополнительного слота.
+        if (Input.GetKeyDown(KeyCode.V) && Input.GetKeyDown(KeyCode.LeftShift))
             AddSlot();
-
     }
     /// <summary>
-    /// Выбрать следующий слот после текущего
+    /// Перемещение на следующий слот (после текущего).
     /// </summary>
     public void SelectNextSlot()
     {
+        //Настраиваем текущий слот.
         _slots[_currSlot].StoredItem?.SetActive(false);
         InventorySlot currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _minSizeSlot;
+
+        //Перемещаемся на следующий слот.
         _currSlot = (_currSlot + 1) % _slots.Count;
+
+        //Настраиваем текущий слот.
         _slots[_currSlot].StoredItem?.SetActive(true);
         currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _maxSizeSlot;
+
+
     }
     /// <summary>
-    /// Выбрать предыдущий слот перед текущий
+    /// Перемещение на предыдущий слот (перед текущим).
     /// </summary>
     public void SelectPrevSlot()
     {
+        //Настраиваем текущий слот.
         _slots[_currSlot].StoredItem?.SetActive(false);
         InventorySlot currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _minSizeSlot;
+
+        //Перемещаемся на предыдущий слот.
         _currSlot = (_currSlot - 1 + _slots.Count) % _slots.Count;
+
+        //Настраиваем текущий слот.
         _slots[_currSlot].StoredItem?.SetActive(true);
         currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _maxSizeSlot;
     }
     /// <summary>
-    /// Выбирает слот с указанным индексом index
+    /// Перемещение на слот с индексом index.
     /// </summary>
     /// <param name="index"></param>
     public void SelectSlot(int index)
     {
+        //Настраиваем текущий слот.
         _slots[_currSlot].StoredItem?.SetActive(false);
         InventorySlot currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _minSizeSlot;
+
+        //Перемещаемся на слот с указанным индексом.
         _currSlot = index;
+
+        //Настраиваем текущий слот.
         _slots[_currSlot].StoredItem?.SetActive(true);
         currentSlot = _slots[_currSlot] as InventorySlot;
         currentSlot.transform.localScale = Vector3.one * _maxSizeSlot;
     }
     /// <summary>
-    /// Добавление дополнительного слота
+    /// Внедрение дополнительного слота.
+    /// Общее количество слотов не может превышать _maxCountSlots
     /// </summary>
     public void AddSlot()
     {
@@ -143,14 +158,15 @@ public class PlayerInventory : MonoBehaviour
         }
     }
     /// <summary>
-    /// Сброс выбранного предмета и очистка текущего слота.
+    /// Очищение выбранного слота.
+    /// Производится сброс предмета в этом слоте.
     /// </summary>
-    public void DropSelectionSlot()
+    public void ClearSelectionSlot()
     {
         if (_slots[_currSlot].StoredItem != null)
         {
             _slots[_currSlot].StoredItem.gameObject.SetActive(true);
-            _slots[_currSlot].RemoveItem(); //Очистка выбранного слота
+            _slots[_currSlot].RemoveItem(); //Сброс предмета
         }
     }
 }
