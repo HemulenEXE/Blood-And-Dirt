@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// 
+/// Класс, реализующий тестовый интерактивный объект.
 /// </summary>
 public class ItemTest : AbstractInteractiveObject
 {
     /// <summary>
-    /// Взаимодействие с объектом
+    /// Взаимодействие с интерактивным объектом.
     /// </summary>
     public override void Interact()
     {

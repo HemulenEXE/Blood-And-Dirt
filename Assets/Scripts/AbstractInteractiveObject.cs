@@ -1,7 +1,6 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
 
 /// <summary>
@@ -10,93 +9,93 @@ using UnityEngine.UIElements;
 public abstract class AbstractInteractiveObject : MonoBehaviour
 {
     /// <summary>
-    /// Компонент, отвечающий за визуальное представление этого объекта
+    /// Компонент, отвечающий за визуальное представление интерактивного объекта.
     /// </summary>
     private Renderer _renderer;
     /// <summary>
-    /// Коллайдер данного объекта
+    /// Коллайдер объекта.
     /// </summary>
     private CircleCollider2D _collider;
     /// <summary>
-    /// Текст, который высвечивается над данным объектом, когда игрок подходит к нему достаточно близко
+    /// Всплывающий над интерактивным объектом текст.
     /// </summary>
     private TextMeshProUGUI _description;
     /// <summary>
-    /// Главная камера
+    /// Главная камера.
     /// </summary>
-    private Camera mainCamera;
+    private Camera _mainCamera;
     /// <summary>
-    /// Кнопка, при нажатии на которую происходит взаимодействие с объектом
+    /// Кнопка взаимодействия игрока с объектом.
     /// </summary>
     [SerializeField] private KeyCode _key = KeyCode.E;
     /// <summary>
-    /// Название типа используемого шрифта (без расширения)
+    /// Название используемого шрифта (без расширения).
     /// </summary>
     [SerializeField] private string _fontType = "PixelFont";
     /// <summary>
-    /// Размер шрифта
+    /// Размер шрифта.
     /// </summary>
     [SerializeField] private float _fontSize = 40.0f;
     /// <summary>
-    /// Радиус поля взаимодейтсвия _collider
+    /// Радиус поля взаимодейтсвия.
     /// </summary>
     [SerializeField] private float _distance = 5.0f;
     /// <summary>
-    /// Смещение по вертикали положения интерактивного текста относительно данного объекта
+    /// Смещение по вертикали положения всплывающего текста относительно интерактивного объекта.
     /// </summary>
     [SerializeField] private float _offSet = 0.5f;
     protected virtual void Start()
     {
-        //Настройка поля взаимодействия с интерактивным объектом
+        if (_fontSize < 0) throw new ArgumentOutOfRangeException("AbstractInteractiveObject: _fontSize < 0");
+        if (_distance < 0) throw new ArgumentOutOfRangeException("AbstractInteractiveObject: _distance < 0");
+        if (_fontType.Length == 0) throw new ArgumentOutOfRangeException("AbstractInteractiveObject: Length of _fontType is 0");
+
+        //Настройка поля взаимодействия с интерактивным объектом.
         _collider = this.GetComponent<CircleCollider2D>();
         if (_collider == null) throw new ArgumentNullException("AbstractInteractiveObject: _collider is null");
         _collider.radius = _distance;
         _collider.isTrigger = true;
 
-        //Настройка используемого шрифта
-        TMP_FontAsset loadedFont = Resources.Load<TMP_FontAsset>($"Fonts/{_fontType}"); //Загрузка шрифта из папки Resources/Fonts
+        //Настройка описания объекта.
+        TMP_FontAsset loadedFont = Resources.Load<TMP_FontAsset>($"Fonts/{_fontType}"); //Загрузка шрифта из папки Resources.
         if (loadedFont == null) throw new ArgumentNullException("AbstractInteractiveObject: loadedFont is null");
-
-        //Настройка описания объекта
-        _description = new GameObject("TextMeshProUGUI").AddComponent<TextMeshProUGUI>();
+        _description = new GameObject("TMPUGUI").AddComponent<TextMeshProUGUI>();
         _description.gameObject.SetActive(false);
-        _description.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform.Find("InteractiveUI"), false); //Установка связи с канвасом
+        Transform position = GameObject.FindGameObjectWithTag("Canvas")?.transform?.Find("InteractiveUI");
+        if (position == null) throw new ArgumentNullException("AbstractInteractiveObject: Scene hasn't Canvas or InteractiveUI");
+        _description.transform.SetParent(position, false); //Установка связи с канвасом.
         _description.fontSize = _fontSize;
         _description.text = _key.ToString();
         _description.font = loadedFont;
         _description.alignment = TextAlignmentOptions.Center;
 
-        //Найстройка главной камеры
-        mainCamera = Camera.main;
+        //Найстройка главной камеры.
+        _mainCamera = Camera.main;
+        if (_mainCamera == null) throw new ArgumentNullException("AbstractInteractiveObject: _mainCamera is null");
 
-        //Настройка визуального представления интерактивного объекта
+        //Настройка визуального представления интерактивного объекта.
         _renderer = this.GetComponent<Renderer>();
         if (_renderer == null) throw new ArgumentNullException("AbstractInteractiveObject: _renderer is null");
     }
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if (other != null && other.gameObject.CompareTag("Player")) //Только игрок может взаимодействовать с интерактивными объектами
+        if (other != null && other.gameObject.CompareTag("Player")) //Только игрок может взаимодействовать с интерактивным объектом.
         {
             if (_description != null)
             {
                 _description.gameObject.SetActive(true);
                 Vector3 positionObject = this.transform.position;
-                positionObject.y = _renderer.bounds.max.y + _offSet; //Получение верхней границы визуала интерактивного объекта
-                Vector3 positionInWorld = RectTransformUtility.WorldToScreenPoint(mainCamera, positionObject);
+                positionObject.y = _renderer.bounds.max.y + _offSet; //Получение верхней границы визуального представления объекта.
+                Vector3 positionInWorld = RectTransformUtility.WorldToScreenPoint(_mainCamera, positionObject);
                 _description.transform.position = positionInWorld;
             }
         }
     }
-    /// <summary>
-    /// Обрабатывает столкновение с объектом, имеющем тег Player.
-    /// Если игрок находится в поле взаимодействия с данным объектом и нажал на кнопку _key, то происходит взаимодействие с этим объектом
-    /// </summary>
-    /// <param name="collision"></param>
     protected virtual void OnTriggerStay2D(Collider2D other)
     {
-        if (other != null && other.gameObject.CompareTag("Player")) //Только игрок может взаимодействовать с интерактивными объектами
+        if (other != null && other.gameObject.CompareTag("Player")) //Только игрок может взаимодействовать с интерактивными объектами.
         {
-            if (Input.GetKey(_key)) //Взаимодействие происходит при нажатии на кнопку
+            if (Input.GetKey(_key)) //Взаимодействие происходит при нажатии на кнопку.
             {
                 Interact();
             }
@@ -104,7 +103,7 @@ public abstract class AbstractInteractiveObject : MonoBehaviour
     }
     protected virtual void OnTriggerExit2D(Collider2D other)
     {
-        if (other != null && other.gameObject.CompareTag("Player")) //Только игрок может взаимодействовать с интерактивными объектами
+        if (other != null && other.gameObject.CompareTag("Player")) //Только игрок может взаимодействовать с интерактивными объектами.
         {
             if (_description != null)
             {
@@ -113,7 +112,7 @@ public abstract class AbstractInteractiveObject : MonoBehaviour
         }
     }
     /// <summary>
-    /// Взаимодействие с объектом
+    /// Взаимодействие с интерактивным объектом.
     /// </summary>
     public abstract void Interact();
 }
