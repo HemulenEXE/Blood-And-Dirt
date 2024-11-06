@@ -5,13 +5,8 @@ using UnityEngine;
 /// <summary>
 /// Класс дробовика.
 /// </summary>
-public class ShotGun : AbstractGun
+public class ShotGun : AbstractShootingGun
 {
-    /// <summary>
-    /// Префаб дробинки.
-    /// Вместо пули из дробовика будут вылетать дробинки в количестве CountFlyingPellets и под углом отклонения 
-    /// </summary>
-    [SerializeField] private GameObject _prefabPellet;
     /// <summary>
     /// Количестве вылетающих дробинок при одном выстреле из этого дробовика.
     /// </summary>
@@ -21,13 +16,13 @@ public class ShotGun : AbstractGun
     /// Максимальный угол отклонения между двумя разными дробинками, вылетающими из данного дробовика.
     /// </summary>
     public float _spreadAngle;
-    /// <summary>
-    /// Скорость вылета PrefabFiredObject
-    /// </summary>
-    public float _speedShot;
-    private void Awake()
+    protected override void Awake()
     {
-        if (_prefabPellet == null) throw new ArgumentNullException("ShotGun: _prefabPellet is null");
+        //Проверка полей
+
+        base.Awake();
+
+        if (_prefabFiredObject == null) throw new ArgumentNullException("ShotGun: _prefabPellet is null");
         if (_countFlyingPellets < 0) throw new ArgumentOutOfRangeException("ShotGun: _countFlyingPellets < 0");
         if (_speedShot < 0) throw new ArgumentOutOfRangeException("ShotGun: _speedShot < 0");
     }
@@ -43,16 +38,16 @@ public class ShotGun : AbstractGun
             {
                 float interim_spread_angle = UnityEngine.Random.Range(-_spreadAngle, _spreadAngle); //Угол распространения произвольной дробинки
                 Vector3 direction = this.transform.forward * Mathf.Cos(interim_spread_angle); //Определение направления
-                GameObject currentPellet = Instantiate(_prefabPellet, this.transform.position, this.transform.rotation); //Вылет дробинки
+                GameObject currentPellet = Instantiate(_prefabFiredObject, this.transform.position, this.transform.rotation); //Вылет дробинки
                 currentPellet.transform.Rotate(0, 0, interim_spread_angle);
                 Rigidbody2D rg = currentPellet.GetComponent<Rigidbody2D>();
                 if (rg == null) throw new ArgumentNullException();
                 rg.velocity = currentPellet.transform.right * _speedShot;
             }
             _currAmmoTotal--;
+            StartCoroutine(DelayFire());
         }
         else Recharge();
-        StartCoroutine(DelayFire());
     }
     private IEnumerator DelayFire()
     {
@@ -79,9 +74,4 @@ public class ShotGun : AbstractGun
         }
         _isReloading = false;
     }
-    public override bool IsEmpty()
-    {
-        return _ammoTotal > 0 || _currAmmoTotal > 0;
-    }
-
 }

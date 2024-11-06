@@ -2,43 +2,51 @@
 using UnityEngine;
 
 /// <summary>
-/// Абстрактный класс оружия.
+/// Абстрактный класс огнестрельного ружья.
 /// </summary>
-public abstract class AbstractGun : MonoBehaviour
+public abstract class AbstractShootingGun : MonoBehaviour
 {
     /// <summary>
-    /// Наносимый оружием урон.
+    /// Выстреливаемый из ружия объект.
+    /// В качестве такого объекта могут выступать патрон, дробинка и т.п.
     /// </summary>
-    public float _damage;
+    [SerializeField] protected GameObject _prefabFiredObject;
+    /// <summary>
+    /// Скорость вылета выстреливаемого объекта.
+    /// </summary>
+    public float _speedShot = 40;
+    /// <summary>
+    /// Наносимый урон.
+    /// </summary>
+    public float _damage = 5;
     /// <summary>
     /// Задержка между выстрелами.
     /// </summary>
-    public float _delayFire;
+    public float _delayFire = 1;
     /// <summary>
     /// Суммарное число патронов.
     /// </summary>
-    public int _ammoTotal;
+    public int _ammoTotal = 100;
     /// <summary>
-    /// Вместимость патронов в стволе.
-    /// Максимальное число патронов, помещённых в ствол оружия.
+    /// Вместимость обоймы.
     /// </summary>
-    public int _capacityAmmo;
+    public int _capacityAmmo = 5;
     /// <summary>
-    /// Текущее число патронов в стволе.
+    /// Текущее число патронов в обойме.
     /// </summary>
-    public int _currAmmoTotal;
+    public int _currAmmoTotal = 0;
     /// <summary>
     /// Время перезарядки.
     /// </summary>
-    public float _timeRecharging;
+    public float _timeRecharging = 5;
     /// <summary>
     /// Флаг, указывающий, идёт ли перезарядка.
     /// </summary>
-    public bool _isReloading;
-
-    private void Awake()
+    public bool _isReloading = false;
+    protected virtual void Awake()
     {
         //Проверка полей
+
         if (_damage < 0) throw new ArgumentNullException("AbstractGun: _damage < 0");
         if (_delayFire < 0) throw new ArgumentNullException("AbstractGun: _delayFire < 0");
         if (_ammoTotal < 0) throw new ArgumentOutOfRangeException("AbstractGun: _ammoTotal < 0");
@@ -47,16 +55,16 @@ public abstract class AbstractGun : MonoBehaviour
     }
 
     /// <summary>
-    /// Выстрел из оружия.
+    /// Выстрел из ружья.
     /// </summary>
     public abstract void Shoot();
     /// <summary>
-    /// Перезарядка оружия.
+    /// Перезарядка ружья.
     /// </summary>
     public abstract void Recharge();
     /// <summary>
-    /// Проверяет, есть ли патроны в оружии.
+    /// Проверяет, пусто ли ружьё.
     /// </summary>
     /// <returns></returns>
-    public abstract bool IsEmpty();
+    public virtual bool IsEmpty() => _ammoTotal == 0 && _currAmmoTotal == 0;
 }
