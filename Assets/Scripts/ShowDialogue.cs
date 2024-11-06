@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
-/// Скрипт навешивается на NPS
+/// Скрипт навешивается на NPS. Для корректной работы на сцене должен быть объект EventSystem. На NPC навешан colloder и rigitbody, на игрока только collider 
 /// </summary>
 public class ShowDialogue : MonoBehaviour
 {
@@ -19,7 +19,7 @@ public class ShowDialogue : MonoBehaviour
     private Button _continue;
     private TextMeshProUGUI _npcName;
 
-    bool IsTrigger = false; //Для контроля включения диалога
+    bool IsTrigger; //Для контроля включения диалога
     bool IsPrinting;
     private int _nodeInd;
     private int _startInd; //Указывает на начало текущей части реплики (для корректного переключения между ними)
@@ -27,6 +27,11 @@ public class ShowDialogue : MonoBehaviour
     private void Start()
     {
         _dialogue = Dialogue.Load(FileName);
+
+        _nodeInd = 0;
+        _startInd = 0;
+        IsPrinting = false;
+        IsTrigger = false;
     }
     /// <summary>
     /// Переход к выбору ответов/пропуск анимации печати/окончание диалога по нажатию кнопки _continue
@@ -35,7 +40,6 @@ public class ShowDialogue : MonoBehaviour
     {
         Text currentReplic = _panel.GetChild(0).GetComponent<Text>();
 
-        Debug.Log("0: " + _startInd + "-" + _dialogue.Nodes[_nodeInd].npcText.Length);
         //Если реплика печатаетя - пропускаем анимацию
         if (IsPrinting)
         {
@@ -44,7 +48,6 @@ public class ShowDialogue : MonoBehaviour
             //Переставляет _startInd в правильную позицию (чтобы потом можно было дописать реплику, если была написана не вся)
             int i = _dialogue.Nodes[_nodeInd].npcText.Length - 1;
             char[] chars = new char[] { '!', '.', '?' };
-            Debug.Log(_dialogue.Nodes[_nodeInd].npcText[..i].LastIndexOfAny(chars));
 
             while (i - _startInd > _maxReplicLength)
             {
@@ -54,29 +57,24 @@ public class ShowDialogue : MonoBehaviour
             currentReplic.text = _dialogue.Nodes[_nodeInd].npcText[_startInd..(i + 1)];
             _startInd = i + 1;
             IsPrinting = false;
-            Debug.Log("1: " + _startInd + "-" + _dialogue.Nodes[_nodeInd].npcText.Length);
         }
         else if (_startInd < _dialogue.Nodes[_nodeInd].npcText.Length) //Если реплика напечатана не вся, пускаем на печать вторую часть
         {
-            currentReplic.transform.parent = null;
-            Destroy(currentReplic.gameObject);
+            currentReplic.text = "";
 
-            Debug.Log("2: " + _startInd);
             StartCoroutine(PrintReplic(_dialogue.Nodes[_nodeInd].npcText[(_startInd)..]));
         }
         else //Если реплика полностью напечатана, то: в случае, если она конечная, закрываем диалог, иначе - пускааем на печать ответы к ней
         {
             _startInd = 0;
-
+            
+            currentReplic.transform.parent = null;
+            Destroy(currentReplic.gameObject);
+            
             if (_dialogue.Nodes[_nodeInd].exit == "True")
                 EndDialogue();
             else
-            {
-                currentReplic.transform.parent = null;
-                Destroy(currentReplic.gameObject);
-
                 PrintAnswers();
-            }
         }
     }
     private void Update()
@@ -103,15 +101,12 @@ public class ShowDialogue : MonoBehaviour
         _panel = _dialogueWindow.transform.GetChild(2).GetComponent<Transform>();
         _continue = _dialogueWindow.transform.GetChild(3).GetComponent<Button>();
         _npcName.text = NPCName;
-        _nodeInd = 0;
-        _startInd = 0;
-        IsPrinting = false;
 
         _continue.onClick.RemoveAllListeners();
         _continue.onClick.AddListener(Continue);
 
         if (_dialogue.Nodes[_nodeInd].npcText != null)
-            StartCoroutine(PrintReplic(_dialogue.Nodes[_nodeInd].npcText));
+            PrintNode();
         else
             PrintAnswers();
     }
@@ -122,12 +117,10 @@ public class ShowDialogue : MonoBehaviour
     /// <returns></returns>
     private IEnumerator PrintReplic(string text)
     {
-        Debug.Log("Метод PrintReplic запущен");
         IsPrinting = true;
         float speed = 0.01f;
         int i = 0;
 
-        CreateText(_panel,"NpcReplic", "");
         Text replic = _panel.GetChild(0).GetComponent<Text>();
 
         char[] chars = new char[] { '!', '.', '?' };
@@ -139,7 +132,6 @@ public class ShowDialogue : MonoBehaviour
         }
         _startInd += i;
         IsPrinting = false;
-        Debug.Log("Метод PrintReplic завершён");
     }
     /// <summary>
     /// Создаёт варианты ответов к реплике 
@@ -162,7 +154,6 @@ public class ShowDialogue : MonoBehaviour
     /// </summary>
     private void PrintNode()
     {
-        Debug.Log("метод PrintNode запущен!");
         _continue.gameObject.SetActive(true);
         _npcName.gameObject.SetActive(true);
 
@@ -173,15 +164,17 @@ public class ShowDialogue : MonoBehaviour
             GameObject btn = _panel.GetChild(0).gameObject;
             btn.transform.parent = null;
             Destroy(btn);
-            Debug.Log("Кнопка " + count + " удалена");
             count--;
         }
-        Debug.Log("метод PrintNode закончен!");
+        CreateText(_panel, "NpcReplic", "");
         StartCoroutine(PrintReplic(_dialogue.Nodes[_nodeInd].npcText));
     }
     private void EndDialogue()
     {
         _dialogueWindow.SetActive(false);
+
+        _nodeInd = 0;
+        _startInd = 0;
     }
     /// <summary>
     /// Создание кнопки внутри панели 
@@ -193,8 +186,6 @@ public class ShowDialogue : MonoBehaviour
 
     private void CreateButton(string elemName, string text, int toNode, string exit)
     {
-        Debug.Log("Создана кнопка: " + text + "\n" + toNode + " " + exit);
-
         //Создание кнопки
         GameObject btn = new GameObject("btn" + elemName, typeof(Image), typeof(Button));
         Color color = btn.GetComponent<Image>().color;
@@ -215,7 +206,6 @@ public class ShowDialogue : MonoBehaviour
         //Привязка действия к кнопке
         btn.GetComponent<Button>().onClick.AddListener(() =>
         {
-            Debug.Log(toNode);
             if (exit == "True")  
                 EndDialogue();
             else
@@ -232,7 +222,6 @@ public class ShowDialogue : MonoBehaviour
     /// <param name="text"></param>
     private void CreateText(Transform parent, string elemName, string text)
     {
-        Debug.Log("Метод CreateText запущен");
         //Создание текста 
         GameObject txt = new GameObject("txt" + elemName, typeof(Text));
         txt.transform.SetParent(parent);
@@ -267,7 +256,7 @@ public class ShowDialogue : MonoBehaviour
             eventID = EventTriggerType.PointerEnter
         };
         // Добавляем обработчик события
-        pointerEnterEntry.callback.AddListener((data) => { OnPointerEnter(); });
+        pointerEnterEntry.callback.AddListener((data) => { text.fontSize = text.fontSize + 4; });
         eventTrigger.triggers.Add(pointerEnterEntry);
 
         // Создаем событие для ухода курсора с кнопки
@@ -276,17 +265,7 @@ public class ShowDialogue : MonoBehaviour
             eventID = EventTriggerType.PointerExit
         };
         // Добавляем обработчик события
-        pointerExitEntry.callback.AddListener((data) => { OnPointerExit(); });
+        pointerExitEntry.callback.AddListener((data) => { text.fontSize = text.fontSize - 4; });
         eventTrigger.triggers.Add(pointerExitEntry);
-
-        void OnPointerEnter()
-        {
-            text.fontSize = text.fontSize + 4;
-        }
-
-        void OnPointerExit()
-        {
-            text.fontSize = text.fontSize - 4;
-        }
     }
 }
