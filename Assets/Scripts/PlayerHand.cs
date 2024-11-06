@@ -10,7 +10,7 @@ public class PlayerHand : MonoBehaviour
         TakeSelectionSlotInHand();
     }
     /// <summary>
-    /// Помещает предмет выбранного слота в руку игрока.
+    /// Помещает предмет в выбранном слоте в руку игрока.
     /// </summary>
     public void TakeSelectionSlotInHand()
     {

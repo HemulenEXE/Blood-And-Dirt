@@ -3,12 +3,12 @@ using System;
 using UnityEngine.UI;
 
 /// <summary>
-/// Класс предметов, которые можно поднять, взять в инвентарь.
+/// Класс предметов, которые можно взять в инвентарь.
 /// </summary>
 public class ItemPickUp : MonoBehaviour
 {
     /// <summary>
-    /// Иконка в инвентаре данного предмета.
+    /// Иконка предмета в инвентаре.
     /// </summary>
     [SerializeField] private Image _icon;
     public Image Icon
@@ -19,9 +19,12 @@ public class ItemPickUp : MonoBehaviour
     {
         if (Icon == null) throw new ArgumentNullException("ItemPickUp: Icon is null");
     }
+    /// <summary>
+    /// TODO
+    /// </summary>
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-            PlayerInventory._slots[PlayerInventory._currSlot].AddItem(this.gameObject);
+        //if (Input.GetKeyDown(KeyCode.E))
+        //    PlayerInventory._slots[PlayerInventory._currSlot].AddItem(this.gameObject);
     }
 }

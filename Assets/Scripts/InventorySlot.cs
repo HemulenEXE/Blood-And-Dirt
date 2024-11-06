@@ -7,22 +7,22 @@ using UnityEngine;
 public class InventorySlot : MonoBehaviour, IInventorySlot
 {
     /// <summary>
-    /// Предмет, хранимый в этом слоте.
+    /// Предмет, хранимый в слоте.
     /// </summary>
     [SerializeField] private GameObject _storedItem;
     public GameObject StoredItem { get => _storedItem; set => _storedItem = value; }
     /// <summary>
-    /// Изображение предмета, хранимого в данном слоте.
+    /// Иконка предмета, хранимого в слоте.
     /// </summary>
     private GameObject _imageStoredItem;
     public GameObject ImageStoredItem { get => _imageStoredItem; set => _imageStoredItem = value; }
     /// <summary>
-    /// Заполненность этого слота.
+    /// Флаг, указывающий, заполнен ли слот.
     /// </summary>
     [SerializeField] private bool _isFull;
     public bool IsFull { get => _isFull; set => _isFull = value; }
     /// <summary>
-    /// Добавление предмета item в данный слот.
+    /// Добавление предмета item в слот.
     /// </summary>
     /// <param name="item"></param>
     public void AddItem(GameObject item)
@@ -36,7 +36,7 @@ public class InventorySlot : MonoBehaviour, IInventorySlot
         }
     }
     /// <summary>
-    /// Очищение (высвобождение) данного слота.
+    /// Очистка слота.
     /// </summary>
     public void RemoveItem()
     {
@@ -49,7 +49,7 @@ public class InventorySlot : MonoBehaviour, IInventorySlot
         }
     }
     /// <summary>
-    /// Установка иконки image поверх данного слота.
+    /// Установка иконки image поверх слота.
     /// Этот метод используется при вызове процедуры AddItem().
     /// </summary>
     /// <param name="image"></param>
@@ -57,11 +57,11 @@ public class InventorySlot : MonoBehaviour, IInventorySlot
     {
         if (ImageStoredItem == null)
         {
-            ImageStoredItem = Instantiate(image, this.transform); //Установка иконки
+            ImageStoredItem = Instantiate(image, this.transform); //Установка иконки.
         }
     }
     /// <summary>
-    /// Иконка, расположенная поверх данного слота, уничтожается.
+    /// Уничтожение иконки, расположенной поверх слота.
     /// Этот метод используется при вызове процедуры RemoveItem().
     /// </summary>
     private void ClearSlotImage()
