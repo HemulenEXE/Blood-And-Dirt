@@ -25,6 +25,7 @@ public class CameraMove : MonoBehaviour
     {
         Vector3 distance = _player.position + offset;
         Vector3 newPos = Vector3.Lerp(_trans.position, distance, speed * Time.deltaTime);
+        newPos.z = _trans.position.z;
         _trans.position = newPos;
     }
 }
