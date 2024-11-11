@@ -105,7 +105,7 @@ public class BotController : MonoBehaviour
         hasCollidedWithPlayer = true;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
 
         switch (stateBot) 
