@@ -23,9 +23,12 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     private void LateUpdate()
     {
-        Vector3 distance = _player.position + offset;
-        Vector3 newPos = Vector3.Lerp(_trans.position, distance, speed * Time.deltaTime);
-        newPos.z = _trans.position.z;
-        _trans.position = newPos;
+        if (_player != null)
+        {
+            Vector3 distance = _player.position + offset;
+            Vector3 newPos = Vector3.Lerp(_trans.position, distance, speed * Time.deltaTime);
+            newPos.z = _trans.position.z;
+            _trans.position = newPos;
+        }
     }
 }

@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
+
+public class Helper
+{ 
+    public static T DeepCopy<T>(T originalObject) where T : new()
+    {
+        T resultObject = new T();
+        FieldInfo[] fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance); // Получаем все поля исходного объекта
+
+        foreach (FieldInfo field in fields)
+        {
+            object fieldValue = field.GetValue(originalObject); // Получаем значение поля из оригинального объекта
+
+            if (fieldValue != null && !field.FieldType.IsValueType && field.FieldType != typeof(string)) // Если значение является объектом (и не null), то создаем его копию
+            {
+                fieldValue = DeepCopy(fieldValue); // Рекурсивно создаем копию вложенного объекта
+            }
+            field.SetValue(resultObject, fieldValue); // Устанавливаем значение поля в новый объект
+        }
+
+        return resultObject;
+    }
+
+
+    public static GameObject CopyTransformInGameObject(Transform transform)
+    {
+        GameObject result = new GameObject();
+        result.transform.position = transform.position;
+        result.transform.rotation = transform.rotation;
+        result.transform.localScale = transform.localScale;
+
+        return result;
+    }
+}
