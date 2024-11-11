@@ -10,12 +10,12 @@ public class ShotGun : AbstractShootingGun
     /// <summary>
     /// Количестве вылетающих дробинок при одном выстреле из этого дробовика.
     /// </summary>
-    public int _countFlyingPellets;
+    public int _countFlyingPellets = 3;
     /// <summary>
     /// Угол распространения дробинки при выстреле.
     /// Максимальный угол отклонения между двумя разными дробинками, вылетающими из данного дробовика.
     /// </summary>
-    public float _spreadAngle;
+    public float _spreadAngle = 15f;
     protected override void Awake()
     {
         //Проверка полей

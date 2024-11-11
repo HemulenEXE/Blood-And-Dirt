@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 306710614559513395}
   - component: {fileID: 6997295089463936756}
-  - component: {fileID: 7395105186262303085}
-  - component: {fileID: -5179860866925231}
+  - component: {fileID: 6663344640884199289}
+  - component: {fileID: 3887029693504261490}
   m_Layer: 0
   m_Name: ShotGun
   m_TagString: Untagged
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 7253336336762997579}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8006473, y: -1.876143, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7395105186262303085
+--- !u!114 &6663344640884199289
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,21 +95,47 @@ MonoBehaviour:
   m_GameObject: {fileID: 7253336336762997579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2870e0e9f555bf04485b663f86e8b6e4, type: 3}
+  m_Script: {fileID: 11500000, guid: b571232d84bb40541b356d0eef553b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabPellet: {fileID: 8185501928067670845, guid: f5e085aca3db9c9478488da9e1571f3c, type: 3}
-  _ammoTotal: 300
---- !u!114 &-5179860866925231
-MonoBehaviour:
+  _key: 101
+  _fontType: PixelFont
+  _fontSize: 40
+  _distance: 5
+  _offSet: 0.5
+  _icon: {fileID: 7091415440857687836, guid: 6ed236393e5dec64ca52b083569badb2, type: 3}
+--- !u!58 &3887029693504261490
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7253336336762997579}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abecaec644ba38a4393b944a14efc307, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _icon: {fileID: 5770329951021566391, guid: 8c76aac7f53a87448bb3a5c5b85ad39f, type: 3}
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.575

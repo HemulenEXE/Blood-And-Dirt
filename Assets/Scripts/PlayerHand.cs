@@ -10,15 +10,15 @@ public class PlayerHand : MonoBehaviour
         TakeSelectionSlotInHand();
     }
     /// <summary>
-    /// Помещает предмет в выбранном слоте в руку игрока.
+    /// Помещает предмет выбранного слота в руку игрока.
     /// </summary>
     public void TakeSelectionSlotInHand()
     {
         if (PlayerInventory._slots[PlayerInventory._currSlot].StoredItem != null)
         {
-            Transform item_trans = PlayerInventory._slots[PlayerInventory._currSlot].StoredItem.transform;
-            item_trans.position = this.transform.position + transform.right;
-            item_trans.rotation = this.transform.rotation;
+            Transform item_transform = PlayerInventory._slots[PlayerInventory._currSlot].StoredItem.transform;
+            item_transform.position = this.transform.position + transform.right;
+            item_transform.rotation = this.transform.rotation;
             PlayerInventory._slots[PlayerInventory._currSlot].StoredItem.gameObject.SetActive(true);
         }
     }

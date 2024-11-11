@@ -3,10 +3,11 @@ using System;
 using UnityEngine.UI;
 
 /// <summary>
-/// Класс предметов, которые можно взять в инвентарь.
+/// Класс, реализующий "предметы, которые можно поднять в инвентарь игрока".
 /// </summary>
-public class ItemPickUp : MonoBehaviour
+public class ItemPickUp : AbstractInteractiveObject
 {
+    public static string _tagTarget = "Player";
     /// <summary>
     /// Иконка предмета в инвентаре.
     /// </summary>
@@ -18,13 +19,21 @@ public class ItemPickUp : MonoBehaviour
     private void Awake()
     {
         if (Icon == null) throw new ArgumentNullException("ItemPickUp: Icon is null");
+        if (this.GetComponent<Collider2D>() == null) throw new ArgumentNullException("ItemPickUp: Collider2D is null");
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision != null && collision.gameObject.CompareTag(_tagTarget))
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+                Interact();
+        }
     }
     /// <summary>
-    /// TODO
+    /// Взаимодействие с объектом.
     /// </summary>
-    private void Update()
+    public override void Interact()
     {
-        //if (Input.GetKeyDown(KeyCode.E))
-        //    PlayerInventory._slots[PlayerInventory._currSlot].AddItem(this.gameObject);
+        PlayerInventory._slots[PlayerInventory._currSlot].AddItem(this.gameObject);
     }
 }
