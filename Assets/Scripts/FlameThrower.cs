@@ -1,73 +1,65 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System;
 
 /// <summary>
-/// Класс огнемёта.
+/// Класс, реализующий "огнемёт".
 /// </summary>
-public class FlameThrower : AbstractSprayingGun
+public class FlameThrower : AbstractGun
 {
     /// <summary>
-    /// Начинает распыление из огнемёта.
+    /// Префаб пламени.
     /// </summary>
-    public override void StartFiring()
+    [SerializeField] private ParticleSystem _prefabProjectile;
+    /// <exception cref="ArgumentNullException"></exception>
+    protected override void Awake()
     {
-        _isSpraying = true;
-        _prefabFiredObject.SetActive(true);
-        _animatorPrefabFireObject.SetTrigger("StartFire");
-        Fire();
+        //Проверка и настройка полей.
+        base.Awake();
+        if (_prefabProjectile == null) throw new ArgumentNullException("FlameThrower: _prefabProjectile is null");
     }
     /// <summary>
-    /// Длительное распыление из огнемёта.
+    /// Распыление из огнемёта.
     /// </summary>
-    protected override void Fire()
+    public override void Shoot()
     {
-        _animatorPrefabFireObject.SetTrigger("Fire");
+        if (_ammoTotalCurrent > 0)
+        {
+            if (!_prefabProjectile.isPlaying) _prefabProjectile.Play();
+            _ammoTotalCurrent--;
+        }
+        else Recharge();
     }
     /// <summary>
-    /// Заканчивает распыление из огнемёта.
+    /// Остановка распыления из огнемёта.
     /// </summary>
-    public override void StopFiring()
+    public override void StopShoot()
     {
-        _isSpraying = false;
-        _animatorPrefabFireObject.SetTrigger("StopFire");
-
-        StartCoroutine(DeactivateAfterAnimation());
+        if (!_prefabProjectile.isStopped) _prefabProjectile.Stop();
     }
     /// <summary>
-    /// Метод, необходимый для предотвращения преждевременного (до завершения конечной анимации) деактивирования _prefabFiredObject
-    /// </summary>
-    /// <returns></returns>
-    protected virtual IEnumerator DeactivateAfterAnimation()
-    {
-        AnimatorStateInfo stateInfo = _animatorPrefabFireObject.GetCurrentAnimatorStateInfo(0);
-        yield return new WaitForSeconds(stateInfo.length * 1.4f); //Знаю, что плохо, но другого выхода не нашёл
-        //Деактивация _prefabFiredObject по окончанию анимации
-        _prefabFiredObject.SetActive(false);
-    }
-    /// <summary>
-    /// Перезарядка огнемёта.
+    /// Перезарядка огнемёта.<br/>
+    /// Вызывает корутину для перезарядки огнемёта.
     /// </summary>
     public override void Recharge()
     {
-        if (_volumeFuel > 0 && !_isReloading)
+        StopShoot();
+        if (_ammoTotal > 0 && !_isReloading)
         {
             _isReloading = true;
             StartCoroutine(RechargeCoroutine());
         }
     }
     /// <summary>
-    /// Метод, реализующий задержку во время перезарядки.
+    /// Корутина для перезарядки огнемёта.
     /// </summary>
-    /// <returns></returns>
     private IEnumerator RechargeCoroutine()
     {
-        while (_currentVolumeFuel != _capacityFuel)
+        while (_ammoTotalCurrent != _ammoCapacity)
         {
-            _volumeFuel--;
-            _currentVolumeFuel++;
-            yield return new WaitForSeconds(_timeRecharging / _capacityFuel);
-            
-            //Игрок может выстрелить до полной перезарядки.
+            _ammoTotal--;
+            _ammoTotalCurrent++;
+            yield return new WaitForSeconds(_timeRecharging / _ammoCapacity); //Игрок может выстрелить до полной перезарядки ружья.
         }
         _isReloading = false;
     }

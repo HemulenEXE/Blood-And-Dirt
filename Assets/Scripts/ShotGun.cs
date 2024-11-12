@@ -3,74 +3,97 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Класс дробовика.
+/// Класс, реализующий "дробовик".
 /// </summary>
-public class ShotGun : AbstractShootingGun
+public class ShotGun : AbstractGun
 {
     /// <summary>
-    /// Количестве вылетающих дробинок при одном выстреле из этого дробовика.
+    /// Префаб снаряда, вылетающего из дробовика.
     /// </summary>
-    public int _countFlyingPellets = 3;
+    [SerializeField] protected GameObject _prefabProjectile;
     /// <summary>
-    /// Угол распространения дробинки при выстреле.
-    /// Максимальный угол отклонения между двумя разными дробинками, вылетающими из данного дробовика.
+    /// Количество вылетающих снарядов при одном выстреле.
     /// </summary>
-    public float _spreadAngle = 15f;
+    [SerializeField] protected int _countProjectile = 3;
+    /// <summary>
+    /// Начальная скорость вылета снаряда.
+    /// </summary>
+    [SerializeField] protected float _speedProjectile = 5f;
+    /// <summary>
+    /// Угол распространения снарядов при выстреле.<br/>
+    /// Максимальный угол отклонения между двумя векторами, вдоль которых летят снаряды.
+    /// </summary>
+    [SerializeField] protected float _spreadAngle = 15f;
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     protected override void Awake()
     {
         //Проверка полей
-
         base.Awake();
-
-        if (_prefabFiredObject == null) throw new ArgumentNullException("ShotGun: _prefabPellet is null");
-        if (_countFlyingPellets < 0) throw new ArgumentOutOfRangeException("ShotGun: _countFlyingPellets < 0");
-        if (_speedShot < 0) throw new ArgumentOutOfRangeException("ShotGun: _speedShot < 0");
+        if (_prefabProjectile == null) throw new ArgumentNullException("ShotGun: _prefabPellet is null");
+        if (_countProjectile < 0) throw new ArgumentOutOfRangeException("ShotGun: _countFlyingPellets < 0");
+        if (_speedProjectile < 0) throw new ArgumentOutOfRangeException("ShotGun: _speedShot < 0");
     }
     /// <summary>
-    /// Выстрел из данного дробовика.
-    /// Реализует механику порождения PrefabPellet в позиции position и под углом angle
+    /// Выстрел из дробовика.<br/>
     /// </summary>
+    /// <remarks>Порожает на сцене снаряд, вылетающий из дробовика.</remarks>
+    /// <exception cref="ArgumentNullException"></exception>
     public override void Shoot()
     {
-        if (_currAmmoTotal > 0)
+        if (_ammoTotalCurrent > 0)
         {
-            for (int i = 1; i <= _countFlyingPellets; i++) //Механика вылета дробинок
+            for (int i = 1; i <= _countProjectile; i++) //Механика вылета дробинок.
             {
-                float interim_spread_angle = UnityEngine.Random.Range(-_spreadAngle, _spreadAngle); //Угол распространения произвольной дробинки
-                Vector3 direction = this.transform.forward * Mathf.Cos(interim_spread_angle); //Определение направления
-                GameObject currentPellet = Instantiate(_prefabFiredObject, this.transform.position, this.transform.rotation); //Вылет дробинки
-                currentPellet.transform.Rotate(0, 0, interim_spread_angle);
+                float interim_spread_angle = UnityEngine.Random.Range(-_spreadAngle, _spreadAngle); //Определение угла распространения текущего снаряда.
+                Vector3 direction = this.transform.forward * Mathf.Cos(interim_spread_angle); //Определение направления движения снаряда.
+                GameObject currentPellet = Instantiate(_prefabProjectile, this.transform.position, this.transform.rotation); //Вылет снаряда.
+                currentPellet.transform.Rotate(0, 0, interim_spread_angle); //Поворот снаряда.
                 Rigidbody2D rg = currentPellet.GetComponent<Rigidbody2D>();
-                if (rg == null) throw new ArgumentNullException();
-                rg.velocity = currentPellet.transform.right * _speedShot;
+                if (rg == null) throw new ArgumentNullException("ShotGun: _prefabProjectile hasn't got Rigidbody2D");
+                rg.velocity = currentPellet.transform.right * _speedProjectile;
             }
-            _currAmmoTotal--;
-            StartCoroutine(DelayFire());
+            _ammoTotalCurrent--;
+            StartCoroutine(DelayShotCoroutine()); //Между выстрелами идёт задержка.
+            StopShoot(); //Ничего не делает.
         }
         else Recharge();
     }
-    private IEnumerator DelayFire()
-    {
-        yield return new WaitForSeconds(_delayFire);
-    }
     /// <summary>
-    /// Перезарядка этого дробовика.
+    /// Остановка стрельбы из дробовика.<br/>
+    /// Реализации не содержит.
+    /// </summary>
+    public override void StopShoot() { }
+    /// <summary>
+    /// Перезарядка дробовика.
     /// </summary>
     public override void Recharge()
     {
         if (_ammoTotal > 0 && !_isReloading)
         {
             _isReloading = true;
-            StartCoroutine(RechargeCoroutine());
+            StartCoroutine(RechargeCoroutine()); //На перезарядку отводится некоторое время.
         }
     }
+    /// <summary>
+    /// Корутина для задержки между выстрелами.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DelayShotCoroutine()
+    {
+        yield return new WaitForSeconds(_delayShot);
+    }
+    /// <summary>
+    /// Корутина для перезарядки дробовика.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator RechargeCoroutine()
     {
-        while (_currAmmoTotal != _capacityAmmo)
+        while (_ammoTotalCurrent != _ammoCapacity)
         {
             _ammoTotal--;
-            _currAmmoTotal++;
-            yield return new WaitForSeconds(_timeRecharging / _capacityAmmo);
+            _ammoTotalCurrent++;
+            yield return new WaitForSeconds(_timeRecharging / _ammoCapacity); //Игрок может выстрелить до полной перезарядки ружья.
         }
         _isReloading = false;
     }

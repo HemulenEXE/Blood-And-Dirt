@@ -10,24 +10,16 @@ public class PlayerShooting : MonoBehaviour
     /// <summary>
     /// Оружие в руке игрока.
     /// </summary>
-    private GameObject _gun;
+    private AbstractGun _gun;
     private void Update()
     {
-        _gun = PlayerInventory._slots[PlayerInventory._currSlot].StoredItem;
+        _gun = PlayerInventory._slots[PlayerInventory._currSlot].StoredItem?.GetComponent<AbstractGun>();
         if (_gun != null)
         {
-            var shotgun = _gun.GetComponent<ShotGun>();
-            if (shotgun != null && Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                shotgun.Shoot();
-            }
-            var flameThrower = _gun.GetComponent<FlameThrower>();
-            if (flameThrower != null)
-            {
-                if (Input.GetKeyDown(KeyCode.Mouse0)) flameThrower.StartFiring();
-                if (Input.GetKeyUp(KeyCode.Mouse0)) flameThrower.StopFiring();
-            }
+            if (Input.GetKey(KeyCode.Mouse0))
+                _gun.Shoot();
+            else 
+                _gun.StopShoot();
         }
-        //ДА, НАПИСАНО УЖАСНО, ПОТОМ ИСПРАВЛЮ!!! ЭТО ДЛЯ ДЕМОНСТРАЦИИ РАБОТЫ КОДА!!!
     }
 }
