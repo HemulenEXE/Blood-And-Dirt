@@ -1,28 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
-/// <summary>
-/// Класс инвентаря игрока.
-/// </summary>
 public class PlayerInventory : MonoBehaviour
 {
     /// <summary>
-    /// Список слотов.
+    /// Название изображения пустого слота.
     /// </summary>
-    public static List<IInventorySlot> _slots; //В список, в отличие от массива, эффективнее добавляются новые элементы
+    public static string _emptySlotName = "EmptyInventorySlot";
     /// <summary>
-    /// Текущий, выбранный игроком слот.
+    /// Список инвентарных слотов.
     /// </summary>
-    public static int _currSlot = 0;
+    public static List<AbstractInventorySlot> _slots;
     /// <summary>
-    /// Максимальное число слотов.
+    /// Выбранный слот.<br/>
+    /// Нумерация идёт с нуля.
     /// </summary>
-    public int _maxCountSlots = 5;
+    public static int _currentSlot = 0;
     /// <summary>
     /// Минимальное число слотов.
     /// </summary>
     public int _minCountSlots = 3;
+    /// <summary>
+    /// Максимальное число слотов.
+    /// </summary>
+    public int _maxCountSlots = 5;
     /// <summary>
     /// Максимальный размер изображения слота.
     /// </summary>
@@ -31,25 +35,24 @@ public class PlayerInventory : MonoBehaviour
     /// Минимальный размер изображения слота.
     /// </summary>
     [SerializeField] private float _minSizeSlot = 0.8f;
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     private void Awake()
     {
-        //Проверка полей _minCountSlots и _maxCountSlots на корректность.
+        //Проверка полей, настраиваемых в редакторе Unity.
         if (_minCountSlots < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _minCountSlots < 0");
         if (_maxCountSlots < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _maxCountSlots < 0");
         if (_maxCountSlots < _minCountSlots) throw new ArgumentOutOfRangeException("PlayerInventory: _maxCountSlots < _minCountSlots");
 
-        //Проверка полей _minSizeSlot и _maxSizeSlot на корректность.
         if (_maxSizeSlot < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _maxSizeSlot < 0");
         if (_minSizeSlot < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _minSizeSlot < 0");
         if (_maxSizeSlot < _minSizeSlot) throw new ArgumentOutOfRangeException("PlayerInventory: _maxSizeSlot < _minSizeSlot");
 
-        //Настройка (заполнение) списка слотов.
-        _slots = new List<IInventorySlot>(_maxCountSlots);
+        //Установление значений ненастраиваемых полей.
+        _slots = new List<AbstractInventorySlot>(_maxCountSlots);
         for (int i = 0; i < _minCountSlots; i++)
             AddSlot();
 
-        //По умолчанию, выбираем слот с нулевым индексом.
-        SelectSlot(0);
+        SelectSlot(0); //По умолчанию, выбираем нулевой слот.
     }
     private void Update()
     {
@@ -76,7 +79,7 @@ public class PlayerInventory : MonoBehaviour
         //Освобождение выбранного слота.
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            _slots[_currSlot].RemoveItem();
+            _slots[_currentSlot].RemoveItem();
         }
 
         //Внедрение дополнительного слота.
@@ -84,42 +87,55 @@ public class PlayerInventory : MonoBehaviour
             AddSlot();
     }
     /// <summary>
+    /// Добавление нового, дополнительного, слота.<br/>
+    /// Общее количество слотов не может превышать _maxCountSlots.
+    /// </summary>
+    public void AddSlot()
+    {
+        if (_slots.Count < _maxCountSlots)
+        {
+            //Создание нового слота
+            GameObject interim_slot = new GameObject($"Slot {_slots.Count}");
+            AbstractInventorySlot interim_abstract_slot = interim_slot.AddComponent<InventorySlot>();
+            interim_slot.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform.Find("InventoryUI"), false); //Установление связи с канвасом.
+            interim_slot.transform.localScale = Vector3.one * _minSizeSlot;
+            interim_abstract_slot.StoredItem = null;
+            interim_abstract_slot.ImageStoredItem = interim_slot.AddComponent<UnityEngine.UI.Image>();
+            interim_abstract_slot.ImageStoredItem.sprite = Resources.Load<Sprite>($"Textures/{_emptySlotName}");
+            _slots.Add(interim_abstract_slot);
+        }
+    }
+    /// <summary>
     /// Перемещение на следующий слот (после текущего).
     /// </summary>
     public void SelectNextSlot()
     {
-        //Настраиваем текущий слот.
-        _slots[_currSlot].StoredItem?.SetActive(false);
-        InventorySlot currentSlot = _slots[_currSlot] as InventorySlot;
-        currentSlot.transform.localScale = Vector3.one * _minSizeSlot;
+        //Настройка текущего слота.
+        _slots[_currentSlot].StoredItem?.Deactive();
+        _slots[_currentSlot].transform.localScale = Vector3.one * _minSizeSlot;
 
-        //Перемещаемся на следующий слот.
-        _currSlot = (_currSlot + 1) % _slots.Count;
+        //Перемещение на следующий слот.
+        _currentSlot = (_currentSlot + 1) % _slots.Count;
 
-        //Настраиваем текущий слот.
-        _slots[_currSlot].StoredItem?.SetActive(true);
-        currentSlot = _slots[_currSlot] as InventorySlot;
-        currentSlot.transform.localScale = Vector3.one * _maxSizeSlot;
-
-
+        //Настройка текущего слота.
+        _slots[_currentSlot].StoredItem?.Active();
+        _slots[_currentSlot].transform.localScale = Vector3.one * _maxSizeSlot;
     }
     /// <summary>
     /// Перемещение на предыдущий слот (перед текущим).
     /// </summary>
     public void SelectPrevSlot()
     {
-        //Настраиваем текущий слот.
-        _slots[_currSlot].StoredItem?.SetActive(false);
-        InventorySlot currentSlot = _slots[_currSlot] as InventorySlot;
-        currentSlot.transform.localScale = Vector3.one * _minSizeSlot;
+        //Настройка текущего слота.
+        _slots[_currentSlot].StoredItem?.Deactive();
+        _slots[_currentSlot].transform.localScale = Vector3.one * _minSizeSlot;
 
-        //Перемещаемся на предыдущий слот.
-        _currSlot = (_currSlot - 1 + _slots.Count) % _slots.Count;
+        //Перемещение на предыдущий слот.
+        _currentSlot = (_currentSlot + 1) % _slots.Count;
 
-        //Настраиваем текущий слот.
-        _slots[_currSlot].StoredItem?.SetActive(true);
-        currentSlot = _slots[_currSlot] as InventorySlot;
-        currentSlot.transform.localScale = Vector3.one * _maxSizeSlot;
+        //Настройка текущего слота.
+        _slots[_currentSlot].StoredItem?.Active();
+        _slots[_currentSlot].transform.localScale = Vector3.one * _maxSizeSlot;
     }
     /// <summary>
     /// Перемещение на слот с индексом index.
@@ -127,46 +143,15 @@ public class PlayerInventory : MonoBehaviour
     /// <param name="index"></param>
     public void SelectSlot(int index)
     {
-        //Настраиваем текущий слот.
-        _slots[_currSlot].StoredItem?.SetActive(false);
-        InventorySlot currentSlot = _slots[_currSlot] as InventorySlot;
-        currentSlot.transform.localScale = Vector3.one * _minSizeSlot;
+        //Настройка текущего слота.
+        _slots[_currentSlot].StoredItem?.Deactive();
+        _slots[_currentSlot].transform.localScale = Vector3.one * _minSizeSlot;
 
         //Перемещаемся на слот с указанным индексом.
-        _currSlot = index;
+        _currentSlot = index;
 
-        //Настраиваем текущий слот.
-        _slots[_currSlot].StoredItem?.SetActive(true);
-        currentSlot = _slots[_currSlot] as InventorySlot;
-        currentSlot.transform.localScale = Vector3.one * _maxSizeSlot;
-    }
-    /// <summary>
-    /// Внедрение дополнительного слота.
-    /// Общее количество слотов не может превышать _maxCountSlots
-    /// </summary>
-    public void AddSlot()
-    {
-        if (_slots.Count < _maxCountSlots)
-        {
-            //Создание нового слота
-            GameObject slot = new GameObject($"Slot {_slots.Count}");
-            slot.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform.Find("InventoryUI"), false);
-            UnityEngine.UI.Image image = slot.AddComponent<UnityEngine.UI.Image>();
-            image.sprite = Resources.Load<Sprite>("Textures/EmptyInventorySlot");
-            slot.transform.localScale = Vector3.one * _minSizeSlot;
-            _slots.Add(slot.AddComponent<InventorySlot>());
-        }
-    }
-    /// <summary>
-    /// Очищение выбранного слота.
-    /// Производится сброс предмета в этом слоте.
-    /// </summary>
-    public void ClearSelectionSlot()
-    {
-        if (_slots[_currSlot].StoredItem != null)
-        {
-            _slots[_currSlot].StoredItem.gameObject.SetActive(true);
-            _slots[_currSlot].RemoveItem(); //Сброс предмета
-        }
+        //Настройка текущего слота.
+        _slots[_currentSlot].StoredItem?.Active();
+        _slots[_currentSlot].transform.localScale = Vector3.one * _maxSizeSlot;
     }
 }
