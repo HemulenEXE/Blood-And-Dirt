@@ -1,74 +1,153 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System;
 
 /// <summary>
-/// Класс огнемёта.
+/// Класс, реализующий "огнемёт".
 /// </summary>
-public class FlameThrower : AbstractSprayingGun
+public class FlameThrower : MonoBehaviour, IGun
 {
     /// <summary>
-    /// Начинает распыление из огнемёта.
+    /// Префаб пламени.
     /// </summary>
-    public override void StartFiring()
-    {
-        _isSpraying = true;
-        _prefabFiredObject.SetActive(true);
-        _animatorPrefabFireObject.SetTrigger("StartFire");
-        Fire();
-    }
+    [SerializeField] protected ParticleSystem _prefabProjectile;
     /// <summary>
-    /// Длительное распыление из огнемёта.
+    /// Наносимый урон.
     /// </summary>
-    protected override void Fire()
-    {
-        _animatorPrefabFireObject.SetTrigger("Fire");
-    }
+    [SerializeField] protected float _damage = 5;
     /// <summary>
-    /// Заканчивает распыление из огнемёта.
+    /// Возвращает величину наносимого урона.
     /// </summary>
-    public override void StopFiring()
-    {
-        _isSpraying = false;
-        _animatorPrefabFireObject.SetTrigger("StopFire");
-
-        StartCoroutine(DeactivateAfterAnimation());
-    }
+    public float Damage { get => _damage; }
     /// <summary>
-    /// Метод, необходимый для предотвращения преждевременного (до завершения конечной анимации) деактивирования _prefabFiredObject
+    /// Задержка между выстрелами.
     /// </summary>
-    /// <returns></returns>
-    protected virtual IEnumerator DeactivateAfterAnimation()
-    {
-        AnimatorStateInfo stateInfo = _animatorPrefabFireObject.GetCurrentAnimatorStateInfo(0);
-        yield return new WaitForSeconds(stateInfo.length * 1.4f); //Знаю, что плохо, но другого выхода не нашёл
-        //Деактивация _prefabFiredObject по окончанию анимации
-        _prefabFiredObject.SetActive(false);
-    }
+    [SerializeField] protected float _delayShot = 2;
     /// <summary>
-    /// Перезарядка огнемёта.
+    /// Время до следующего выстрела.
     /// </summary>
-    public override void Recharge()
+    protected float _nextTimeShot = 0f;
+    /// <summary>
+    /// Суммарное число снарядов.
+    /// </summary>
+    [SerializeField] protected int _ammoTotal = 10_000;
+    /// <summary>
+    /// Возвращает и изменяет суммарное число снарядов.
+    /// </summary>
+    public int AmmoTotal
     {
-        if (_volumeFuel > 0 && !_isReloading)
+        get => _ammoTotal;
+        set
         {
-            _isReloading = true;
+            if (value <= 0) _ammoTotal = 0;
+            else _ammoTotal = value;
+        }
+    }
+    /// <summary>
+    /// Вместимость очереди.
+    /// </summary>
+    [SerializeField] protected int _ammoCapacity = 2_000;
+    /// <summary>
+    /// Возвращает вместимость очереди.
+    /// </summary>
+    public int AmmoCapacity { get => _ammoCapacity; }
+    /// <summary>
+    /// Текущее число снарядов в очереди.
+    /// </summary>
+    [SerializeField] protected int _ammoTotalCurrent = 0;
+    /// <summary>
+    /// Возвращает текущее число снарядов в очереди.
+    /// </summary>
+    public int AmmoTotalCurrent
+    {
+        get => _ammoTotalCurrent;
+        set
+        {
+            if (value <= 0) _ammoTotalCurrent = 0;
+            else _ammoTotalCurrent = value;
+        }
+    }
+    /// <summary>
+    /// Время перезарядки.
+    /// </summary>
+    [SerializeField] protected float _timeRecharging = 5;
+    /// <summary>
+    /// Возврашает флаг, указывающий, идёт ли перезарядка.
+    /// </summary>
+    public bool IsRecharging { get; set; } = false;
+    /// <summary>
+    /// Возврашает флаг, указывающий, идёт ли стрельба.
+    /// </summary>
+    public bool IsShooting
+    {
+        get => _prefabProjectile.isEmitting; set
+        {
+            if (value.Equals(true)) _prefabProjectile.Play();
+            else _prefabProjectile.Stop();
+        }
+    }
+    /// <exception cref="ArgumentNullException"></exception>
+    protected void Awake()
+    {
+        //Проверка полей, настраиваемых в редакторе Unity.
+        if (_prefabProjectile == null) throw new ArgumentNullException("FlameThrower: _prefabProjectile is null");
+    }
+    /// <summary>
+    /// Распыление из огнемёта.
+    /// </summary>
+    public void Shoot()
+    {
+        if (!IsRecharging && Time.time >= _nextTimeShot)
+        {
+            if (AmmoTotalCurrent > 0)
+            {
+                if (!IsShooting)
+                {
+                    IsShooting = true; //_prefabProjectile.Play();
+                }
+                AmmoTotalCurrent--;
+            }
+            else Recharge();
+        }
+    }
+    /// <summary>
+    /// Остановка распыления из огнемёта.
+    /// </summary>
+    public void StopShoot()
+    {
+        if (IsShooting)
+        {
+            IsShooting = false; //_prefabProjectile.Stop();
+        }
+    }
+    /// <summary>
+    /// Перезарядка огнемёта.<br/>
+    /// Вызывает корутину для перезарядки огнемёта.
+    /// </summary>
+    public void Recharge()
+    {
+        StopShoot();
+        if (AmmoTotal > 0 && !IsRecharging)
+        {
+            IsRecharging = true;
             StartCoroutine(RechargeCoroutine());
         }
     }
     /// <summary>
-    /// Метод, реализующий задержку во время перезарядки.
+    /// Корутина для перезарядки огнемёта.
     /// </summary>
-    /// <returns></returns>
     private IEnumerator RechargeCoroutine()
     {
-        while (_currentVolumeFuel != _capacityFuel)
+        while (AmmoTotalCurrent != AmmoCapacity)
         {
-            _volumeFuel--;
-            _currentVolumeFuel++;
-            yield return new WaitForSeconds(_timeRecharging / _capacityFuel);
-            
-            //Игрок может выстрелить до полной перезарядки.
+            AmmoTotal--;
+            AmmoTotalCurrent++;
+            yield return new WaitForSeconds(_timeRecharging / AmmoCapacity); //Игрок может выстрелить до полной перезарядки ружья.
         }
-        _isReloading = false;
+        IsRecharging = false;
     }
+    /// <summary>
+    /// Проверяет, пусто ли ружьё.
+    /// </summary>
+    public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
 }

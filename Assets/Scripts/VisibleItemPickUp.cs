@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class VisibleItemPickUp : UnvisibleItemPickUp
 {
@@ -8,7 +6,7 @@ public class VisibleItemPickUp : UnvisibleItemPickUp
     {
         if (other != null && !InHand && other.gameObject.CompareTag(_targetTag))
         {
-            Description.gameObject.SetActive(true);
+            Description?.gameObject?.SetActive(true);
             Vector3 positionObject = this.transform.position;
             positionObject.y = Renderer.bounds.max.y + OffSet; //Получение верхней границы визуального представления объекта.
             Vector3 positionInWorld = RectTransformUtility.WorldToScreenPoint(_mainCamera, positionObject);
@@ -24,7 +22,7 @@ public class VisibleItemPickUp : UnvisibleItemPickUp
     {
         if ((other != null && other.gameObject.CompareTag(_targetTag)))
         {
-            Description.gameObject.SetActive(false);
+            Description?.gameObject?.SetActive(false);
         }
     }
 }
