@@ -1,75 +1,35 @@
-﻿using Unity.VisualScripting;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-/// <summary>
-/// Класс слота инвентаря игрока.
-/// </summary>
-public class InventorySlot : MonoBehaviour, IInventorySlot
+public class InventorySlot : AbstractInventorySlot
 {
     /// <summary>
-    /// Предмет, хранимый в слоте.
-    /// </summary>
-    [SerializeField] private GameObject _storedItem;
-    public GameObject StoredItem { get => _storedItem; set => _storedItem = value; }
-    /// <summary>
-    /// Иконка предмета, хранимого в слоте.
-    /// </summary>
-    private GameObject _imageStoredItem;
-    public GameObject ImageStoredItem { get => _imageStoredItem; set => _imageStoredItem = value; }
-    /// <summary>
-    /// Флаг, указывающий, заполнен ли слот.
-    /// </summary>
-    [SerializeField] private bool _isFull;
-    public bool IsFull { get => _isFull; set => _isFull = value; }
-    /// <summary>
-    /// Добавление предмета item в слот.
+    /// Добавление предмета в слот.
     /// </summary>
     /// <param name="item"></param>
-    public void AddItem(GameObject item)
+    public override void AddItem(UnvisibleItemPickUp item)
     {
-        if (!IsFull)
+        if (!IsFull())
         {
-            FullSlotImage(item.GetComponent<ItemPickUp>().Icon.gameObject);
-            item.SetActive(false);
+            item.InHand = true;
+            item.Deactive();
             StoredItem = item;
-            IsFull = true;
+            ImageStoredItem.GetComponent<Image>().sprite = item.Icon;
         }
     }
     /// <summary>
-    /// Очистка слота.
+    /// Очищение слота и сброс хранимого предмета.
     /// </summary>
-    public void RemoveItem()
+    public override void RemoveItem()
     {
-        if (IsFull)
+        if (IsFull())
         {
-            ClearSlotImage();
-            StoredItem.SetActive(true);
+            StoredItem.InHand = false;
+            StoredItem.Active();
             StoredItem = null;
-            IsFull = false;
-        }
-    }
-    /// <summary>
-    /// Установка иконки image поверх слота.
-    /// Этот метод используется при вызове процедуры AddItem().
-    /// </summary>
-    /// <param name="image"></param>
-    private void FullSlotImage(GameObject image)
-    {
-        if (ImageStoredItem == null)
-        {
-            ImageStoredItem = Instantiate(image, this.transform); //Установка иконки.
-        }
-    }
-    /// <summary>
-    /// Уничтожение иконки, расположенной поверх слота.
-    /// Этот метод используется при вызове процедуры RemoveItem().
-    /// </summary>
-    private void ClearSlotImage()
-    {
-        if (ImageStoredItem != null)
-        {
-            Destroy(ImageStoredItem); //Удаление иконки.
-            ImageStoredItem = null;
+            ImageStoredItem.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/{PlayerInventory._emptySlotName}");
         }
     }
 }
