@@ -11,6 +11,10 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public static string _emptySlotName = "EmptyInventorySlot";
     /// <summary>
+    /// Изображение пустого слота.
+    /// </summary>
+    public static Sprite _emptySlotImage = null;
+    /// <summary>
     /// Список инвентарных слотов.
     /// </summary>
     public static List<AbstractInventorySlot> _slots;
@@ -48,6 +52,8 @@ public class PlayerInventory : MonoBehaviour
         if (_maxSizeSlot < _minSizeSlot) throw new ArgumentOutOfRangeException("PlayerInventory: _maxSizeSlot < _minSizeSlot");
 
         //Установление значений ненастраиваемых полей.
+        _emptySlotImage = Resources.Load<Sprite>($"Textures/{_emptySlotName}");
+
         _slots = new List<AbstractInventorySlot>(_maxCountSlots);
         for (int i = 0; i < _minCountSlots; i++)
             AddSlot();

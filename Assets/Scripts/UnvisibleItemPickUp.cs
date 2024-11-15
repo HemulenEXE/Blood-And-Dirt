@@ -174,7 +174,7 @@ public class UnvisibleItemPickUp : MonoBehaviour, IInteractiveObject
 
         TMP_FontAsset loadedFont = Resources.Load<TMP_FontAsset>($"Fonts/{_fontName}"); //Загрузка шрифта из папки Resources.
         if (loadedFont == null) throw new ArgumentNullException("AbstractInteractiveObject: loadedFont is null");
-        Description = new GameObject("TMPUGUI").AddComponent<TextMeshProUGUI>();
+        Description = new GameObject($"TMPUGUI {this.name}").AddComponent<TextMeshProUGUI>();
         Description.gameObject.SetActive(false);
         Transform position = GameObject.FindGameObjectWithTag("Canvas")?.transform?.Find("InteractiveUI");
         if (position == null) throw new ArgumentNullException("AbstractInteractiveObject: Scene hasn't Canvas or InteractiveUI");

@@ -29,7 +29,7 @@ public class InventorySlot : AbstractInventorySlot
             StoredItem.InHand = false;
             StoredItem.Active();
             StoredItem = null;
-            ImageStoredItem.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/{PlayerInventory._emptySlotName}");
+            ImageStoredItem.GetComponent<Image>().sprite = PlayerInventory._emptySlotImage;
         }
     }
 }
