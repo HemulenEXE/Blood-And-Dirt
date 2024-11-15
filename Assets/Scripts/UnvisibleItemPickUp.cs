@@ -216,7 +216,7 @@ public class UnvisibleItemPickUp : MonoBehaviour, IInteractiveObject
     }
     /// <summary>
     /// Деактивирование предмета на сцене.<br/>
-    /// Более безопасный аналог метода SetActive(flag).
+    /// Более безопасный аналог метода SetActive(false).
     /// </summary>
     public virtual void Deactive()
     {
