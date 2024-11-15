@@ -17,16 +17,16 @@ public class PlayerMotion : MonoBehaviour
     /// <summary>
     /// Пешая скорость.
     /// </summary>
-    [SerializeField] private float _speedWalk;
+    [SerializeField] private float _speedWalk = 4;
     /// <summary>
     /// Скорость бега.
     /// </summary>
-    [SerializeField] private float _speedRun;
+    [SerializeField] private float _speedRun = 8;
     private void Awake()
     {
         //Настройка полей
         _mainCamera = Camera.main;
-        _deltaTime = Time.fixedDeltaTime;
+        _deltaTime = Time.deltaTime;
 
         if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
         if (_speedRun < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedRun < 0");
