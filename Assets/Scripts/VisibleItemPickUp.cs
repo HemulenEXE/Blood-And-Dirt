@@ -6,7 +6,10 @@ public class VisibleItemPickUp : UnvisibleItemPickUp
     {
         if (other != null && !InHand && other.gameObject.CompareTag(_targetTag))
         {
-            Description?.gameObject?.SetActive(true);
+            if (Description != null) //Через ? выбрасывается ошибка.
+            {
+                Description.gameObject.SetActive(true);
+            }
             Vector3 positionObject = this.transform.position;
             positionObject.y = Renderer.bounds.max.y + OffSet; //Получение верхней границы визуального представления объекта.
             Vector3 positionInWorld = RectTransformUtility.WorldToScreenPoint(_mainCamera, positionObject);
@@ -22,7 +25,10 @@ public class VisibleItemPickUp : UnvisibleItemPickUp
     {
         if ((other != null && other.gameObject.CompareTag(_targetTag)))
         {
-            Description?.gameObject?.SetActive(false);
+            if (Description != null) //Через ? выбрасывается ошибка.
+            {
+                Description.gameObject.SetActive(false);
+            }
         }
     }
 }
