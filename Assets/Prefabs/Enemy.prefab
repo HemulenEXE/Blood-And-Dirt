@@ -105,7 +105,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4210582806080189674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4e669341a9237144a900c1e30a2bbd7, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b0beebc643d64e4089437fdb605eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4882441201376326044
@@ -289,11 +289,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4882441201376326044}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4781e22be4d7954591bd3c759daf8e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 776137f4f7c9fdc47ad7d94edbeab7e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   visionRange: 10
-  loseSightTime: 7
+  loseSightTime: 3
   patrolPoints: []
   addStartPositionToPatrol: 1
   rotationAngle: 15
@@ -358,7 +358,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a68243b898d42ce46962c8a179a223bd, type: 3}
+  m_audioClip: {fileID: 8300000, guid: a4fde9c7ae2792d43a66b5b5b04298c1, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
