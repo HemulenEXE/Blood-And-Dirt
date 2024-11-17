@@ -4841,8 +4841,8 @@ GameObject:
   - component: {fileID: 7048916909774470775}
   - component: {fileID: 9058079130413807556}
   - component: {fileID: 5903570935348041797}
-  - component: {fileID: 2615352130115406724}
   - component: {fileID: 5472050201398116759}
+  - component: {fileID: 1929368379668967796}
   m_Layer: 0
   m_Name: flameThrower
   m_TagString: Untagged
@@ -4953,7 +4953,25 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 3.5
---- !u!114 &2615352130115406724
+--- !u!114 &5472050201398116759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8530991722904348969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6135961ef7cc92a4da727f1af5a7f2c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 0f3c3eeb202a90f49a67c535257c833c, type: 3}
+  _key: 101
+  _radius: 5
+  _fontName: PixelFont
+  _fontSize: 40
+  _offSet: 0.5
+--- !u!114 &1929368379668967796
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4972,21 +4990,3 @@ MonoBehaviour:
   _ammoCapacity: 2000
   _ammoTotalCurrent: 0
   _timeRecharging: 5
---- !u!114 &5472050201398116759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8530991722904348969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6135961ef7cc92a4da727f1af5a7f2c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _icon: {fileID: 21300000, guid: 0f3c3eeb202a90f49a67c535257c833c, type: 3}
-  _key: 101
-  _fontName: PixelFont
-  _fontSize: 40
-  _radius: 5
-  _offSet: 0.5
