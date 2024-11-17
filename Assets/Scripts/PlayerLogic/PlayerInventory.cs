@@ -7,7 +7,7 @@ public class PlayerInventory : MonoBehaviour
     /// <summary>
     /// Название изображения пустого слота.
     /// </summary>
-    public static string _emptySlotName = "EmptyInventorySlot";
+    public static string _emptySlotName = "cell";
     /// <summary>
     /// Изображение пустого слота.
     /// </summary>
@@ -50,7 +50,7 @@ public class PlayerInventory : MonoBehaviour
         if (_maxSizeSlot < _minSizeSlot) throw new ArgumentOutOfRangeException("PlayerInventory: _maxSizeSlot < _minSizeSlot");
 
         //Установление значений ненастраиваемых полей.
-        _emptySlotImage = Resources.Load<Sprite>($"Textures/{_emptySlotName}");
+        _emptySlotImage = Resources.Load<Sprite>($"Sprites/Interface/{_emptySlotName}");
 
         _slots = new List<AbstractInventorySlot>(_maxCountSlots);
         for (int i = 0; i < _minCountSlots; i++)
@@ -101,11 +101,11 @@ public class PlayerInventory : MonoBehaviour
             //Создание нового слота
             GameObject interim_slot = new GameObject($"Slot {_slots.Count}");
             AbstractInventorySlot interim_abstract_slot = interim_slot.AddComponent<InventorySlot>();
-            interim_slot.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform.Find("InventoryUI"), false); //Установление связи с канвасом.
+            interim_slot.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform.Find("InventoryUI"), true); //Установление связи с канвасом.
             interim_slot.transform.localScale = Vector3.one * _minSizeSlot;
             interim_abstract_slot.StoredItem = null;
             interim_abstract_slot.ImageStoredItem = interim_slot.AddComponent<UnityEngine.UI.Image>();
-            interim_abstract_slot.ImageStoredItem.sprite = Resources.Load<Sprite>($"Textures/{_emptySlotName}");
+            interim_abstract_slot.ImageStoredItem.sprite = _emptySlotImage;
             _slots.Add(interim_abstract_slot);
         }
     }

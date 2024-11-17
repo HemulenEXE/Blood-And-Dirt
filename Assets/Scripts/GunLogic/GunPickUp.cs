@@ -2,7 +2,7 @@
 
 public class GunPickUp : VisibleItemPickUp
 {
-    private IGun _gun;
+    protected IGun _gun;
     protected override void Awake()
     {
         base.Awake();
