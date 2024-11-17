@@ -118,11 +118,8 @@ GameObject:
   - component: {fileID: 1265472572047247582}
   - component: {fileID: 8616915224384068427}
   - component: {fileID: 4461553681316957286}
-  - component: {fileID: 4353044189011056769}
-  - component: {fileID: -5223176435579541392}
-  - component: {fileID: 6333309091284143149}
   m_Layer: 0
-  m_Name: Player
+  m_Name: showcasePlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -220,43 +217,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _walkSpeed: 1
   _runspeed: 1.3
---- !u!114 &4353044189011056769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7686392455674397021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be1cc2cb8b0f06144b844ebd0d36f2bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minCountSlots: 3
-  _maxCountSlots: 5
-  _maxSizeSlot: 1
-  _minSizeSlot: 0.8
---- !u!114 &-5223176435579541392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7686392455674397021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86bcad6a3a854a74d93b6157f0b50a57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6333309091284143149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7686392455674397021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af04aa4f1df257c44873e274f5ad0ab9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
