@@ -48,7 +48,7 @@ public class PlayerMotion : MonoBehaviour
         if (_runspeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedRun < 0");
         if (_walkSpeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedWalk < 0");
     }
-    private void Update()
+    private void FixedUpdate()
     {
         Move();
         Rotate();
