@@ -21,11 +21,11 @@ public class PlayerMotion : MonoBehaviour
     /// <summary>
     /// Пешая скорость.
     /// </summary>
-    [SerializeField] private float _walkSpeed = 1f;
+    [SerializeField] private float _walkSpeed = 4f;
     /// <summary>
     /// Скорость бега.
     /// </summary>
-    [SerializeField] private float _runspeed = 1.3f;
+    [SerializeField] private float _runspeed = 8f;
     /// <summary>
     /// Возвращает флаг, указывающий, движется ли игрок.
     /// </summary>
@@ -48,7 +48,7 @@ public class PlayerMotion : MonoBehaviour
         if (_runspeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedRun < 0");
         if (_walkSpeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedWalk < 0");
     }
-    private void Update()
+    private void FixedUpdate()
     {
         Move();
         Rotate();
