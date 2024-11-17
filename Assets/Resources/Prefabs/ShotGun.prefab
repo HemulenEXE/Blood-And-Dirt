@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1643960971617176738}
   - component: {fileID: 3565921444293393619}
   m_Layer: 0
-  m_Name: shotgun
+  m_Name: ShotGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _icon: {fileID: 21300000, guid: 07ffc5ca855e93a46a03404ffcdb66f3, type: 3}
   _key: 101
+  _radius: 5
   _fontName: PixelFont
   _fontSize: 40
-  _radius: 5
   _offSet: 0.5
