@@ -116,7 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7315440686052831511}
   - component: {fileID: 1265472572047247582}
-  - component: {fileID: 8616915224384068427}
+  - component: {fileID: 2399549149452779577}
   - component: {fileID: 4461553681316957286}
   m_Layer: 0
   m_Name: showcasePlayer
@@ -168,8 +168,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &8616915224384068427
-CircleCollider2D:
+--- !u!61 &2399549149452779577
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -200,9 +200,19 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.04362978, y: 0.0064514875}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Size: {x: 0.1467388, y: 0.2769934}
+  m_EdgeRadius: 0
 --- !u!114 &4461553681316957286
 MonoBehaviour:
   m_ObjectHideFlags: 0
