@@ -8,10 +8,6 @@ using System;
 public class FlameThrower : MonoBehaviour, IGun
 {
     /// <summary>
-    /// Префаб пламени.
-    /// </summary>
-    [SerializeField] protected ParticleSystem _prefabProjectile;
-    /// <summary>
     /// Наносимый урон.
     /// </summary>
     [SerializeField] protected float _damage = 5;
@@ -19,14 +15,6 @@ public class FlameThrower : MonoBehaviour, IGun
     /// Возвращает величину наносимого урона.
     /// </summary>
     public float Damage { get => _damage; }
-    /// <summary>
-    /// Задержка между выстрелами.
-    /// </summary>
-    [SerializeField] protected float _delayShot = 2;
-    /// <summary>
-    /// Время до следующего выстрела.
-    /// </summary>
-    protected float _nextTimeShot = 0f;
     /// <summary>
     /// Суммарное число снарядов.
     /// </summary>
@@ -52,11 +40,11 @@ public class FlameThrower : MonoBehaviour, IGun
     /// </summary>
     public int AmmoCapacity { get => _ammoCapacity; }
     /// <summary>
-    /// Текущее число снарядов в очереди.
+    /// Текущий объём топлива в очереди.
     /// </summary>
     [SerializeField] protected int _ammoTotalCurrent = 0;
     /// <summary>
-    /// Возвращает текущее число снарядов в очереди.
+    /// Возвращает и изменяет текущий объём топлива в очереди.
     /// </summary>
     public int AmmoTotalCurrent
     {
@@ -72,38 +60,51 @@ public class FlameThrower : MonoBehaviour, IGun
     /// </summary>
     [SerializeField] protected float _timeRecharging = 5;
     /// <summary>
-    /// Возврашает флаг, указывающий, идёт ли перезарядка.
+    /// Возврашает и изменяет флаг, указывающий, идёт ли перезарядка.
     /// </summary>
     public bool IsRecharging { get; set; } = false;
     /// <summary>
-    /// Возврашает флаг, указывающий, идёт ли стрельба.
+    /// Возврашает и изменяет флаг, указывающий, идёт ли стрельба.
     /// </summary>
     public bool IsShooting
     {
-        get => _prefabProjectile.isEmitting; set
+        get => _prefabProjectile.isEmitting;
+        set
         {
             if (value.Equals(true)) _prefabProjectile.Play();
             else _prefabProjectile.Stop();
         }
     }
+    /// <summary>
+    /// Префаб пламени, вылетающий из огнемёта.
+    /// </summary>
+    [SerializeField] protected ParticleSystem _prefabProjectile;
+    /// <summary>
+    /// Настройка и проверка полей.
+    /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     protected void Awake()
     {
-        //Проверка полей, настраиваемых в редакторе Unity.
+        if (_damage < 0) throw new ArgumentOutOfRangeException("FlameThrower: _damage < 0");
+        if (_ammoTotal < 0) throw new ArgumentOutOfRangeException("FlameThrower: _ammoTotal < 0");
+        if (_ammoCapacity < 0) throw new ArgumentOutOfRangeException("FlameThrower: _capacityAmmo < 0");
+        if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("FlameThrower: _timeRecharging < 0");
+        if (_ammoCapacity < _ammoTotalCurrent) throw new ArgumentOutOfRangeException("FlameThrower: _ammoCapacity < _ammoTotalCurrent");
         if (_prefabProjectile == null) throw new ArgumentNullException("FlameThrower: _prefabProjectile is null");
     }
     /// <summary>
     /// Распыление из огнемёта.
     /// </summary>
+    /// <remarks>Запускает particle пламени.</remarks>
     public void Shoot()
     {
-        if (!IsRecharging && Time.time >= _nextTimeShot)
+        if (!IsRecharging)
         {
             if (AmmoTotalCurrent > 0)
             {
                 if (!IsShooting)
                 {
-                    IsShooting = true; //_prefabProjectile.Play();
+                    IsShooting = true; //Вызывается _prefabProjectile.Play();
                 }
                 AmmoTotalCurrent--;
             }
@@ -117,7 +118,7 @@ public class FlameThrower : MonoBehaviour, IGun
     {
         if (IsShooting)
         {
-            IsShooting = false; //_prefabProjectile.Stop();
+            IsShooting = false; //Вызывается _prefabProjectile.Stop();
         }
     }
     /// <summary>
@@ -142,12 +143,12 @@ public class FlameThrower : MonoBehaviour, IGun
         {
             AmmoTotal--;
             AmmoTotalCurrent++;
-            yield return new WaitForSeconds(_timeRecharging / AmmoCapacity); //Игрок может выстрелить до полной перезарядки ружья.
+            yield return new WaitForSeconds(_timeRecharging / AmmoCapacity);
         }
         IsRecharging = false;
     }
     /// <summary>
-    /// Проверяет, пусто ли ружьё.
+    /// Проверяет, пуст ли огнемёт.
     /// </summary>
     public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
 }

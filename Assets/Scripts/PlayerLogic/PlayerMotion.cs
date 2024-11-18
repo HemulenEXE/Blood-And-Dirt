@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Класс, реализующий передвижение игрока.
+/// Класс, реализующий "передвижение игрока".
 /// </summary>
 public class PlayerMotion : MonoBehaviour
 {
@@ -27,22 +27,24 @@ public class PlayerMotion : MonoBehaviour
     /// </summary>
     [SerializeField] private float _runspeed = 8f;
     /// <summary>
-    /// Возвращает флаг, указывающий, движется ли игрок.
+    /// Возвращает и приватно изменяет флаг, указывающий, движется ли игрок.
     /// </summary>
     public bool IsMoving { get; private set; }
     /// <summary>
-    /// Возвращает флаг, указывающий, бежит ли игрок.
+    /// Возвращает и приватно изменяет флаг, указывающий, бежит ли игрок.
     /// </summary>
     public bool IsRunning { get; private set; }
+    /// <summary>
+    /// Настройка и проверка полей.
+    /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     private void Awake()
     {
-        //Настройка полей.
         _mainCamera = Camera.main;
-        _deltaTime = Time.deltaTime;
+        _deltaTime = Time.fixedDeltaTime;
         _animator = this.transform.GetChild(0).GetComponent<Animator>(); //0-ым компонентом (ребёнком) должно быть визуально представление игрока.
-        //Проверка полей.
+
         if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
         if (_animator == null) throw new ArgumentNullException("PlayerMotion: _animator is mull");
         if (_runspeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedRun < 0");
@@ -60,9 +62,9 @@ public class PlayerMotion : MonoBehaviour
     {
         IsMoving = false;
         IsRunning = false;
-        //Текущая скорость игрока в зависимости от состояния нажатия клавиши LeftShift
+        //Текущая скорость игрока в зависимости от состояния нажатия клавиши LeftShift.
         float speedCurrent = Input.GetKey(KeyCode.LeftShift) ? _runspeed : _walkSpeed;
-        //Отслеживание нажатия клавиш
+        //Отслеживание нажатия клавиш.
         if (Input.GetKey(KeyCode.A))
         {
             this.transform.position += Vector3.left * speedCurrent * _deltaTime;

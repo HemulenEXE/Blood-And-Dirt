@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Класс, реализующий "инвентарь игрока".
+/// </summary>
 public class PlayerInventory : MonoBehaviour
 {
     /// <summary>
@@ -87,7 +90,7 @@ public class PlayerInventory : MonoBehaviour
         }
 
         //Внедрение дополнительного слота.
-        if (Input.GetKeyDown(KeyCode.V) && Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.P))
             AddSlot();
     }
     /// <summary>
@@ -115,14 +118,21 @@ public class PlayerInventory : MonoBehaviour
     public void SelectNextSlot()
     {
         //Настройка текущего слота.
-        _slots[_currentSlot].StoredItem?.Deactive();
+        if (_slots[_currentSlot].StoredItem != null) {
+            _slots[_currentSlot].StoredItem.Deactive();
+            _slots[_currentSlot].StoredItem.InHand = false;
+        }
         _slots[_currentSlot].transform.localScale = Vector3.one * _minSizeSlot;
 
         //Перемещение на следующий слот.
         _currentSlot = (_currentSlot + 1) % _slots.Count;
 
         //Настройка текущего слота.
-        _slots[_currentSlot].StoredItem?.Active();
+        if (_slots[_currentSlot].StoredItem != null)
+        {
+            _slots[_currentSlot].StoredItem.Active();
+            _slots[_currentSlot].StoredItem.InHand = true;
+        }
         _slots[_currentSlot].transform.localScale = Vector3.one * _maxSizeSlot;
     }
     /// <summary>
@@ -131,14 +141,22 @@ public class PlayerInventory : MonoBehaviour
     public void SelectPrevSlot()
     {
         //Настройка текущего слота.
-        _slots[_currentSlot].StoredItem?.Deactive();
+        if (_slots[_currentSlot].StoredItem != null)
+        {
+            _slots[_currentSlot].StoredItem.Deactive();
+            _slots[_currentSlot].StoredItem.InHand = false;
+        }
         _slots[_currentSlot].transform.localScale = Vector3.one * _minSizeSlot;
 
         //Перемещение на предыдущий слот.
-        _currentSlot = (_currentSlot + 1) % _slots.Count;
+        _currentSlot = (_currentSlot - 1 + _slots.Count) % _slots.Count;
 
         //Настройка текущего слота.
-        _slots[_currentSlot].StoredItem?.Active();
+        if (_slots[_currentSlot].StoredItem != null)
+        {
+            _slots[_currentSlot].StoredItem.Active();
+            _slots[_currentSlot].StoredItem.InHand = true;
+        }
         _slots[_currentSlot].transform.localScale = Vector3.one * _maxSizeSlot;
     }
     /// <summary>
@@ -148,14 +166,22 @@ public class PlayerInventory : MonoBehaviour
     public void SelectSlot(int index)
     {
         //Настройка текущего слота.
-        _slots[_currentSlot].StoredItem?.Deactive();
+        if (_slots[_currentSlot].StoredItem != null)
+        {
+            _slots[_currentSlot].StoredItem.Deactive();
+            _slots[_currentSlot].StoredItem.InHand = false;
+        }
         _slots[_currentSlot].transform.localScale = Vector3.one * _minSizeSlot;
 
         //Перемещаемся на слот с указанным индексом.
         _currentSlot = index;
 
         //Настройка текущего слота.
-        _slots[_currentSlot].StoredItem?.Active();
+        if (_slots[_currentSlot].StoredItem != null)
+        {
+            _slots[_currentSlot].StoredItem.Active();
+            _slots[_currentSlot].StoredItem.InHand = true;
+        }
         _slots[_currentSlot].transform.localScale = Vector3.one * _maxSizeSlot;
     }
 }

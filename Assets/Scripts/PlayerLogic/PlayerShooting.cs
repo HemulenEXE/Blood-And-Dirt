@@ -1,7 +1,13 @@
 using UnityEngine;
 
+/// <summary>
+/// Класс, реализующий "стрельбу игроком".
+/// </summary>
 public class PlayerShooting : MonoBehaviour
 {
+    /// <summary>
+    /// Текущее выбранное ружьё.
+    /// </summary>
     private IGun _gun;
     private void Update()
     {

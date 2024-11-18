@@ -18,7 +18,7 @@ public class ShotGun : MonoBehaviour, IGun
     /// <summary>
     /// Задержка между выстрелами.
     /// </summary>
-    [SerializeField] protected float _delayShot = 2;
+    [SerializeField] protected float _delayShot = 0.5f;
     /// <summary>
     /// Время до следующего выстрела.
     /// </summary>
@@ -52,7 +52,7 @@ public class ShotGun : MonoBehaviour, IGun
     /// </summary>
     [SerializeField] protected int _ammoTotalCurrent = 0;
     /// <summary>
-    /// Возвращает текущее число снарядов в очереди.
+    /// Возвращает и изменяет текущее число снарядов в очереди.
     /// </summary>
     public int AmmoTotalCurrent
     {
@@ -66,13 +66,13 @@ public class ShotGun : MonoBehaviour, IGun
     /// <summary>
     /// Время перезарядки.
     /// </summary>
-    [SerializeField] protected float _timeRecharging = 5;
+    [SerializeField] protected float _timeRecharging = 2;
     /// <summary>
-    /// Возврашает флаг, указывающий, идёт ли перезарядка.
+    /// Возврашает и изменяет флаг, указывающий, идёт ли перезарядка.
     /// </summary>
     public bool IsRecharging { get; set; } = false;
     /// <summary>
-    /// Возврашает флаг, указывающий, идёт ли стрельба.
+    /// Возврашает и изменяет флаг, указывающий, идёт ли стрельба.
     /// </summary>
     public bool IsShooting { get; set; } = false;
     /// <summary>
@@ -82,28 +82,31 @@ public class ShotGun : MonoBehaviour, IGun
     /// <summary>
     /// Количество вылетающих дробинок при одном выстреле.
     /// </summary>
-    [SerializeField] protected int _countProjectile = 3;
+    [SerializeField] protected int _countPerShotProjectile = 6;
     /// <summary>
     /// Начальная скорость вылета дробинки.
     /// </summary>
-    [SerializeField] protected float _speedProjectile = 5f;
+    [SerializeField] protected float _speedProjectile = 50f;
     /// <summary>
     /// Угол распространения дробинок при выстреле.<br/>
     /// Максимальный угол отклонения между двумя векторами, вдоль которых летят дробинки.
     /// </summary>
     [SerializeField] protected float _spreadAngle = 15f;
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <summary>
+    /// Настройка и проверка полей.
+    /// </summary>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentNullException"></exception>
     protected void Awake()
     {
-        if (Damage < 0) throw new ArgumentOutOfRangeException("AbstractGun: _damage < 0");
-        if (_delayShot < 0) throw new ArgumentOutOfRangeException("AbstractGun: _delayFire < 0");
-        if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("AbstractGun: _ammoTotal < 0");
-        if (AmmoCapacity < 0) throw new ArgumentOutOfRangeException("AbstractGun: _capacityAmmo < 0");
-        if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("AbstractGun: _timeRecharging < 0");
-        if (AmmoCapacity < _ammoTotalCurrent) throw new ArgumentOutOfRangeException("AbstractGun: _ammoCapacity < _ammoTotalCurrent");
+        if (_damage < 0) throw new ArgumentOutOfRangeException("ShotGun: _damage < 0");
+        if (_delayShot < 0) throw new ArgumentOutOfRangeException("ShotGun: _delayFire < 0");
+        if (_ammoTotal < 0) throw new ArgumentOutOfRangeException("ShotGun: _ammoTotal < 0");
+        if (_ammoCapacity < 0) throw new ArgumentOutOfRangeException("ShotGun: _capacityAmmo < 0");
+        if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("ShotGun: _timeRecharging < 0");
+        if (_ammoCapacity < _ammoTotalCurrent) throw new ArgumentOutOfRangeException("ShotGun: _ammoCapacity < _ammoTotalCurrent");
         if (_prefabProjectile == null) throw new ArgumentNullException("ShotGun: _prefabPellet is null");
-        if (_countProjectile < 0) throw new ArgumentOutOfRangeException("ShotGun: _countFlyingPellets < 0");
+        if (_countPerShotProjectile < 0) throw new ArgumentOutOfRangeException("ShotGun: _countFlyingPellets < 0");
         if (_speedProjectile < 0) throw new ArgumentOutOfRangeException("ShotGun: _speedShot < 0");
     }
     /// <summary>
@@ -119,16 +122,19 @@ public class ShotGun : MonoBehaviour, IGun
             {
                 IsShooting = true;
                 _nextTimeShot = Time.time + _delayShot;
-                for (int i = 1; i <= _countProjectile; i++) //Механика вылета дробинок.
+
+                for (int i = 1; i <= _countPerShotProjectile; i++) //Механика вылета дробинок.
                 {
                     float interim_spread_angle = UnityEngine.Random.Range(-_spreadAngle, _spreadAngle); //Определение угла распространения текущего снаряда.
                     Vector3 direction = this.transform.forward * Mathf.Cos(interim_spread_angle); //Определение направления движения снаряда.
-                    GameObject currentPellet = Instantiate(_prefabProjectile, this.transform.position, this.transform.rotation); //Вылет снаряда.
+                    GameObject currentPellet = Instantiate(_prefabProjectile, this.transform.GetChild(0).position, this.transform.GetChild(0).rotation); //Вылет снаряда.
                     currentPellet.transform.Rotate(0, 0, interim_spread_angle); //Поворот снаряда.
+
                     Rigidbody2D rg = currentPellet.GetComponent<Rigidbody2D>();
                     if (rg == null) throw new ArgumentNullException("ShotGun: _prefabProjectile hasn't got Rigidbody2D");
                     rg.velocity = currentPellet.transform.right * _speedProjectile;
                 }
+
                 AmmoTotalCurrent--;
                 IsShooting = false;
             }
@@ -162,12 +168,12 @@ public class ShotGun : MonoBehaviour, IGun
         {
             AmmoTotal--;
             AmmoTotalCurrent++;
-            yield return new WaitForSeconds(_timeRecharging / AmmoCapacity); //Игрок может выстрелить до полной перезарядки ружья.
+            yield return new WaitForSeconds(_timeRecharging / AmmoCapacity);
         }
         IsRecharging = false;
     }
     /// <summary>
-    /// Проверяет, пусто ли ружьё.
+    /// Проверяет, пуст ли дробовик.
     /// </summary>
     public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
 }

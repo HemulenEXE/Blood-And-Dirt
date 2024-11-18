@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
+/// <summary>
+/// Класс, реализующий "инвентарный слот".
+/// </summary>
 public class InventorySlot : AbstractInventorySlot
 {
     /// <summary>
@@ -20,7 +20,8 @@ public class InventorySlot : AbstractInventorySlot
         }
     }
     /// <summary>
-    /// Очищение слота и сброс хранимого предмета.
+    /// Очищение слота.<br/>
+    /// Производится сброс хранимого предмета.
     /// </summary>
     public override void RemoveItem()
     {
