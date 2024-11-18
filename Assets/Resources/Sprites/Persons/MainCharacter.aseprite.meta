@@ -121,7 +121,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: "\u0413\u0413"
+  - name: MainCharacter
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -132,7 +132,7 @@ ScriptedImporter:
       y: 4
       width: 27
       height: 14
-    spriteID: 220f62683f51dc3449a724f7ed2d27d5
+    spriteID: 63b2533c6ce1ef74d995cc0a46faa89e
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,13 +144,13 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -291967820
-    name: "\u0413\u0413"
+    guid: 1416833034
+    name: MainCharacter
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: PlayerSprite
+    - name: MainCharacter
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -158,7 +158,7 @@ ScriptedImporter:
         y: 0
         width: 27
         height: 14
-      spriteId: 220f62683f51dc3449a724f7ed2d27d5
+      spriteId: 63b2533c6ce1ef74d995cc0a46faa89e
     linkedCells: []
     parentIndex: -1
   platformSettings:

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -10,14 +7,14 @@ using UnityEngine;
 public interface IInteractiveObject
 {
     /// <summary>
-    /// Возвращает и изменяет кнопку взаимодействия с объектом.
+    /// Возвращает кнопку взаимодействия с объектом.
     /// </summary>
-    public KeyCode Key { get; set; }
+    public KeyCode Key { get; }
     /// <summary>
-    /// Возвращает и изменяет радиус поля взаимодействия.
+    /// Возвращает радиус поля взаимодействия.
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public float Radius { get; set; }
+    public float Radius { get; }
     /// <summary>
     /// Взаимодействие с объектом.
     /// </summary>
