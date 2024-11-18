@@ -121,7 +121,7 @@ namespace Gun
             if (_prefabProjectile == null) throw new ArgumentNullException("MachineGun: _prefabPellet is null");
         }
         /// <summary>
-        /// Выстрел из пистолета.<br/>
+        /// Выстрел из автомата.<br/>
         /// </summary>
         /// <remarks>Порождает на сцене снаряд, вылетающий из пистолета.</remarks>
         /// <exception cref="ArgumentNullException"></exception>
@@ -152,12 +152,12 @@ namespace Gun
             }
         }
         /// <summary>
-        /// Остановка стрельбы из пистолета.<br/>
+        /// Остановка стрельбы из автомата.<br/>
         /// Не содержит реализации.
         /// </summary>
         public void StopShoot() { }
         /// <summary>
-        /// Перезарядка пистолета.
+        /// Перезарядка автомата.
         /// </summary>
         public void Recharge()
         {
@@ -169,7 +169,7 @@ namespace Gun
             }
         }
         /// <summary>
-        /// Корутина для перезарядки пистолета.
+        /// Корутина для перезарядки автомата.
         /// </summary>
         /// <returns></returns>
         private IEnumerator RechargeCoroutine()
@@ -181,7 +181,7 @@ namespace Gun
             IsRecharging = false;
         }
         /// <summary>
-        /// Проверяет, пуст ли пистолет.
+        /// Проверяет, пуст ли автомата.
         /// </summary>
         public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
     }
