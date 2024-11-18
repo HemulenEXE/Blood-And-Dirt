@@ -1,18 +1,18 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// Скрипт забирающий расходник (аптечка, бинты, гранаты) со сцены и изменяющий показатель его кол-ва на канвасе
+/// РЎРєСЂРёРїС‚ Р·Р°Р±РёСЂР°СЋС‰РёР№ СЂР°СЃС…РѕРґРЅРёРє (Р°РїС‚РµС‡РєР°, Р±РёРЅС‚С‹, РіСЂР°РЅР°С‚С‹) СЃРѕ СЃС†РµРЅС‹ Рё РёР·РјРµРЅСЏСЋС‰РёР№ РїРѕРєР°Р·Р°С‚РµР»СЊ РµРіРѕ РєРѕР»-РІР° РЅР° РєР°РЅРІР°СЃРµ. РќР°РІРµС€РёРІР°РµС‚СЃСЏ РЅР° СЂР°СЃС…РѕРґРЅРёРє РЅР° СЃС†РµРЅРµ
 /// </summary>
 public class ConsumablesVCO : VisibleClickedObject
 {
-    private GameObject _count; //Объект, показывающий текщее кол-во расходника у игрока 
+    private GameObject _count; //РћР±СЉРµРєС‚, РїРѕРєР°Р·С‹РІР°СЋС‰РёР№ С‚РµРєС‰РµРµ РєРѕР»-РІРѕ СЂР°СЃС…РѕРґРЅРёРєР° Сѓ РёРіСЂРѕРєР° 
     private void Start()
     {
-        Transform panel = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(2).transform; 
-        Transform icon = panel.Find(this.tag); //Иконка расходника на канвасе
+        Transform panel = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(1).transform; 
+        Transform icon = panel.Find(this.tag); //РРєРѕРЅРєР° СЂР°СЃС…РѕРґРЅРёРєР° РЅР° РєР°РЅРІР°СЃРµ
         _count = icon.GetChild(0).gameObject;
     }
     public override void Interact()

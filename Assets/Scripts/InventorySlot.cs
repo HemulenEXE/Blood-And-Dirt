@@ -16,7 +16,8 @@ public class InventorySlot : AbstractInventorySlot
             item.InHand = true;
             item.Deactive();
             StoredItem = item;
-            ImageStoredItem.GetComponent<Image>().sprite = item.Icon;
+
+           ImageStoredItem.GetComponent<Image>().sprite = item.Icon;
         }
     }
     /// <summary>
