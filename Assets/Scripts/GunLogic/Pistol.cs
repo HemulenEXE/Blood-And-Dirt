@@ -91,12 +91,27 @@ namespace Gun
         /// </summary>
         [SerializeField] protected float _speedProjectile = 50f;
         /// <summary>
+        /// Компонент, управляющий вызовами звуков.
+        /// </summary>
+        protected AudioSource _audio;
+        /// <summary>
+        /// Звук выстрела из пистолета.
+        /// </summary>
+        [SerializeField] protected AudioClip _audioFire;
+        /// <summary>
+        /// Звук перезарядки пистолета.
+        /// </summary>
+        [SerializeField] protected AudioClip _audioRecharge;
+        /// <summary>
         /// Настройка и проверка полей.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         protected void Awake()
         {
+            _audio = this.GetComponent<AudioSource>();
+
+            if (_audio == null) throw new ArgumentNullException("Pistol: _audio is null");
             if (Damage < 0) throw new ArgumentOutOfRangeException("Pistol: _damage < 0");
             if (_delayShot < 0) throw new ArgumentOutOfRangeException("Pistol: _delayFire < 0");
             if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("Pistol: _ammoTotal < 0");
@@ -118,6 +133,7 @@ namespace Gun
                 {
                     IsShooting = true;
                     _nextTimeShot = Time.time + _delayShot;
+                    _audio.PlayOneShot(_audioFire);
 
                     GameObject currentPellet = Instantiate(_prefabProjectile, this.transform.GetChild(0).position, this.transform.GetChild(0).rotation); //Вылет снаряда.
 
@@ -159,6 +175,7 @@ namespace Gun
         private IEnumerator RechargeCoroutine()
         {
             yield return new WaitForSeconds(_timeRecharging);
+            _audio.PlayOneShot(_audioRecharge);
             AmmoTotal -= AmmoCapacity - AmmoTotalCurrent;
             AmmoTotalCurrent = AmmoCapacity;
             IsRecharging = false;

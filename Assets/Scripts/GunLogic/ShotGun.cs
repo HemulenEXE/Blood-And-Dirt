@@ -100,12 +100,31 @@ namespace Gun
         /// </summary>
         [SerializeField] protected float _spreadAngle = 15f;
         /// <summary>
+        /// Компонент, управляющий вызовами звуков.
+        /// </summary>
+        protected AudioSource _audio;
+        /// <summary>
+        /// Звук выстрела из дробовика.
+        /// </summary>
+        [SerializeField] protected AudioClip _audioFire;
+        /// <summary>
+        /// Звук перезарядки дробовика.
+        /// </summary>
+        [SerializeField] protected AudioClip _audioRecharge;
+        /// <summary>
+        /// Звук взвода дробовика.
+        /// </summary>
+        [SerializeField] protected AudioClip _audioPlatoon;
+        /// <summary>
         /// Настройка и проверка полей.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         protected void Awake()
         {
+            _audio = this.GetComponent<AudioSource>();
+
+            if (_audio == null) throw new ArgumentNullException("ShotGun: _audio is null");
             if (_damage < 0) throw new ArgumentOutOfRangeException("ShotGun: _damage < 0");
             if (_delayShot < 0) throw new ArgumentOutOfRangeException("ShotGun: _delayFire < 0");
             if (_ammoTotal < 0) throw new ArgumentOutOfRangeException("ShotGun: _ammoTotal < 0");
@@ -129,6 +148,7 @@ namespace Gun
                 {
                     IsShooting = true;
                     _nextTimeShot = Time.time + _delayShot;
+                    _audio.PlayOneShot(_audioFire);
 
                     for (int i = 1; i <= _countPerShotProjectile; i++) //Механика вылета дробинок.
                     {
@@ -162,7 +182,7 @@ namespace Gun
         /// </summary>
         public void Recharge()
         {
-            if (_ammoTotal > 0 && !IsRecharging)
+            if (AmmoTotal > 0 && !IsRecharging)
             {
                 IsRecharging = true;
                 IsShooting = false;
@@ -175,9 +195,15 @@ namespace Gun
         /// <returns></returns>
         private IEnumerator RechargeCoroutine()
         {
-            yield return new WaitForSeconds(_timeRecharging);
-            AmmoTotal -= AmmoCapacity - AmmoTotalCurrent;
-            AmmoTotalCurrent = AmmoCapacity;
+            while(AmmoTotalCurrent < AmmoCapacity)
+            {
+                _audio.PlayOneShot(_audioRecharge);
+                AmmoTotal--;
+                AmmoTotalCurrent++;
+                yield return new WaitForSeconds(_timeRecharging);
+            }
+            _audio.PlayOneShot(_audioPlatoon);
+            yield return null;
             IsRecharging = false;
         }
         /// <summary>

@@ -87,17 +87,36 @@ namespace Gun
         /// </summary>
         [SerializeField] protected ParticleSystem _prefabProjectile;
         /// <summary>
+        /// Компонент, управляющий вызовами звуков.
+        /// </summary>
+        protected AudioSource _audio;
+        /// <summary>
+        /// Звук выстрела из огнемёта.
+        /// </summary>
+        [SerializeField] protected AudioClip _audioFire;
+        /// <summary>
+        /// Звук перезарядки огнемёта.
+        /// </summary>
+        [SerializeField] protected AudioClip _audioRecharge;
+        /// <summary>
+        /// Звук взвода огнемёта.
+        /// </summary>
+        [SerializeField] protected AudioClip _audioPlatoon;
+        /// <summary>
         /// Настройка и проверка полей.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         protected void Awake()
         {
-            if (_damage < 0) throw new ArgumentOutOfRangeException("FlameThrower: _damage < 0");
-            if (_ammoTotal < 0) throw new ArgumentOutOfRangeException("FlameThrower: _ammoTotal < 0");
-            if (_ammoCapacity < 0) throw new ArgumentOutOfRangeException("FlameThrower: _capacityAmmo < 0");
+            _audio = this.GetComponent<AudioSource>();
+
+            if (_audio == null) throw new ArgumentNullException("FlameThrower: _audio is null");
+            if (Damage < 0) throw new ArgumentOutOfRangeException("FlameThrower: _damage < 0");
+            if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("FlameThrower: _ammoTotal < 0");
+            if (AmmoCapacity < 0) throw new ArgumentOutOfRangeException("FlameThrower: _capacityAmmo < 0");
             if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("FlameThrower: _timeRecharging < 0");
-            if (_ammoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("FlameThrower: _ammoCapacity < _ammoTotalCurrent");
+            if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("FlameThrower: _ammoCapacity < _ammoTotalCurrent");
             if (_prefabProjectile == null) throw new ArgumentNullException("FlameThrower: _prefabProjectile is null");
         }
         /// <summary>
@@ -112,6 +131,8 @@ namespace Gun
                 {
                     if (!IsShooting)
                     {
+                        _audio.loop = true; //Зацикливание звука.
+                        _audio.PlayOneShot(_audioFire);
                         IsShooting = true; //Вызывается _prefabProjectile.Play();
                     }
                     AmmoTotalCurrent--;
@@ -126,6 +147,8 @@ namespace Gun
         {
             if (IsShooting)
             {
+                _audio.loop = false;
+                _audio.Stop();
                 IsShooting = false; //Вызывается _prefabProjectile.Stop();
             }
         }
@@ -139,6 +162,7 @@ namespace Gun
             if (AmmoTotal > 0 && !IsRecharging)
             {
                 IsRecharging = true;
+                _audio.PlayOneShot(_audioRecharge);
                 StartCoroutine(RechargeCoroutine());
             }
         }
@@ -152,6 +176,7 @@ namespace Gun
             AmmoTotalCurrent = AmmoCapacity;
             IsRecharging = false;
             IsRecharging = false;
+            _audio.Stop();
         }
         /// <summary>
         /// Проверяет, пуст ли огнемёт.
