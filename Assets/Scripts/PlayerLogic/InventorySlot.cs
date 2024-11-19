@@ -47,10 +47,15 @@ public class InventorySlot : AbstractInventorySlot
     {
         if (IsFull())
         {
+            //Удаление счётчика патронов если хранимый предмет - оружие
+            if (StoredItem.GetComponent<IGun>() != null)
+                Destroy(ImageStoredItem.transform.GetChild(0).gameObject);
+
             StoredItem.InHand = false;
             StoredItem.Active();
             StoredItem = null;
             ImageStoredItem.GetComponent<Image>().sprite = PlayerInventory._emptySlotImage;
+            
         }
     }
 }
