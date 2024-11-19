@@ -11,7 +11,7 @@ public class ConsumablesVCO : VisibleClickedObject
     private GameObject _count; //Объект, показывающий текщее кол-во расходника у игрока 
     private void Start()
     {
-        Transform panel = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(1).transform; 
+        Transform panel = GameObject.FindGameObjectWithTag("Canvas").transform.Find("ConsumablesUI"); 
         Transform icon = panel.Find(this.tag); //Иконка расходника на канвасе
         _count = icon.GetChild(0).gameObject;
     }
