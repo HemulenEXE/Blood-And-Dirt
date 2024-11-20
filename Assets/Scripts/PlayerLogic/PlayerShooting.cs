@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using Gun;
 
 /// <summary>
 /// Класс, реализующий "стрельбу игроком".
