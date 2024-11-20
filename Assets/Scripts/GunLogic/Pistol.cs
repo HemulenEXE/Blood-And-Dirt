@@ -69,6 +69,7 @@ namespace Gun
             get => _ammoTotalCurrent;
             set
             {
+                if (value > AmmoCapacity) throw new ArgumentOutOfRangeException("Pistol: value > AmmoCapacity");
                 if (value <= 0) _ammoTotalCurrent = 0;
                 else _ammoTotalCurrent = value;
             }
@@ -90,18 +91,43 @@ namespace Gun
         /// </summary>
         [SerializeField] protected float _speedProjectile = 50f;
         /// <summary>
+<<<<<<< HEAD
+=======
+        /// Компонент, управляющий вызовами звуков.
+        /// </summary>
+        protected AudioSource _audio;
+        /// <summary>
+        /// Звук выстрела из пистолета.
+        /// </summary>
+        [SerializeField] protected AudioClip _audioFire;
+        /// <summary>
+        /// Звук перезарядки пистолета.
+        /// </summary>
+        [SerializeField] protected AudioClip _audioRecharge;
+        /// <summary>
+>>>>>>> develop
         /// Настройка и проверка полей.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         protected void Awake()
         {
+<<<<<<< HEAD
+=======
+            _audio = this.GetComponent<AudioSource>();
+
+            if (_audio == null) throw new ArgumentNullException("Pistol: _audio is null");
+>>>>>>> develop
             if (Damage < 0) throw new ArgumentOutOfRangeException("Pistol: _damage < 0");
             if (_delayShot < 0) throw new ArgumentOutOfRangeException("Pistol: _delayFire < 0");
             if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("Pistol: _ammoTotal < 0");
             if (AmmoCapacity < 0) throw new ArgumentOutOfRangeException("Pistol: _capacityAmmo < 0");
             if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("Pistol: _timeRecharging < 0");
+<<<<<<< HEAD
             if (AmmoCapacity < _ammoTotalCurrent) throw new ArgumentOutOfRangeException("Pistol: _ammoCapacity < _ammoTotalCurrent");
+=======
+            if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("Pistol: _ammoCapacity < _ammoTotalCurrent");
+>>>>>>> develop
             if (_prefabProjectile == null) throw new ArgumentNullException("Pistol: _prefabPellet is null");
         }
         /// <summary>
@@ -117,6 +143,10 @@ namespace Gun
                 {
                     IsShooting = true;
                     _nextTimeShot = Time.time + _delayShot;
+<<<<<<< HEAD
+=======
+                    _audio.PlayOneShot(_audioFire);
+>>>>>>> develop
 
                     GameObject currentPellet = Instantiate(_prefabProjectile, this.transform.GetChild(0).position, this.transform.GetChild(0).rotation); //Вылет снаряда.
 
@@ -158,6 +188,10 @@ namespace Gun
         private IEnumerator RechargeCoroutine()
         {
             yield return new WaitForSeconds(_timeRecharging);
+<<<<<<< HEAD
+=======
+            _audio.PlayOneShot(_audioRecharge);
+>>>>>>> develop
             AmmoTotal -= AmmoCapacity - AmmoTotalCurrent;
             AmmoTotalCurrent = AmmoCapacity;
             IsRecharging = false;

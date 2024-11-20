@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Класс руки игрока.
+/// Класс, реализующий "руку игрока".
 /// </summary>
 public class PlayerHand : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class PlayerHand : MonoBehaviour
     /// </summary>
     public void TakeSelectionSlotInHand()
     {
-        if (PlayerInventory._slots[PlayerInventory._currentSlot].StoredItem != null)
+        if (PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem != null)
         {
             Transform item_transform = PlayerInventory._slots[PlayerInventory._currentSlot].StoredItem.transform;
             item_transform.position = this.transform.position + transform.right;

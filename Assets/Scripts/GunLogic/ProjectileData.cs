@@ -46,7 +46,6 @@ namespace Gun
         /// <param name="other"></param>
         protected void OnCollisionStay2D(Collision2D other)
         {
-            Debug.Log(other.gameObject.name);
             if (!other.gameObject.CompareTag("Projectile"))
             {
                 Debug.Log(other.gameObject.name);
