@@ -123,7 +123,7 @@ namespace Gun
         /// <summary>
         /// Выстрел из автомата.<br/>
         /// </summary>
-        /// <remarks>Порождает на сцене снаряд, вылетающий из пистолета.</remarks>
+        /// <remarks>Порождает на сцене снаряд, вылетающий из автомата.</remarks>
         /// <exception cref="ArgumentNullException"></exception>
         public void Shoot()
         {
