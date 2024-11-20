@@ -33,13 +33,9 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public int _maxCountSlots = 5;
     /// <summary>
-    /// Максимальный размер изображения слота.
+    /// Размер изображения слота.
     /// </summary>
-    [SerializeField] private float _maxSizeSlot = 1f;
-    /// <summary>
-    /// Минимальный размер изображения слота.
-    /// </summary>
-    [SerializeField] private float _minSizeSlot = 0.8f;
+    [SerializeField] private float _sizeSlot = 0.5f;
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     private void Awake()
     {
@@ -48,9 +44,7 @@ public class PlayerInventory : MonoBehaviour
         if (_maxCountSlots < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _maxCountSlots < 0");
         if (_maxCountSlots < _minCountSlots) throw new ArgumentOutOfRangeException("PlayerInventory: _maxCountSlots < _minCountSlots");
 
-        if (_maxSizeSlot < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _maxSizeSlot < 0");
-        if (_minSizeSlot < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _minSizeSlot < 0");
-        if (_maxSizeSlot < _minSizeSlot) throw new ArgumentOutOfRangeException("PlayerInventory: _maxSizeSlot < _minSizeSlot");
+        if (_sizeSlot < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _minSizeSlot < 0");
 
         //Установление значений ненастраиваемых полей.
         _emptySlotImage = Resources.Load<Sprite>($"Sprites/Interface/{_emptySlotName}");
@@ -104,11 +98,14 @@ public class PlayerInventory : MonoBehaviour
             //Создание нового слота
             GameObject interim_slot = new GameObject($"Slot {_slots.Count}");
             AbstractInventorySlot interim_abstract_slot = interim_slot.AddComponent<InventorySlot>();
-            interim_slot.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform.Find("InventoryUI"), true); //Установление связи с канвасом.
-            interim_slot.transform.localScale = Vector3.one * _minSizeSlot;
+            interim_slot.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform.Find("ConsumablesUI").Find("InventoryUI"), true); //Установление связи с канвасом.
+            interim_slot.transform.localScale = Vector3.one * _sizeSlot;
             interim_abstract_slot.StoredItem = null;
             interim_abstract_slot.ImageStoredItem = interim_slot.AddComponent<UnityEngine.UI.Image>();
             interim_abstract_slot.ImageStoredItem.sprite = _emptySlotImage;
+            if (_slots.Count > 0)
+                interim_abstract_slot.gameObject.SetActive(false);
+
             _slots.Add(interim_abstract_slot);
         }
     }
@@ -117,47 +114,15 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public void SelectNextSlot()
     {
-        //Настройка текущего слота.
-        if (_slots[_currentSlot].StoredItem != null) {
-            _slots[_currentSlot].StoredItem.Deactive();
-            _slots[_currentSlot].StoredItem.InHand = false;
-        }
-        _slots[_currentSlot].transform.localScale = Vector3.one * _minSizeSlot;
-
         //Перемещение на следующий слот.
-        _currentSlot = (_currentSlot + 1) % _slots.Count;
-
-        //Настройка текущего слота.
-        if (_slots[_currentSlot].StoredItem != null)
-        {
-            _slots[_currentSlot].StoredItem.Active();
-            _slots[_currentSlot].StoredItem.InHand = true;
-        }
-        _slots[_currentSlot].transform.localScale = Vector3.one * _maxSizeSlot;
+        SelectSlot((_currentSlot + 1) % _slots.Count);
     }
     /// <summary>
     /// Перемещение на предыдущий слот (перед текущим).
     /// </summary>
     public void SelectPrevSlot()
     {
-        //Настройка текущего слота.
-        if (_slots[_currentSlot].StoredItem != null)
-        {
-            _slots[_currentSlot].StoredItem.Deactive();
-            _slots[_currentSlot].StoredItem.InHand = false;
-        }
-        _slots[_currentSlot].transform.localScale = Vector3.one * _minSizeSlot;
-
-        //Перемещение на предыдущий слот.
-        _currentSlot = (_currentSlot - 1 + _slots.Count) % _slots.Count;
-
-        //Настройка текущего слота.
-        if (_slots[_currentSlot].StoredItem != null)
-        {
-            _slots[_currentSlot].StoredItem.Active();
-            _slots[_currentSlot].StoredItem.InHand = true;
-        }
-        _slots[_currentSlot].transform.localScale = Vector3.one * _maxSizeSlot;
+        SelectSlot((_currentSlot - 1 + _slots.Count) % _slots.Count);
     }
     /// <summary>
     /// Перемещение на слот с индексом index.
@@ -166,22 +131,14 @@ public class PlayerInventory : MonoBehaviour
     public void SelectSlot(int index)
     {
         //Настройка текущего слота.
-        if (_slots[_currentSlot].StoredItem != null)
-        {
-            _slots[_currentSlot].StoredItem.Deactive();
-            _slots[_currentSlot].StoredItem.InHand = false;
-        }
-        _slots[_currentSlot].transform.localScale = Vector3.one * _minSizeSlot;
+        _slots[_currentSlot].StoredItem?.Deactive();
+        _slots[_currentSlot].gameObject.SetActive(false);
 
         //Перемещаемся на слот с указанным индексом.
         _currentSlot = index;
 
         //Настройка текущего слота.
-        if (_slots[_currentSlot].StoredItem != null)
-        {
-            _slots[_currentSlot].StoredItem.Active();
-            _slots[_currentSlot].StoredItem.InHand = true;
-        }
-        _slots[_currentSlot].transform.localScale = Vector3.one * _maxSizeSlot;
+        _slots[_currentSlot].StoredItem?.Active();
+        _slots[_currentSlot].gameObject.SetActive(true);
     }
 }
