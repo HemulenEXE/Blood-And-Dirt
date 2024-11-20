@@ -18,6 +18,8 @@ public class ControllerScene : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         _enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList().ConvertAll(e => e.GetComponent<BotController>());
+        
+
     }
 
     private void OnEnable()
@@ -43,6 +45,7 @@ public class ControllerScene : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.E))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
         }
     }
 

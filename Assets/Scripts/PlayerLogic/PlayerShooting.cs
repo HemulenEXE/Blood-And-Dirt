@@ -1,6 +1,6 @@
 
 using UnityEngine;
-
+using Gun;
 public class PlayerShooting : MonoBehaviour
 {
     private IGun _gun;

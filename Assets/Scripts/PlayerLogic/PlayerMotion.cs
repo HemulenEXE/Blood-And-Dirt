@@ -8,9 +8,7 @@ public class PlayerMotion : MonoBehaviour
 {
     /// <summary>
     /// Достаточно маленький промежуток времени.
-    /// </summary>
     private float _deltaTime;
-    /// <summary>
     /// Главная камера.
     /// </summary>
     private Camera _mainCamera;
@@ -38,9 +36,10 @@ public class PlayerMotion : MonoBehaviour
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     private void Awake()
     {
+        _runspeed = 8f;
         //Настройка полей.
+        _deltaTime = Time.fixedDeltaTime;
         _mainCamera = Camera.main;
-        _deltaTime = Time.deltaTime;
         _animator = this.transform.GetChild(0).GetComponent<Animator>(); //0-ым компонентом (ребёнком) должно быть визуально представление игрока.
         //Проверка полей.
         if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");

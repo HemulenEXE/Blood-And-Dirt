@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using UnityEngine.AI;
 using TMPro;
 using System;
+using Gun;
 
 public class BotController : MonoBehaviour
 {
@@ -15,8 +16,11 @@ public class BotController : MonoBehaviour
     [SerializeField] private bool addStartPositionToPatrol = true;
     [SerializeField] private float rotationAngle = 15f;
     [SerializeField] private float rotationSpeed = 1;
-    [SerializeField] private StateBot stateBot;
 
+
+    private Animator animator;
+    private IGun gun;
+    private StateBot stateBot;
     private GameObject lastPatrolPoint;
     private Quaternion initialRotation;
     private AudioSource audioSource;
@@ -47,7 +51,9 @@ public class BotController : MonoBehaviour
         {
             patrolPoints.Add(Helper.CopyTransformInGameObject(selfTransform));
         }
-        
+
+        gun = GetComponent<IGun>();
+        animator = transform.GetComponentInChildren<Animator>();
         stateBot = patrolPoints.Count > 1 ? StateBot.patrol : StateBot.peace;
     }
 
@@ -65,19 +71,25 @@ public class BotController : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.CompareTag("Player"))
+        {
+            hasCollidedWithPlayer = false;
+        }
+    }
+
     private void TryDetectPlayer(Transform playerTransform)
     {
         Vector2 directionToPlayer = (playerTransform.position - selfTransform.position).normalized;
         RaycastHit2D hit = Physics2D.Raycast(selfTransform.position, directionToPlayer, visionRange, maskVision);
-        print("piy");
-        if (hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+
+        if (hit.collider != null && hit.collider.gameObject.tag == "Player")
         {
-            print("check");
             OnPlayerDetected(playerTransform);
         }
         else
         {
-            print("loose");
             hasCollidedWithPlayer = false;
         }
     }
@@ -107,16 +119,18 @@ public class BotController : MonoBehaviour
 
     private void Update()
     {
-
         switch (stateBot) 
         {
             case StateBot.combat:
+                animator.SetBool("IsRun", true);
                 CombateState();
                 break;
             case StateBot.peace:
+                animator.SetBool("IsRun", false);
                 PeaceState();
                 break;
             case StateBot.patrol:
+                animator.SetBool("IsRun", true);
                 PatrolState();
                 break;
 
@@ -129,9 +143,18 @@ public class BotController : MonoBehaviour
         {
             ChasePlayer();
             UpdateChaseTimer();
+            if(IsPlayerVisible())
+            {
+                gun.Shoot();
+            }
+            else if(gun.IsShooting)
+            {
+                gun.StopShoot();
+            }
         }
         else
         {
+            gun.IsShooting = false;
             StopChase();
         }
         
@@ -172,7 +195,7 @@ public class BotController : MonoBehaviour
 
     private void UpdateChaseTimer()
     {
-        if (!hasCollidedWithPlayer)
+        if (!IsPlayerVisible())
         {
             timeSinceLastSeen += Time.deltaTime;
             if (timeSinceLastSeen >= loseSightTime)
@@ -180,11 +203,30 @@ public class BotController : MonoBehaviour
                 StopChase();
             }
         }
+        else
+        {
+            timeSinceLastSeen = 0;
+        }
     }
+
+    private bool IsPlayerVisible()
+    {
+        if (targetPlayer == null)
+            return false;
+
+        Vector2 directionToPlayer = (targetPlayer.position - selfTransform.position).normalized;
+        RaycastHit2D hit = Physics2D.Raycast(selfTransform.position, directionToPlayer, visionRange, maskVision);
+
+        return hit.collider != null && hit.collider.CompareTag("Player");
+    }
+
 
     private void StopChase()
     {
-        if(patrolPoints.Count == 1)
+        targetPlayer = null;
+        hasCollidedWithPlayer = false;
+
+        if (patrolPoints.Count == 1)
         {
             stateBot = StateBot.peace;
             agent.SetDestination(patrolPoints[0].transform.position);
@@ -194,8 +236,7 @@ public class BotController : MonoBehaviour
             stateBot = StateBot.patrol;
         }
         
-        targetPlayer = null;
-        hasCollidedWithPlayer = false;
+        
     }
 
     private void LookToDirection(Transform targetTransform)

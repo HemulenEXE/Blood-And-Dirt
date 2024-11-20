@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-
+using Gun;
 using System;
 
 /// <summary>
@@ -8,6 +8,10 @@ using System;
 /// </summary>
 public class FlameThrower : MonoBehaviour, IGun
 {
+    /// <summary>
+    /// Возвращает тип оружия
+    /// </summary>
+    public GunType Type { get; } = GunType.Firebased;
     /// <summary>
     /// Префаб пламени.
     /// </summary>

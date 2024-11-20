@@ -1,8 +1,19 @@
 ﻿using System;
+using Gun;
 
+/// <summary>
+/// Скрипт, реализующий "оружия, которые игрок может взять в свой инвентарь".
+/// </summary>
 public class GunPickUp : VisibleItemPickUp
 {
+    /// <summary>
+    /// Выбранное оружие.
+    /// </summary>
     protected IGun _gun;
+    /// <summary>
+    /// Настройка и проверка полей.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"></exception>
     protected override void Awake()
     {
         base.Awake();
