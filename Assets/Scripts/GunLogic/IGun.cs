@@ -1,5 +1,5 @@
 ﻿
-namespace Gun
+namespace GunLogic
 {
     /// <summary>
     /// Тип оружия.

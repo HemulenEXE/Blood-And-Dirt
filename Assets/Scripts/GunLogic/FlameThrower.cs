@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Gun
+namespace GunLogic
 {
     /// <summary>
     /// Класс, реализующий "огнемёт".
