@@ -10,11 +10,12 @@ TagManager:
   - firstAidKit
   - simpleGraned
   - smokeGraned
+  - gun
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - IgnorePlayerRaycast
   - Water
   - UI
   - 

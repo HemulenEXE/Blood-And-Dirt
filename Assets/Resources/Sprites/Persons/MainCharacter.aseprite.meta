@@ -123,7 +123,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: MainCharacter
     originalName: 
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: -0.4285714}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -155,7 +155,7 @@ ScriptedImporter:
       additiveSortOrder: 0
       cellRect:
         x: 0
-        y: 0
+        y: 6
         width: 27
         height: 14
       spriteId: 63b2533c6ce1ef74d995cc0a46faa89e
@@ -177,4 +177,4 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 27, y: 14}
+  canvasSize: {x: 27, y: 25}

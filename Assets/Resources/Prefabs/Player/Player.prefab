@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7315341346869019007}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.06999728, y: 0, z: 0}
+  m_LocalPosition: {x: 0.13, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -116,7 +116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7315440686052831511}
   - component: {fileID: -9198682708659900024}
-  - component: {fileID: 1265472572047247582}
+  - component: {fileID: 7598867656931526200}
   - component: {fileID: 4461553681316957286}
   - component: {fileID: 4353044189011056769}
   - component: {fileID: -5223176435579541392}
@@ -190,7 +190,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.1469765, y: 0.27824736}
   m_EdgeRadius: 0
---- !u!50 &1265472572047247582
+--- !u!50 &7598867656931526200
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -202,10 +202,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -283,8 +283,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionDistance: 3
+  OffSet: 0.5
   _interactionText: {fileID: 0}
   _ignoreLayer:
     serializedVersion: 2
     m_Bits: 8
-  OffSet: 0.5

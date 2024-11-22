@@ -53,10 +53,10 @@ namespace PlayerLogic
             Debug.DrawRay(ray.origin, ray.direction * _interactionDistance, Color.red); //Рисовка луча.
 
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, _interactionDistance, ~_ignoreLayer);
-            if (hit.collider != null) //Проверка на пересечение с каким-либо объектом, содержащим Collider2D
+            if (hit.collider != null) //Проверка на пересечение с каким-либо объектом, содержащим Collider2D.
             {
                 IInteractable interim_interactive_object = hit.transform.GetComponent<IInteractable>();
-                if (interim_interactive_object != null && interim_interactive_object != _currentInteractiveObject)
+                if (interim_interactive_object != null)
                 {
                     _interactionText.SetActive(true);
                     _currentInteractiveObject = interim_interactive_object;

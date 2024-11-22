@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5442295163799718812}
   - component: {fileID: 667857681159976534}
-  - component: {fileID: 3405906891986450772}
   - component: {fileID: 293762999933725733}
+  - component: {fileID: 3405906891986450772}
   m_Layer: 0
   m_Name: watermelon
   m_TagString: Untagged
@@ -86,19 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3405906891986450772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4420476537753089964}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd3e7cdff1c3b28459ee66e13c2d880b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _icon: {fileID: 21300000, guid: 870f793d038c7504a95930b9ce5af522, type: 3}
 --- !u!60 &293762999933725733
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -161,3 +148,16 @@ PolygonCollider2D:
       - {x: 0.82518244, y: 0.34992096}
       - {x: 0.6544903, y: 0.35600266}
   m_UseDelaunayMesh: 0
+--- !u!114 &3405906891986450772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4420476537753089964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd3e7cdff1c3b28459ee66e13c2d880b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 870f793d038c7504a95930b9ce5af522, type: 3}

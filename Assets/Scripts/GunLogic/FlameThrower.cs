@@ -112,11 +112,11 @@ namespace GunLogic
             _audio = this.GetComponent<AudioSource>();
 
             if (_audio == null) throw new ArgumentNullException("FlameThrower: _audio is null");
-            if (Damage < 0) throw new ArgumentOutOfRangeException("FlameThrower: _damage < 0");
-            if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("FlameThrower: _ammoTotal < 0");
-            if (AmmoCapacity < 0) throw new ArgumentOutOfRangeException("FlameThrower: _capacityAmmo < 0");
+            if (Damage < 0) throw new ArgumentOutOfRangeException("FlameThrower: Damage < 0");
+            if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("FlameThrower: AmmoTotal < 0");
+            if (AmmoCapacity < 0) throw new ArgumentOutOfRangeException("FlameThrower: AmmoCapacity < 0");
             if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("FlameThrower: _timeRecharging < 0");
-            if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("FlameThrower: _ammoCapacity < _ammoTotalCurrent");
+            if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("FlameThrower: AmmoCapacity < AmmoTotalCurrent");
             if (_prefabProjectile == null) throw new ArgumentNullException("FlameThrower: _prefabProjectile is null");
         }
         /// <summary>

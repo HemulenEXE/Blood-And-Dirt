@@ -46,7 +46,6 @@ namespace InteractiveObjects
             if (Transform == null) throw new ArgumentNullException("ItemPickUp: Transform is null");
             if (Renderer == null) throw new ArgumentNullException("ItemPickUp: Renderer is null");
             if (Collider == null) throw new ArgumentNullException("ItemPickUp: Collider is null");
-            if (this.GetComponent<Collider2D>() == null) throw new ArgumentNullException("ItemPickUp: Collider2D is null");
             if (Icon == null) throw new ArgumentNullException("ItemPickUp: Icon is null");
         }
         /// <summary>

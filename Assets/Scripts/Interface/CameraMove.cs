@@ -4,7 +4,7 @@ using UnityEngine;
 namespace CameraLogic.CameraMotion
 {
     /// <summary>
-    /// Осуществляет следование камеры за игроком. Скрипт навешивается на Main camera
+    /// Класс, реализующий "следование камеры за игроком".
     /// </summary>
     public class CameraMove : MonoBehaviour
     {
@@ -19,30 +19,29 @@ namespace CameraLogic.CameraMotion
         /// <summary>
         /// Скорость перемещения камеры.
         /// </summary>
-        public float _speed;
+        [SerializeField] private float _speed = 2_000f;
         /// <summary>
-        /// Позиция на которой камера держится относительно игрока
+        /// Позиция камеры относительно игрока.
         /// </summary>
         public Vector3 _offset;
         /// <summary>
         /// Настройка и проверка полей.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        private void Awake()
+        private void Start()
         {
-            _transformCamera = this.GetComponent<Transform>();
-            _transformPlayer = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Transform>();
+            _transformCamera = this.transform;
+            _transformPlayer = GameObject.FindGameObjectWithTag("Player")?.transform;
 
             if (_transformCamera == null) throw new ArgumentNullException("CameraMove: _transformCamera is null");
             if (_transformPlayer == null) throw new ArgumentNullException("CameraMove: _transformPlayer is null");
-            if (_speed < 0) throw new ArgumentException("CameraMove: _speed < 0!");
+            if (_speed < 0) throw new ArgumentException("CameraMove: _speed < 0");
         }
-        private void LateUpdate()
+        private void Update()
         {
             Vector3 distance = _transformPlayer.position + _offset;
-            Vector3 newPos = Vector3.Lerp(_transformCamera.position, distance, _speed * Time.deltaTime);
+            Vector3 newPos = Vector3.Lerp(_transformCamera.position, distance, _speed * Time.deltaTime); //Плавное перемещение камеры.
             _transformCamera.position = newPos;
         }
     }
-
 }
