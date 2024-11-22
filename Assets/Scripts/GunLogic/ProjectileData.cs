@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Gun
+namespace GunLogic
 {
     /// <summary>
     /// Класс, реализующий "жизненный цикл снаряда".
