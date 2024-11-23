@@ -30,12 +30,28 @@ public class ScenesManager : MonoBehaviour
         }
     }
     /// <summary>
+    /// Переход на главное меню (Текущий уровень не сохраняется)
+    /// </summary>
+    public void OnMainMenu()
+    {
+        StartCoroutine(_OnMainMenu());
+    }
+    private IEnumerator _OnMainMenu()
+    {
+        Fader.Instance.FadeIn(() => _isfade = true);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
+
+        if (!_isfade && !asyncLoad.isDone)
+            yield return null;
+
+        Fader.Instance.FadeOut(() => _isfade = false);
+    }
+    /// <summary>
     /// Переход на следующую сцену
     /// </summary>
     public void OnNextScene()
     {
         int curentInd = SceneManager.GetActiveScene().buildIndex;
-        Debug.Log(curentInd);
         OnSelectedScene(curentInd + 1);
     }
     /// <summary>
@@ -47,22 +63,19 @@ public class ScenesManager : MonoBehaviour
         OnSelectedScene(curentInd - 1);
     }
     /// <summary>
-    /// Запускает корутину
+    /// Переход на заданную сцену по индексу сцены
     /// </summary>
     /// <param name="index"></param>
     public void OnSelectedScene(int index)
     { 
        _instance.StartCoroutine(_instance._OnSelectedScene(index)); 
     }
-    /// <summary>
-    /// Переход на заданную сцену по индексу сцены
-    /// </summary>
     private IEnumerator _OnSelectedScene(int index)
     {
 
         if (index < 0) throw new ArgumentOutOfRangeException("index can't be < 0!");
 
-        PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы прошли текущий уровень 
+        PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы перешли на указанный уровень 
         PlayerPrefs.Save();
 
         Fader.Instance.FadeIn(() => _isfade = true);
@@ -76,7 +89,6 @@ public class ScenesManager : MonoBehaviour
     /// <summary>
     /// Переход на заданную сцену по имени сцены
     /// </summary>
-    /// 
     public void OnSelectedScene(string name)
     {
         Scene scene = SceneManager.GetSceneByName(name);

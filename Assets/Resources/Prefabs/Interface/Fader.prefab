@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.149414, y: 3.1493988}
+  m_AnchoredPosition: {x: 3.149414, y: 3.149414}
   m_SizeDelta: {x: 6.2988, y: 6.2988}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7609351185626007970
@@ -125,7 +125,7 @@ Canvas:
   m_GameObject: {fileID: 7036555725877362501}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -137,7 +137,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 32767
+  m_SortingOrder: 32760
   m_TargetDisplay: 0
 --- !u!114 &3156947877415884494
 MonoBehaviour:
