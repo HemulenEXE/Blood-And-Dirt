@@ -1,77 +1,132 @@
-﻿using System;
+﻿using CameraLogic.CameraEffects;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Класс для броска гранаты. Скрипт навешивается на игрока
-/// </summary>
-public class SimpleGrenade : MonoBehaviour, IGrenade
+namespace Grenades
 {
-    //Для позиции игрока
-    private Transform _trans ;
-    //Граната
-    private GameObject grenade;
-
-    private Camera _camera;
-    public Camera Camera
-    { get { if (_camera == null)
-                _camera = Camera.main;
-            return _camera; } 
-    }
-    
-    private GameObject _prefab;  
-    public GameObject Prefab
-    { 
-        get { if (_prefab == null)
-                _prefab = Resources.Load<GameObject>("Prefabs/Grenades/SimpleGrenade"); 
-            return _prefab; } 
-    }
-    private float _time = 1.3f; 
-    public float Time { get => _time; }
-
-    private void Start()
-    {
-        _trans = GetComponent<Transform>();
-    }
-    public void ThrowGranade()
-    {
-        StartCoroutine(_ThrowGranade());
-    }
-
     /// <summary>
-    /// Бросок гранаты
+    /// Класс, реализующий "простую гранату".
     /// </summary>
-    public IEnumerator _ThrowGranade()
+    public class SimpleGrenade : MonoBehaviour
     {
-        grenade = Instantiate(Prefab, _trans.position, Quaternion.identity);
-
-        Vector2 cursor = Input.mousePosition;
-        cursor = Camera.ScreenToWorldPoint(cursor);
-
-        Vector2 startPoint = _trans.position; //Стартовая позиция
-        Vector2 endPoint = new Vector3(cursor.x, _trans.position.y); //Конечная позиция (Не сам курсор, а точка под ним на уровне игрока)
-        float amplitude = Math.Abs(_trans.position.y - cursor.y); //Амплитуда броска (Высота на которой находиться курсор по отношению к ироку)
-
-        grenade.GetComponent<grenade1>().TimeToStop = Time * 0.65f;
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < Time)
+        /// <summary>
+        /// Время до взрыва.
+        /// </summary>
+        [SerializeField] private float _timeToExplosion = 0;
+        /// <summary>
+        /// Возвращает и изменяет время до взрыва.
+        /// </summary>
+        public float TimeToExplosion
         {
-            float t = elapsedTime / Time; // Нормализуем время (Для того, чтобы отмерить как должны были за этот промежуток измениться координаты)
-            float angle = Mathf.Lerp(0, Mathf.PI, t); // Линейная интерполяция угла от 0 до π (полукруг)
+            get => _timeToExplosion;
+            set
+            {
+                if (value < 0) throw new ArgumentOutOfRangeException("SimpleGrenade: TimeToExplosion < 0");
+                _timeToExplosion = value;
+            }
+        }
+        /// <summary>
+        ///  Радиус взрыва.
+        /// </summary>
+        [SerializeField] private float _explosionRadius = 0;
+        /// <summary>
+        /// Возвращает радиус взрыва.
+        /// </summary>
+        public float ExplosionRadius { get => _explosionRadius; }
+        /// <summary>
+        /// Урон от взрыва.
+        /// </summary>
+        [SerializeField] private float _damageExplosion = 0;
+        /// <summary>
+        /// Возвращает урон от взрыва.
+        /// </summary>
+        public float DamageExplosion { get => _damageExplosion; }
+        /// <summary>
+        /// Флаг, указывающий активирована ли граната
+        /// </summary>
+        public bool IsActive { get; } = false;
+        /// <summary>
+        /// Таймер.
+        /// </summary>
+        private float _timer = 0;
+        /// <summary>
+        /// Камера.
+        /// </summary>
+        private Camera _camera;
+        /// <summary>
+        /// Игрок.
+        /// </summary>
+        private GameObject _player;
+        /// <summary>
+        /// Проверка и настройка полей.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        protected virtual void Awake()
+        {
+            _camera = Camera.main;
+            _player = GameObject.FindGameObjectWithTag("Player");
 
-            // Вычисляем координаты
-            float x = Mathf.Lerp(startPoint.x, endPoint.x, t); 
-            float y = amplitude * Mathf.Sin(angle) + Mathf.Min(startPoint.y, endPoint.y); ; // По y передвигаемся по синусоиде (Минимальная координа по y для корректировки движения)
+            if (TimeToExplosion < 0) throw new ArgumentOutOfRangeException("SimpleGrenade: TimeToExplosion < 0");
+            if (ExplosionRadius < 0) throw new ArgumentOutOfRangeException("SimpleGrenade: ExplosionRadius < 0");
+            if (DamageExplosion < 0) throw new ArgumentOutOfRangeException("SimpleGrenade: DamageExplosion < 0");
+        }
+        protected virtual void Update()
+        {
+            _timeToExplosion -= Time.deltaTime;
+            if (_timeToExplosion <= 0)
+            {
+                Explode();
+                Crash();
+            }
+        }
+        /// <summary>
+        /// Отслеживание входа коллизии.
+        /// </summary>
+        /// <param name="other"></param>
+        protected virtual void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other != null && !other.gameObject.CompareTag("Player") && !IsActive)
+            {
+                Debug.Log(other.gameObject.tag);
+                Explode();
+                Crash();
+            }
+        }
+        /// <summary>
+        /// Взрыв гранаты.
+        /// </summary>
+        public virtual void Explode()
+        {
+            Collider2D[] entity_colliders = Physics2D.OverlapCircleAll(this.transform.position, ExplosionRadius); //Получаем коллайдеры всех сущностей поблизости.
+            foreach (var x in entity_colliders)
+            {
+                //Логика получения урона.
+            }
+            Destroy(this.gameObject);
+        }
 
-            if (grenade != null)
-                grenade.transform.position = new Vector3(x, y, 0);
-            else StopCoroutine(_ThrowGranade());
-            
-            elapsedTime += UnityEngine.Time.deltaTime;
+        //protected virtual void Update()
+        //{
+        //    if (_timer >= TimeToExplosion)
+        //    {
+        //        Destroy(gameObject, 0.1f);
+        //        Crash();
+        //    }
+        //    else _timer += Time.deltaTime;
+        //}
+        /// <summary>
+        /// Вызов тряски камеры после взрыва гранаты. 
+        /// </summary>
+        protected virtual void Crash()
+        {
+            float distance = Vector3.Distance(_player.transform.position, transform.position);
 
-            yield return null; // Ждем следующего кадра
+            //Тряска тем больше, чем ближе к игроку упала граната 
+            if (distance <= 5) _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.6f);
+            else if (distance <= 10) _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.3f);
+            else _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.08f);
         }
     }
 }

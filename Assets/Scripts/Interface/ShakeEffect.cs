@@ -53,7 +53,7 @@ namespace CameraLogic.CameraEffects
 
                 float x = UnityEngine.Random.Range(-amplitude, amplitude);
                 float y = UnityEngine.Random.Range(-amplitude, amplitude);
-                _transformCamera.position = new Vector3(x, y, startPose.z);
+                _transformCamera.position = new Vector3(startPose.x + x, startPose.y + y, startPose.z);
                 time -= Time.deltaTime;
             }
             _transformCamera.position = startPose;

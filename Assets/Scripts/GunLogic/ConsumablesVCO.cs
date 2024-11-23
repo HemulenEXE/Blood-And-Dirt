@@ -18,8 +18,8 @@ namespace InteractiveObjects{
         protected override void Awake()
         {
             base.Awake();
-            Transform panel = GameObject.FindGameObjectWithTag("Canvas").transform.Find("ConsumablesUI");
-            Transform icon = panel.Find(this.tag); //Иконка расходника на канвасе
+            Transform panel = GameObject.FindGameObjectWithTag("Canvas")?.transform?.Find("ConsumablesUI");
+            Transform icon = panel.Find(this.tag); //Иконка расходника на канвасе.
             _count = icon.GetChild(0).gameObject;
         }
         /// <summary>
