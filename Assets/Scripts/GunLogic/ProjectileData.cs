@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Gun
+namespace GunLogic
 {
     /// <summary>
     /// Класс, реализующий "жизненный цикл снаряда".
@@ -41,14 +41,14 @@ namespace Gun
             }
         }
         /// <summary>
-        /// При столкновении с объектом снаряд уничтожается.
+        /// Уничтожение снаряда при столкновении с объектами.
         /// </summary>
         /// <param name="other"></param>
-        protected void OnCollisionStay2D(Collision2D other)
+        protected void OnCollisionEnter2D(Collision2D other)
         {
-            if (!other.gameObject.CompareTag("Projectile"))
+            if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("gun"))
             {
-                Debug.Log(other.gameObject.name);
+                //Debug.Log(other.gameObject.name);
                 Destroy(this.gameObject);
             }
         }
