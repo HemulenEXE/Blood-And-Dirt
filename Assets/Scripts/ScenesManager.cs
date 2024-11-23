@@ -30,11 +30,6 @@ public class ScenesManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// Сохраняет текущюю сцену и её состояние
-    /// </summary>
-    public void SaveScene()
-    { }
-    /// <summary>
     /// Переход на следующую сцену
     /// </summary>
     public void OnNextScene()
@@ -66,6 +61,9 @@ public class ScenesManager : MonoBehaviour
     {
 
         if (index < 0) throw new ArgumentOutOfRangeException("index can't be < 0!");
+
+        PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы прошли текущий уровень 
+        PlayerPrefs.Save();
 
         Fader.Instance.FadeIn(() => _isfade = true);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index);
