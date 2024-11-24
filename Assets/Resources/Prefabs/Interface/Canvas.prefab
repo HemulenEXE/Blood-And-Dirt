@@ -477,7 +477,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 5.5, y: 5.86}
+  m_AnchoredPosition: {x: 5.5, y: 5.8599854}
   m_SizeDelta: {x: 6, y: 6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2113904752509051827
@@ -879,7 +879,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 5.5, y: 5.23}
+  m_AnchoredPosition: {x: 5.5, y: 5.230011}
   m_SizeDelta: {x: 6, y: 6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &859502778283085985
@@ -1227,6 +1227,7 @@ GameObject:
   - component: {fileID: 8203166335926237969}
   - component: {fileID: 3538890049230653025}
   - component: {fileID: 3897307242671139433}
+  - component: {fileID: 1898279843262766426}
   m_Layer: 5
   m_Name: ConsumablesUI
   m_TagString: Untagged
@@ -1322,3 +1323,15 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1898279843262766426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9187025282634862100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e285ae981b1654394264bd4556ffbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
