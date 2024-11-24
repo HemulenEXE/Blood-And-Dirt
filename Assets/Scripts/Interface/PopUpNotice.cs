@@ -8,9 +8,9 @@ using UnityEngine.UI;
 public class PopUpNotice : MonoBehaviour
 {
     
-    public string TitleText;
-    public string DescriptionText;
-    public string ButtonText;
+    [SerializeField] private string TitleText;
+    [SerializeField] public string DescriptionText;
+    [SerializeField] public string ButtonText;
     /// <summary>
     /// На какую сцену преместимся при нажатии кнопки 
     /// </summary>
