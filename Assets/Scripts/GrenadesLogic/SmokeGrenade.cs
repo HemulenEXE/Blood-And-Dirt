@@ -38,14 +38,18 @@ namespace Grenades
             foreach (var x in entity_colliders)
             {
                 //Логика получения урона.
+                if (x.gameObject != this.gameObject)
+                {
+                    Destroy(x.gameObject);
+                }
             }
-            StartCoroutine(CorutineExplode());
+            //StartCoroutine(CoroutineExplode());
         }
         /// <summary>
         /// Корутина для взрыва гранаты.
         /// </summary>
         /// <returns></returns>
-        private IEnumerator CorutineExplode()
+        private IEnumerator CoroutineExplode()
         {
             yield return new WaitForSeconds(_smokeDuraion);
             _particle.Stop();

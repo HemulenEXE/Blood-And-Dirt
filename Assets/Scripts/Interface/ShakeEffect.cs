@@ -10,20 +10,6 @@ namespace CameraLogic.CameraEffects
     public class ShakeEffect : MonoBehaviour
     {
         /// <summary>
-        /// Возвращает компонент, отвечающий представление камеры в пространстве. 
-        /// </summary>
-        private Transform _transformCamera;
-        /// <summary>
-        /// Настройка и проверка полей.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"></exception>
-        private void Awake()
-        {
-            _transformCamera = this.GetComponent<Transform>();
-
-            if (_transformCamera == null) throw new ArgumentNullException("ShakeEffect: _transformCamera is null");
-        }
-        /// <summary>
         /// Вызов эффекта тряски камеры в течении указанного времени и с указанной амплитудой.
         /// </summary>
         /// <param name="time"></param>
@@ -33,30 +19,30 @@ namespace CameraLogic.CameraEffects
             if (time <= 0) throw new ArgumentException("ShakeEffect: time <= 0");
             if (amplitude <= 0) throw new ArgumentException("ShakeEffect: amplitude <= 0");
 
-            StartCoroutine(_ShakeCamera(time, amplitude));
+            StartCoroutine(CoroutineShakeCamera(time, amplitude));
         }
         /// <summary>
-        /// Корутина тряски камеры.
+        /// Корутина для тряски камеры.
         /// </summary>
         /// <param name="time"></param>
         /// <param name="amplitude"></param>
         /// <returns></returns>
-        private IEnumerator _ShakeCamera(float time, float amplitude)
+        private IEnumerator CoroutineShakeCamera(float time, float amplitude)
         {
             if (time <= 0) throw new ArgumentException("ShakeEffect: time <= 0");
             if (amplitude <= 0) throw new ArgumentException("ShakeEffect: amplitude <= 0");
 
-            Vector3 startPose = _transformCamera.position;
+            Vector3 startPose = this.transform.position;
             while (time > 0)
             {
                 yield return new WaitForSeconds(0.025f);
 
                 float x = UnityEngine.Random.Range(-amplitude, amplitude);
                 float y = UnityEngine.Random.Range(-amplitude, amplitude);
-                _transformCamera.position = new Vector3(startPose.x + x, startPose.y + y, startPose.z);
+                this.transform.position = new Vector3(startPose.x + x, startPose.y + y, startPose.z);
                 time -= Time.deltaTime;
             }
-            _transformCamera.position = startPose;
+            this.transform.position = startPose;
         }
     }
 }

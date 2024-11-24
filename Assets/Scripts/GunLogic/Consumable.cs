@@ -1,12 +1,9 @@
-﻿using TMPro;
-using UnityEngine;
-
-namespace InteractiveObjects{
+﻿namespace InteractiveObjects{
     /// <summary>
-    /// Класс, реализующий "расходники".<br/>
+    /// Класс, реализующий "расходник".<br/>
     /// Этот скрипт позволяет забирать расходники (аптечку, бинты, гранаты) со сцены и изменяет показатель их количества.
     /// </summary>
-    public class ConsumablesVCO : ClickedObject
+    public class Consumable : ClickedObject
     {
         /// <summary>
         /// Взаимодействие с расходником.
@@ -15,32 +12,32 @@ namespace InteractiveObjects{
         {
             switch (this.tag)
             {
-                case "firstAidKit":
-                    if (Consumables.firstAidKitCount < 5)
+                case "smokeGraned":
+                    if (ConsumablesCounter.SmokeGrenadeCount < 5)
                     {
                         Destroy(this.gameObject);
-                        Consumables.firstAidKitCount++;
+                        ConsumablesCounter.SmokeGrenadeCount++;
                     }             
                     break;
                 case "simpleGraned":
-                    if (Consumables.simpleGrenadeCount < 5)
+                    if (ConsumablesCounter.SimpleGrenadeCount < 5)
                     { 
                         Destroy(this.gameObject);
-                        Consumables.simpleGrenadeCount++; 
+                        ConsumablesCounter.SimpleGrenadeCount++; 
                     } 
                     break;
-                case "smokeGraned":
-                    if (Consumables.firstAidKitCount < 5)
+                case "firstAidKit":
+                    if (ConsumablesCounter.FirstAidKitCount < 5)
                     {
                         Destroy(this.gameObject);
-                        Consumables.smokeGrenadeCount++;
+                        ConsumablesCounter.FirstAidKitCount++;
                     }
                     break;
                 case "bandage":
-                    if (Consumables.bandageCount < 5)
+                    if (ConsumablesCounter.BandageCount < 5)
                     {
                         Destroy(this.gameObject);
-                        Consumables.bandageCount++; 
+                        ConsumablesCounter.BandageCount++; 
                     }
                     break;
             }

@@ -34,11 +34,7 @@ namespace GunLogic
         }
         protected void FixedUpdate()
         {
-            _liveTime -= Time.fixedDeltaTime;
-            if (_liveTime <= 0)
-            {
-                Destroy(this.gameObject);
-            }
+            Destroy(this.gameObject, _liveTime); //Ёто лучше, чем использование условного оператора if.
         }
         /// <summary>
         /// ”ничтожение снар€да при столкновении с объектами.

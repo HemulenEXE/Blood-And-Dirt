@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2699248619299393521}
   - component: {fileID: 5699399273485253279}
   - component: {fileID: 5675004266000256728}
-  - component: {fileID: 4052395594188790817}
+  - component: {fileID: 4639497535261576497}
   m_Layer: 0
-  m_Name: Grenade
-  m_TagString: grenade
+  m_Name: SimpleGrenade
+  m_TagString: simpleGraned
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3319447996810485200}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.352131, y: -1.8646913, z: 0}
+  m_LocalPosition: {x: -13.032316, y: -0.40583044, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4052395594188790817
+--- !u!114 &4639497535261576497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,6 +140,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3319447996810485200}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9dbc6a9de79eeb4192a30d3e0f161e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8daf3eac055f4c5409cc71376a0c1674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

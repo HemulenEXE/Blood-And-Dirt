@@ -214,5 +214,4 @@ namespace GunLogic
         /// </summary>
         public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
     }
-
 }

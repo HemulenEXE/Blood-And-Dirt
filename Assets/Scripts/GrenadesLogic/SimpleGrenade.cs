@@ -1,7 +1,5 @@
 ﻿using CameraLogic.CameraEffects;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Grenades
@@ -44,13 +42,9 @@ namespace Grenades
         /// </summary>
         public float DamageExplosion { get => _damageExplosion; }
         /// <summary>
-        /// Флаг, указывающий активирована ли граната
+        /// Возвращает флаг, указывающий активирована ли граната.
         /// </summary>
-        public bool IsActive { get; } = false;
-        /// <summary>
-        /// Таймер.
-        /// </summary>
-        private float _timer = 0;
+        public bool IsActive { get; protected set; } = false;
         /// <summary>
         /// Камера.
         /// </summary>
@@ -75,8 +69,9 @@ namespace Grenades
         protected virtual void Update()
         {
             _timeToExplosion -= Time.deltaTime;
-            if (_timeToExplosion <= 0)
+            if (_timeToExplosion <= 0 && !IsActive)
             {
+                IsActive = true;
                 Explode();
                 Crash();
             }
@@ -87,9 +82,8 @@ namespace Grenades
         /// <param name="other"></param>
         protected virtual void OnCollisionEnter2D(Collision2D other)
         {
-            if (other != null && !other.gameObject.CompareTag("Player") && !IsActive)
+            if (other != null && !other.gameObject.CompareTag("Player"))
             {
-                Debug.Log(other.gameObject.tag);
                 Explode();
                 Crash();
             }
@@ -99,23 +93,18 @@ namespace Grenades
         /// </summary>
         public virtual void Explode()
         {
+            IsActive = true;
             Collider2D[] entity_colliders = Physics2D.OverlapCircleAll(this.transform.position, ExplosionRadius); //Получаем коллайдеры всех сущностей поблизости.
             foreach (var x in entity_colliders)
             {
                 //Логика получения урона.
+                if (x.gameObject != this.gameObject)
+                {
+                    Destroy(x.gameObject);
+                }
             }
             Destroy(this.gameObject);
         }
-
-        //protected virtual void Update()
-        //{
-        //    if (_timer >= TimeToExplosion)
-        //    {
-        //        Destroy(gameObject, 0.1f);
-        //        Crash();
-        //    }
-        //    else _timer += Time.deltaTime;
-        //}
         /// <summary>
         /// Вызов тряски камеры после взрыва гранаты. 
         /// </summary>
@@ -127,6 +116,16 @@ namespace Grenades
             if (distance <= 5) _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.6f);
             else if (distance <= 10) _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.3f);
             else _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.08f);
+        }
+        /// <summary>
+        /// Рисовка площади поражения.
+        /// </summary>
+        private void OnDrawGizmos()
+        {
+            // Устанавливаем цвет Gizmos
+            Gizmos.color = Color.red;
+            // Рисуем круг поражения
+            Gizmos.DrawWireSphere(transform.position, _explosionRadius);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace PlayerLogic
     public class PlayerShooting : MonoBehaviour
     {
         /// <summary>
-        /// Текущее выбранное ружьё.
+        /// Взятое ружьё.
         /// </summary>
         private IGun _gun;
         private void Update()
