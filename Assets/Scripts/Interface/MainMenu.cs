@@ -4,7 +4,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Скрипт управления главным меню. Навешивается на пустой объект на сецне MainMenu 
 /// </summary>
-public class Menu : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
     //Кнопки меню
     private Button _company;
