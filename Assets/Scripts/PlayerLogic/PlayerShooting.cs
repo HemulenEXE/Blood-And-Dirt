@@ -1,14 +1,14 @@
-using TMPro;
+п»їusing TMPro;
 using UnityEngine;
 using Gun;
 
 /// <summary>
-/// Класс, реализующий "стрельбу игроком".
+/// РљР»Р°СЃСЃ, СЂРµР°Р»РёР·СѓСЋС‰РёР№ "СЃС‚СЂРµР»СЊР±Сѓ РёРіСЂРѕРєРѕРј".
 /// </summary>
 public class PlayerShooting : MonoBehaviour
 {
     /// <summary>
-    /// Текущее выбранное ружьё.
+    /// РўРµРєСѓС‰РµРµ РІС‹Р±СЂР°РЅРЅРѕРµ СЂСѓР¶СЊС‘.
     /// </summary>
     private IGun _gun;
     private void Update()
@@ -19,7 +19,7 @@ public class PlayerShooting : MonoBehaviour
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 _gun.Shoot();
-                //Изменение показателя кол-ва потронов над ячейкой инвентаря
+                //РР·РјРµРЅРµРЅРёРµ РїРѕРєР°Р·Р°С‚РµР»СЏ РєРѕР»-РІР° РїРѕС‚СЂРѕРЅРѕРІ РЅР°Рґ СЏС‡РµР№РєРѕР№ РёРЅРІРµРЅС‚Р°СЂСЏ
                 GameObject discription = PlayerInventory._slots[PlayerInventory._currentSlot].transform.GetChild(0).gameObject;
                 discription.GetComponent<TextMeshProUGUI>().text = _gun.AmmoTotalCurrent + "\\" + _gun.AmmoTotal;
             }
