@@ -20,7 +20,7 @@ namespace PlayerLogic
             if (PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem != null)
             {
                 Transform item_transform = PlayerInventory._slots[PlayerInventory._currentSlot].StoredItem.transform;
-                item_transform.position = this.transform.position + transform.right;
+                item_transform.position = this.transform.position - transform.up / 2;
                 item_transform.rotation = this.transform.rotation;
                 PlayerInventory._slots[PlayerInventory._currentSlot].StoredItem.gameObject.SetActive(true);
             }

@@ -1,0 +1,91 @@
+﻿using GunLogic;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Guns
+{
+    /// <summary>
+    /// Класс, реализующий нож.
+    /// </summary>
+    public class Knife : MonoBehaviour
+    {
+        /// <summary>
+        /// Возвращает тип оружия.
+        /// </summary>
+        public GunType Type { get; } = GunType.Light;
+        /// <summary>
+        /// Наносимый урон.
+        /// </summary>
+        [SerializeField] protected float _damage = 2f;
+        /// <summary>
+        /// Возвращает величину наносимого урона.
+        /// </summary>
+        public float Damage { get => _damage; }
+        /// <summary>
+        /// Радиус атаки.
+        /// </summary>
+        public float _attackAngle = 45f;
+        /// <summary>
+        /// Дистанция атаки
+        /// </summary>
+        public float _attackDistance = 3f;
+        /// <summary>
+        /// Нанесение урона одной нескольким сущностям.
+        /// </summary>
+        /// <param name="entity"></param>
+        public void DealDamage()
+        {
+            foreach (var x in GetColliders2DSector())
+            {
+                //Логика получения урона сущностями.
+                if (x.gameObject != this.gameObject)
+                {
+                    Destroy(x.gameObject);
+                }
+            }
+        }
+        /// <summary>
+        /// Возвращает 
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<Collider2D> GetColliders2DSector()
+        {
+            Collider2D[] interim_colliders = Physics2D.OverlapCircleAll(this.transform.position, _attackDistance);
+            foreach (var x in interim_colliders)
+            {
+                float angle = Vector2.Angle(this.transform.right, x.transform.position - this.transform.position);
+                if (angle <= _attackAngle / 2)
+                {
+                    yield return x;
+                }
+            }
+        }
+        private void OnDrawGizmos()
+        {
+            DrawSectorGizmo(this.transform.position, _attackDistance, _attackAngle, this.transform.rotation);
+        }
+
+        private void DrawSectorGizmo(Vector3 center, float radius, float angle, Quaternion rotation)
+        {
+            Gizmos.color = Color.green;
+
+            float startAngle = -angle / 2f;
+            float endAngle = angle / 2f;
+            Vector3 startPoint = center + rotation * Quaternion.Euler(0, 0, startAngle) * Vector3.right * radius;
+            Vector3 endPoint = center + rotation * Quaternion.Euler(0, 0, endAngle) * Vector3.right * radius;
+            Gizmos.DrawLine(center, startPoint);
+            Gizmos.DrawLine(center, endPoint);
+            int segments = 20;
+            float angleStep = angle / segments;
+            Vector3 previousPoint = startPoint;
+            for (int i = 1; i <= segments; i++)
+            {
+                float currentAngle = startAngle + angleStep * i;
+                Vector3 currentPoint = center + rotation * Quaternion.Euler(0, 0, currentAngle) * Vector3.right * radius;
+                Gizmos.DrawLine(previousPoint, currentPoint);
+                previousPoint = currentPoint;
+            }
+            Gizmos.DrawLine(previousPoint, endPoint);
+        }
+    }
+}
