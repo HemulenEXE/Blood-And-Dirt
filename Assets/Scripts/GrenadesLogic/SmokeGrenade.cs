@@ -43,7 +43,7 @@ namespace Grenades
                     Destroy(x.gameObject);
                 }
             }
-            //StartCoroutine(CoroutineExplode());
+            StartCoroutine(CoroutineExplode());
         }
         /// <summary>
         /// Корутина для взрыва гранаты.
