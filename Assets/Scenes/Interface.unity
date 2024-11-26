@@ -153,11 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8daf3eac055f4c5409cc71376a0c1674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _key: 101
-  _radius: 0.1
-  _fontName: PixelFont
-  _fontSize: 20
-  _offSet: 0.5
 --- !u!58 &146779355
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -291,11 +286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8daf3eac055f4c5409cc71376a0c1674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _key: 101
-  _radius: 0.1
-  _fontName: PixelFont
-  _fontSize: 20
-  _offSet: 0.5
 --- !u!58 &308108649
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -566,11 +556,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8daf3eac055f4c5409cc71376a0c1674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _key: 101
-  _radius: 0.1
-  _fontName: PixelFont
-  _fontSize: 20
-  _offSet: 0.5
 --- !u!58 &506501726
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -949,11 +934,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8daf3eac055f4c5409cc71376a0c1674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _key: 101
-  _radius: 0.01
-  _fontName: PixelFont
-  _fontSize: 20
-  _offSet: 0.5
 --- !u!1001 &879067083
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -962,6 +942,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 626322909247090182, guid: 71c8446d932164f43b8e4193c56c59fa, type: 3}
+      propertyPath: _interactionText
+      value: 
+      objectReference: {fileID: 1264817092}
     - target: {fileID: 1265472572047247582, guid: 71c8446d932164f43b8e4193c56c59fa, type: 3}
       propertyPath: m_Constraints
       value: 0
@@ -1047,6 +1031,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71c8446d932164f43b8e4193c56c59fa, type: 3}
+--- !u!1 &1264817092 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8416087499051605126, guid: 15e07fc2f6744ab4e92fce908062c3ac, type: 3}
+  m_PrefabInstance: {fileID: 1712998205}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1279496449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1135,11 +1124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8daf3eac055f4c5409cc71376a0c1674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _key: 101
-  _radius: 0.1
-  _fontName: PixelFont
-  _fontSize: 20
-  _offSet: 0.5
 --- !u!58 &1324193744
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1273,11 +1257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8daf3eac055f4c5409cc71376a0c1674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _key: 101
-  _radius: 0.1
-  _fontName: PixelFont
-  _fontSize: 20
-  _offSet: 0.5
 --- !u!58 &1450803235
 CircleCollider2D:
   m_ObjectHideFlags: 0

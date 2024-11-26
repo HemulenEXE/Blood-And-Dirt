@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Gun
+namespace GunLogic
 {
     /// <summary>
     /// Класс, реализующий "автомат.
@@ -112,12 +112,12 @@ namespace Gun
             _audio = this.GetComponent<AudioSource>();
 
             if (_audio == null) throw new ArgumentNullException("MachineGun: _audio is null");
-            if (Damage < 0) throw new ArgumentOutOfRangeException("MachineGun: _damage < 0");
+            if (Damage < 0) throw new ArgumentOutOfRangeException("MachineGun: Damage < 0");
             if (_delayShot < 0) throw new ArgumentOutOfRangeException("MachineGun: _delayFire < 0");
-            if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("MachineGun: _ammoTotal < 0");
-            if (AmmoCapacity < 0) throw new ArgumentOutOfRangeException("MachineGun: _capacityAmmo < 0");
+            if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("MachineGun: AmmoTotal < 0");
+            if (AmmoCapacity < 0) throw new ArgumentOutOfRangeException("MachineGun: AmmoCapacity < 0");
             if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("MachineGun: _timeRecharging < 0");
-            if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("MachineGun: _ammoCapacity < _ammoTotalCurrent");
+            if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("MachineGun: AmmoCapacity < AmmoTotalCurrent");
             if (_prefabProjectile == null) throw new ArgumentNullException("MachineGun: _prefabPellet is null");
         }
         /// <summary>
@@ -137,9 +137,12 @@ namespace Gun
 
                     GameObject currentPellet = Instantiate(_prefabProjectile, this.transform.GetChild(0).position, this.transform.GetChild(0).rotation); //Вылет снаряда.
 
-                    var interim_projectile_component = currentPellet.AddComponent<ProjectileData>();
-                    interim_projectile_component.Damage = this._damage;
-                    interim_projectile_component.GunType = Type;
+                    var interim_projectile_component = currentPellet.GetComponent<ProjectileData>();
+                    if (interim_projectile_component != null)
+                    {
+                        interim_projectile_component.Damage = this._damage;
+                        interim_projectile_component.GunType = Type;
+                    }
 
                     Rigidbody2D rg = currentPellet.GetComponent<Rigidbody2D>();
                     if (rg == null) throw new ArgumentNullException("MachineGun: _prefabProjectile hasn't got Rigidbody2D");
