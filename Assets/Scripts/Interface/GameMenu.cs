@@ -1,5 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Скрипт управления внутриигровым меню. Навешивается на GameMenu
@@ -11,7 +12,7 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     [SerializeField]
     private Animator _animator;
-    /// <summary>
+    ///  <summary>
     /// Кнопка сохранения настроек
     /// </summary>
     private Button _save;
@@ -20,28 +21,30 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private Button _inMainMenu;
     /// <summary>
-    /// Всплывающее окно при нажатии кнопки "В главное меню"
+    /// Кнопка перезапуска сцены
     /// </summary>
-    private GameObject _notice;
+    private Button _restartScene;
+
     private void Start()
     {
         Button icon = GameObject.Find("MenuIcon").GetComponent<Button>();
         icon.onClick.AddListener(ControllMenu);
         
         GameObject menu = GameObject.Find("SettingsMenu");
-        _save = menu.transform.GetChild(3).GetComponent<Button>();
-        _inMainMenu = menu.transform.GetChild(4).GetComponent<Button>();
+        _save = menu.transform.GetChild(2).GetComponent<Button>();
+        _inMainMenu = menu.transform.GetChild(3).GetComponent<Button>();
+        _restartScene = menu.transform.GetChild(4).GetComponent<Button>();
         _save.onClick.AddListener(Save);
         _inMainMenu.onClick.AddListener(InMainMenu);
+        _restartScene.onClick.AddListener(RestartScene);
 
-        _notice = transform.GetChild(3).gameObject;
     }
     /// <summary>
     /// Переключение на главное меню (без сохранения прогресса на текущей сцене)
     /// </summary>
     private void InMainMenu()
     {
-        _notice.SetActive(true);
+        transform.GetChild(3).gameObject.SetActive(true);
     }
     /// <summary>
     /// Закрытие меню с сохранением настроек
@@ -49,6 +52,16 @@ public class GameMenu : MonoBehaviour
     private void Save()
     {
         _animator.SetBool(name: "startOpen", false);
+    }
+    /// <summary>
+    /// Запускает заново сцену
+    /// </summary>
+    private void RestartScene()
+    {
+        GameObject notice = transform.GetChild(4).gameObject;
+        notice.SetActive(true);
+        //Указание на какую сцену перейти
+        notice.GetComponent<PopUpNotice>().SceneIndex = SceneManager.GetActiveScene().buildIndex;
     }
     /// <summary>
     /// Открытие/закрытие меню по нажатию на иконку менюшки без сохранения настроек
