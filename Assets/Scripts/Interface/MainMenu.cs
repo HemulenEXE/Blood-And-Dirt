@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 /// <summary>
@@ -6,6 +7,10 @@ using UnityEngine.UI;
 /// </summary>
 public class MainMenu : MonoBehaviour
 {
+    /// <summary>
+    /// Управляет громкостью звуков в игре
+    /// </summary>
+    public AudioMixer audioMixer;
     //Кнопки меню
     private Button _company;
     private Button _arena;
@@ -57,7 +62,7 @@ public class MainMenu : MonoBehaviour
 
         Button exit = _settingsMenu.transform.Find("Exit").GetComponent<Button>();
         Button save = _settingsMenu.transform.Find("Save").GetComponent<Button>();
-
+        
         exit.onClick.RemoveAllListeners();
         save.onClick.RemoveAllListeners();
         exit.onClick.AddListener(OnSettingsExitClick);
@@ -74,9 +79,10 @@ public class MainMenu : MonoBehaviour
     /// <summary>
     /// Закрытие настроек с сохранением изменений
     /// </summary>
-    private void OnSettingsSaveClick()
+    public void OnSettingsSaveClick()
     {
         Debug.Log("SettingsSave");
+        //Изменение звука
         _settingsMenu.SetActive(false);
     }
     /// <summary>
