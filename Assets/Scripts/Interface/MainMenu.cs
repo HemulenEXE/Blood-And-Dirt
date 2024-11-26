@@ -7,10 +7,6 @@ using UnityEngine.UI;
 /// </summary>
 public class MainMenu : MonoBehaviour
 {
-    /// <summary>
-    /// Управляет громкостью звуков в игре
-    /// </summary>
-    public AudioMixer audioMixer;
     //Кнопки меню
     private Button _company;
     private Button _arena;
@@ -21,7 +17,7 @@ public class MainMenu : MonoBehaviour
     /// Всплывающее меню настроек
     /// </summary>
     private GameObject _settingsMenu;
-    private void Start()
+    private void Awake()
     {
         GameObject panel = GameObject.Find("Panel");
         _settingsMenu = GameObject.Find("MainMenu").transform.GetChild(2).gameObject;
@@ -35,6 +31,10 @@ public class MainMenu : MonoBehaviour
         _arena.onClick.AddListener(OnArenaClick);
         _settings.onClick.AddListener(OnSettingsClick);
         _exit.onClick.AddListener(OnExitClick);
+
+        _settingsMenu.SetActive(true);
+        _settingsMenu.GetComponent<SettingMenu>().LoadSettings();
+        _settingsMenu.SetActive(false);
     }
     /// <summary>
     /// Нажатие на кнопку компания
@@ -59,31 +59,6 @@ public class MainMenu : MonoBehaviour
     { 
         Debug.Log("Settings");
         _settingsMenu.gameObject.SetActive(true);
-
-        Button exit = _settingsMenu.transform.Find("Exit").GetComponent<Button>();
-        Button save = _settingsMenu.transform.Find("Save").GetComponent<Button>();
-        
-        exit.onClick.RemoveAllListeners();
-        save.onClick.RemoveAllListeners();
-        exit.onClick.AddListener(OnSettingsExitClick);
-        save.onClick.AddListener(OnSettingsSaveClick);
-    }
-    /// <summary>
-    /// Закрытие меню настроек без сохранения
-    /// </summary>
-    private void OnSettingsExitClick()
-    {
-        Debug.Log("SettingsExit");
-        _settingsMenu.SetActive(false);
-    }
-    /// <summary>
-    /// Закрытие настроек с сохранением изменений
-    /// </summary>
-    public void OnSettingsSaveClick()
-    {
-        Debug.Log("SettingsSave");
-        //Изменение звука
-        _settingsMenu.SetActive(false);
     }
     /// <summary>
     /// Выход из игры по нажатию кнопки
