@@ -1,6 +1,7 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 /// <summary>
 /// Скрипт управления внутриигровым меню. Навешивается на GameMenu
@@ -24,16 +25,24 @@ public class GameMenu : MonoBehaviour
     /// Кнопка перезапуска сцены
     /// </summary>
     private Button _restartScene;
-
-    private void Start()
+    /// <summary>
+    /// Проверка и настройка полей.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"></exception>
+    private void Awake()
     {
-        Button icon = GameObject.Find("MenuIcon").GetComponent<Button>();
+        Button icon = GameObject.Find("MenuIcon")?.GetComponent<Button>();
+        if (icon == null) throw new ArgumentNullException("GameMenu: icon is null");
         icon.onClick.AddListener(ControllMenu);
         
         GameObject menu = GameObject.Find("SettingsMenu");
-        _save = menu.transform.GetChild(2).GetComponent<Button>();
-        _inMainMenu = menu.transform.GetChild(3).GetComponent<Button>();
-        _restartScene = menu.transform.GetChild(4).GetComponent<Button>();
+        if (menu == null) throw new ArgumentNullException("GameMenu: menu is null");
+        _save = menu?.transform?.GetChild(2)?.GetComponent<Button>();
+        _inMainMenu = menu?.transform?.GetChild(3)?.GetComponent<Button>();
+        _restartScene = menu?.transform?.GetChild(4)?.GetComponent<Button>();
+        if (_save == null) throw new ArgumentNullException("GameMenu: _save is null");
+        if (_inMainMenu == null) throw new ArgumentNullException("GameMenu: _inMainMenu is null");
+        if (_restartScene == null) throw new ArgumentNullException("GameMenu: _restartScene is null");
         _save.onClick.AddListener(Save);
         _inMainMenu.onClick.AddListener(InMainMenu);
         _restartScene.onClick.AddListener(RestartScene);
