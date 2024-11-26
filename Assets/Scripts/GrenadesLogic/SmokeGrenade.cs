@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 namespace Grenades
 {
@@ -35,12 +37,14 @@ namespace Grenades
         {
             _particle.Play();
             Collider2D[] entity_colliders = Physics2D.OverlapCircleAll(this.transform.position, ExplosionRadius); //Получаем коллайдеры всех сущностей поблизости.
+            BoxCollider2D interim_collider = this.GetComponent<BoxCollider2D>();
+            interim_collider.edgeRadius = ExplosionRadius;
             foreach (var x in entity_colliders)
             {
                 //Логика получения урона.
                 if (x.gameObject != this.gameObject)
                 {
-                    Destroy(x.gameObject);
+                    //Destroy(x.gameObject);
                 }
             }
             StartCoroutine(CoroutineExplode());

@@ -18,7 +18,7 @@ namespace PlayerLogic
             _gun = PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem?.GetComponent<IGun>();
             if (_gun != null)
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (Input.GetKey(KeyCode.Mouse0))
                 {
                     _gun.Shoot();
                     //Изменение показателя кол-ва потронов над ячейкой инвентаря

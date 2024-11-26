@@ -29,7 +29,7 @@ namespace PlayerLogic
         /// Содержится на канвасе.<br/>
         /// Не может равняться null.
         /// </summary>
-        public GameObject _interactionText;
+        private GameObject _interactionText;
         /// <summary>
         /// Объект, с которым на текущий момент взаимодействует игрок.<br/>
         /// Может равняться null.
@@ -45,6 +45,8 @@ namespace PlayerLogic
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         private void Awake()
         {
+            _interactionText = GameObject.FindGameObjectWithTag("Canvas")?.transform?.Find("InteractiveUI")?.transform?.Find("InteractionText")?.gameObject;
+            if (_interactionText == null) throw new ArgumentNullException("PlayerInventory: _interactionText is null");
             if (_interactionDistance < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _interactionDistance < 0");
         }
         void Update()

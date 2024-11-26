@@ -100,7 +100,7 @@ namespace Grenades
                 //Логика получения урона.
                 if (x.gameObject != this.gameObject)
                 {
-                    Destroy(x.gameObject);
+                    //Destroy(x.gameObject);
                 }
             }
             Destroy(this.gameObject);
@@ -125,7 +125,7 @@ namespace Grenades
             // Устанавливаем цвет Gizmos
             Gizmos.color = Color.red;
             // Рисуем круг поражения
-            Gizmos.DrawWireSphere(transform.position, _explosionRadius);
+            Gizmos.DrawWireSphere(transform.position, ExplosionRadius);
         }
     }
 }

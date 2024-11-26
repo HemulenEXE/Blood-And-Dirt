@@ -3,12 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - gun
+  - simpleGraned
+  - Canvas
+  - Projectile
+  - smokeGraned
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - IgnorePlayerRaycast
   - Water
   - UI
   - 
