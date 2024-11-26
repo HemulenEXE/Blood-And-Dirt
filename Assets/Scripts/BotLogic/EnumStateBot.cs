@@ -6,5 +6,6 @@ public enum StateBot
 {
     combat,
     patrol,
-    peace
+    peace,
+    checkNoise
 }

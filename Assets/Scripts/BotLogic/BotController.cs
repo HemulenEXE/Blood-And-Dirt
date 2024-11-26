@@ -7,6 +7,9 @@ using UnityEngine.AI;
 using TMPro;
 using System;
 using Gun;
+using static UnityEngine.EventSystems.EventTrigger;
+using static UnityEngine.GraphicsBuffer;
+using Unity.VisualScripting;
 
 public class BotController : MonoBehaviour
 {
@@ -16,6 +19,7 @@ public class BotController : MonoBehaviour
     [SerializeField] private bool addStartPositionToPatrol = true;
     [SerializeField] private float rotationAngle = 15f;
     [SerializeField] private float rotationSpeed = 1;
+    [SerializeField] private float stoppingDistance = 5;
 
 
     private Animator animator;
@@ -29,6 +33,7 @@ public class BotController : MonoBehaviour
     private NavMeshAgent agent;
     private int maskVision;
     private float timeSinceLastSeen;
+    private Transform sourceNoise;
     private bool hasCollidedWithPlayer;
 
     public static event  Action<Transform, Transform> DetectedEnemy;
@@ -51,21 +56,21 @@ public class BotController : MonoBehaviour
         {
             patrolPoints.Add(Helper.CopyTransformInGameObject(selfTransform));
         }
-
-        gun = GetComponent<IGun>();
         animator = transform.GetComponentInChildren<Animator>();
-        stateBot = patrolPoints.Count > 1 ? StateBot.patrol : StateBot.peace;
+        gun = transform.GetComponentInChildren<IGun>();
+        InitToStartState();
     }
 
     private void ConfigureAgent()
     {
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        //agent.stoppingDistance = stoppingDistance;
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerStay2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player"))
+        if (collider.CompareTag("Player") && stateBot != StateBot.combat)
         {
             TryDetectPlayer(collider.transform);
         }
@@ -126,12 +131,16 @@ public class BotController : MonoBehaviour
                 CombateState();
                 break;
             case StateBot.peace:
-                animator.SetBool("IsRun", false);
+                animator.SetBool("IsRun", IsAgentMoving(agent));
                 PeaceState();
                 break;
             case StateBot.patrol:
                 animator.SetBool("IsRun", true);
                 PatrolState();
+                break; 
+            case StateBot.checkNoise:
+                StartCoroutine(CheckNoiseState(sourceNoise));
+                //LookToDirection(sourceNoise);
                 break;
 
         }
@@ -145,7 +154,7 @@ public class BotController : MonoBehaviour
             UpdateChaseTimer();
             if(IsPlayerVisible())
             {
-                gun.Shoot();
+                gun.Shoot(LayerMask.NameToLayer("EnemyProjectile"));
             }
             else if(gun.IsShooting)
             {
@@ -191,6 +200,7 @@ public class BotController : MonoBehaviour
     {
         agent.SetDestination(targetPlayer.position);
         LookToDirection(targetPlayer);
+
     }
 
     private void UpdateChaseTimer()
@@ -225,18 +235,20 @@ public class BotController : MonoBehaviour
     {
         targetPlayer = null;
         hasCollidedWithPlayer = false;
+        InitToStartState();
+    }
 
+    private void InitToStartState()
+    {
         if (patrolPoints.Count == 1)
         {
             stateBot = StateBot.peace;
             agent.SetDestination(patrolPoints[0].transform.position);
         }
-        else if(patrolPoints.Count > 1)
+        else if (patrolPoints.Count > 1)
         {
             stateBot = StateBot.patrol;
         }
-        
-        
     }
 
     private void LookToDirection(Transform targetTransform)
@@ -245,5 +257,68 @@ public class BotController : MonoBehaviour
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         selfTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+    }
+
+    public void ReactToNoise(Transform noiseTransform)
+    {
+       
+        if(stateBot != StateBot.combat) 
+        {
+            stateBot = StateBot.checkNoise;
+            sourceNoise = noiseTransform;
+        }
+    }
+
+    private IEnumerator CheckNoiseState(Transform noiseTransform, float timeAwaiting = 5)
+    {
+        sourceNoise = noiseTransform;
+        stateBot = StateBot.checkNoise;
+
+        
+
+        //Vector3 direction = (noiseTransform.position - transform.position).normalized;
+
+        //// –ассчитываем угол поворота по оси Z (в 2D поворачиваем только по этой оси)
+        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        while (Mathf.Abs(Quaternion.Angle(transform.rotation, Quaternion.Euler(0, 0, SmoothLookToDirection(noiseTransform)))) > 5f)
+        {
+            yield return null;
+        }
+
+        animator.SetBool("IsRun", true);
+        agent.SetDestination(noiseTransform.position);
+
+        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
+        {
+            yield return null;
+        }
+
+        animator.SetBool("IsRun", false);
+
+        yield return new WaitForSeconds(timeAwaiting);
+        
+        animator.SetBool("IsRun", true);
+        InitToStartState();
+    }
+
+    private float SmoothLookToDirection(Transform target)
+    {
+        // ѕолучаем направление от текущей позиции к цели
+        Vector3 direction = (target.position - transform.position).normalized;
+
+        // –ассчитываем угол поворота по оси Z (в 2D поворачиваем только по этой оси)
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // ѕлавно поворачиваем объект с использованием Lerp
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+
+        return angle;
+    }
+
+    bool IsAgentMoving(NavMeshAgent agent)
+    {
+        return agent.hasPath && !agent.pathPending && agent.remainingDistance > agent.stoppingDistance && agent.velocity.sqrMagnitude > 0;
     }
 }

@@ -65,7 +65,7 @@ namespace Gun
         /// <summary>
         /// Выстрел из ружья.
         /// </summary>
-        public void Shoot();
+        public void Shoot(int layerMask = 0);
         /// <summary>
         /// Остановка стрельбы из ружья.
         /// </summary>

@@ -141,7 +141,7 @@ namespace Gun
         /// </summary>
         /// <remarks>Порожает на сцене снаряд, вылетающий из дробовика.</remarks>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Shoot()
+        public void Shoot(int layerMask = 0)
         {
             if (!IsShooting && !IsRecharging && Time.time > _nextTimeShot)
             {
@@ -164,7 +164,12 @@ namespace Gun
 
                         Rigidbody2D rg = currentPellet.GetComponent<Rigidbody2D>();
                         if (rg == null) throw new ArgumentNullException("ShotGun: _prefabProjectile hasn't got Rigidbody2D");
-                        rg.velocity = currentPellet.transform.right * _speedProjectile;
+                        //rg.velocity = currentPellet.transform.right * _speedProjectile;
+
+                        currentPellet.layer = layerMask;
+
+                        var bulletController = currentPellet.AddComponent<BulletMovement>();
+                        bulletController.SetSpeed(_speedProjectile);
                     }
 
                     AmmoTotalCurrent--;
@@ -173,6 +178,7 @@ namespace Gun
                 else Recharge();
             }
         }
+
         /// <summary>
         /// Остановка стрельбы из дробовика.<br/>
         /// Не содержит реализации.

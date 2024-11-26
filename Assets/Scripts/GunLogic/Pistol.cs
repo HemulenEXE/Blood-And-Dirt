@@ -91,8 +91,6 @@ namespace Gun
         /// </summary>
         [SerializeField] protected float _speedProjectile = 50f;
         /// <summary>
-<<<<<<< HEAD
-=======
         /// Компонент, управляющий вызовами звуков.
         /// </summary>
         protected AudioSource _audio;
@@ -105,29 +103,21 @@ namespace Gun
         /// </summary>
         [SerializeField] protected AudioClip _audioRecharge;
         /// <summary>
->>>>>>> develop
         /// Настройка и проверка полей.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         protected void Awake()
         {
-<<<<<<< HEAD
-=======
             _audio = this.GetComponent<AudioSource>();
 
             if (_audio == null) throw new ArgumentNullException("Pistol: _audio is null");
->>>>>>> develop
             if (Damage < 0) throw new ArgumentOutOfRangeException("Pistol: _damage < 0");
             if (_delayShot < 0) throw new ArgumentOutOfRangeException("Pistol: _delayFire < 0");
             if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("Pistol: _ammoTotal < 0");
             if (AmmoCapacity < 0) throw new ArgumentOutOfRangeException("Pistol: _capacityAmmo < 0");
             if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("Pistol: _timeRecharging < 0");
-<<<<<<< HEAD
-            if (AmmoCapacity < _ammoTotalCurrent) throw new ArgumentOutOfRangeException("Pistol: _ammoCapacity < _ammoTotalCurrent");
-=======
             if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("Pistol: _ammoCapacity < _ammoTotalCurrent");
->>>>>>> develop
             if (_prefabProjectile == null) throw new ArgumentNullException("Pistol: _prefabPellet is null");
         }
         /// <summary>
@@ -135,7 +125,7 @@ namespace Gun
         /// </summary>
         /// <remarks>Порождает на сцене снаряд, вылетающий из пистолета.</remarks>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Shoot()
+        public void Shoot(int layerMask = 0)
         {
             if (!IsShooting && !IsRecharging && Time.time > _nextTimeShot)
             {
@@ -143,10 +133,7 @@ namespace Gun
                 {
                     IsShooting = true;
                     _nextTimeShot = Time.time + _delayShot;
-<<<<<<< HEAD
-=======
                     _audio.PlayOneShot(_audioFire);
->>>>>>> develop
 
                     GameObject currentPellet = Instantiate(_prefabProjectile, this.transform.GetChild(0).position, this.transform.GetChild(0).rotation); //Вылет снаряда.
 
@@ -156,7 +143,12 @@ namespace Gun
 
                     Rigidbody2D rg = currentPellet.GetComponent<Rigidbody2D>();
                     if (rg == null) throw new ArgumentNullException("Pistol: _prefabProjectile hasn't got Rigidbody2D");
-                    rg.velocity = currentPellet.transform.right * _speedProjectile;
+                    //rg.velocity = currentPellet.transform.right * _speedProjectile;
+
+                    currentPellet.layer = layerMask;
+
+                    var bulletController = currentPellet.AddComponent<BulletMovement>();
+                    bulletController.SetSpeed(_speedProjectile);
 
                     AmmoTotalCurrent--;
                     IsShooting = false;
@@ -164,6 +156,8 @@ namespace Gun
                 else Recharge();
             }
         }
+
+        
         /// <summary>
         /// Остановка стрельбы из пистолета.<br/>
         /// Не содержит реализации.
@@ -188,10 +182,7 @@ namespace Gun
         private IEnumerator RechargeCoroutine()
         {
             yield return new WaitForSeconds(_timeRecharging);
-<<<<<<< HEAD
-=======
             _audio.PlayOneShot(_audioRecharge);
->>>>>>> develop
             AmmoTotal -= AmmoCapacity - AmmoTotalCurrent;
             AmmoTotalCurrent = AmmoCapacity;
             IsRecharging = false;

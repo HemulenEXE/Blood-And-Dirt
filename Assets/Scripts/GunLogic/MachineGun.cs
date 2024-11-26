@@ -125,7 +125,7 @@ namespace Gun
         /// </summary>
         /// <remarks>Порождает на сцене снаряд, вылетающий из автомата.</remarks>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Shoot()
+        public void Shoot(int layerMask = 0)
         {
             if (!IsShooting && !IsRecharging && Time.time > _nextTimeShot)
             {
@@ -143,7 +143,13 @@ namespace Gun
 
                     Rigidbody2D rg = currentPellet.GetComponent<Rigidbody2D>();
                     if (rg == null) throw new ArgumentNullException("MachineGun: _prefabProjectile hasn't got Rigidbody2D");
-                    rg.velocity = currentPellet.transform.right * _speedProjectile;
+                    //rg.isKinematic = true; // Кинематическое движение
+
+                    currentPellet.layer = layerMask;
+
+                    // Запуск скрипта для управления движением пули
+                    var bulletController = currentPellet.AddComponent<BulletMovement>();
+                    bulletController.SetSpeed(_speedProjectile);
 
                     AmmoTotalCurrent--;
                     IsShooting = false;
@@ -151,6 +157,8 @@ namespace Gun
                 else Recharge();
             }
         }
+
+
         /// <summary>
         /// Остановка стрельбы из автомата.<br/>
         /// Не содержит реализации.

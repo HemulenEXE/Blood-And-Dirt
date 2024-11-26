@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -17,13 +18,32 @@ public class PlayerMotion : MonoBehaviour
     /// </summary>
     private Animator _animator;
     /// <summary>
+    /// скорость ползком
+    /// </summary>
+    [SerializeField] private float _stealSpeed = 2f;
+    /// <summary>
     /// Пешая скорость.
     /// </summary>
     [SerializeField] private float _walkSpeed = 4f;
     /// <summary>
     /// Скорость бега.
     /// </summary>
-    [SerializeField] private float _runspeed = 8f;
+    [SerializeField] private float _runSpeed = 8f;
+    /// <summary>
+    /// шум ползком
+    /// </summary>
+    [SerializeField] private float _stealNoise = 0.3f;
+    /// <summary>
+    /// Пеший шум.
+    /// </summary>
+    [SerializeField] private float _walkNoise = 2f;
+    /// <summary>
+    /// шум бега.
+    /// </summary>
+    [SerializeField] private float _runNoise = 8f;
+    private float _currentSpeed;
+
+    private Dictionary<float, float> noiseMapping;
     /// <summary>
     /// Возвращает и приватно изменяет флаг, указывающий, движется ли игрок.
     /// </summary>
@@ -37,15 +57,23 @@ public class PlayerMotion : MonoBehaviour
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
+
+    public static event Action<Transform, float> makeNoise;
     private void Awake()
     {
         _mainCamera = Camera.main;
         _deltaTime = Time.fixedDeltaTime;
         _animator = this.transform.GetChild(0).GetComponent<Animator>(); //0-ым компонентом (ребёнком) должно быть визуально представление игрока.
+        noiseMapping = new Dictionary<float, float>
+        {
+            { _stealSpeed, _stealNoise },
+            { _walkSpeed, _walkNoise },
+            { _runSpeed, _runNoise }
+        };
 
         if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
         if (_animator == null) throw new ArgumentNullException("PlayerMotion: _animator is mull");
-        if (_runspeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedRun < 0");
+        if (_runSpeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedRun < 0");
         if (_walkSpeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedWalk < 0");
     }
     private void FixedUpdate()
@@ -61,7 +89,8 @@ public class PlayerMotion : MonoBehaviour
         IsMoving = false;
         IsRunning = false;
         //Текущая скорость игрока в зависимости от состояния нажатия клавиши LeftShift.
-        float speedCurrent = Input.GetKey(KeyCode.LeftShift) ? _runspeed : _walkSpeed;
+        float speedCurrent = Input.GetKey(KeyCode.LeftShift) ? _runSpeed : _walkSpeed;
+        speedCurrent = Input.GetKey(KeyCode.LeftControl) ? _stealSpeed : speedCurrent;
         //Отслеживание нажатия клавиш.
         if (Input.GetKey(KeyCode.A))
         {
@@ -83,9 +112,15 @@ public class PlayerMotion : MonoBehaviour
             this.transform.position += Vector3.down * speedCurrent * _deltaTime;
             IsMoving = true;
         }
-        if (IsMoving) IsRunning = speedCurrent.Equals(_runspeed);
+        if (IsMoving)
+        {
+            IsRunning = speedCurrent.Equals(_runSpeed);
+            makeNoise?.Invoke(transform, noiseMapping[speedCurrent]);
+        }
+        
         _animator.SetBool("IsMoving", IsMoving);
     }
+
     /// <summary>
     /// Поворот игрока за компьтерной мышью.
     /// </summary>

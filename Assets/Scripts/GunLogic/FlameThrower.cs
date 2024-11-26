@@ -123,7 +123,7 @@ namespace Gun
         /// Распыление из огнемёта.
         /// </summary>
         /// <remarks>Запускает particle пламени.</remarks>
-        public void Shoot()
+        public void Shoot(int layerMask = 0)
         {
             if (!IsRecharging)
             {

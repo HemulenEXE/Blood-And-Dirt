@@ -17,7 +17,7 @@ public class ControllerScene : MonoBehaviour
     void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
-        _enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList().ConvertAll(e => e.GetComponent<BotController>());
+        _enemies = GameObject.FindGameObjectsWithTag("Enemy").Where(x => x.GetComponent<BotController>()).ToList().ConvertAll(e => e.GetComponent<BotController>());
         
 
     }
@@ -25,11 +25,15 @@ public class ControllerScene : MonoBehaviour
     private void OnEnable()
     {
         BotController.DetectedEnemy += RaisingAlarm;
+        HealthBot.death += DeathBot;
+        PlayerMotion.makeNoise += CheckNose;
     }
 
     private void OnDisable()
     {
         BotController.DetectedEnemy -= RaisingAlarm;
+        HealthBot.death += DeathBot;
+        PlayerMotion.makeNoise += CheckNose;
     }
     // Update is called once per frame
     void Update()
@@ -51,15 +55,15 @@ public class ControllerScene : MonoBehaviour
 
     private void RaisingAlarm(Transform enemy, Transform player)
     {
+        
         if(_enemies != null)
         {
             foreach (var _enemy in _enemies)
             {
-                if (_enemy == enemy)
+                if (_enemy.transform.position == enemy.transform.position)
                 {
                     continue;
                 }
-
                 if (Vector3.Distance(enemy.position, _enemy.transform.position) <= alarmDistance)
                 {
                     _enemy.NotifiedOfEnemy(player);
@@ -67,5 +71,24 @@ public class ControllerScene : MonoBehaviour
             }
         }
         
+    }
+
+    private void CheckNose(Transform transform, float radiusNoise)
+    {
+        if(_enemies != null)
+        {
+            foreach(var _enemy in _enemies)
+            {
+                if(Vector2.Distance(_enemy.transform.position, transform.position) <= radiusNoise)
+                {
+                    _enemy.ReactToNoise(transform);
+                }
+            }
+        }
+    }
+
+    private void DeathBot(BotController bot)
+    {
+        _enemies.Remove(bot);
     }
 }

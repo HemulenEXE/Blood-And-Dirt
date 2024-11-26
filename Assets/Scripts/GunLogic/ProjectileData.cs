@@ -32,8 +32,13 @@ namespace Gun
                 _damage = value;
             }
         }
+        private void Start()
+        {
+            Destroy(gameObject, _liveTime);
+        }
         protected void FixedUpdate()
         {
+            Destroy(gameObject, _liveTime);
             _liveTime -= Time.fixedDeltaTime;
             if (_liveTime <= 0)
             {
@@ -52,6 +57,16 @@ namespace Gun
                 Destroy(this.gameObject);
             }
         }
+
+        protected void OnCollisionEnter2D(Collision2D other)
+        {
+            if (!other.gameObject.CompareTag("Projectile"))
+            {
+                Debug.Log(other.gameObject.name);
+                Destroy(this.gameObject);
+            }
+        }
+
     }
 
 }

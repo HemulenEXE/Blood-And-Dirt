@@ -3,6 +3,15 @@ using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
 
+
+public enum StateBloodEffect
+{
+    noBlood,
+    scratch,
+    minorInjury,
+    seriouslyInjured,
+    oneFootInHell
+}
 /// <summary>
 /// Скрипт управления эффектом крови на экране. Вспомогательный 
 /// </summary>
@@ -29,6 +38,34 @@ public class BloodEffect : MonoBehaviour
         _image = GameObject.Find("BloodEffect").transform.Find("Image").GetComponent<Image>();
         for (int i = 0; i < _spritesCount; i++)
             _images.Add(Resources.Load<Sprite>("Sprites/Interface/Blood" + i));
+
+        _image.sprite = _images[0];
+        _image.gameObject.SetActive(true);
+    }
+    public void SetBloodEffect(StateBloodEffect bloodState)
+    {
+        switch (bloodState) 
+        {
+            case StateBloodEffect.noBlood:
+                _image.gameObject.SetActive(false);
+                break;
+            case StateBloodEffect.scratch:
+                _image.sprite = _images[(int)bloodState - 1];
+                _image.gameObject.SetActive(true);
+                break;
+            case StateBloodEffect.minorInjury:
+                _image.sprite = _images[(int)bloodState - 1];
+                _image.gameObject.SetActive(true);
+                break;
+            case StateBloodEffect.seriouslyInjured:
+                _image.sprite = _images[(int)bloodState -1];
+                _image.gameObject.SetActive(true);
+                break;
+            case StateBloodEffect.oneFootInHell:
+                _image.sprite = _images[(int)bloodState -1];
+                _image.gameObject.SetActive(true);
+                break;
+        }
     }
     /// <summary>
     /// Переключает канвас вперёд на заданное кол-во картинок от текущей 
