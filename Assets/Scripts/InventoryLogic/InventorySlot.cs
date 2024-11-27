@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using GunLogic;
 using InteractiveObjects;
+using Unity.VisualScripting;
 
 namespace InventoryLogic
 {
@@ -59,9 +60,9 @@ namespace InventoryLogic
                 ImageStoredItem.sprite = item.Icon;
 
                 //Если добавляемый объект является оружием - отобразить над ячейкой инвентаря кол-во патронов
-                if (item.GetComponent<IGun>() != null)
+                if (StoredItem?.GetComponent<IGun>() != null)
                 {
-                    IGun gun = item.GetComponent<IGun>();
+                    IGun gun = StoredItem?.GetComponent<IGun>();
                     GameObject description = new GameObject("count", typeof(TextMeshProUGUI));
                     description.transform.SetParent(ImageStoredItem.transform, false);
                     TextMeshProUGUI txt = description.GetComponent<TextMeshProUGUI>();

@@ -111,13 +111,16 @@ namespace GunLogic
         {
             _audio = this.GetComponent<AudioSource>();
 
-            if (_audio == null) throw new ArgumentNullException("FlameThrower: _audio is null");
             if (Damage < 0) throw new ArgumentOutOfRangeException("FlameThrower: Damage < 0");
             if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("FlameThrower: AmmoTotal < 0");
             if (AmmoCapacity < 0) throw new ArgumentOutOfRangeException("FlameThrower: AmmoCapacity < 0");
             if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("FlameThrower: _timeRecharging < 0");
             if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("FlameThrower: AmmoCapacity < AmmoTotalCurrent");
             if (_prefabProjectile == null) throw new ArgumentNullException("FlameThrower: _prefabProjectile is null");
+            if (_audio == null) throw new ArgumentNullException("FlameThrower: _audio is null");
+            if (_audioFire == null) throw new ArgumentNullException("FlameThrower: _audioFire is null");
+            if (_audioRecharge == null) throw new ArgumentNullException("FlameThrower: _audioRecharge is null");
+            if (_audioPlatoon == null) throw new ArgumentNullException("FlameThrower: _audioPlatoon is null");
         }
         /// <summary>
         /// Распыление из огнемёта.
@@ -162,7 +165,6 @@ namespace GunLogic
             if (AmmoTotal > 0 && !IsRecharging)
             {
                 IsRecharging = true;
-                _audio.PlayOneShot(_audioRecharge);
                 StartCoroutine(RechargeCoroutine());
             }
         }
@@ -171,9 +173,13 @@ namespace GunLogic
         /// </summary>
         private IEnumerator RechargeCoroutine()
         {
-            yield return new WaitForSeconds(_timeRecharging);
-            AmmoTotal -= AmmoCapacity - AmmoTotalCurrent;
-            AmmoTotalCurrent = AmmoCapacity;
+            _audio.PlayOneShot(_audioRecharge);
+            while (AmmoTotalCurrent < AmmoCapacity)
+            {
+                AmmoTotal--;
+                AmmoTotalCurrent++;
+                yield return new WaitForSeconds(_timeRecharging / AmmoCapacity);
+            }
             IsRecharging = false;
             IsRecharging = false;
             _audio.Stop();
@@ -183,5 +189,4 @@ namespace GunLogic
         /// </summary>
         public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
     }
-
 }

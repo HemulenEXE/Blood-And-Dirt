@@ -14,12 +14,12 @@ namespace Grenades
         /// </summary>
         [SerializeField] private float _timeToExplosion = 0;
         /// <summary>
-        /// Возвращает и изменяет время до взрыва.
+        /// Возвращает время до взрыва.
         /// </summary>
         public float TimeToExplosion
         {
             get => _timeToExplosion;
-            set
+            protected set
             {
                 if (value < 0) throw new ArgumentOutOfRangeException("SimpleGrenade: TimeToExplosion < 0");
                 _timeToExplosion = value;
@@ -65,13 +65,14 @@ namespace Grenades
             if (TimeToExplosion < 0) throw new ArgumentOutOfRangeException("SimpleGrenade: TimeToExplosion < 0");
             if (ExplosionRadius < 0) throw new ArgumentOutOfRangeException("SimpleGrenade: ExplosionRadius < 0");
             if (DamageExplosion < 0) throw new ArgumentOutOfRangeException("SimpleGrenade: DamageExplosion < 0");
+            if (_camera == null) throw new ArgumentNullException("SimpleGrenade: _camera is null");
+            if (_player == null) throw new ArgumentNullException("SimpleGrenade: _player is null");
         }
         protected virtual void Update()
         {
             _timeToExplosion -= Time.deltaTime;
             if (_timeToExplosion <= 0 && !IsActive)
             {
-                IsActive = true;
                 Explode();
                 Crash();
             }
@@ -112,7 +113,7 @@ namespace Grenades
         {
             float distance = Vector3.Distance(_player.transform.position, transform.position);
 
-            //Тряска тем больше, чем ближе к игроку упала граната 
+            //Тряска тем больше, чем ближе к игроку упала граната.
             if (distance <= 5) _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.6f);
             else if (distance <= 10) _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.3f);
             else _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.08f);
@@ -122,9 +123,9 @@ namespace Grenades
         /// </summary>
         private void OnDrawGizmos()
         {
-            // Устанавливаем цвет Gizmos
+            //Устанавливаем цвет Gizmos.
             Gizmos.color = Color.red;
-            // Рисуем круг поражения
+            //Рисуем круг поражения.
             Gizmos.DrawWireSphere(transform.position, ExplosionRadius);
         }
     }

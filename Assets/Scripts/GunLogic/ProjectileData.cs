@@ -23,6 +23,7 @@ namespace GunLogic
         /// <summary>
         /// ¬озвращает и измен€ет величину наносимого урона.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public float Damage
         {
             get => _damage;
@@ -49,5 +50,4 @@ namespace GunLogic
             }
         }
     }
-
 }

@@ -60,6 +60,7 @@ namespace GunLogic
         /// <summary>
         /// Возвращает и изменяет текущее число снарядов в очереди.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public int AmmoTotalCurrent
         {
             get => _ammoTotalCurrent;
@@ -124,7 +125,6 @@ namespace GunLogic
         {
             _audio = this.GetComponent<AudioSource>();
 
-            if (_audio == null) throw new ArgumentNullException("ShotGun: _audio is null");
             if (Damage < 0) throw new ArgumentOutOfRangeException("ShotGun: Damage < 0");
             if (_delayShot < 0) throw new ArgumentOutOfRangeException("ShotGun: _delayFire < 0");
             if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("ShotGun: AmmoTotal < 0");
@@ -134,6 +134,10 @@ namespace GunLogic
             if (_prefabProjectile == null) throw new ArgumentNullException("ShotGun: _prefabPellet is null");
             if (_countPerShotProjectile < 0) throw new ArgumentOutOfRangeException("ShotGun: _countFlyingPellets < 0");
             if (_speedProjectile < 0) throw new ArgumentOutOfRangeException("ShotGun: _speedShot < 0");
+            if (_audio == null) throw new ArgumentNullException("ShotGun: _audio is null");
+            if (_audioFire == null) throw new ArgumentNullException("ShotGun: _audioFire is null");
+            if (_audioRecharge == null) throw new ArgumentNullException("ShotGun: _audioRecharge is null");
+            if (_audioPlatoon == null) throw new ArgumentNullException("ShotGun: _audioPlatoon is null");
         }
         /// <summary>
         /// Выстрел из дробовика.<br/>
@@ -203,9 +207,8 @@ namespace GunLogic
                 _audio.PlayOneShot(_audioRecharge);
                 AmmoTotal--;
                 AmmoTotalCurrent++;
-                yield return new WaitForSeconds(_timeRecharging);
+                yield return new WaitForSeconds(_timeRecharging / AmmoCapacity);
             }
-            _audio.PlayOneShot(_audioPlatoon);
             yield return null;
             IsRecharging = false;
         }

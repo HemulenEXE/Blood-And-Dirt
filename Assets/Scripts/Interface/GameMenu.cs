@@ -11,8 +11,7 @@ public class GameMenu : MonoBehaviour
     /// <summary>
     /// Управляет аниацией открытия меню
     /// </summary>
-    [SerializeField]
-    private Animator _animator;
+    [SerializeField] private Animator _animator;
     ///  <summary>
     /// Кнопка сохранения настроек
     /// </summary>
@@ -69,7 +68,7 @@ public class GameMenu : MonoBehaviour
     {
         GameObject notice = transform.GetChild(4).gameObject;
         notice.SetActive(true);
-        //Указание на какую сцену перейти
+        //Указание на какую сцену перейти.
         notice.GetComponent<PopUpNotice>().SceneIndex = SceneManager.GetActiveScene().buildIndex;
     }
     /// <summary>

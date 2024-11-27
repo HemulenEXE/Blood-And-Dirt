@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.UI;
 
 /// <summary>
@@ -7,12 +6,22 @@ using UnityEngine.UI;
 /// </summary>
 public class MainMenu : MonoBehaviour
 {
-    //Кнопки меню
+    /// <summary>
+    /// Кнопка компания.
+    /// </summary>
     private Button _company;
+    /// <summary>
+    /// Кнопка арена.
+    /// </summary>
     private Button _arena;
+    /// <summary>
+    /// Кнопка настроек.
+    /// </summary>
     private Button _settings;
+    /// <summary>
+    /// Кнопка выходы.
+    /// </summary>
     private Button _exit;
-
     /// <summary>
     /// Всплывающее меню настроек
     /// </summary>

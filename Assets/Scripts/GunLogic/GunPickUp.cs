@@ -4,7 +4,7 @@ using GunLogic;
 namespace InteractiveObjects
 {
     /// <summary>
-    /// Скрипт, реализующий "оружия, которые игрок может взять в свой инвентарь".
+    /// Скрипт, реализующий "оружие, которое игрок может взять в свой инвентарь".
     /// </summary>
     public class GunPickUp : ItemPickUp
     {

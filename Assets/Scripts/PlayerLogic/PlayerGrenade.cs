@@ -1,7 +1,8 @@
-﻿using Grenades;
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
+using Grenades;
+using InventoryLogic;
 
 namespace PlayerLogic
 {

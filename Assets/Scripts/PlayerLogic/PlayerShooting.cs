@@ -22,17 +22,15 @@ namespace PlayerLogic
                 {
                     _gun.Shoot();
                     //Изменение показателя кол-ва потронов над ячейкой инвентаря
-                    GameObject discription = PlayerInventory._slots[PlayerInventory._currentSlot].transform.GetChild(0).gameObject;
-                    discription.GetComponent<TextMeshProUGUI>().text = _gun.AmmoTotalCurrent + "\\" + _gun.AmmoTotal;
                 }
                 else _gun.StopShoot();
 
                 if (Input.GetKey(KeyCode.R))
                 {
                     _gun.Recharge();
-                    GameObject discription = PlayerInventory._slots[PlayerInventory._currentSlot].transform.GetChild(0).gameObject;
-                    discription.GetComponent<TextMeshProUGUI>().text = _gun.AmmoTotalCurrent + "\\" + _gun.AmmoTotal;
                 }
+                GameObject discription = PlayerInventory._slots[PlayerInventory._currentSlot].transform.GetChild(0).gameObject;
+                discription.GetComponent<TextMeshProUGUI>().text = _gun.AmmoTotalCurrent + "\\" + _gun.AmmoTotal;
             }
         }
     }

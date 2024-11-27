@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 namespace Grenades
 {
@@ -20,6 +18,18 @@ namespace Grenades
         /// </summary>
         [SerializeField] protected float _smokeDuraion;
         /// <summary>
+        /// Возвращает продолжительность активации партикла дыма.
+        /// </summary>
+        public float SmokeDuraion
+        {
+            get => _smokeDuraion;
+            protected set
+            {
+                if (value < 0) throw new ArgumentOutOfRangeException("SmokeGrenade: value < 0");
+                _smokeDuraion = value;
+            }
+        }
+        /// <summary>
         /// Проверка и настройка полей.
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
@@ -28,7 +38,7 @@ namespace Grenades
         {
             base.Awake();
             if (_particle == null) throw new ArgumentNullException("SmokeGrenade: _particle is null");
-            if (_smokeDuraion < 0) throw new ArgumentOutOfRangeException("SmokeGrenade: _smokeDuraion < 0");
+            if (SmokeDuraion < 0) throw new ArgumentOutOfRangeException("SmokeGrenade: _smokeDuraion < 0");
         }
         /// <summary>
         /// Взрыв гранаты.
@@ -37,7 +47,7 @@ namespace Grenades
         {
             _particle.Play();
             Collider2D[] entity_colliders = Physics2D.OverlapCircleAll(this.transform.position, ExplosionRadius); //Получаем коллайдеры всех сущностей поблизости.
-            BoxCollider2D interim_collider = this.GetComponent<BoxCollider2D>();
+            BoxCollider2D interim_collider = this.GetComponent<BoxCollider2D>(); //Установка коллайдера, чтобы враги путались в дыме.
             interim_collider.edgeRadius = ExplosionRadius;
             foreach (var x in entity_colliders)
             {

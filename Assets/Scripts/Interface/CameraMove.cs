@@ -29,7 +29,7 @@ namespace CameraLogic.CameraMotion
             _transformPlayer = GameObject.FindGameObjectWithTag("Player")?.transform;
 
             if (_transformPlayer == null) throw new ArgumentNullException("CameraMove: _transformPlayer is null");
-            if (_speed < 0) throw new ArgumentException("CameraMove: _speed < 0");
+            if (_speed < 0) throw new ArgumentOutOfRangeException("CameraMove: _speed < 0");
         }
         private void Update()
         {

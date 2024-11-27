@@ -64,6 +64,7 @@ namespace GunLogic
         /// <summary>
         /// Возвращает текущее число патронов в очереди.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public int AmmoTotalCurrent
         {
             get => _ammoTotalCurrent;
@@ -111,7 +112,6 @@ namespace GunLogic
         {
             _audio = this.GetComponent<AudioSource>();
 
-            if (_audio == null) throw new ArgumentNullException("Pistol: _audio is null");
             if (Damage < 0) throw new ArgumentOutOfRangeException("Pistol: Damage < 0");
             if (_delayShot < 0) throw new ArgumentOutOfRangeException("Pistol: _delayFire < 0");
             if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("Pistol: AmmoTotal < 0");
@@ -119,6 +119,9 @@ namespace GunLogic
             if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("Pistol: _timeRecharging < 0");
             if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("Pistol: AmmoCapacity < AmmoTotalCurrent");
             if (_prefabProjectile == null) throw new ArgumentNullException("Pistol: _prefabPellet is null");
+            if (_audio == null) throw new ArgumentNullException("Pistol: _audio is null");
+            if (_audioFire == null) throw new ArgumentNullException("Pistol: _audioFire is null");
+            if (_audioRecharge == null) throw new ArgumentNullException("Pistol: _audioRecharge is null");
         }
         /// <summary>
         /// Выстрел из пистолета.<br/>

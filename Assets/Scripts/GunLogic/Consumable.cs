@@ -1,4 +1,6 @@
-﻿namespace InteractiveObjects{
+﻿using InventoryLogic;
+
+namespace InteractiveObjects{
     /// <summary>
     /// Класс, реализующий "расходник".<br/>
     /// Этот скрипт позволяет забирать расходники (аптечку, бинты, гранаты) со сцены и изменяет показатель их количества.
@@ -12,14 +14,14 @@
         {
             switch (this.tag)
             {
-                case "smokeGraned":
+                case "smokeGrenade":
                     if (ConsumablesCounter.SmokeGrenadeCount < 5)
                     {
                         Destroy(this.gameObject);
                         ConsumablesCounter.SmokeGrenadeCount++;
                     }             
                     break;
-                case "simpleGraned":
+                case "simpleGrenade":
                     if (ConsumablesCounter.SimpleGrenadeCount < 5)
                     { 
                         Destroy(this.gameObject);

@@ -43,6 +43,7 @@ namespace InteractiveObjects
         /// </summary>
         public virtual void Interact()
         {
+            //Логика взаимодействия.
             Debug.Log("ClickedObject");
         }
     }

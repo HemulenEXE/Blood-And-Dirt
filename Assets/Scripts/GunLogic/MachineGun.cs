@@ -62,8 +62,9 @@ namespace GunLogic
         /// </summary>
         [SerializeField] protected int _ammoTotalCurrent = 0;
         /// <summary>
-        /// ¬озвращает текущее число патронов в очереди.
+        /// ¬озвращает и измен€ет текущее число патронов в очереди.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public int AmmoTotalCurrent
         {
             get => _ammoTotalCurrent;
@@ -111,7 +112,6 @@ namespace GunLogic
         {
             _audio = this.GetComponent<AudioSource>();
 
-            if (_audio == null) throw new ArgumentNullException("MachineGun: _audio is null");
             if (Damage < 0) throw new ArgumentOutOfRangeException("MachineGun: Damage < 0");
             if (_delayShot < 0) throw new ArgumentOutOfRangeException("MachineGun: _delayFire < 0");
             if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("MachineGun: AmmoTotal < 0");
@@ -119,6 +119,9 @@ namespace GunLogic
             if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("MachineGun: _timeRecharging < 0");
             if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("MachineGun: AmmoCapacity < AmmoTotalCurrent");
             if (_prefabProjectile == null) throw new ArgumentNullException("MachineGun: _prefabPellet is null");
+            if (_audio == null) throw new ArgumentNullException("MachineGun: _audio is null");
+            if (_audioFire == null) throw new ArgumentNullException("MachineGun: _audioFire is null");
+            if (_audioRecharge == null) throw new ArgumentNullException("MachineGun: _audioRecharge is null");
         }
         /// <summary>
         /// ¬ыстрел из автомата.<br/>

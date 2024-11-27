@@ -12,7 +12,7 @@ namespace InteractiveObjects
         /// </summary>
         public Transform Transform { get; }
         /// <summary>
-        /// Возвращает омпонент, отвечающий за визуальное представление объекта.
+        /// Возвращает компонент, отвечающий за визуальное представление объекта.
         /// </summary>
         public Renderer Renderer { get; }
         /// <summary>

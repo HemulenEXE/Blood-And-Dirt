@@ -1,11 +1,11 @@
-﻿using GunLogic;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using GunLogic;
 
 namespace Guns
 {
     /// <summary>
-    /// Класс, реализующий нож.
+    /// Класс, реализующий "нож".
     /// </summary>
     public class Knife : MonoBehaviour
     {
@@ -60,28 +60,26 @@ namespace Guns
                 }
             }
         }
+        /// <summary>
+        /// Рисовка площади поражения.
+        /// </summary>
         private void OnDrawGizmos()
-        {
-            DrawSectorGizmo(this.transform.position, _attackDistance, _attackAngle, this.transform.rotation);
-        }
-
-        private void DrawSectorGizmo(Vector3 center, float radius, float angle, Quaternion rotation)
         {
             Gizmos.color = Color.green;
 
-            float startAngle = -angle / 2f;
-            float endAngle = angle / 2f;
-            Vector3 startPoint = center + rotation * Quaternion.Euler(0, 0, startAngle) * Vector3.right * radius;
-            Vector3 endPoint = center + rotation * Quaternion.Euler(0, 0, endAngle) * Vector3.right * radius;
-            Gizmos.DrawLine(center, startPoint);
-            Gizmos.DrawLine(center, endPoint);
+            float startAngle = -_attackAngle / 2f;
+            float endAngle = _attackAngle / 2f;
+            Vector3 startPoint = this.transform.position + this.transform.rotation * Quaternion.Euler(0, 0, startAngle) * Vector3.right * _attackDistance;
+            Vector3 endPoint = this.transform.position + this.transform.rotation * Quaternion.Euler(0, 0, endAngle) * Vector3.right * _attackDistance;
+            Gizmos.DrawLine(this.transform.position, startPoint);
+            Gizmos.DrawLine(this.transform.position, endPoint);
             int segments = 20;
-            float angleStep = angle / segments;
+            float angleStep = _attackAngle / segments;
             Vector3 previousPoint = startPoint;
             for (int i = 1; i <= segments; i++)
             {
                 float currentAngle = startAngle + angleStep * i;
-                Vector3 currentPoint = center + rotation * Quaternion.Euler(0, 0, currentAngle) * Vector3.right * radius;
+                Vector3 currentPoint = this.transform.position + this.transform.rotation * Quaternion.Euler(0, 0, currentAngle) * Vector3.right * _attackDistance;
                 Gizmos.DrawLine(previousPoint, currentPoint);
                 previousPoint = currentPoint;
             }

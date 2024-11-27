@@ -91,7 +91,7 @@ namespace PlayerLogic
                 //Создание нового слота
                 GameObject interim_slot = new GameObject($"Slot {_slots.Count}");
                 InventorySlot interim_abstract_slot = interim_slot.AddComponent<InventorySlot>();
-                interim_slot.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform.Find("ConsumablesUI").Find("InventoryUI"), true); //Установление связи с канвасом.
+                interim_slot.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas")?.transform?.Find("ConsumablesUI")?.Find("InventoryUI"), true); //Установление связи с канвасом.
                 interim_slot.transform.localScale = Vector3.one * _sizeSlot;
                 interim_abstract_slot.StoredItem = null;
                 interim_abstract_slot.ImageStoredItem = interim_slot.AddComponent<UnityEngine.UI.Image>();
