@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Gun
+namespace GunLogic
 {
     /// <summary>
     /// Класс, реализующий "жизненный цикл снаряда".
@@ -23,6 +23,7 @@ namespace Gun
         /// <summary>
         /// Возвращает и изменяет величину наносимого урона.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public float Damage
         {
             get => _damage;
@@ -38,22 +39,17 @@ namespace Gun
         }
         protected void FixedUpdate()
         {
-            Destroy(gameObject, _liveTime);
-            _liveTime -= Time.fixedDeltaTime;
-            if (_liveTime <= 0)
-            {
-                Destroy(this.gameObject);
-            }
+            Destroy(this.gameObject, _liveTime); //Это лучше, чем использование условного оператора if.
         }
         /// <summary>
-        /// При столкновении с объектом снаряд уничтожается.
+        /// Уничтожение снаряда при столкновении с объектами.
         /// </summary>
         /// <param name="other"></param>
-        protected void OnCollisionStay2D(Collision2D other)
+        protected void OnCollisionEnter2D(Collision2D other)
         {
-            if (!other.gameObject.CompareTag("Projectile"))
+            if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("gun"))
             {
-                Debug.Log(other.gameObject.name);
+                //Debug.Log(other.gameObject.name);
                 Destroy(this.gameObject);
             }
         }
@@ -68,5 +64,4 @@ namespace Gun
         }
 
     }
-
 }

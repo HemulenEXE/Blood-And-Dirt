@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using CameraLogic.CameraEffects;
 
 /// <summary>
 /// Скрипт управления переходами между сценами + сохранением состояния сцен. Методы вызываются в других скриптах

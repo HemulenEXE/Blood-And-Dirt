@@ -1,43 +1,56 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// РљР»Р°СЃСЃ, СЂРµР°Р»РёР·СѓСЋС‰РёР№ "РЅР°СЃС‚СЂРѕР№РєРё РёРіСЂС‹".
+/// </summary>
 public class SettingMenu : MonoBehaviour
 {
     /// <summary>
-    /// Кнопка сохранения настроек.
+    /// РљРЅРѕРїРєР° СЃРѕС…СЂР°РЅРµРЅРёСЏ РЅР°СЃС‚СЂРѕРµРє.
     /// </summary>
     private Button _save;
     /// <summary>
-    /// Кнопка выхода из настроек.
+    /// РљРЅРѕРїРєР° РІС‹С…РѕРґР° РёР· РЅР°СЃС‚СЂРѕРµРє.
     /// </summary>
     private Button _exit;
     /// <summary>
-    /// Список разрешений.
+    /// РЎРїРёСЃРѕРє СЂР°Р·СЂРµС€РµРЅРёР№.
     /// </summary>
     private TMP_Dropdown _resolution;
     /// <summary>
-    /// Регулятор громкости.
+    /// Р РµРіСѓР»СЏС‚РѕСЂ РіСЂРѕРјРєРѕСЃС‚Рё.
     /// </summary>
     private Slider _audio;
     /// <summary>
-    /// Кнопка полного экрана.
+    /// РљРЅРѕРїРєР° РїРѕР»РЅРѕРіРѕ СЌРєСЂР°РЅР°.
     /// </summary>
     private Toggle _fullScreen;
     /// <summary>
-    /// Типы разрешений.
+    /// РўРёРїС‹ СЂР°Р·СЂРµС€РµРЅРёР№.
     /// </summary>
     Resolution[] resolutions;
+    /// <summary>
+    /// РќР°СЃС‚СЂРѕР№РєР° Рё РїСЂРѕРІРµСЂРєР° РїРѕР»РµР№.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"></exception>
     private void Awake()
     {
 
-        _exit = this.transform.Find("Exit").GetComponent<Button>();
-        _save = this.transform.Find("Save").GetComponent<Button>();
-        _resolution = this.transform.Find("Resolution").GetComponent<TMP_Dropdown>();
-        _audio = this.transform.Find("Audio").GetComponent<Slider>();
-        _fullScreen = this.transform.Find("FullScreen").GetComponent<Toggle>();
+        _exit = this.transform?.Find("Exit")?.GetComponent<Button>();
+        _save = this.transform?.Find("Save")?.GetComponent<Button>();
+        _resolution = this.transform?.Find("Resolution")?.GetComponent<TMP_Dropdown>();
+        _audio = this.transform?.Find("Audio")?.GetComponent<Slider>();
+        _fullScreen = this.transform?.Find("FullScreen")?.GetComponent<Toggle>();
+
+        if (_exit == null) throw new ArgumentNullException("SettingMenu: _exit is null");
+        if (_save == null) throw new ArgumentNullException("SettingMenu: _save is null");
+        if (_resolution == null) throw new ArgumentNullException("SettingMenu: _resolution is null");
+        if (_audio == null) throw new ArgumentNullException("SettingMenu: _audio is null");
+        if (_fullScreen == null) throw new ArgumentNullException("SettingMenu: _fullScreen is null");
 
         _exit.onClick.AddListener(ExitSetting);
         _save.onClick.AddListener(() =>
@@ -52,7 +65,7 @@ public class SettingMenu : MonoBehaviour
         List<string> options = new List<string>();
         for (int i = 0; i < resolutions.Length; i++)
         {
-            options.Add($"{resolutions[i].width} x {resolutions[i].height} @ {resolutions[i].refreshRate} Hz");
+            options.Add($"{resolutions[i].width} x {resolutions[i].height} @ {resolutions[i].refreshRate} Hz"); //РЎРїРµС†РёР°Р»СЊРЅРѕ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ СѓСЃС‚Р°СЂРµРІС€РёР№ РјРµС‚РѕРґ.
             if (resolutions[i].width.Equals(Screen.currentResolution.width) && resolutions[i].height.Equals(Screen.currentResolution.height))
             {
                 _resolution.value = i;
@@ -68,7 +81,7 @@ public class SettingMenu : MonoBehaviour
         LoadSettings();
     }
     /// <summary>
-    /// Загрузка настроек.
+    /// Р—Р°РіСЂСѓР·РєР° РЅР°СЃС‚СЂРѕРµРє.
     /// </summary>
     public void LoadSettings()
     {
@@ -100,7 +113,7 @@ public class SettingMenu : MonoBehaviour
         ApplySettings();
     }
     /// <summary>
-    /// Применение настроек.
+    /// РџСЂРёРјРµРЅРµРЅРёРµ РЅР°СЃС‚СЂРѕРµРє.
     /// </summary>
     public void ApplySettings()
     {
@@ -109,7 +122,7 @@ public class SettingMenu : MonoBehaviour
         SetFullScreen(_fullScreen.isOn);
     }
     /// <summary>
-    /// Сброс настроек.
+    /// РЎР±СЂРѕСЃ РЅР°СЃС‚СЂРѕРµРє.
     /// </summary>
     public void ResetSetting()
     {
@@ -117,25 +130,25 @@ public class SettingMenu : MonoBehaviour
         LoadSettings();
     }
     /// <summary>
-    /// Сохранение настроек.
+    /// РЎРѕС…СЂР°РЅРµРЅРёРµ РЅР°СЃС‚СЂРѕРµРє.
     /// </summary>
     public void SaveSetting()
     {
-        PlayerPrefs.SetInt("Resolution", _resolution.value); //Сохранение разрешения.
-        PlayerPrefs.SetInt("Fullscreen", _fullScreen.isOn ? 1 : 0); //Сохранение полноэкранного режима.
-        PlayerPrefs.SetFloat("Volume", _audio.value); //Сохранение громкости.
+        PlayerPrefs.SetInt("Resolution", _resolution.value); //РЎРѕС…СЂР°РЅРµРЅРёРµ СЂР°Р·СЂРµС€РµРЅРёСЏ.
+        PlayerPrefs.SetInt("Fullscreen", _fullScreen.isOn ? 1 : 0); //РЎРѕС…СЂР°РЅРµРЅРёРµ РїРѕР»РЅРѕСЌРєСЂР°РЅРЅРѕРіРѕ СЂРµР¶РёРјР°.
+        PlayerPrefs.SetFloat("Volume", _audio.value); //РЎРѕС…СЂР°РЅРµРЅРёРµ РіСЂРѕРјРєРѕСЃС‚Рё.
         PlayerPrefs.Save();
         ApplySettings();
     }
     /// <summary>
-    /// Выход из меню.
+    /// Р’С‹С…РѕРґ РёР· РјРµРЅСЋ.
     /// </summary>
     public void ExitSetting()
     {
         this.gameObject.SetActive(false);
     }
     /// <summary>
-    /// Установка полноэкранного режима.
+    /// РЈСЃС‚Р°РЅРѕРІРєР° РїРѕР»РЅРѕСЌРєСЂР°РЅРЅРѕРіРѕ СЂРµР¶РёРјР°.
     /// </summary>
     /// <param name="value"></param>
     public void SetFullScreen(bool value)
@@ -143,7 +156,7 @@ public class SettingMenu : MonoBehaviour
         Screen.fullScreen = value;
     }
     /// <summary>
-    /// Установка разрешения.
+    /// РЈСЃС‚Р°РЅРѕРІРєР° СЂР°Р·СЂРµС€РµРЅРёСЏ.
     /// </summary>
     /// <param name="index"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -154,7 +167,7 @@ public class SettingMenu : MonoBehaviour
         Screen.SetResolution(resolutions[index].width, resolutions[index].height, Screen.fullScreen);
     }
     /// <summary>
-    /// Установка громокости звука.
+    /// РЈСЃС‚Р°РЅРѕРІРєР° РіСЂРѕРјРѕРєРѕСЃС‚Рё Р·РІСѓРєР°.
     /// </summary>
     /// <param name="value"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>

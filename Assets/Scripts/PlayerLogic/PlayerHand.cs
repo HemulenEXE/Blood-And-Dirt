@@ -1,25 +1,29 @@
 ﻿using UnityEngine;
+using InventoryLogic;
 
-/// <summary>
-/// Класс, реализующий "руку игрока".
-/// </summary>
-public class PlayerHand : MonoBehaviour
+namespace PlayerLogic
 {
-    private void Update()
-    {
-        TakeSelectionSlotInHand();
-    }
     /// <summary>
-    /// Помещает предмет выбранного слота в руку игрока.
+    /// Класс, реализующий "руку игрока".
     /// </summary>
-    public void TakeSelectionSlotInHand()
+    public class PlayerHand : MonoBehaviour
     {
-        if (PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem != null)
+        private void Update()
         {
-            Transform item_transform = PlayerInventory._slots[PlayerInventory._currentSlot].StoredItem.transform;
-            item_transform.position = this.transform.position + transform.right;
-            item_transform.rotation = this.transform.rotation;
-            PlayerInventory._slots[PlayerInventory._currentSlot].StoredItem.gameObject.SetActive(true);
+            TakeSelectionSlotInHand();
+        }
+        /// <summary>
+        /// Помещает предмет выбранного слота в руку игрока.
+        /// </summary>
+        public void TakeSelectionSlotInHand()
+        {
+            if (PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem != null)
+            {
+                Transform item_transform = PlayerInventory._slots[PlayerInventory._currentSlot].StoredItem.transform;
+                item_transform.position = this.transform.position - transform.up / 2;
+                item_transform.rotation = this.transform.rotation;
+                PlayerInventory._slots[PlayerInventory._currentSlot].StoredItem.gameObject.SetActive(true);
+            }
         }
     }
 }
