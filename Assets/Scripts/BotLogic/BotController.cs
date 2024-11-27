@@ -139,7 +139,7 @@ public class BotController : MonoBehaviour
                 PatrolState();
                 break; 
             case StateBot.checkNoise:
-                StartCoroutine(CheckNoiseState(sourceNoise));
+                
                 //LookToDirection(sourceNoise);
                 break;
 
@@ -265,7 +265,7 @@ public class BotController : MonoBehaviour
         if(stateBot != StateBot.combat) 
         {
             stateBot = StateBot.checkNoise;
-            sourceNoise = noiseTransform;
+            StartCoroutine(CheckNoiseState(noiseTransform));
         }
     }
 
