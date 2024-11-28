@@ -1,5 +1,5 @@
 ﻿
-namespace Gun
+namespace GunLogic
 {
     /// <summary>
     /// Тип оружия.
@@ -37,6 +37,9 @@ namespace Gun
     /// </summary>
     public interface IGun
     {
+        /// <summary>
+        /// Возвращает тип оружия.
+        /// </summary>
         public GunType Type { get; }
         /// <summary>
         /// Возвращает величину наносимого урона.
@@ -51,7 +54,7 @@ namespace Gun
         /// </summary>
         public int AmmoCapacity { get; }
         /// <summary>
-        /// Возвращает текущее число снарядов в очереди.
+        /// Возвращает и изменяет текущее число снарядов в очереди.
         /// </summary>
         public int AmmoTotalCurrent { get; set; }
         /// <summary>

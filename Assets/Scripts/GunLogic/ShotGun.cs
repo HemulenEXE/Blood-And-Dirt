@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Gun
+namespace GunLogic
 {
     /// <summary>
     /// Класс, реализующий "дробовик".
@@ -60,6 +60,7 @@ namespace Gun
         /// <summary>
         /// Возвращает и изменяет текущее число снарядов в очереди.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public int AmmoTotalCurrent
         {
             get => _ammoTotalCurrent;
@@ -124,16 +125,19 @@ namespace Gun
         {
             _audio = this.GetComponent<AudioSource>();
 
-            if (_audio == null) throw new ArgumentNullException("ShotGun: _audio is null");
-            if (_damage < 0) throw new ArgumentOutOfRangeException("ShotGun: _damage < 0");
+            if (Damage < 0) throw new ArgumentOutOfRangeException("ShotGun: Damage < 0");
             if (_delayShot < 0) throw new ArgumentOutOfRangeException("ShotGun: _delayFire < 0");
-            if (_ammoTotal < 0) throw new ArgumentOutOfRangeException("ShotGun: _ammoTotal < 0");
-            if (_ammoCapacity < 0) throw new ArgumentOutOfRangeException("ShotGun: _capacityAmmo < 0");
+            if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("ShotGun: AmmoTotal < 0");
+            if (AmmoCapacity < 0) throw new ArgumentOutOfRangeException("ShotGun: AmmoCapacity < 0");
             if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("ShotGun: _timeRecharging < 0");
-            if (_ammoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("ShotGun: _ammoCapacity < _ammoTotalCurrent");
+            if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("ShotGun: AmmoCapacity < AmmoTotalCurrent");
             if (_prefabProjectile == null) throw new ArgumentNullException("ShotGun: _prefabPellet is null");
             if (_countPerShotProjectile < 0) throw new ArgumentOutOfRangeException("ShotGun: _countFlyingPellets < 0");
             if (_speedProjectile < 0) throw new ArgumentOutOfRangeException("ShotGun: _speedShot < 0");
+            if (_audio == null) throw new ArgumentNullException("ShotGun: _audio is null");
+            if (_audioFire == null) throw new ArgumentNullException("ShotGun: _audioFire is null");
+            if (_audioRecharge == null) throw new ArgumentNullException("ShotGun: _audioRecharge is null");
+            if (_audioPlatoon == null) throw new ArgumentNullException("ShotGun: _audioPlatoon is null");
         }
         /// <summary>
         /// Выстрел из дробовика.<br/>
@@ -157,9 +161,12 @@ namespace Gun
                         GameObject currentPellet = Instantiate(_prefabProjectile, this.transform.GetChild(0).position, this.transform.GetChild(0).rotation); //Вылет снаряда.
                         currentPellet.transform.Rotate(0, 0, interim_spread_angle); //Поворот снаряда.
 
-                        var interim_projectile_component = currentPellet.AddComponent<ProjectileData>();
-                        interim_projectile_component.Damage = this._damage;
-                        interim_projectile_component.GunType = Type;
+                        var interim_projectile_component = currentPellet.GetComponent<ProjectileData>();
+                        if (interim_projectile_component != null)
+                        {
+                            interim_projectile_component.Damage = this._damage;
+                            interim_projectile_component.GunType = Type;
+                        }
 
                         Rigidbody2D rg = currentPellet.GetComponent<Rigidbody2D>();
                         if (rg == null) throw new ArgumentNullException("ShotGun: _prefabProjectile hasn't got Rigidbody2D");
@@ -200,9 +207,8 @@ namespace Gun
                 _audio.PlayOneShot(_audioRecharge);
                 AmmoTotal--;
                 AmmoTotalCurrent++;
-                yield return new WaitForSeconds(_timeRecharging);
+                yield return new WaitForSeconds(_timeRecharging / AmmoCapacity);
             }
-            _audio.PlayOneShot(_audioPlatoon);
             yield return null;
             IsRecharging = false;
         }
@@ -211,5 +217,4 @@ namespace Gun
         /// </summary>
         public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
     }
-
 }
