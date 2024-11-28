@@ -13,6 +13,7 @@ public class ShowDialogue : MonoBehaviour
     public string NPCName;
     public GameObject _dialogueWindow; //Canvas
     public Font font; //Шрифт текста
+    public int FontSize; //Размер шрифта
 
     private Dialogue _dialogue;
     private Transform _panel;
@@ -90,7 +91,10 @@ public class ShowDialogue : MonoBehaviour
         if (collision.gameObject.tag == "Player")
             IsTrigger = true;
     }
-
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        EndDialogue();
+    }
     /// <summary>
     /// Запускает диалог
     /// </summary>
@@ -154,6 +158,7 @@ public class ShowDialogue : MonoBehaviour
     /// </summary>
     private void PrintNode()
     {
+        Debug.Log("Реплика печатается!");
         _continue.gameObject.SetActive(true);
         _npcName.gameObject.SetActive(true);
 
@@ -171,7 +176,8 @@ public class ShowDialogue : MonoBehaviour
     }
     private void EndDialogue()
     {
-        _dialogueWindow.SetActive(false);
+        if (_dialogueWindow.activeSelf)
+            _dialogueWindow.SetActive(false);
 
         _nodeInd = 0;
         _startInd = 0;
@@ -206,6 +212,7 @@ public class ShowDialogue : MonoBehaviour
         //Привязка действия к кнопке
         btn.GetComponent<Button>().onClick.AddListener(() =>
         {
+            Debug.Log("Действие привязано!");
             if (exit == "True")  
                 EndDialogue();
             else
@@ -226,6 +233,7 @@ public class ShowDialogue : MonoBehaviour
         GameObject txt = new GameObject("txt" + elemName, typeof(Text));
         txt.transform.SetParent(parent);
         txt.GetComponent<Text>().font = font;
+        txt.GetComponent<Text>().fontSize = FontSize;
         txt.GetComponent<Text>().text = text;
         txt.GetComponent<Text>().color = Color.white;
         txt.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
