@@ -5,7 +5,7 @@ using UnityEngine;
 namespace PlayerLogic
 {
 
-    public class PlayerMotion
+    public class PlayerMotion : MonoBehaviour
     {
         /// <summary>
         /// Достаточно маленький промежуток времени.
@@ -88,7 +88,7 @@ namespace PlayerLogic
             IsMoving = false;
             IsRunning = false;
             //Текущая скорость игрока в зависимости от состояния нажатия клавиши LeftShift.
-            float speedCurrent = Input.GetKey(KeyCode.LeftShift) ? _runspeed : _walkSpeed;
+            float speedCurrent = Input.GetKey(KeyCode.LeftShift) ? _runSpeed : _walkSpeed;
             //Отслеживание нажатия клавиш.
             if (Input.GetKey(KeyCode.A))
             {
@@ -114,8 +114,9 @@ namespace PlayerLogic
             {
                 IsRunning = speedCurrent.Equals(_runSpeed);
                 makeNoise?.Invoke(transform, noiseMapping[speedCurrent]);
-                _animator.SetBool("IsMoving", IsMoving);
             }
+
+            _animator.SetBool("IsMoving", IsMoving);
         }
 
         /// <summary>

@@ -10,20 +10,21 @@ TagManager:
   - Projectile
   - smokeGrenade
   - simpleGrenade
+  - simpleGraned
+  - smokeGraned
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
   - Player
-  - IgnorePlayerRaycast
   - Water
+  - UI
   - UI
   - Enemy
   - PlayerProjectile
   - EnemyProjectile
-  - 
-  - 
-  - 
+  - IgnorePlayerRaycast
+  - Gun
   - 
   - 
   - 

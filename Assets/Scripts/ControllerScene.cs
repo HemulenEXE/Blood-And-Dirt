@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using PlayerLogic;
 
 public class ControllerScene : MonoBehaviour
 {

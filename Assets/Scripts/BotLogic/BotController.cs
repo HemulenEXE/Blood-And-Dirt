@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 using UnityEngine.AI;
 using TMPro;
 using System;
-using Gun;
+using GunLogic;
 using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.GraphicsBuffer;
 using Unity.VisualScripting;

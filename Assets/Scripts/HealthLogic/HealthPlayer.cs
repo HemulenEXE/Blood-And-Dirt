@@ -1,8 +1,9 @@
-using Gun;
+using GunLogic;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using CameraLogic.CameraEffects;
 
 public class HealthPlayer : AbstractHealth
 {

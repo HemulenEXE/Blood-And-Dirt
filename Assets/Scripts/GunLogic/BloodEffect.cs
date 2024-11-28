@@ -2,13 +2,6 @@
 using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
-namespace CameraLogic.CameraEffects
-
-
-
-
-
-
 
 namespace CameraLogic.CameraEffects
 {

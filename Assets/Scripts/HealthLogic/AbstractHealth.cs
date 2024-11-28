@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Gun;
+using GunLogic;
+using CameraLogic.CameraEffects;
 
 public abstract class AbstractHealth : MonoBehaviour
 {

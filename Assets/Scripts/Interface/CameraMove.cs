@@ -40,8 +40,12 @@ namespace CameraLogic.CameraMotion
         /// </summary>
         private void Move()
         {
-            Vector3 distance = _transformPlayer.position + _offset;
-            this.transform.position = Vector3.Lerp(this.transform.position, distance, _speed * Time.deltaTime); //Плавное перемещение камеры.
+            if(_transformPlayer != null)
+            {
+                Vector3 distance = _transformPlayer.position + _offset;
+                this.transform.position = Vector3.Lerp(this.transform.position, distance, _speed * Time.deltaTime); //Плавное перемещение камеры.
+            }
+            
         }
     }
 }

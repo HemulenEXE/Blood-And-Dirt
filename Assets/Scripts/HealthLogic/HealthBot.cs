@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Gun;
+using GunLogic;
 using System;
 
 public class HealthBot : AbstractHealth

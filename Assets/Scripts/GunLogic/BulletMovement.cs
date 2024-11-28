@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Gun
+namespace GunLogic
 {
     public class BulletMovement : MonoBehaviour
     {

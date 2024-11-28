@@ -54,14 +54,5 @@ namespace GunLogic
             }
         }
 
-        protected void OnCollisionEnter2D(Collision2D other)
-        {
-            if (!other.gameObject.CompareTag("Projectile"))
-            {
-                Debug.Log(other.gameObject.name);
-                Destroy(this.gameObject);
-            }
-        }
-
     }
 }

@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4169788437097195682}
   - component: {fileID: 7702536778127459693}
   - component: {fileID: 7157973909701997318}
-  - component: {fileID: 5144078591382337795}
+  - component: {fileID: 8122168840265201121}
   m_Layer: 3
   m_Name: ShotGun
   m_TagString: gun
@@ -260,7 +260,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5144078591382337795
+--- !u!114 &8122168840265201121
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -269,15 +269,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7984570884006783020}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1033d5dc511db8046aa671f1bc716df6, type: 3}
+  m_Script: {fileID: 11500000, guid: 2870e0e9f555bf04485b663f86e8b6e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _delayShot: 0.5
-  _ammoTotal: 100
+  _ammoTotal: 10000
   _ammoCapacity: 5
-  _ammoTotalCurrent: 5
+  _ammoTotalCurrent: 0
   _timeRecharging: 2
-  _prefabProjectile: {fileID: 8185501928067670845, guid: f5e085aca3db9c9478488da9e1571f3c, type: 3}
+  _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
   _countPerShotProjectile: 6
   _speedProjectile: 50
   _spreadAngle: 15
