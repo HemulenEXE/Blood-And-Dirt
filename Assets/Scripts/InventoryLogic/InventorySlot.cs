@@ -53,7 +53,7 @@ namespace InventoryLogic
             if (!IsFull())
             {
                 _pastLayerItem = item.gameObject.layer;
-                item.gameObject.layer = LayerMask.NameToLayer("Player");
+                item.gameObject.layer = LayerMask.NameToLayer("Gun");
                 item.Deactive();
                 StoredItem = item;
 
