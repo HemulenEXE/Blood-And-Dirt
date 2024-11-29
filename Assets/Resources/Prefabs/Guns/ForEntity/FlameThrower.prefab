@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3992579958128644760}
   - component: {fileID: -7306889528163637829}
   - component: {fileID: 7756693824679725238}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: FlameThrower
   m_TagString: gun
   m_Icon: {fileID: 0}
@@ -245,6 +245,7 @@ MonoBehaviour:
   _ammoTotal: 10000
   _ammoCapacity: 2000
   _ammoTotalCurrent: 2000
+  noiseIntensity: 5
   _timeRecharging: 5
   _prefabProjectile: {fileID: 8228560745701842563}
   _audioFire: {fileID: 8300000, guid: 6b6ab57f6c76825458e42d84d5d0078e, type: 3}
@@ -264,7 +265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5058364199599180258, guid: 30908e566ce708543a939930e204de2d, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6180283342213228384, guid: 30908e566ce708543a939930e204de2d, type: 3}
       propertyPath: m_LocalPosition.x

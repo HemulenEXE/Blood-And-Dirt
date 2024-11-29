@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3479752625367007692}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: spawnerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 1a3032229f77763499a4e9b9d4ecda43, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 1a3032229f77763499a4e9b9d4ecda43, type: 3}
       propertyPath: m_TagString
@@ -289,6 +289,7 @@ MonoBehaviour:
   _ammoTotal: 100
   _ammoCapacity: 10
   _ammoTotalCurrent: 10
+  noiseIntensity: 5
   _timeRecharging: 1
   _speedProjectile: 50
   _audioFire: {fileID: 8300000, guid: f6aa75816b9bc394d81a68a878fe7f5e, type: 3}

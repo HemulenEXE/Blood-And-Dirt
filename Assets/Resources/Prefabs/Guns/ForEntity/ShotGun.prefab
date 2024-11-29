@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 52289187910518915}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: spawnerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 7702536778127459693}
   - component: {fileID: 7157973909701997318}
   - component: {fileID: 8122168840265201121}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: ShotGun
   m_TagString: gun
   m_Icon: {fileID: 0}
@@ -277,6 +277,7 @@ MonoBehaviour:
   _ammoCapacity: 5
   _ammoTotalCurrent: 0
   _timeRecharging: 2
+  noiseIntensity: 5
   _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
   _countPerShotProjectile: 6
   _speedProjectile: 50

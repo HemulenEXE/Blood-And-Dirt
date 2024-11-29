@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2583403736328726819}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: spawnerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 8028342762487671313}
   - component: {fileID: 5055315001476875417}
   - component: {fileID: 3662461108467126267}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MachineGun
   m_TagString: gun
   m_Icon: {fileID: 0}
@@ -292,6 +292,7 @@ MonoBehaviour:
   _ammoTotal: 100
   _ammoCapacity: 30
   _ammoTotalCurrent: 0
+  noiseIntensity: 5
   _timeRecharging: 1
   _speedProjectile: 50
   _audioFire: {fileID: 8300000, guid: 087dc73cae54ede448a7ee2263c4cbb9, type: 3}

@@ -53,7 +53,7 @@ namespace InventoryLogic
             if (!IsFull())
             {
                 _pastLayerItem = item.gameObject.layer;
-                item.gameObject.layer = LayerMask.NameToLayer("IgnorePlayerRaycast");
+                item.gameObject.layer = LayerMask.NameToLayer("Player");
                 item.Deactive();
                 StoredItem = item;
 

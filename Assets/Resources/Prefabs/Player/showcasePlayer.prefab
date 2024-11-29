@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 2399549149452779577}
   - component: {fileID: 6925093505303039895}
   - component: {fileID: 4461553681316957286}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: showcasePlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -225,5 +225,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5febdb96e92e13640b5541669aeb97b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stealSpeed: 2
   _walkSpeed: 4
-  _runspeed: 8
+  _runSpeed: 8
+  _stealNoise: 0.3
+  _walkNoise: 2
+  _runNoise: 8
