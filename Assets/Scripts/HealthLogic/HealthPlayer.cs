@@ -1,4 +1,4 @@
-using GunLogic;
+п»їusing GunLogic;
 using System.Collections;
 using UnityEngine;
 using System;
@@ -6,7 +6,7 @@ using CameraLogic.CameraEffects;
 using InventoryLogic;
 
 /// <summary>
-/// Класс здоровья игрока. Скрипт навешивается на игрока
+/// РљР»Р°СЃСЃ Р·РґРѕСЂРѕРІСЊСЏ РёРіСЂРѕРєР°. РЎРєСЂРёРїС‚ РЅР°РІРµС€РёРІР°РµС‚СЃСЏ РЅР° РёРіСЂРѕРєР°
 /// </summary>
 public class HealthPlayer : AbstractHealth
 {
@@ -15,7 +15,7 @@ public class HealthPlayer : AbstractHealth
     [SerializeField]
     private int _countArmor;
     [SerializeField]
-    private float _frameDuration = 0.5f; //Сколько длится кадр, во время которого игрок не получает урон
+    private float _frameDuration = 0.5f; //РЎРєРѕР»СЊРєРѕ РґР»РёС‚СЃСЏ РєР°РґСЂ, РІРѕ РІСЂРµРјСЏ РєРѕС‚РѕСЂРѕРіРѕ РёРіСЂРѕРє РЅРµ РїРѕР»СѓС‡Р°РµС‚ СѓСЂРѕРЅ
     [SerializeField]
     private int _bandageHalth = 10;
     [SerializeField]
@@ -36,7 +36,7 @@ public class HealthPlayer : AbstractHealth
     }
 
     /// <summary>
-    /// Реализует получение урона от снаряда
+    /// Р РµР°Р»РёР·СѓРµС‚ РїРѕР»СѓС‡РµРЅРёРµ СѓСЂРѕРЅР° РѕС‚ СЃРЅР°СЂСЏРґР°
     /// </summary>
     /// <param name="bullet"></param>
     public override void GetDamage(ProjectileData bullet)
@@ -79,7 +79,7 @@ public class HealthPlayer : AbstractHealth
 
     }
     /// <summary>
-    /// Высчитывает текущее состояние эффекта крови
+    /// Р’С‹СЃС‡РёС‚С‹РІР°РµС‚ С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ СЌС„С„РµРєС‚Р° РєСЂРѕРІРё
     /// </summary>
     /// <returns></returns>
     StateBloodEffect CalculateStateDamaged()
@@ -100,7 +100,7 @@ public class HealthPlayer : AbstractHealth
         }
         if (Input.GetKeyDown(KeyCode.Alpha4) && ConsumablesCounter.BandageCount > 0)
         {
-            Debug.Log("Применены бинты!");
+            Debug.Log("РџСЂРёРјРµРЅРµРЅС‹ Р±РёРЅС‚С‹!");
             if (currentHealth + _bandageHalth > maxHealth)
                 currentHealth = maxHealth;
             else currentHealth += _bandageHalth;

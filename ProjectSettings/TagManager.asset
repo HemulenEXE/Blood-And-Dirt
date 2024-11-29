@@ -8,12 +8,10 @@ TagManager:
   - Canvas
   - Enemy
   - Projectile
-  - smokeGrenade
-  - simpleGrenade
-  - simpleGraned
-  - bandage
+  - SmokeGrenade
+  - SimpleGrenade
   - firstAidKit
-  - gun
+  - bandage
   layers:
   - Default
   - TransparentFX
@@ -24,8 +22,8 @@ TagManager:
   - Enemy
   - PlayerProjectile
   - EnemyProjectile
-  - IgnorePlayerRaycast
   - Gun
+  - 
   - 
   - 
   - 

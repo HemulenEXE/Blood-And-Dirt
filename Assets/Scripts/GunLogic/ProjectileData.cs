@@ -47,7 +47,7 @@ namespace GunLogic
         /// <param name="other"></param>
         protected void OnCollisionEnter2D(Collision2D other)
         {
-            if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("gun"))
+            if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("Gun"))
             {
                 //Debug.Log(other.gameObject.name);
                 Destroy(this.gameObject);

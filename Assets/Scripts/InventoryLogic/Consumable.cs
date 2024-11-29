@@ -16,14 +16,14 @@ namespace InteractiveObjects{
 
             switch (this.tag)
             {
-                case "smokeGrenade":
+                case "SmokeGrenade":
                     if (ConsumablesCounter.SmokeGrenadeCount < 5)
                     {
                         Destroy(this.gameObject);
                         ConsumablesCounter.SmokeGrenadeCount++;
                     }             
                     break;
-                case "simpleGrenade":
+                case "SimpleGrenade":
                     if (ConsumablesCounter.SimpleGrenadeCount < 5)
                     { 
                         Destroy(this.gameObject);
