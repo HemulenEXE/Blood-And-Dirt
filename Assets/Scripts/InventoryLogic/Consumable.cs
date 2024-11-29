@@ -1,4 +1,5 @@
 ﻿using InventoryLogic;
+using UnityEngine;
 
 namespace InteractiveObjects{
     /// <summary>
@@ -12,6 +13,7 @@ namespace InteractiveObjects{
         /// </summary>
         public override void Interact()
         {
+
             switch (this.tag)
             {
                 case "smokeGrenade":
