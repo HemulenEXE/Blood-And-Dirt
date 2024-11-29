@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using PlayerLogic;
+using GunLogic;
 
 public class ControllerScene : MonoBehaviour
 {
@@ -28,13 +29,21 @@ public class ControllerScene : MonoBehaviour
         BotController.DetectedEnemy += RaisingAlarm;
         HealthBot.death += DeathBot;
         PlayerMotion.makeNoise += CheckNose;
+        FlameThrower.makeNoiseShooting += CheckNose;
+        ShotGun.makeNoiseShooting += CheckNose;
+        Pistol.makeNoiseShooting += CheckNose;
+        MachineGun.makeNoiseShooting += CheckNose;
     }
 
     private void OnDisable()
     {
         BotController.DetectedEnemy -= RaisingAlarm;
-        HealthBot.death += DeathBot;
-        PlayerMotion.makeNoise += CheckNose;
+        HealthBot.death -= DeathBot;
+        PlayerMotion.makeNoise -= CheckNose;
+        FlameThrower.makeNoiseShooting -= CheckNose;
+        ShotGun.makeNoiseShooting -= CheckNose;
+        Pistol.makeNoiseShooting -= CheckNose;
+        MachineGun.makeNoiseShooting -= CheckNose;
     }
     // Update is called once per frame
     void Update()

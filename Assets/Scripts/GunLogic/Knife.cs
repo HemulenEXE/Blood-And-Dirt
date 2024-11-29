@@ -40,7 +40,13 @@ namespace Guns
                 //Логика получения урона сущностями.
                 if (x.gameObject != this.gameObject)
                 {
-                    Destroy(x.gameObject);
+                    //Destroy(x.gameObject);
+                    var healthBot = x.GetComponent<HealthBot>();
+                    if(healthBot != null)
+                    {
+                        healthBot.GetDamage(this);
+                    }
+                    
                 }
             }
         }

@@ -24,12 +24,12 @@ public class HealthPlayer : AbstractHealth
         if (collision.gameObject.tag == "Projectile")
         {
             var dataBullet = collision.gameObject.GetComponent<ProjectileData>();
-            GetDamge(dataBullet);
+            GetDamage(dataBullet);
         }
     }
 
 
-    public override void GetDamge(ProjectileData bullet)
+    public override void GetDamage(ProjectileData bullet)
     {
         if (!isInvulnerable)
         {

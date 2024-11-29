@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GunLogic;
 using System;
+using Guns;
 
 public class HealthBot : AbstractHealth
 {
@@ -14,16 +15,31 @@ public class HealthBot : AbstractHealth
         {
             
             var dataBullet = collision.gameObject.GetComponent<ProjectileData>();
-            GetDamge(dataBullet);
+            GetDamage(dataBullet);
         }
     }
 
-    public override void GetDamge(ProjectileData bullet)
+    public override void GetDamage(ProjectileData bullet)
     {
         if (!isInvulnerable)
         {
             Debug.Log("check");
             currentHealth -= (int)bullet.Damage;
+
+            if (currentHealth <= 0)
+            {
+                Death();
+                return;
+            }
+        }
+    }
+
+    public void GetDamage(Knife knife)
+    {
+        if (!isInvulnerable)
+        {
+            Debug.Log("check");
+            currentHealth -= (int)knife.Damage;
 
             if (currentHealth <= 0)
             {
