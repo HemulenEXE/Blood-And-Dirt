@@ -122,7 +122,7 @@ public class BotController : MonoBehaviour
         hasCollidedWithPlayer = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         switch (stateBot) 
         {
