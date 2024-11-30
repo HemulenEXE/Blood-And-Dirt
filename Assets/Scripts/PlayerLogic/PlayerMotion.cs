@@ -14,10 +14,6 @@ namespace PlayerLogic
         /// </summary>
         private Camera _mainCamera;
         /// <summary>
-        /// Компонент, управляющий анимациями игрока.
-        /// </summary>
-        private Animator _animator;
-        /// <summary>
         /// скорость ползком
         /// </summary>
         [SerializeField] private float _stealSpeed = 2f;
@@ -62,7 +58,6 @@ namespace PlayerLogic
         {
             _mainCamera = Camera.main;
             _deltaTime = Time.fixedDeltaTime;
-            _animator = this.transform.GetChild(0).GetComponent<Animator>(); //0-ым компонентом (ребёнком) должно быть визуально представление игрока.
             noiseMapping = new Dictionary<float, float>
         {
             { _stealSpeed, _stealNoise },
@@ -71,7 +66,6 @@ namespace PlayerLogic
         };
 
             if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
-            if (_animator == null) throw new ArgumentNullException("PlayerMotion: _animator is mull");
             if (_runSpeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedRun < 0");
             if (_walkSpeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedWalk < 0");
         }
@@ -115,10 +109,7 @@ namespace PlayerLogic
                 IsRunning = speedCurrent.Equals(_runSpeed);
                 makeNoise?.Invoke(transform, noiseMapping[speedCurrent]);
             }
-
-            _animator.SetBool("IsMoving", IsMoving);
         }
-
         /// <summary>
         /// Поворот игрока за компьтерной мышью.
         /// </summary>

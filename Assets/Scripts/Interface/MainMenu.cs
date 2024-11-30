@@ -59,7 +59,7 @@ public class MainMenu : MonoBehaviour
     private void OnArenaClick()
     { 
         Debug.Log("Arena");
-        //ScenesManager.Instance.OnSelectedScene(PlayerPrefs.GetInt("currentScene"));
+        ScenesManager.Instance.OnSelectedScene(PlayerPrefs.GetInt("WorkArena"));
     }
     /// <summary>
     /// Нажатие на кнопку настроек

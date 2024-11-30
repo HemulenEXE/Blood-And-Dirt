@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using GunLogic;
 using InteractiveObjects;
-using Unity.VisualScripting;
 
 namespace InventoryLogic
 {
@@ -93,7 +92,6 @@ namespace InventoryLogic
                 StoredItem.Active();
                 StoredItem = null;
                 ImageStoredItem.GetComponent<Image>().sprite = InventorySlot._emptySlotImage;
-
             }
         }
         /// <summary>
