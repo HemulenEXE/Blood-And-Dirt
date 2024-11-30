@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using PlayerLogic;
 using System;
+using GunLogic;
 
 namespace InteractiveObjects
 {

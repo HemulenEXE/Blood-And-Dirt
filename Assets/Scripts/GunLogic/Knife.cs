@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using GunLogic;
 
-namespace Guns
+namespace GunLogic
 {
     /// <summary>
     /// Класс, реализующий "нож".
