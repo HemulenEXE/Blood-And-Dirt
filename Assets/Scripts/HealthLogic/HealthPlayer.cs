@@ -84,7 +84,7 @@ public class HealthPlayer : AbstractHealth
     /// <returns></returns>
     StateBloodEffect CalculateStateDamaged()
     {
-        print($"Damaged = {Math.Floor((maxHealth - currentHealth) / (maxHealth / 5.0))}");
+        //print($"Damaged = {Math.Floor((maxHealth - currentHealth) / (maxHealth / 5.0))}");
         return (StateBloodEffect)Math.Floor((maxHealth - currentHealth) / (maxHealth / 5.0));
     }
 
@@ -112,7 +112,7 @@ public class HealthPlayer : AbstractHealth
     void FixedUpdate()
     {
            
-        Debug.Log("XP = " + currentHealth);
+        //Debug.Log("XP = " + currentHealth);
         bloodController.SetBloodEffect(CalculateStateDamaged());
     }
 }

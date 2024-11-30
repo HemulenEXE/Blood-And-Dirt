@@ -7,7 +7,7 @@ public class HealthBot : AbstractHealth
     public static event Action<BotController> death;
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Col");
+        //Debug.Log("Col");
         if (collision.gameObject.tag == "Projectile" && collision.gameObject.layer != LayerMask.NameToLayer("EnemyProjectile"))
         {
             
@@ -60,7 +60,7 @@ public class HealthBot : AbstractHealth
 
     private void FixedUpdate()
     {
-        Debug.Log(currentHealth);
+        //Debug.Log(currentHealth);
     }
 }
 
