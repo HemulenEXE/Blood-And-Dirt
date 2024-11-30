@@ -1374,6 +1374,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2994775627741083706, guid: da4d4eacf30c8cc4186b352516731862, type: 3}
+      propertyPath: noiseIntensity
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7984570884006783020, guid: da4d4eacf30c8cc4186b352516731862, type: 3}
       propertyPath: m_Name
       value: ShotGun
@@ -3275,17 +3279,8 @@ SceneRoots:
   - {fileID: 7046959148135142490}
   - {fileID: 4385460799862929813}
   - {fileID: 802537670}
-  - {fileID: 723090988242070884}
-  - {fileID: 1777130336}
-  - {fileID: 677093502}
-  - {fileID: 1914277763}
-  - {fileID: 458747185}
-  - {fileID: 1391616157}
   - {fileID: 979710114}
   - {fileID: 1570983974}
-  - {fileID: 1375011049}
-  - {fileID: 1318071749}
-  - {fileID: 1467357946}
   - {fileID: 517565440}
   - {fileID: 1025161664}
   - {fileID: 204363654}
