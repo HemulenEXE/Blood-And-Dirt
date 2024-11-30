@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: -6485242170240345304, guid: 0ea7a018625135644b870a7316dbc8fc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -204,7 +204,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 7686392455674397021}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 1
+  m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -323,6 +323,8 @@ MonoBehaviour:
   _damageBleeding: 5
   _countArmor: 0
   _frameDuration: 0.5
+  _bandageHalth: 10
+  _firstAidKitHalth: 25
 --- !u!114 &1808641506520305747
 MonoBehaviour:
   m_ObjectHideFlags: 0
