@@ -136,6 +136,17 @@ namespace PlayerLogic
             _slots[_currentSlot].StoredItem?.Active();
             _slots[_currentSlot].gameObject.SetActive(true);
         }
+        /// <summary>
+        /// Очистка слотов.
+        /// </summary>
+        public void Clear()
+        {
+            foreach(var slot in _slots)
+            {
+                Destroy(slot.StoredItem.gameObject);
+                slot.StoredItem = null;
+            }
+        }
     }
 
 }
