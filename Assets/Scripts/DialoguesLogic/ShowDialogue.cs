@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using InteractiveObjects;
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -28,6 +29,9 @@ public class ShowDialogue : MonoBehaviour
     private const int _maxReplicLength = 240; //Максимальное число символов реплики на экране
     private void Start()
     {
+        //Меняем кнопку взаимодействия с NPS
+        this.GetComponent<ClickedObject>().Description = "T"; 
+
         _dialogue = Dialogue.Load(FileName);
 
         _nodeInd = 0;
@@ -81,7 +85,7 @@ public class ShowDialogue : MonoBehaviour
     }
     private void Update()
     {
-        if (IsTrigger && Input.GetKeyDown(KeyCode.E))
+        if (IsTrigger && Input.GetKeyDown(KeyCode.T))
         {
             StartDialogue();
             IsTrigger = false;
