@@ -40,14 +40,17 @@ namespace CameraLogic.CameraEffects
                 return _instance;
             }
         }
+
         /// <summary>
         /// Затемнение экрана.
         /// </summary>
         /// <param name="fadeInCallback"></param>
         public void FadeIn(Action fadeInCallback)
         {
+            Debug.Log($"FadeIn! - {animator.GetBool("isFaded")}");
             _fadeInCallback = fadeInCallback;
             animator.SetBool(name: "isFaded", false);
+
         }
         /// <summary>
         /// Осветление экрана.
@@ -55,22 +58,26 @@ namespace CameraLogic.CameraEffects
         /// <param name="fadeOutCallback"></param>
         public void FadeOut(Action fadeOutCallback)
         {
+            Debug.Log($"FadeOut! - {animator.GetBool("isFaded")}");
             _fadeOutCallback = fadeOutCallback;
             animator.SetBool(name: "isFaded", true);
         }
+        
         /// <summary>
         /// Вызов делегата _fadeInCallback после затемнения экрана.
         /// </summary>
-        private void FadeInCallbackHandler()
+        public void FadeInCallbackHandler()
         {
+            Debug.Log("FadeInCallback вызван");
             _fadeInCallback?.Invoke();
             _fadeInCallback = null;
         }
         /// <summary>
         /// Вызов делегата _fadeOutCallback после осветления экрана.
         /// </summary>
-        private void FadeOutCallbackHandler()
+        public void FadeOutCallbackHandler()
         {
+            Debug.Log("FadeOutCallback вызван");
             _fadeOutCallback?.Invoke();
             _fadeOutCallback = null;
         }

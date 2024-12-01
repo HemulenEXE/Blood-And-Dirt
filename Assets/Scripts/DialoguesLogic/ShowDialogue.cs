@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using InteractiveObjects;
+using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,9 +26,12 @@ public class ShowDialogue : MonoBehaviour
     bool IsPrinting;
     private int _nodeInd;
     private int _startInd; //Указывает на начало текущей части реплики (для корректного переключения между ними)
-    private const int _maxReplicLength = 350; //Максимальное число символов реплики на экране
+    private const int _maxReplicLength = 240; //Максимальное число символов реплики на экране
     private void Start()
     {
+        //Меняем кнопку взаимодействия с NPS
+        this.GetComponent<ClickedObject>().Description = "T"; 
+
         _dialogue = Dialogue.Load(FileName);
 
         _nodeInd = 0;
@@ -55,7 +60,7 @@ public class ShowDialogue : MonoBehaviour
                 i = _dialogue.Nodes[_nodeInd].npcText[..i].LastIndexOfAny(chars);
             }
 
-            currentReplic.text = _dialogue.Nodes[_nodeInd].npcText[_startInd..(i + 1)];
+            currentReplic.text = _dialogue.Nodes[_nodeInd].npcText[(_startInd+ 1)..(i + 1)];
             _startInd = i + 1;
             IsPrinting = false;
         }
@@ -63,7 +68,7 @@ public class ShowDialogue : MonoBehaviour
         {
             currentReplic.text = "";
 
-            StartCoroutine(PrintReplic(_dialogue.Nodes[_nodeInd].npcText[(_startInd)..]));
+            StartCoroutine(PrintReplic(_dialogue.Nodes[_nodeInd].npcText[(_startInd + 1)..]));
         }
         else //Если реплика полностью напечатана, то: в случае, если она конечная, закрываем диалог, иначе - пускааем на печать ответы к ней
         {
@@ -71,7 +76,7 @@ public class ShowDialogue : MonoBehaviour
             
             currentReplic.transform.parent = null;
             Destroy(currentReplic.gameObject);
-            
+
             if (_dialogue.Nodes[_nodeInd].exit == "True")
                 EndDialogue();
             else
@@ -80,7 +85,7 @@ public class ShowDialogue : MonoBehaviour
     }
     private void Update()
     {
-        if (IsTrigger && Input.GetKeyDown(KeyCode.E))
+        if (IsTrigger && Input.GetKeyDown(KeyCode.T))
         {
             StartDialogue();
             IsTrigger = false;
@@ -128,13 +133,15 @@ public class ShowDialogue : MonoBehaviour
         Text replic = _panel.GetChild(0).GetComponent<Text>();
 
         char[] chars = new char[] { '!', '.', '?' };
-        while (i < text.Length && !(text[i].Equals(chars) && (text.IndexOfAny(chars, i+1) > _maxReplicLength)))
+        while (i < text.Length && !(chars.Contains(text[i]) && (text.IndexOfAny(chars, i+1) > _maxReplicLength)))
         {
+            Debug.Log($"{i} - nextchar:{text.IndexOfAny(chars, i + 1)} - char:{chars.Contains(text[i])}, {text[i]}");
             replic.text += text[i];
             i++;
             yield return new WaitForSeconds(speed);
         }
-        _startInd += i;
+        _startInd += i + 1;
+        Debug.Log(_startInd);
         IsPrinting = false;
     }
     /// <summary>

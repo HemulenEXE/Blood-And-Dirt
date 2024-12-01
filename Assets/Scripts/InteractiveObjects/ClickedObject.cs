@@ -23,7 +23,7 @@ namespace InteractiveObjects
         /// <summary>
         /// Возвращает описание объекта.
         /// </summary>
-        public string Description { get; } = "E";
+        public string Description { get; set; } = "E";
         /// <summary>
         /// Настройка и проверка полей.
         /// </summary>

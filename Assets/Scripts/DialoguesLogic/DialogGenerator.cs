@@ -39,7 +39,7 @@ public class DialogGenerator : MonoBehaviour
     /// </summary>
     public void Generate()
     {
-        string path = Application.dataPath + "/Dialogues/" + FileName + ".xml";
+        string path = Application.dataPath + "/Resources/Dialogues/" + FileName + ".xml";
         
         //Переменные для создания реплик и ответов к ним соответственно 
         XmlNode userNode;

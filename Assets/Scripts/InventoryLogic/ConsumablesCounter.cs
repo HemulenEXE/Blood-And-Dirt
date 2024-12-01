@@ -133,7 +133,7 @@ namespace InventoryLogic
         /// <summary>
         /// Обновление текстовой информации на канвасе о количестве расходников.
         /// </summary>
-        private void Update()
+        private void FixedUpdate()
         {
             _smokeGrenade.GetComponentInChildren<TextMeshProUGUI>().text = SmokeGrenadeCount.ToString();
             _simpleGrenade.GetComponentInChildren<TextMeshProUGUI>().text = SimpleGrenadeCount.ToString();
