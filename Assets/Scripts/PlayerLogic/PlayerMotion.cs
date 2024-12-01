@@ -24,7 +24,7 @@ namespace PlayerLogic
         /// <summary>
         /// Скорость бега.
         /// </summary>
-        [SerializeField] private float _runSpeed = 8f;
+        [SerializeField] private float _runSpeed = 6f;
         /// <summary>
         /// шум ползком
         /// </summary>
@@ -83,29 +83,28 @@ namespace PlayerLogic
             IsRunning = false;
             //Текущая скорость игрока в зависимости от состояния нажатия клавиши LeftShift.
             float speedCurrent = Input.GetKey(KeyCode.LeftShift) ? _runSpeed : _walkSpeed;
+            Vector3 movement = Vector2.zero;
             //Отслеживание нажатия клавиш.
             if (Input.GetKey(KeyCode.A))
             {
-                this.transform.position += Vector3.left * speedCurrent * _deltaTime;
-                IsMoving = true;
+                movement += Vector3.left;
             }
             if (Input.GetKey(KeyCode.D))
             {
-                this.transform.position += Vector3.right * speedCurrent * _deltaTime;
-                IsMoving = true;
+                movement += Vector3.right;
             }
             if (Input.GetKey(KeyCode.W))
             {
-                this.transform.position += Vector3.up * speedCurrent * _deltaTime;
-                IsMoving = true;
+                movement += Vector3.up;
             }
             if (Input.GetKey(KeyCode.S))
             {
-                this.transform.position += Vector3.down * speedCurrent * _deltaTime;
-                IsMoving = true;
+                movement += Vector3.down;
             }
-            if (IsMoving)
+            if (movement != Vector3.zero)
             {
+                this.transform.position += movement.normalized * speedCurrent * _deltaTime;
+                IsMoving = true;
                 IsRunning = speedCurrent.Equals(_runSpeed);
                 makeNoise?.Invoke(transform, noiseMapping[speedCurrent]);
             }
@@ -114,7 +113,7 @@ namespace PlayerLogic
         /// Поворот игрока за компьтерной мышью.
         /// </summary>
         private void Rotate()
-        { 
+        {
             //Вычисление положения компьютерной мыши в мировом пространстве
             Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;

@@ -45,6 +45,7 @@ namespace Grenades
         /// </summary>
         public override void Explode()
         {
+            IsActive = true;
             _particle.Play();
             Collider2D[] entity_colliders = Physics2D.OverlapCircleAll(this.transform.position, ExplosionRadius); //Получаем коллайдеры всех сущностей поблизости.
             BoxCollider2D interim_collider = this.GetComponent<BoxCollider2D>(); //Установка коллайдера, чтобы враги путались в дыме.

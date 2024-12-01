@@ -84,6 +84,11 @@ public class BotController : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     private void TryDetectPlayer(Transform playerTransform)
     {
         Vector2 directionToPlayer = (playerTransform.position - selfTransform.position).normalized;
@@ -122,7 +127,7 @@ public class BotController : MonoBehaviour
         hasCollidedWithPlayer = true;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         switch (stateBot) 
         {
@@ -290,7 +295,7 @@ public class BotController : MonoBehaviour
         animator.SetBool("IsRun", true);
         agent.SetDestination(noiseTransform.position);
 
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
+        while (agent == null || agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
         {
             yield return null;
         }

@@ -67,7 +67,7 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private void RestartScene()
     {
-        GameObject notice = transform.GetChild(4).gameObject;
+        GameObject notice = transform.GetChild(3).gameObject;
         notice.SetActive(true);
         //Указание на какую сцену перейти.
         notice.GetComponent<PopUpNotice>().SceneIndex = SceneManager.GetActiveScene().buildIndex;
