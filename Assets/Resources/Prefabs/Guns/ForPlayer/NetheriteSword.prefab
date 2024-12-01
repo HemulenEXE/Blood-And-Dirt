@@ -21,16 +21,24 @@ PrefabInstance:
       value: Gun
       objectReference: {fileID: 0}
     - target: {fileID: 3626916397498700004, guid: d9036e142c16d4942a99dff1aef423e6, type: 3}
+      propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626916397498700004, guid: d9036e142c16d4942a99dff1aef423e6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6546334048971591411, guid: fcc83354282027f4f88ef144b24d3698, type: 3}
+    - target: {fileID: 3626916397498700004, guid: d9036e142c16d4942a99dff1aef423e6, type: 3}
       propertyPath: m_SortingOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: d9036e142c16d4942a99dff1aef423e6, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: d9036e142c16d4942a99dff1aef423e6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: d9036e142c16d4942a99dff1aef423e6, type: 3}
       propertyPath: m_LocalScale.z
@@ -127,18 +135,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.8}
+  m_Offset: {x: 0, y: 0.3}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 1.6, y: 1.6}
+    pivot: {x: 0.5882353, y: -0.42424244}
+    oldSize: {x: 0.34, y: 0.33}
     newSize: {x: 1.6, y: 1.6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 3}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &2058302642503742790
 MonoBehaviour:
@@ -167,4 +175,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd3e7cdff1c3b28459ee66e13c2d880b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _icon: {fileID: 1659464964628390550, guid: 0fa907e91477bc94eaef7ba94afea009, type: 3}
+  _icon: {fileID: -6546334048971591411, guid: fcc83354282027f4f88ef144b24d3698, type: 3}
