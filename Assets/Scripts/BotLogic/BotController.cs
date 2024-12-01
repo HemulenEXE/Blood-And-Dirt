@@ -144,6 +144,7 @@ public class BotController : MonoBehaviour
                 break;
 
         }
+
     }
 
     private void CombateState()
