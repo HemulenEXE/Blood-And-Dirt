@@ -79,6 +79,10 @@ namespace PlayerLogic
             //Внедрение дополнительного слота.
             if (Input.GetKeyDown(KeyCode.P))
                 AddSlot();
+
+            //Внедрение дополнительного слота.
+            if (Input.GetKeyDown(KeyCode.C))
+                Clear();
         }
         /// <summary>
         /// Добавление нового, дополнительного, слота.<br/>
@@ -137,14 +141,19 @@ namespace PlayerLogic
             _slots[_currentSlot].gameObject.SetActive(true);
         }
         /// <summary>
-        /// Очистка слотов.
+        /// Очистка слотов и расходников.
         /// </summary>
-        public void Clear()
+        public static void Clear()
         {
             foreach(var slot in _slots)
             {
-                Destroy(slot.StoredItem.gameObject);
+                Destroy(slot?.StoredItem?.gameObject);
                 slot.StoredItem = null;
+                ConsumablesCounter.SimpleGrenadeCount = 0;
+                ConsumablesCounter.SmokeGrenadeCount = 0;
+                ConsumablesCounter.FirstAidKitCount = 0;
+                ConsumablesCounter.BandageCount = 0;
+
             }
         }
     }
