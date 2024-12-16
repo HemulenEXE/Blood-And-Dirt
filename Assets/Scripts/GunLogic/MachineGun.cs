@@ -219,7 +219,7 @@ namespace GunLogic
         private IEnumerator RechargeCoroutine()
         {
             yield return new WaitForSeconds(_timeRecharging);
-            _audio.PlayOneShot(_audioRecharge); //Запуск аудио.
+            _audio.PlayOneShot(_audioRecharge);
             int count_need_patrons = AmmoCapacity - AmmoTotalCurrent; //Количество нехватаемых патронов.
             if (AmmoTotal > count_need_patrons)
             {

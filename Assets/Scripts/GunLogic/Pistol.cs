@@ -191,13 +191,16 @@ namespace GunLogic
         /// </summary>
         public void Recharge()
         {
-            if (_ammoTotal > 0 && !IsRecharging)
+            if (_ammoTotal > 0 && !IsRecharging && !IsShooting)
             {
-                IsRecharging = true;
-                IsShooting = false;
-                StartCoroutine(RechargeCoroutine()); //На перезарядку отводится некоторое время.
+                IsRecharging = true; //Начало перезарядки.
+                StartCoroutine(RechargeCoroutine());
             }
         }
+        /// <summary>
+        /// Проверяет, пуст ли пистолет.
+        /// </summary>
+        public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
         /// <summary>
         /// Корутина для перезарядки пистолета.
         /// </summary>
@@ -206,13 +209,18 @@ namespace GunLogic
         {
             yield return new WaitForSeconds(_timeRecharging);
             _audio.PlayOneShot(_audioRecharge);
-            AmmoTotal -= AmmoCapacity - AmmoTotalCurrent;
-            AmmoTotalCurrent = AmmoCapacity;
-            IsRecharging = false;
+            int count_need_patrons = AmmoCapacity - AmmoTotalCurrent; //Количество нехватаемых патронов.
+            if (AmmoTotal > count_need_patrons)
+            {
+                AmmoTotalCurrent += count_need_patrons;
+                AmmoTotal -= count_need_patrons;
+            }
+            else
+            {
+                AmmoTotalCurrent += AmmoTotal;
+                AmmoTotal = 0;
+            }
+            IsRecharging = false; //Перезарядка окончена.
         }
-        /// <summary>
-        /// Проверяет, пуст ли пистолет.
-        /// </summary>
-        public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
     }
 }
