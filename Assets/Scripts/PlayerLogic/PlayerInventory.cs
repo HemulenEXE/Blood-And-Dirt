@@ -80,9 +80,9 @@ namespace PlayerLogic
             if (Input.GetKeyDown(KeyCode.P))
                 AddSlot();
 
-            //Внедрение дополнительного слота.
-            if (Input.GetKeyDown(KeyCode.C))
-                Clear();
+            //Очистка инвентаря
+            //if (Input.GetKeyDown(KeyCode.C))
+            //    Clear();
         }
         /// <summary>
         /// Добавление нового, дополнительного, слота.<br/>
