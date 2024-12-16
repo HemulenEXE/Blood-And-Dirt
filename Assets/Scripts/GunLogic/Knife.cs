@@ -8,18 +8,12 @@ namespace GunLogic
     /// </summary>
     public class Knife : MonoBehaviour
     {
-        /// <summary>
-        /// Возвращает тип оружия.
-        /// </summary>
-        public GunType Type { get; } = GunType.Light;
+        //Поля.
+
         /// <summary>
         /// Наносимый урон.
         /// </summary>
         [SerializeField] protected float _damage = 2f;
-        /// <summary>
-        /// Возвращает величину наносимого урона.
-        /// </summary>
-        public float Damage { get => _damage; }
         /// <summary>
         /// Радиус атаки.
         /// </summary>
@@ -27,30 +21,52 @@ namespace GunLogic
         /// <summary>
         /// Дистанция атаки
         /// </summary>
-        public float _attackDistance = 3f;
+        public float _attackDistance = 1.2f;
         /// <summary>
-        /// Нанесение урона одной нескольким сущностям.
+        /// Игнорируемый слой.
+        /// </summary>
+        [SerializeField] private LayerMask _ignoreLayer;
+
+        //Свойства.
+
+        /// <summary>
+        /// Возвращает тип оружия.
+        /// </summary>
+        public GunType Type { get; } = GunType.Light;
+        /// <summary>
+        /// Возвращает величину наносимого урона.
+        /// </summary>
+        public float Damage { get => _damage; }
+
+        //Методы.
+
+        /// <summary>
+        /// Нанесение урона нескольким сущностям.
         /// </summary>
         /// <param name="entity"></param>
         public void DealDamage()
         {
-            foreach (var x in GetColliders2DSector())
+            Ray2D ray = new Ray2D(this.transform.position, this.transform.right);
+            Debug.DrawRay(ray.origin, ray.direction * _attackDistance, Color.red); //Рисовка луча.
+
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, _attackDistance, ~_ignoreLayer);
+            if (hit.collider == null)
             {
-                //Логика получения урона сущностями.
-                if (x.gameObject != this.gameObject)
+                foreach (var x in GetColliders2DSector())
                 {
-                    //Destroy(x.gameObject);
-                    var healthBot = x.GetComponent<HealthBot>();
-                    if(healthBot != null)
+                    //Логика получения урона сущностями.
+                    if (x.gameObject != this.gameObject)
                     {
-                        healthBot.GetDamage(this);
+                        //Destroy(x.gameObject);
+                        var healthBot = x.GetComponent<HealthBot>();
+                        healthBot?.GetDamage(this);
+
                     }
-                    
                 }
             }
         }
         /// <summary>
-        /// Возвращает 
+        /// Возвращает коллайдеры 2D в заданном секторе.
         /// </summary>
         /// <returns></returns>
         private IEnumerable<Collider2D> GetColliders2DSector()

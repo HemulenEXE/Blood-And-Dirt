@@ -8,6 +8,8 @@ namespace GunLogic
     /// </summary>
     public class ProjectileData : MonoBehaviour
     {
+        //Поля.
+
         /// <summary>
         /// Тип оружия, из которого вылетел снаряд.
         /// </summary>
@@ -20,6 +22,9 @@ namespace GunLogic
         /// Наносимый урон.
         /// </summary>
         private float _damage;
+
+        //Свойства.
+
         /// <summary>
         /// Возвращает и изменяет величину наносимого урона.
         /// </summary>
@@ -33,13 +38,12 @@ namespace GunLogic
                 _damage = value;
             }
         }
+
+        //Методы.
+
         private void Start()
         {
-            Destroy(gameObject, _liveTime);
-        }
-        protected void FixedUpdate()
-        {
-            Destroy(this.gameObject, _liveTime); //Это лучше, чем использование условного оператора if.
+            Destroy(this.gameObject, _liveTime);
         }
         /// <summary>
         /// Уничтожение снаряда при столкновении с объектами.
@@ -49,7 +53,6 @@ namespace GunLogic
         {
             if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("Gun"))
             {
-                //Debug.Log(other.gameObject.name);
                 Destroy(this.gameObject);
             }
         }
