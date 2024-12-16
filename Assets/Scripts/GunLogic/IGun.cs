@@ -52,7 +52,7 @@ namespace GunLogic
         /// <summary>
         /// Возвращает и изменяет суммарное число снарядов.
         /// </summary>
-        public int AmmoTotal { get; set; }
+        public int AmmoTotal { get; }
         /// <summary>
         /// Возвращает вместимость очереди.
         /// </summary>
@@ -60,7 +60,7 @@ namespace GunLogic
         /// <summary>
         /// Возвращает и изменяет текущее число снарядов в очереди.
         /// </summary>
-        public int AmmoTotalCurrent { get; set; }
+        public int AmmoTotalCurrent { get; }
         /// <summary>
         /// Возвращает и изменяет силу шума оружия при выстреле
         /// </summary>
