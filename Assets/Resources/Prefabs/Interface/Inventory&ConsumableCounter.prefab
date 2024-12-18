@@ -364,12 +364,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45362d3a71b9c834d991aecdd3ba9488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _emptySlotName: Cell
-  _sizeSlot: 0.5
-  _slots: []
-  _indexCurrentSlot: 0
+  _emptySlotFileName: Cell
   _minCountSlots: 3
   _maxCountSlots: 5
+  _sizeSlot: 0.5
 --- !u!1 &3856094238976593469
 GameObject:
   m_ObjectHideFlags: 0

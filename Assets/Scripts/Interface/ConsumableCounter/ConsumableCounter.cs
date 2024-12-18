@@ -68,6 +68,27 @@ namespace InventoryLogic
         //Свойства.
 
         /// <summary>
+        /// Возвращает единственный экземпляр счётчика расходинков.
+        /// </summary>
+        public static ConsumableCounter GetInstance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = GameObject.FindObjectOfType<ConsumableCounter>();
+
+                    if (_instance == null)
+                    {
+                        var temp = GameObject.Find("Inventory&ConsumableCounter")?.AddComponent<ConsumableCounter>();
+                        if (temp == null) throw new ArgumentNullException("Inventory: Scene doesn't have the canvas \"Inventory&ConsumableCounter\"");
+                        _instance = temp;
+                    }
+                }
+                return _instance;
+            }
+        }
+        /// <summary>
         /// Возвращает и изменяет количество дымовых гранат.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -176,6 +197,17 @@ namespace InventoryLogic
         }
 
         //Вспомогательные методы.
+
+        /// <summary>
+        /// Аннулирование всех расходников.
+        /// </summary>
+        public static void Clear()
+        {
+            SmokeGrenadeCount = 0;
+            SimpleGrenadeCount = 0;
+            FirstAidKitCount = 0;
+            BandageCount = 0;
+        }
     }
 
 }

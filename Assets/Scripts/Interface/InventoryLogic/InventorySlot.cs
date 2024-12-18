@@ -54,17 +54,20 @@ namespace InventoryLogic
         /// Очищение слота.<br/>
         /// Производится сброс хранимого предмета.
         /// </summary>
-        public bool RemoveItem()
+        public void PopItem()
         {
             if (IsFull())
             {
                 StoredItem.gameObject.layer = _pastLayerItem;
                 StoredItem.Active();
                 StoredItem = null;
-
-                return true;
             }
-            return false;
+        }
+
+        public void Clear()
+        {
+            Destroy(StoredItem);
+            StoredItem = null;
         }
         /// <summary>
         /// Указывает, заполнен ли слот.

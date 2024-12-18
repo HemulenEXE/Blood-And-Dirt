@@ -33,7 +33,11 @@ namespace PlayerLogic
             //Освобождение выбранного слота.
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                Inventory.GetInstance.ClearCurrentSlot();
+                Inventory.GetInstance.PopItem();
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                Inventory.GetInstance.Clear();
             }
         }
     }

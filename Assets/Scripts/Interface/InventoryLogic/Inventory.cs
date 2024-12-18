@@ -97,12 +97,9 @@ namespace InventoryLogic
             {
                 if (_instance == null)
                 {
-                    _instance = GameObject.FindObjectOfType<Inventory>();
-
-                    if (_instance == null)
-                    {
-                        _instance = new GameObject("Inventory").AddComponent<Inventory>();
-                    }
+                    var temp = GameObject.Find("Inventory&ConsumableCounter")?.GetComponent<Inventory>();
+                    if (temp == null) throw new ArgumentNullException("Inventory: Scene doesn't have the canvas \"Inventory&ConsumableCounter\"");
+                    _instance = temp;
                 }
                 return _instance;
             }
@@ -169,51 +166,7 @@ namespace InventoryLogic
             CurrentSlot.gameObject.SetActive(true);
         }
         /// <summary>
-        /// Очищение слота с указанным индексом.
-        /// </summary>
-        /// <param name="index"></param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public void ClearSlot(int index)
-        {
-            if (index < 0) throw new ArgumentOutOfRangeException("Inventory: index < 0");
-            if (index > SlotCount) throw new ArgumentOutOfRangeException("Inventory: index > SlotCount");
-
-            if (_slots[index].IsFull())
-            {
-                //Настройка UI слота.
-                //Удаление счётчика патронов если хранимый предмет - оружие.
-                if (_slots[index].StoredItem.GetComponent<IGun>() != null)
-                    Destroy(_slots[index].ImageStoredItem.transform.GetChild(0).gameObject);
-                _slots[index].ImageStoredItem.sprite = _emptySlotImage;
-
-                _slots[index].RemoveItem();
-            }
-        }
-        /// <summary>
-        /// Очищение текущего слота.
-        /// </summary>
-        public void ClearCurrentSlot()
-        {
-            ClearSlot(IndexCurrentSlot);
-        }
-        /// <summary>
-        /// Очистка всех слотов и расходников.
-        /// </summary>
-        public void Clear()
-        {
-            foreach (var slot in _slots)
-            {
-                //Destroy(slot?.StoredItem?.gameObject);
-                slot.StoredItem = null;
-                slot.RemoveItem();
-                ConsumableCounter.SimpleGrenadeCount = 0;
-                ConsumableCounter.SmokeGrenadeCount = 0;
-                ConsumableCounter.FirstAidKitCount = 0;
-                ConsumableCounter.BandageCount = 0;
-            }
-        }
-        /// <summary>
-        /// Добавление предмета в текущий слот инвентаря.
+        /// Добавление предмета в текущий слот.
         /// </summary>
         /// <param name="item"></param>
         public bool PushItem(ItemPickUp item)
@@ -241,6 +194,29 @@ namespace InventoryLogic
                 return true;
             }
             return false;
+        }
+        /// <summary>
+        /// Сброс предмета, хранимого в текущем слоте.
+        /// </summary>
+        public void PopItem()
+        {
+            if (CurrentSlot.StoredItem?.GetComponent<IGun>() != null)
+                Destroy(CurrentSlot.ImageStoredItem.transform.GetChild(0)?.gameObject);
+            CurrentSlot.PopItem();
+            CurrentSlot.ImageStoredItem.sprite = _emptySlotImage;
+        }
+        /// <summary>
+        /// Очищение всех слотов и аннулирование всех расходников.
+        /// </summary>
+        public void Clear()
+        {
+            foreach (var slot in _slots)
+            {
+                //Destroy(slot?.StoredItem?.gameObject);
+                slot.StoredItem = null;
+                slot.Clear();
+                ConsumableCounter.Clear();
+            }
         }
         /// <summary>
         /// Создание нового слота.<br/>

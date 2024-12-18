@@ -13,23 +13,27 @@ namespace GunLogic
         /// <summary>
         /// Наносимый урон.
         /// </summary>
-        [SerializeField] protected float _damage = 2f;
+        [SerializeField] private float _damage = 2f;
         /// <summary>
         /// Задержка атаки.
         /// </summary>
-        [SerializeField] protected float _attackDelay;
+        [SerializeField] private float _attackDelay = 1f;
         /// <summary>
         /// Радиус атаки.
         /// </summary>
-        public float _attackAngle = 45f;
+        [SerializeField] private float _attackAngle = 45f;
         /// <summary>
         /// Дистанция атаки
         /// </summary>
-        public float _attackDistance = 1.2f;
+        [SerializeField] private float _attackDistance = 1.2f;
         /// <summary>
         /// Игнорируемый слой.
         /// </summary>
         [SerializeField] private LayerMask _ignoreLayer;
+        /// <summary>
+        /// Звук аттаки.
+        /// </summary>
+        [SerializeField] private AudioClip _attackSound;
 
         //Свойства.
 
@@ -40,7 +44,13 @@ namespace GunLogic
         /// <summary>
         /// Возвращает величину наносимого урона.
         /// </summary>
-        public float Damage { get => _damage; }
+        public float Damage
+        {
+            get
+            {
+                return _damage;
+            }
+        }
 
         //Методы.
 
