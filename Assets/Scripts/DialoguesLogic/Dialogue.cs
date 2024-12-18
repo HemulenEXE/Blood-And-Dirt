@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Xml.Serialization;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class Dialogue
 {
     [XmlElement("node")]
     public Node[] Nodes;
+    private int _curentNode = 0;
 
     [System.Serializable]
     public class Node
@@ -38,5 +40,29 @@ public class Dialogue
         StringReader sr = new StringReader(_xml.text);
         Dialogue dialogue = serializer.Deserialize(sr) as Dialogue;
         return dialogue;
+    }
+    /// <summary>
+    /// Возвращает текущую рерлику
+    /// </summary>
+    /// <returns></returns>
+    public Node GetCurentNode() { return Nodes[_curentNode]; }
+    /// <summary>
+    /// Переход к следующей реплике
+    /// </summary>
+    /// <exception cref="IndexOutOfRangeException"></exception>
+    public void ToNextNode() {
+        if (_curentNode++ > Nodes.Length)
+            throw new IndexOutOfRangeException();
+        _curentNode++; 
+    }
+    /// <summary>
+    /// Переход к реплике по индексу
+    /// </summary>
+    /// <param name="i"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public void ToNodeWithInd(int i) {
+        if (i > Nodes.Length)
+            throw new ArgumentOutOfRangeException();
+        _curentNode = i;
     }
 }
