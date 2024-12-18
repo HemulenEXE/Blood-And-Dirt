@@ -79,6 +79,7 @@ namespace InteractiveLogic
             Vector3 positionInWorld = RectTransformUtility.WorldToScreenPoint(Camera.main, positionItem);
             _interactiveText.transform.position = positionInWorld;
         }
+
         public void TurnOffText()
         {
             _interactiveText.text = "";

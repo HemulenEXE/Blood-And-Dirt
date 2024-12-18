@@ -42,7 +42,7 @@ namespace PlayerLogic
         {
             if (_interactionDistance < 0) throw new ArgumentOutOfRangeException("PlayerInteract: _interactionDistance < 0");
         }
-        void Update()
+        private void Update()
         {
             Ray2D ray = new Ray2D(this.transform.position, this.transform.right);
             Debug.DrawRay(ray.origin, ray.direction * _interactionDistance, Color.red); //Рисовка луча.

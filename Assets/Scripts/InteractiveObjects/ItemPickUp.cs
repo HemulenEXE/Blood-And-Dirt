@@ -66,6 +66,9 @@ namespace InteractiveObjects
         /// Более безопасный аналог метода SetActive(false).<br/>
         /// Необходимо для правильного управления полями и свойствами при деактивации предмета.
         /// </summary>
-        public virtual void Deactive() => this.gameObject.SetActive(false);
+        public virtual void Deactive()
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 }

@@ -13,35 +13,35 @@ namespace InteractiveObjects{
         /// </summary>
         public override void Interact()
         {
-
             switch (this.tag)
             {
                 case "SmokeGrenade":
-                    if (ConsumableCounter.SmokeGrenadeCount < 5)
+                    if (ConsumableCounter.SmokeGrenadeCount < ConsumableCounter._maxCountSmokeGrenade)
                     {
                         Destroy(this.gameObject);
                         ConsumableCounter.SmokeGrenadeCount++;
-                    }             
+                    }
                     break;
                 case "SimpleGrenade":
-                    if (ConsumableCounter.SimpleGrenadeCount < 5)
-                    { 
+                    if (ConsumableCounter.SimpleGrenadeCount < ConsumableCounter._maxCountSimpleGrenade)
+                    {
                         Destroy(this.gameObject);
                         ConsumableCounter.SimpleGrenadeCount++; 
-                    } 
+                    }
                     break;
                 case "firstAidKit":
-                    if (ConsumableCounter.FirstAidKitCount < 5)
+                    if (ConsumableCounter.FirstAidKitCount < ConsumableCounter._maxCountFirstAidKit)
                     {
                         Destroy(this.gameObject);
                         ConsumableCounter.FirstAidKitCount++;
+                        Debug.Log($"firstAidKit {ConsumableCounter.FirstAidKitCount}");
                     }
                     break;
                 case "bandage":
-                    if (ConsumableCounter.BandageCount < 5)
+                    if (ConsumableCounter.BandageCount < ConsumableCounter._maxCountBandage)
                     {
                         Destroy(this.gameObject);
-                        ConsumableCounter.BandageCount++; 
+                        ConsumableCounter.BandageCount++;
                     }
                     break;
             }

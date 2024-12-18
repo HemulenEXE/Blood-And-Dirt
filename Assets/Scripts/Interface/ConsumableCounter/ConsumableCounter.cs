@@ -51,19 +51,19 @@ namespace InventoryLogic
         /// <summary>
         /// Максимальное число дымовых гранат.
         /// </summary>
-        [SerializeField] private static int _maxCountSmokeGrenade = 5;
+        [SerializeField] public const int _maxCountSmokeGrenade = 5;
         /// <summary>
         /// Максимальное число простых гранат.
         /// </summary>
-        [SerializeField] private static int _maxCountSimpleGrenade = 5;
+        [SerializeField] public const int _maxCountSimpleGrenade = 5;
         /// <summary>
         /// Максимальное число аптечек.
         /// </summary>
-        [SerializeField] private static int _maxCountFirstAidKit = 5;
+        [SerializeField] public const int _maxCountFirstAidKit = 5;
         /// <summary>
         /// Максимальное число бинтов.
         /// </summary>
-        [SerializeField] private static int _maxCountBandage = 5;
+        [SerializeField] public const int _maxCountBandage = 5;
 
         //Свойства.
 
@@ -191,9 +191,9 @@ namespace InventoryLogic
         private void FixedUpdate()
         {
             _smokeGrenadeIcon.GetComponentInChildren<TextMeshProUGUI>().text = SmokeGrenadeCount.ToString();
-            _smokeGrenadeIcon.GetComponentInChildren<TextMeshProUGUI>().text = SimpleGrenadeCount.ToString();
-            _smokeGrenadeIcon.GetComponentInChildren<TextMeshProUGUI>().text = FirstAidKitCount.ToString();
-            _smokeGrenadeIcon.GetComponentInChildren<TextMeshProUGUI>().text = BandageCount.ToString();
+            _simpleGrenadeIcon.GetComponentInChildren<TextMeshProUGUI>().text = SimpleGrenadeCount.ToString();
+            _firstAidKitIcon.GetComponentInChildren<TextMeshProUGUI>().text = FirstAidKitCount.ToString();
+            _bandageIcon.GetComponentInChildren<TextMeshProUGUI>().text = BandageCount.ToString();
         }
 
         //Вспомогательные методы.

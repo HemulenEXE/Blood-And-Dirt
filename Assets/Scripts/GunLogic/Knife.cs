@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace GunLogic
 {
@@ -13,11 +14,15 @@ namespace GunLogic
         /// <summary>
         /// Наносимый урон.
         /// </summary>
-        [SerializeField] private float _damage = 2f;
+        [SerializeField] private float _damage = 100f;
         /// <summary>
         /// Задержка атаки.
         /// </summary>
         [SerializeField] private float _attackDelay = 1f;
+        /// <summary>
+        /// Время до следующей атаки.
+        /// </summary>
+        private float _nextAttackTime = 0f;
         /// <summary>
         /// Радиус атаки.
         /// </summary>
@@ -34,6 +39,10 @@ namespace GunLogic
         /// Звук аттаки.
         /// </summary>
         [SerializeField] private AudioClip _attackSound;
+        /// <summary>
+        /// Компонент, отвечающий за управление аудио.
+        /// </summary>
+        private AudioSource _audio;
 
         //Свойства.
 
@@ -52,49 +61,17 @@ namespace GunLogic
             }
         }
 
-        //Методы.
+        //Встроенные методы.
 
         /// <summary>
-        /// Нанесение урона нескольким сущностям.
+        /// Проверка и настройка полей.
         /// </summary>
-        /// <param name="entity"></param>
-        public void DealDamage()
+        private void Awake()
         {
-            Ray2D ray = new Ray2D(this.transform.position, this.transform.right);
-            Debug.DrawRay(ray.origin, ray.direction * _attackDistance, Color.red); //Рисовка луча.
-
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, _attackDistance, ~_ignoreLayer);
-            if (hit.collider == null)
-            {
-                foreach (var x in GetColliders2DSector())
-                {
-                    //Логика получения урона сущностями.
-                    if (x.gameObject != this.gameObject)
-                    {
-                        //Destroy(x.gameObject);
-                        var healthBot = x.GetComponent<HealthBot>();
-                        healthBot?.GetDamage(this);
-
-                    }
-                }
-            }
+            _audio = this.GetComponent<AudioSource>();
+            if (_audio == null) throw new ArgumentNullException("Knife: _audio is null");
         }
-        /// <summary>
-        /// Возвращает коллайдеры 2D в заданном секторе.
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerable<Collider2D> GetColliders2DSector()
-        {
-            Collider2D[] interim_colliders = Physics2D.OverlapCircleAll(this.transform.position, _attackDistance);
-            foreach (var x in interim_colliders)
-            {
-                float angle = Vector2.Angle(this.transform.right, x.transform.position - this.transform.position);
-                if (angle <= _attackAngle / 2)
-                {
-                    yield return x;
-                }
-            }
-        }
+
         /// <summary>
         /// Рисовка площади поражения.
         /// </summary>
@@ -119,6 +96,53 @@ namespace GunLogic
                 previousPoint = currentPoint;
             }
             Gizmos.DrawLine(previousPoint, endPoint);
+        }
+
+        //Вспомогательные методы.
+
+        /// <summary>
+        /// Нанесение урона нескольким сущностям.
+        /// </summary>
+        /// <param name="entity"></param>
+        public void DealDamage()
+        {
+            if (_nextAttackTime <= 0)
+            {
+                Ray2D ray = new Ray2D(this.transform.position, this.transform.right);
+                Debug.DrawRay(ray.origin, ray.direction * _attackDistance, Color.red); //Рисовка луча.
+
+                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, _attackDistance, ~_ignoreLayer);
+                if (hit.collider == null)
+                {
+                    //_audio.PlayOneShot(_attackSound);
+                    foreach (var x in GetColliders2DSector())
+                    {
+                        //Логика получения урона сущностями.
+                        if (x.gameObject != this.gameObject)
+                        {
+                            //Destroy(x.gameObject);
+                            var healthBot = x.GetComponent<HealthBot>();
+                            healthBot?.GetDamage(this);
+                        }
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Возвращает коллайдеры 2D в заданном секторе.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<Collider2D> GetColliders2DSector()
+        {
+            Collider2D[] interim_colliders = Physics2D.OverlapCircleAll(this.transform.position, _attackDistance);
+            foreach (var x in interim_colliders)
+            {
+                float angle = Vector2.Angle(this.transform.right, x.transform.position - this.transform.position);
+                if (angle <= _attackAngle / 2)
+                {
+                    yield return x;
+                }
+            }
         }
     }
 }
