@@ -1,4 +1,5 @@
 ﻿using GunLogic;
+using InventoryLogic;
 using TMPro;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ namespace PlayerLogic
         private IGun _gun;
         private void Update()
         {
-            _gun = PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem?.GetComponent<IGun>();
+            _gun = Inventory.GetInstance.CurrentSlot.StoredItem?.GetComponent<IGun>();
             if (_gun != null)
             {
                 if (Input.GetKey(KeyCode.Mouse0))
@@ -29,7 +30,7 @@ namespace PlayerLogic
                 {
                     _gun.Recharge();
                 }
-                GameObject discription = PlayerInventory._slots[PlayerInventory._currentSlot].transform.GetChild(0).gameObject;
+                GameObject discription = Inventory.GetInstance.CurrentSlot.transform.GetChild(0).gameObject;
                 discription.GetComponent<TextMeshProUGUI>().text = _gun.AmmoTotalCurrent + "\\" + _gun.AmmoTotal;
             }
         }

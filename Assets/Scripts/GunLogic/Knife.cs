@@ -15,6 +15,10 @@ namespace GunLogic
         /// </summary>
         [SerializeField] protected float _damage = 2f;
         /// <summary>
+        /// Задержка атаки.
+        /// </summary>
+        [SerializeField] protected float _attackDelay;
+        /// <summary>
         /// Радиус атаки.
         /// </summary>
         public float _attackAngle = 45f;

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Inventory реализует паттерн &quot;Одиночка&quot; для обеспечения единственности существования экземпляра этого класса и глобального доступа к нему.">
+    <Position X="3.9" Y="0.508" Height="1.95" Width="1.7" />
+  </Comment>
+  <Class Name="InventoryLogic.Inventory">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAMAAKAAAAAAAAAAQSAAAIIBBAAAAQAQAAgAQBBAEA=</HashCode>
+      <FileName>Assets\Scripts\InventoryLogic\Inventory.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CurrentSlot" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="_slots" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="InventoryLogic.InventorySlot">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABABAAAMAAAgAAAAACA=</HashCode>
+      <FileName>Assets\Scripts\InventoryLogic\InventorySlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InventoryLogic.ConsumableCounter">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAgAgAAAAiggBAAAAAAAAAAAAAAQwAAAAAAAAKAAAEA=</HashCode>
+      <FileName>Assets\Scripts\InventoryLogic\ConsumableCounter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

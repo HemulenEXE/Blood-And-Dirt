@@ -1,4 +1,5 @@
 using GunLogic;
+using InventoryLogic;
 using PlayerLogic;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ namespace PlayerLogic
         private void Update()
         {
             _animator.SetBool("IsMoving", this.GetComponent<PlayerMotion>().IsMoving);
-            var currentItem = PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem;
+            var currentItem = Inventory.GetInstance.CurrentSlot.StoredItem;
             if (currentItem?.GetComponent<ShotGun>() != null)
             {
                 _animator.SetBool("ShotGun", true);

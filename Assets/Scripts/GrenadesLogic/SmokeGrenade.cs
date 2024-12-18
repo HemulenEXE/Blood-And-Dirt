@@ -9,26 +9,32 @@ namespace Grenades
     /// </summary>
     public class SmokeGrenade : SimpleGrenade
     {
+        //Поля.
+
         /// <summary>
         /// Партикл дыма.
         /// </summary>
         [SerializeField] protected ParticleSystem _particle;
         /// <summary>
-        /// Продолжительность активации партикла дыма.
+        /// Продолжительность работы партикла дыма.
         /// </summary>
-        [SerializeField] protected float _smokeDuraion;
+        [SerializeField] private float _smokeDuraion = 5f;
+
+        //Свойства.
+
         /// <summary>
-        /// Возвращает продолжительность активации партикла дыма.
+        /// Возвращает продолжительность работы партикла дыма.
         /// </summary>
         public float SmokeDuraion
         {
-            get => _smokeDuraion;
-            protected set
+            get
             {
-                if (value < 0) throw new ArgumentOutOfRangeException("SmokeGrenade: value < 0");
-                _smokeDuraion = value;
+                return _smokeDuraion;
             }
         }
+
+        //Методы.
+
         /// <summary>
         /// Проверка и настройка полей.
         /// </summary>
@@ -37,38 +43,30 @@ namespace Grenades
         protected override void Awake()
         {
             base.Awake();
+            if ( _particle == null)
+            {
+                _particle = this.GetComponentInChildren<ParticleSystem>();
+            }
+
             if (_particle == null) throw new ArgumentNullException("SmokeGrenade: _particle is null");
             if (SmokeDuraion < 0) throw new ArgumentOutOfRangeException("SmokeGrenade: _smokeDuraion < 0");
+        }
+        private void OnDestroy()
+        {
+            _particle.Stop();
         }
         /// <summary>
         /// Взрыв гранаты.
         /// </summary>
         public override void Explode()
         {
-            IsActive = true;
             _particle.Play();
-            Collider2D[] entity_colliders = Physics2D.OverlapCircleAll(this.transform.position, ExplosionRadius); //Получаем коллайдеры всех сущностей поблизости.
-            BoxCollider2D interim_collider = this.GetComponent<BoxCollider2D>(); //Установка коллайдера, чтобы враги путались в дыме.
-            interim_collider.edgeRadius = ExplosionRadius;
-            foreach (var x in entity_colliders)
-            {
-                //Логика получения урона.
-                if (x.gameObject != this.gameObject)
-                {
-                    //Destroy(x.gameObject);
-                }
-            }
-            StartCoroutine(CoroutineExplode());
-        }
-        /// <summary>
-        /// Корутина для взрыва гранаты.
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerator CoroutineExplode()
-        {
-            yield return new WaitForSeconds(_smokeDuraion);
-            _particle.Stop();
-            Destroy(this.gameObject);
+            IsActivated = true;
+
+            CircleCollider2D smokeField = this.GetComponent<CircleCollider2D>(); //Установка коллайдера, чтобы враги путались в дыме.
+            smokeField.radius = ExplosionRadius;
+            //Враги не получают урон в дыму.
+            Destroy(this.gameObject, _smokeDuraion);
         }
     }
 }

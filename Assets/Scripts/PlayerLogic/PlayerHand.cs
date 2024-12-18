@@ -10,13 +10,13 @@ namespace PlayerLogic
     {
         private void Update()
         {
-            if (PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem != null)
+            if (Inventory.GetInstance.CurrentSlot.StoredItem != null)
             {
-                Transform item_transform = PlayerInventory._slots[PlayerInventory._currentSlot].StoredItem.transform;
+                Transform item_transform = Inventory.GetInstance.CurrentSlot.StoredItem.transform;
                 item_transform.position = this.transform.position - transform.up / 2;
                 item_transform.rotation = this.transform.rotation;
-                PlayerInventory._slots[PlayerInventory._currentSlot].StoredItem.Active();
-                PlayerInventory._slots[PlayerInventory._currentSlot].StoredItem.gameObject.layer = LayerMask.NameToLayer("Invisible");
+                Inventory.GetInstance.CurrentSlot.StoredItem.Active();
+                Inventory.GetInstance.CurrentSlot.StoredItem.gameObject.layer = LayerMask.NameToLayer("Invisible");
             }
         }
     }

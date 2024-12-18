@@ -12,18 +12,15 @@ namespace InventoryLogic
     /// </summary>
     public class InventorySlot : MonoBehaviour
     {
+        //Поля.
+
         /// <summary>
-        /// Название изображения пустого слота.
-        /// </summary>
-        public static string _emptySlotName = "cell";
-        /// <summary>
-        /// Изображение пустого слота.
-        /// </summary>
-        public static Sprite _emptySlotImage = null;
-        /// <summary>
-        /// Слой хранимого предмета до его поднятия.
+        /// Слой хранимого предмета (до его поднятия).
         /// </summary>
         private int _pastLayerItem;
+
+        //Свойства.
+
         /// <summary>
         /// Возвращает и изменяет иконку предмета, хранимого в слоте.<br/>
         /// Может равняться null.
@@ -34,70 +31,45 @@ namespace InventoryLogic
         /// Может равняться null.
         /// </summary>
         public ItemPickUp StoredItem { get; set; } = null;
+
+        //Вспомогательные методы.
+
         /// <summary>
-        /// Настройка и проверка полей.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void Awake()
-        {
-            _emptySlotImage = Resources.Load<Sprite>($"Sprites/Interface/{_emptySlotName}");
-            if (_emptySlotImage == null) throw new ArgumentNullException("InventorySlot: _emptySlotImage is null");
-        }
-        /// <summary>
-        /// Добавление указанного предмета в слот.
+        /// Добавление подаваемого предмета в слот.
         /// </summary>
         /// <param name="item"></param>
-        public virtual void Push(ItemPickUp item)
+        public bool PushItem(ItemPickUp item)
         {
             if (!IsFull())
             {
                 _pastLayerItem = item.gameObject.layer;
-                item.gameObject.layer = LayerMask.NameToLayer("Gun");
+                //item.gameObject.layer = LayerMask.NameToLayer("GunGrenade");
                 item.Deactive();
                 StoredItem = item;
-
-                ImageStoredItem.sprite = item.Icon;
-
-                //Если добавляемый объект является оружием - отобразить над ячейкой инвентаря кол-во патронов
-                if (StoredItem?.GetComponent<IGun>() != null)
-                {
-                    IGun gun = StoredItem?.GetComponent<IGun>();
-                    GameObject description = new GameObject("count", typeof(TextMeshProUGUI));
-                    description.transform.SetParent(ImageStoredItem.transform, false);
-                    TextMeshProUGUI txt = description.GetComponent<TextMeshProUGUI>();
-                    txt.text = gun.AmmoTotalCurrent + "\\" + gun.AmmoTotal;
-                    txt.font = Resources.Load<TMP_FontAsset>($"Fonts/PixelFont");
-                    txt.fontSize = 30f;
-                    txt.alignment = TextAlignmentOptions.Center;
-
-                    Vector3 positionObject = ImageStoredItem.transform.position;
-                    positionObject.y += ImageStoredItem.GetComponent<Image>().GetComponent<RectTransform>().rect.height / 4;
-                    description.transform.position = positionObject;
-                }
+                return true;
             }
+            return false;
         }
         /// <summary>
         /// Очищение слота.<br/>
         /// Производится сброс хранимого предмета.
         /// </summary>
-        public virtual void RemoveItem()
+        public bool RemoveItem()
         {
             if (IsFull())
             {
-                //Удаление счётчика патронов если хранимый предмет - оружие.
-                if (StoredItem.GetComponent<IGun>() != null)
-                    Destroy(ImageStoredItem.transform.GetChild(0).gameObject);
-
                 StoredItem.gameObject.layer = _pastLayerItem;
                 StoredItem.Active();
                 StoredItem = null;
-                ImageStoredItem.GetComponent<Image>().sprite = InventorySlot._emptySlotImage;
+
+                return true;
             }
+            return false;
         }
         /// <summary>
         /// Указывает, заполнен ли слот.
         /// </summary>
         /// <returns></returns>
-        public virtual bool IsFull() => StoredItem != null;
+        public bool IsFull() => StoredItem != null;
     }
 }

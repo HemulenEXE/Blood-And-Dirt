@@ -17,31 +17,31 @@ namespace InteractiveObjects{
             switch (this.tag)
             {
                 case "SmokeGrenade":
-                    if (ConsumablesCounter.SmokeGrenadeCount < 5)
+                    if (ConsumableCounter.SmokeGrenadeCount < 5)
                     {
                         Destroy(this.gameObject);
-                        ConsumablesCounter.SmokeGrenadeCount++;
+                        ConsumableCounter.SmokeGrenadeCount++;
                     }             
                     break;
                 case "SimpleGrenade":
-                    if (ConsumablesCounter.SimpleGrenadeCount < 5)
+                    if (ConsumableCounter.SimpleGrenadeCount < 5)
                     { 
                         Destroy(this.gameObject);
-                        ConsumablesCounter.SimpleGrenadeCount++; 
+                        ConsumableCounter.SimpleGrenadeCount++; 
                     } 
                     break;
                 case "firstAidKit":
-                    if (ConsumablesCounter.FirstAidKitCount < 5)
+                    if (ConsumableCounter.FirstAidKitCount < 5)
                     {
                         Destroy(this.gameObject);
-                        ConsumablesCounter.FirstAidKitCount++;
+                        ConsumableCounter.FirstAidKitCount++;
                     }
                     break;
                 case "bandage":
-                    if (ConsumablesCounter.BandageCount < 5)
+                    if (ConsumableCounter.BandageCount < 5)
                     {
                         Destroy(this.gameObject);
-                        ConsumablesCounter.BandageCount++; 
+                        ConsumableCounter.BandageCount++; 
                     }
                     break;
             }

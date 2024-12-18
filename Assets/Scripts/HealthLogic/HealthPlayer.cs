@@ -90,22 +90,22 @@ public class HealthPlayer : AbstractHealth
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha3) && ConsumablesCounter.FirstAidKitCount > 0)
+        if (Input.GetKeyDown(KeyCode.Alpha3) && ConsumableCounter.FirstAidKitCount > 0)
         {
             if (currentHealth + _firstAidKitHalth > maxHealth)
                 currentHealth = maxHealth;
             else currentHealth += _firstAidKitHalth;
 
-            ConsumablesCounter.FirstAidKitCount--;
+            ConsumableCounter.FirstAidKitCount--;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4) && ConsumablesCounter.BandageCount > 0)
+        if (Input.GetKeyDown(KeyCode.Alpha4) && ConsumableCounter.BandageCount > 0)
         {
             Debug.Log("Применены бинты!");
             if (currentHealth + _bandageHalth > maxHealth)
                 currentHealth = maxHealth;
             else currentHealth += _bandageHalth;
 
-            ConsumablesCounter.BandageCount--;
+            ConsumableCounter.BandageCount--;
         }
     }
 

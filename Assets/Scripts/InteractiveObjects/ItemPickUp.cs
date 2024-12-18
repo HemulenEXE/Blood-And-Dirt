@@ -2,6 +2,7 @@
 using PlayerLogic;
 using System;
 using GunLogic;
+using InventoryLogic;
 
 namespace InteractiveObjects
 {
@@ -54,7 +55,7 @@ namespace InteractiveObjects
         /// </summary>
         public virtual void Interact()
         {
-            PlayerInventory._slots[PlayerInventory._currentSlot].Push(this); //Кладём предмет в слот инвентаря.
+            Inventory.GetInstance.PushItem(this); //Кладём предмет в слот инвентаря.
         }
         /// <summary>
         /// Более безопасный аналог метода SetActive(true).<br/>

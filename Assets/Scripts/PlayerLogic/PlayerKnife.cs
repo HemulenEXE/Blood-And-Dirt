@@ -1,4 +1,5 @@
 ﻿using GunLogic;
+using InventoryLogic;
 using UnityEngine;
 
 namespace PlayerLogic
@@ -11,7 +12,7 @@ namespace PlayerLogic
         private Knife _knife;
         private void Update()
         {
-            _knife = PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem?.GetComponent<Knife>();
+            _knife = Inventory.GetInstance.CurrentSlot.StoredItem?.GetComponent<Knife>();
             if (_knife != null)
             {
                 if (Input.GetKey(KeyCode.Mouse0))

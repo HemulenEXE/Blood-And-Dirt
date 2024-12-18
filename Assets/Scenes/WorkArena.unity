@@ -684,6 +684,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2535376567003357222, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: _damage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2535376567003357222, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: _attackAngle
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: -2535376567003357222, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: _attackDistance
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2535376567003357222, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: _ignoreLayer.m_Bits
+      value: 1600
+      objectReference: {fileID: 0}
     - target: {fileID: 1071187120894598181, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
       propertyPath: m_Name
       value: Sword
