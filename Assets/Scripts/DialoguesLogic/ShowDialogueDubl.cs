@@ -27,7 +27,7 @@ public class ShowDialogueDubl : MonoBehaviour
     private Queue<string> _replicParts; //Части текущей реплики. На экране отображается всегда часть сверху очереди
     private int _replicInd = 0; //Текущий индекс в ктеущей части реплики
     private Button _prefab;
-    
+
     private void Awake()
     {   
         IsTrigger = false;
@@ -109,7 +109,7 @@ public class ShowDialogueDubl : MonoBehaviour
         }
         else 
         {
-            _replicText.text = text.Substring(_replicInd, text.Length - 1 - _replicInd);
+            _replicText.text = text;
             _replicInd = text.Length - 1;
         }
     }
@@ -123,7 +123,7 @@ public class ShowDialogueDubl : MonoBehaviour
         Debug.Log("PrintReplicGradually запущен!");
         string text = _replicParts.Peek();
 
-        while (_replicInd < text.Length - 1)
+        while (_replicInd < text.Length)
         {
             if (text[_replicInd] != '<') //текст без анимаций, с обычны форматированием
             {
@@ -162,6 +162,7 @@ public class ShowDialogueDubl : MonoBehaviour
             }
             yield return new WaitForSeconds(TimeBetweenLetters);
         }
+        _replicInd--;
         Debug.Log($"_replicInd = {_replicInd}");
     }
     /// <summary>
@@ -211,20 +212,21 @@ public class ShowDialogueDubl : MonoBehaviour
 
         foreach (Dialogue.Answer answ in _dialogue.GetCurentNode().answers)
         {
+            Dialogue.Answer locAnsw = answ;
             Debug.Log(_panel.childCount);
             Button btn = Instantiate(_prefab, _panel);
-            btn.GetComponentInChildren<TextMeshProUGUI>().text = answ.text;
-            Debug.Log(answ.toNode);
+            btn.GetComponentInChildren<TextMeshProUGUI>().text = locAnsw.text;
+            Debug.Log(locAnsw.toNode);
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() =>
             {
                 Debug.Log("***");
-                if (answ.exit == "True")
+                if (locAnsw.exit == "True")
                     EndDialogue();
                 else 
                 {
                     Debug.Log("!!!");
-                    _dialogue.ToNodeWithInd(answ.toNode);
+                    _dialogue.ToNodeWithInd(locAnsw.toNode);
                     Debug.Log(_dialogue.GetCurentNode());
                     GoToReplic(); 
                 }
@@ -251,19 +253,48 @@ public class ShowDialogueDubl : MonoBehaviour
 
         //Заполнение очереди частями реплики
         string currentReplic = _dialogue.GetCurentNode().npcText;
-        int start = 0, end = 0;
-        char[] delimetors = new char[] { '!', '.', '?' };
-        while (end != currentReplic.Length - 1)
+
+        if (string.IsNullOrEmpty(currentReplic))
         {
-            Debug.Log($"END = {end}, START = {start}, {currentReplic.Length - 1}");
-            while ((end - start + 1 < MaxReplicLength) && (currentReplic.IndexOfAny(delimetors, end + 1) != -1))
-            { end = currentReplic.IndexOfAny(delimetors, end + 1);
-                Debug.Log($"end = {end}, start = {start}, {currentReplic.Length - 1}");
+            Debug.LogWarning("Текущая реплика пуста!");
+            return;
+        }
+
+        int start = 0, end = 0;
+        char[] delimiters = new char[] { '!', '.', '?' };
+
+        // Формирование частей реплики
+        while (start < currentReplic.Length)
+        {
+            // Ищем конец предложения или обрезаем, если превышает MaxReplicLength
+            while (end - start + 1 < MaxReplicLength)
+            {
+                end = currentReplic.IndexOfAny(delimiters, end + 1);
+                if (end == -1)
+                {
+                    end = currentReplic.Length - 1;
+                    break;
+                }
             }
-            _replicParts.Enqueue(currentReplic.Substring(start, end - start + 1));
+
+            // Добавляем часть строки в очередь
+            string part = currentReplic.Substring(start, end - start + 1);
+            if (!string.IsNullOrWhiteSpace(part))
+            {
+                _replicParts.Enqueue(part);
+                Debug.Log($"Добавлена часть реплики: {part}");
+            }
+
             start = end + 1;
         }
-        Debug.Log(_replicParts.Peek());
+
+        if (_replicParts.Count == 0)
+        {
+            Debug.LogError("Не удалось создать части реплики. Диалог завершён.");
+            EndDialogue();
+            return;
+        }
+
         //Запуск побуквенной печати
         StartCoroutine(PrintReplicGradually());
     }

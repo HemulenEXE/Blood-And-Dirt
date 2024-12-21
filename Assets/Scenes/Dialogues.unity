@@ -482,11 +482,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 151278631502385156, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
   m_PrefabInstance: {fileID: 1205432941}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1381382488 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6644396309223045002, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
-  m_PrefabInstance: {fileID: 1205432941}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1742766049
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,7 +494,6 @@ GameObject:
   - component: {fileID: 1742766050}
   - component: {fileID: 1742766054}
   - component: {fileID: 1742766053}
-  - component: {fileID: 1742766052}
   - component: {fileID: 1742766055}
   m_Layer: 0
   m_Name: Capsule
@@ -575,23 +569,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -20.944}
---- !u!114 &1742766052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1742766049}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 313a16c8f3811a648a61d7e36965a8f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FileName: {fileID: 4900000, guid: f114e7ea59077674da8391267c43a6f8, type: 3}
-  NPCName: "\u041E\u0445\u0440\u0430\u043D\u043D\u0438\u043A"
-  _dialogueWindow: {fileID: 1381382488}
-  font: {fileID: 12800000, guid: b54edb4930c18824c9ee228df04647bd, type: 3}
-  FontSize: 30
 --- !u!50 &1742766053
 Rigidbody2D:
   serializedVersion: 4
