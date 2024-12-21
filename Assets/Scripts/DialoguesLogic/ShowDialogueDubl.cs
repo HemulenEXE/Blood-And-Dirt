@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using System.Text.RegularExpressions;
 
 /// <summary>
 /// Отвечает за воспроизведение диалога
@@ -27,11 +25,12 @@ public class ShowDialogueDubl : MonoBehaviour
     private Queue<string> _replicParts; //Части текущей реплики. На экране отображается всегда часть сверху очереди
     private int _replicInd = 0; //Текущий индекс в ктеущей части реплики
     private Button _prefab;
+    private Printer printer;
 
     private void Awake()
     {   
-        IsTrigger = false;
         _dialogue = Dialogue.Load(FileName);
+        
         _npcName = DialogueWindow.GetChild(1).GetComponent<TextMeshProUGUI>();
         _panel = DialogueWindow.GetChild(2).GetComponent<Transform>();
         _continue = DialogueWindow.GetChild(3).GetComponent<Button>();
@@ -39,8 +38,11 @@ public class ShowDialogueDubl : MonoBehaviour
         _replicText = _panel.GetChild(0).GetComponent<TextMeshProUGUI>();
         _continue.onClick.RemoveAllListeners();
         _continue.onClick.AddListener(Continue);
+        
+        IsTrigger = false;
         _prefab = Resources.Load<Button>("Prefabs/Interface/DialogueButton");
-
+        printer = GetComponent<Printer>();
+        printer.Init(_replicText, TimeBetweenLetters);
         _replicParts = new Queue<string>();
     }
     /// <summary>
@@ -48,9 +50,11 @@ public class ShowDialogueDubl : MonoBehaviour
     /// </summary>
     private void Continue()
     {
-        StopAllCoroutines();
+        _replicInd = printer._rInd;
+        Debug.Log($"_replicInd = {_replicInd}, Length = {_replicParts.Peek().Length}");
+        printer.StopAllCoroutines();
         if (_replicInd != _replicParts.Peek().Length - 1)
-            PrintReplicEntirely(_replicInd);
+            printer.PrintReplicEntirely(ref _replicInd, _replicParts.Peek());
         else
         {
             _replicParts.Dequeue();
@@ -60,7 +64,7 @@ public class ShowDialogueDubl : MonoBehaviour
             else
             {
                 _replicText.text = "";
-                StartCoroutine(PrintReplicGradually());
+                printer.PrintReplicGradually(_replicInd, _replicParts.Peek());
             }
         }
     }
@@ -93,113 +97,6 @@ public class ShowDialogueDubl : MonoBehaviour
         else GoToAnswers();
     }
     /// <summary>
-    /// Печать части реплики с from по </fast> целиком. Или если </fast> нет, то до конца реплики
-    /// </summary>
-    /// <param name="from"></param>
-    /// <param name="last"></param>
-    private void PrintReplicEntirely(int from) 
-    {
-        Debug.Log("PrintReplicEntirely запущен!");
-        string text = _replicParts.Peek();
-        Match m = Regex.Match(text[_replicInd..], @"<fast>(\w+?)</fast>");
-        if (m.Success)
-        {
-            _replicText.text += m.Groups[1].Value;
-            _replicInd += m.Length - 1; //После отпечатки части реплики быстро, нужно допечатать оставшееся побуквенно
-        }
-        else 
-        {
-            _replicText.text = text;
-            _replicInd = text.Length - 1;
-        }
-    }
-    /// <summary>
-    /// Печатет реплику побуквенно с помощью DOTween
-    /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
-    private IEnumerator PrintReplicGradually()
-    {
-        Debug.Log("PrintReplicGradually запущен!");
-        string text = _replicParts.Peek();
-
-        while (_replicInd < text.Length)
-        {
-            if (text[_replicInd] != '<') //текст без анимаций, с обычны форматированием
-            {
-                _replicText.text += text[_replicInd];
-                _replicInd++;
-            }
-            else//текст с необычным форматированием и/или анимацией 
-            {
-
-                Match m = Regex.Match(text[_replicInd..], @"<([^>]+)>(.*?)<\/[^>]+>");
-                Debug.Log(m.Value);
-                switch (m.Groups[1].Value)
-                {
-                    case "fast": PrintReplicEntirely(_replicInd); break;
-                    case "wave": 
-                        { 
-                            List<string> chars = SplitForSimbols(m.Groups[2].Value);
-                            StartCoroutine(PrintWave(chars, TimeBetweenLetters));
-                            break;
-                        }
-                    case "shake":
-                        {
-                            List<string> chars = SplitForSimbols(m.Groups[2].Value);
-                            StartCoroutine(PrintShake(chars, TimeBetweenLetters));
-                            break;
-                        }
-                    default: 
-                        {
-                            List<string> chars = SplitForSimbols(m.Value);
-                            foreach (var c in chars)
-                                _replicText.text += c;
-                            _replicInd += m.Length;
-                            break;
-                        }
-                }
-            }
-            yield return new WaitForSeconds(TimeBetweenLetters);
-        }
-        _replicInd--;
-        Debug.Log($"_replicInd = {_replicInd}");
-    }
-    /// <summary>
-    /// Печатает трясущиеся символы
-    /// </summary>
-    /// <param name="text"></param>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    private IEnumerator PrintShake(List<string> text, float time)
-    { yield return new WaitForSeconds(time); }
-    /// <summary>
-    /// Печатает символы волной
-    /// </summary>
-    /// <param name="text"></param>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    private IEnumerator PrintWave(List<string> text, float time)
-    { yield return new WaitForSeconds(time); }
-    /// <summary>
-    /// К каждому символу текста между тегами применяет теги и записывает их в массив
-    /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
-    private List<string> SplitForSimbols(string text)
-    {
-        List<string> res = new List<string>();
-        Match m = Regex.Match(text, @"(<[^>]+>)(.*?)(<\/[^>]+>)");
-        Debug.Log(m.Groups[2].Value);
-        if (m.Success)
-            foreach (char c in m.Groups[2].Value)
-                res.Add(m.Groups[1].Value + c + m.Groups[3].Value);
-        else
-            foreach (char c in text)
-                res.Add(c.ToString());
-        return res;
-    }
-    /// <summary>
     /// Выводит варианты ответов к реплике
     /// </summary>
     private void GoToAnswers()
@@ -220,14 +117,11 @@ public class ShowDialogueDubl : MonoBehaviour
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() =>
             {
-                Debug.Log("***");
                 if (locAnsw.exit == "True")
                     EndDialogue();
                 else 
                 {
-                    Debug.Log("!!!");
                     _dialogue.ToNodeWithInd(locAnsw.toNode);
-                    Debug.Log(_dialogue.GetCurentNode());
                     GoToReplic(); 
                 }
             });
@@ -296,7 +190,7 @@ public class ShowDialogueDubl : MonoBehaviour
         }
 
         //Запуск побуквенной печати
-        StartCoroutine(PrintReplicGradually());
+        printer.PrintReplicGradually(_replicInd, _replicParts.Peek());
     }
     private void EndDialogue()
     {
