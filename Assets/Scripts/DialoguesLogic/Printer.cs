@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using System.Linq;
 
 /// <summary>
 /// Класс, отвечающий за вывод текста на экран. Скрипт навешивается на NPS
@@ -19,7 +20,7 @@ public class Printer : MonoBehaviour
     private float _hightPanel; //Высота панели
     private float currentX = 0f; //Текущая позиция буквы по Х
     private float currentY = 0f; //Текущая позиция буквы по Y
-    private List<string> _lines; //Список строк
+    private AudioSource _audio;
     public int _rInd = 0; //Аналог _replicInd из ShowDialogue. Отслеживает позицию в тексте
 
     /// <summary>
@@ -27,39 +28,19 @@ public class Printer : MonoBehaviour
     /// </summary>
     /// <param name="panel"></param>
     /// <param name="time"></param>
-    public void Init(Transform panel, float time) 
+    public void Init(Transform panel, float time, AudioSource audio) 
     {
         Debug.Log("PRINTER создан!");
         _prefab = Resources.Load<TextMeshProUGUI>("Prefabs/Interface/Letter");
-        Debug.Log(_prefab);
         _panel = panel;
         TimeBetweenLetters = time;
+        _audio = audio;
 
         _lineHight = _prefab.fontSize + 2f;
         _panel.gameObject.SetActive(true);
         _lineWidth = _panel.GetComponent<RectTransform>().rect.width;
         _hightPanel = _panel.GetComponent<RectTransform>().rect.height;
         _panel.gameObject.SetActive(false);
-    }
-    /// <summary>
-    /// Разделение текста на линии
-    /// </summary>
-    /// <param name="text"></param>
-    public void SetText(string text)
-    {
-        int i = 0;
-        int start = 0;
-        do
-        {
-            if (i > _lineWidth / 2)
-            {
-                i = text.LastIndexOf(" ", i - 1);
-                _lines.Add(text.Substring(start, i - start + 1));
-                start = i + 1;
-            }
-            i = text.IndexOf(" ", i);
-        }
-        while (i != -1);
     }
     /// <summary>
     /// Печатает реплику быстро
@@ -83,13 +64,11 @@ public class Printer : MonoBehaviour
             if (i == -1)
                 i = text.Length - 1;
             if (text.IndexOf("<", _replicInd) != -1)
-                i = Math.Min(i, text.IndexOf("<", _replicInd));      
+                i = Math.Min(i, text.IndexOf("<", _replicInd) - 1);
 
-            //Ошибка в том, что при появлении < мы переходим сразу к печати того, что в тегах, но еще до этого куча текста есть
-            //Видимо это не единственная ошибка...
+            //Ошибка - если i = text.IndexOf("<", _replicInd), ТО печатается начало тега и потом тег находиться неправильно
             Debug.Log(text.Substring(_replicInd, i - _replicInd + 1));
-            string str = text.Substring(_replicInd, i - _replicInd + 1);
-            AddLetter(text.Substring(_replicInd, i - _replicInd + 1));
+            AddLetter(text.Substring(_replicInd, i - _replicInd + 1), false);
             _replicInd = i; 
             
             
@@ -116,14 +95,15 @@ public class Printer : MonoBehaviour
                         {
                             List<string> chars = SplitForSimbols(m.Value);
                             foreach (var c in chars)
-                                AddLetter(c);
+                                AddLetter(c, false);
                             break;
                         }
                 }
-                _replicInd += m.Length;
+                _replicInd += m.Length + 1;
             }
             _rInd = _replicInd;
         }
+        _audio.Play();
         currentX = -_lineWidth / 2;
         currentY = _hightPanel / 2 - 20f;
     }
@@ -148,7 +128,7 @@ public class Printer : MonoBehaviour
         {
             if (text[_replicInd] != '<') //текст без анимаций, с обычны форматированием
             {
-                AddLetter(text[_replicInd].ToString());
+                AddLetter(text[_replicInd].ToString(), true);
                 _replicInd++;
             }
             else//текст с необычным форматированием и/или анимацией 
@@ -179,7 +159,7 @@ public class Printer : MonoBehaviour
                         {
                             List<string> chars = SplitForSimbols(m.Value);
                             foreach (var c in chars)
-                                AddLetter(c);
+                                AddLetter(c, true);
                             break;
                         }
                 }
@@ -192,7 +172,13 @@ public class Printer : MonoBehaviour
         Debug.Log($"_replicInd = {_replicInd}");
         _rInd = _replicInd;
     }
-    private GameObject AddLetter(string text)
+    /// <summary>
+    /// Печатает поданный текст на панеле
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="playAudio"></param>
+    /// <returns></returns>
+    private GameObject AddLetter(string text, bool playAudio)
     {
         Debug.Log($"current sibol = {text}");
         TextMeshProUGUI letter = Instantiate(_prefab, _panel);
@@ -200,6 +186,7 @@ public class Printer : MonoBehaviour
         letter.ForceMeshUpdate(); //Обновление для получения актуальных размеров
 
         float letterWidth = Math.Max(letter.GetPreferredValues().x, 7f); //ширина символа не меньше 7f
+        if (text.Length > 1 && text[^1] == ' ') letterWidth += 7f; //Для учёта пробелов в конце фраз
 
         Debug.Log($"letterWidth = {letterWidth}, currentX = {currentX}") ;
         if (currentX + letterWidth > _lineWidth / 2)
@@ -210,7 +197,10 @@ public class Printer : MonoBehaviour
         }
         letter.GetComponent<RectTransform>().anchoredPosition = new Vector2(currentX, currentY);
         currentX += letterWidth + 0.5f;
-        
+
+        if (playAudio)
+            _audio.Play();
+
         return letter.gameObject;
     }
     /// <summary>
@@ -225,7 +215,11 @@ public class Printer : MonoBehaviour
         
         for (int i = 0; i < text.Count; i++)
         {
-            GameObject letter = AddLetter(text[i]);
+            GameObject letter;
+            if (time == 0f)
+                letter = AddLetter(text[i], false);
+            else letter = AddLetter(text[i], true);
+
             letter.transform.DOShakePosition(1f, strength).SetLoops(-1);
             yield return new WaitForSeconds(time);
         }
@@ -242,7 +236,11 @@ public class Printer : MonoBehaviour
         float startOffset = -1f; 
         for (int i = 0; i < text.Count; i++)
         {
-            GameObject letter = AddLetter(text[i]);
+            GameObject letter;
+            if (time == 0f)
+                letter = AddLetter(text[i], false);
+            else letter = AddLetter(text[i], true);
+
             letter.transform.DOMoveY(letter.transform.position.y - startOffset, 0.5f).From(letter.transform.position.y + startOffset).SetLoops(-1);
             startOffset *= -1f;
             yield return new WaitForSeconds(time);

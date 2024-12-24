@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +19,7 @@ public class ShowDialogueDubl : MonoBehaviour
     private Transform _panelForButtons;
     private Button _continue;
     private TextMeshProUGUI _npcName;
+    private AudioSource _audio;
 
     private bool IsTrigger; //Для контроля включения диалога
     private Queue<string> _replicParts; //Части текущей реплики. На экране отображается всегда часть сверху очереди
@@ -37,6 +36,7 @@ public class ShowDialogueDubl : MonoBehaviour
         _panelForButtons = DialogueWindow.GetChild(3).GetComponent<Transform>();
         _continue = DialogueWindow.GetChild(4).GetComponent<Button>();
         _npcName.text = NPCName;
+        _audio = DialogueWindow.GetComponent<AudioSource>();
         _continue.onClick.RemoveAllListeners();
         _continue.onClick.AddListener(Continue);
         
@@ -53,7 +53,7 @@ public class ShowDialogueDubl : MonoBehaviour
         _replicInd = printer._rInd;
         Debug.Log($"_replicInd = {_replicInd}, Length = {_replicParts.Peek().Length}");
         printer.StopAllCoroutines();
-        if (_replicInd != _replicParts.Peek().Length - 1)
+        if (_replicInd < _replicParts.Peek().Length - 1)
             printer.PrintReplicEntirely(_replicInd, _replicParts.Peek());
         else
         {
@@ -94,7 +94,7 @@ public class ShowDialogueDubl : MonoBehaviour
     private void StartDialogue()
     {
         DialogueWindow.gameObject.SetActive(true);
-        printer.Init(_panelForText, TimeBetweenLetters);
+        printer.Init(_panelForText, TimeBetweenLetters, _audio);
 
         if (_dialogue.GetCurentNode().npcText != null)
             GoToReplic();
@@ -129,6 +129,7 @@ public class ShowDialogueDubl : MonoBehaviour
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() =>
             {
+                _audio.Play();
                 if (locAnsw.exit == "True")
                     EndDialogue();
                 else 
