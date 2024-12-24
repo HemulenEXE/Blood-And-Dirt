@@ -420,26 +420,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2761632037149862446, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
-      propertyPath: m_Padding.m_Left
-      value: 0
+    - target: {fileID: 2570021941227973092, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
+      propertyPath: m_Pivot.x
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2761632037149862446, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
-      propertyPath: m_Padding.m_Right
-      value: 0
+    - target: {fileID: 2570021941227973092, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570021941227973092, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -22.787231
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570021941227973092, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -384.03003
       objectReference: {fileID: 0}
     - target: {fileID: 6130511711459464548, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 33237159}
-    - target: {fileID: 6130511711459464548, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6130511711459464548, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
-      propertyPath: m_SortingOrder
-      value: 32767
-      objectReference: {fileID: 0}
     - target: {fileID: 6644396309223045002, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
       propertyPath: m_Name
       value: DialogueWindow
@@ -448,32 +448,9 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7116194098943865350, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7116194098943865350, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7116194098943865350, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1875.2094
-      objectReference: {fileID: 0}
-    - target: {fileID: 7116194098943865350, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 157.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 7116194098943865350, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 937.6047
-      objectReference: {fileID: 0}
-    - target: {fileID: 7116194098943865350, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -78.69
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2553529072605667111, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
@@ -495,6 +472,7 @@ GameObject:
   - component: {fileID: 1742766054}
   - component: {fileID: 1742766053}
   - component: {fileID: 1742766055}
+  - component: {fileID: 1742766056}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -647,6 +625,19 @@ MonoBehaviour:
   NPCName: "\u041E\u0445\u0440\u0430\u043D\u043D\u0438\u043A"
   DialogueWindow: {fileID: 1205432942}
   TimeBetweenLetters: 0.008
+--- !u!114 &1742766056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742766049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e891712a0e6b894b919c2b2168309af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rInd: 0
 --- !u!1 &1834334002
 GameObject:
   m_ObjectHideFlags: 0

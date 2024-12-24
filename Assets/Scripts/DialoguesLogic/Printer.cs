@@ -1,50 +1,136 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Класс, отвечающий за вывод текста на экран. Скрипт навешивается на NPS
+/// </summary>
 public class Printer : MonoBehaviour
 {
-    private TextMeshProUGUI _replicText;
+    private Transform _panel;
     private float TimeBetweenLetters;
+    private TextMeshProUGUI _prefab; //Префаб буквы
+    private float _lineHight; //Высота строки
+    private float _lineWidth; //Ширина строки
+    private float _hightPanel; //Высота панели
+    private float currentX = 0f; //Текущая позиция буквы по Х
+    private float currentY = 0f; //Текущая позиция буквы по Y
+    private List<string> _lines; //Список строк
     public int _rInd = 0; //Аналог _replicInd из ShowDialogue. Отслеживает позицию в тексте
 
-    public void Init(TextMeshProUGUI text, float time) 
+    /// <summary>
+    /// Инициализация всех (кроме текста) полей
+    /// </summary>
+    /// <param name="panel"></param>
+    /// <param name="time"></param>
+    public void Init(Transform panel, float time) 
     {
         Debug.Log("PRINTER создан!");
-        _replicText = text;
+        _prefab = Resources.Load<TextMeshProUGUI>("Prefabs/Interface/Letter");
+        Debug.Log(_prefab);
+        _panel = panel;
         TimeBetweenLetters = time;
-        Debug.Log(_replicText);
+
+        _lineHight = _prefab.fontSize + 2f;
+        _panel.gameObject.SetActive(true);
+        _lineWidth = _panel.GetComponent<RectTransform>().rect.width;
+        _hightPanel = _panel.GetComponent<RectTransform>().rect.height;
+        _panel.gameObject.SetActive(false);
     }
     /// <summary>
-    /// Печать части реплики с from по </fast> целиком. Или если </fast> нет, то до конца реплики
+    /// Разделение текста на линии
+    /// </summary>
+    /// <param name="text"></param>
+    public void SetText(string text)
+    {
+        int i = 0;
+        int start = 0;
+        do
+        {
+            if (i > _lineWidth / 2)
+            {
+                i = text.LastIndexOf(" ", i - 1);
+                _lines.Add(text.Substring(start, i - start + 1));
+                start = i + 1;
+            }
+            i = text.IndexOf(" ", i);
+        }
+        while (i != -1);
+    }
+    /// <summary>
+    /// Печатает реплику быстро
     /// </summary>
     /// <param name="from"></param>
     /// <param name="last"></param>
-    public void PrintReplicEntirely(ref int _replicInd, string text)
+    public void PrintReplicEntirely(int _replicInd, string text)
     {
         Debug.Log("PrintReplicEntirely запущен!");
-        string txt = text;
-        Match m = Regex.Match(txt[_replicInd..], @"<fast>(\w+?)</fast>");
-        if (m.Success)
+        
+        while (_replicInd < text.Length - 1)
         {
-            _replicText.text += m.Groups[1].Value;
-            _replicInd += m.Length - 1; //После отпечатки части реплики быстро, нужно допечатать оставшееся побуквенно
+            Debug.Log(_replicInd);
+            int i = _replicInd;
+            float length = currentX;
+            while ((i != -1) && (length < _lineWidth / 2))
+            { 
+                i = text.IndexOf(" ", i + 1);
+                length += (text.IndexOf(" ", i + 1) - i + 1) * 20f;
+            }
+            if (i == -1)
+                i = text.Length - 1;
+            if (text.IndexOf("<", _replicInd) != -1)
+                i = Math.Min(i, text.IndexOf("<", _replicInd));      
+
+            //Ошибка в том, что при появлении < мы переходим сразу к печати того, что в тегах, но еще до этого куча текста есть
+            //Видимо это не единственная ошибка...
+            Debug.Log(text.Substring(_replicInd, i - _replicInd + 1));
+            string str = text.Substring(_replicInd, i - _replicInd + 1);
+            AddLetter(text.Substring(_replicInd, i - _replicInd + 1));
+            _replicInd = i; 
+            
+            
+            Match m = Regex.Match(text[_replicInd..], @"<([^>]+)>(.*?)<\/[^>]+>");
+            int ind = text.Length - 1 - (text.Length - _replicInd) + m.Index; 
+            if (ind == _replicInd) 
+            { 
+                Debug.Log(m.Value);
+                switch (m.Groups[1].Value)
+                {
+                    case "wave":
+                        {
+                            List<string> chars = SplitForSimbols(m.Groups[2].Value);
+                            StartCoroutine(PrintWave(chars, 0f, null));
+                            break;
+                        }
+                    case "shake":
+                        {
+                            List<string> chars = SplitForSimbols(m.Groups[2].Value);
+                            StartCoroutine(PrintShake(chars, 0f, null));
+                            break;
+                        }
+                    default:
+                        {
+                            List<string> chars = SplitForSimbols(m.Value);
+                            foreach (var c in chars)
+                                AddLetter(c);
+                            break;
+                        }
+                }
+                _replicInd += m.Length;
+            }
+            _rInd = _replicInd;
         }
-        else
-        {
-            _replicText.text = text;
-            _replicInd = text.Length - 1;
-        }
-        _rInd = _replicInd;
+        currentX = -_lineWidth / 2;
+        currentY = _hightPanel / 2 - 20f;
     }
     public void PrintReplicGradually(int _replcInd, string text)
     {
         Debug.Log($"ind = {_replcInd}, text = {text}");
-        Coroutine c = StartCoroutine(PrintReplicGraduallyCorutain(_replcInd, text));    
-        Debug.Log($"_replicind in Corutine = {_replcInd}");
+      StartCoroutine(PrintReplicGraduallyCorutain(_replcInd, text));    
     }
     /// <summary>
     /// Печатет реплику побуквенно с помощью DOTween
@@ -55,42 +141,49 @@ public class Printer : MonoBehaviour
     {
         Debug.Log("PrintReplicGradually запущен!");
 
+        currentX = -_lineWidth / 2;
+        currentY = _hightPanel / 2 - 20f;
+
         while (_replicInd < text.Length)
         {
             if (text[_replicInd] != '<') //текст без анимаций, с обычны форматированием
             {
-                _replicText.text += text[_replicInd];
+                AddLetter(text[_replicInd].ToString());
                 _replicInd++;
             }
             else//текст с необычным форматированием и/или анимацией 
             {
-
                 Match m = Regex.Match(text[_replicInd..], @"<([^>]+)>(.*?)<\/[^>]+>");
                 Debug.Log(m.Value);
                 switch (m.Groups[1].Value)
                 {
-                    case "fast": PrintReplicEntirely(ref _replicInd, text); break;
                     case "wave":
                         {
                             List<string> chars = SplitForSimbols(m.Groups[2].Value);
-                            StartCoroutine(PrintWave(chars, TimeBetweenLetters));
+                            bool wait = true;
+                            StartCoroutine(PrintWave(chars, TimeBetweenLetters, ()=> wait = false));
+                            while (wait)
+                                yield return null;
                             break;
                         }
                     case "shake":
                         {
                             List<string> chars = SplitForSimbols(m.Groups[2].Value);
-                            StartCoroutine(PrintShake(chars, TimeBetweenLetters));
+                            bool wait = true;
+                            StartCoroutine(PrintShake(chars, TimeBetweenLetters, () => wait = false));
+                            while (wait)
+                                yield return null;
                             break;
                         }
                     default:
                         {
                             List<string> chars = SplitForSimbols(m.Value);
                             foreach (var c in chars)
-                                _replicText.text += c;
-                            _replicInd += m.Length;
+                                AddLetter(c);
                             break;
                         }
                 }
+                _replicInd += m.Length;
             }
             _rInd = _replicInd;
             yield return new WaitForSeconds(TimeBetweenLetters);
@@ -99,22 +192,63 @@ public class Printer : MonoBehaviour
         Debug.Log($"_replicInd = {_replicInd}");
         _rInd = _replicInd;
     }
+    private GameObject AddLetter(string text)
+    {
+        Debug.Log($"current sibol = {text}");
+        TextMeshProUGUI letter = Instantiate(_prefab, _panel);
+        letter.text = text;
+        letter.ForceMeshUpdate(); //Обновление для получения актуальных размеров
+
+        float letterWidth = Math.Max(letter.GetPreferredValues().x, 7f); //ширина символа не меньше 7f
+
+        Debug.Log($"letterWidth = {letterWidth}, currentX = {currentX}") ;
+        if (currentX + letterWidth > _lineWidth / 2)
+        {
+            Debug.Log($"{currentX} + {letterWidth} = {currentX + letterWidth} > {_lineWidth}");
+            currentX = -_lineWidth / 2;
+            currentY -= _lineHight;
+        }
+        letter.GetComponent<RectTransform>().anchoredPosition = new Vector2(currentX, currentY);
+        currentX += letterWidth + 0.5f;
+        
+        return letter.gameObject;
+    }
     /// <summary>
     /// Печатает трясущиеся символы
     /// </summary>
     /// <param name="text"></param>
     /// <param name="time"></param>
     /// <returns></returns>
-    private IEnumerator PrintShake(List<string> text, float time)
-    { yield return new WaitForSeconds(time); }
+    private IEnumerator PrintShake(List<string> text, float time, Action callback)
+    {
+        float strength = 0.5f; //Сила тряски букв
+        
+        for (int i = 0; i < text.Count; i++)
+        {
+            GameObject letter = AddLetter(text[i]);
+            letter.transform.DOShakePosition(1f, strength).SetLoops(-1);
+            yield return new WaitForSeconds(time);
+        }
+        callback?.Invoke();
+    }
     /// <summary>
     /// Печатает символы волной
     /// </summary>
     /// <param name="text"></param>
     /// <param name="time"></param>
     /// <returns></returns>
-    private IEnumerator PrintWave(List<string> text, float time)
-    { yield return new WaitForSeconds(time); }
+    private IEnumerator PrintWave(List<string> text, float time, Action callback)
+    {
+        float startOffset = -1f; 
+        for (int i = 0; i < text.Count; i++)
+        {
+            GameObject letter = AddLetter(text[i]);
+            letter.transform.DOMoveY(letter.transform.position.y - startOffset, 0.5f).From(letter.transform.position.y + startOffset).SetLoops(-1);
+            startOffset *= -1f;
+            yield return new WaitForSeconds(time);
+        }
+        callback?.Invoke();
+    }
     /// <summary>
     /// К каждому символу текста между тегами применяет теги и записывает их в массив
     /// </summary>

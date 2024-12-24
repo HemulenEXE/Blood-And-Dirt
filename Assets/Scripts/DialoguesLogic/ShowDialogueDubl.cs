@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,15 +10,15 @@ using UnityEngine.UI;
 /// </summary>
 public class ShowDialogueDubl : MonoBehaviour
 {
-    public TextAsset FileName;
-    public string NPCName;
-    public Transform DialogueWindow; //Canvas
-    public const int MaxReplicLength = 350; //Максимальное число символов реплики на экране
-    public float TimeBetweenLetters = 0.01f;
+    [SerializeField] public TextAsset FileName;
+    [SerializeField] public string NPCName;
+    [SerializeField] public Transform DialogueWindow; //Canvas
+    [SerializeField] public const int MaxReplicLength = 350; //Максимальное число символов реплики на экране
+    [SerializeField] public float TimeBetweenLetters = 0.01f;
     
     private Dialogue _dialogue;
-    private Transform _panel;
-    private TextMeshProUGUI _replicText;
+    private Transform _panelForText;
+    private Transform _panelForButtons;
     private Button _continue;
     private TextMeshProUGUI _npcName;
 
@@ -32,17 +33,16 @@ public class ShowDialogueDubl : MonoBehaviour
         _dialogue = Dialogue.Load(FileName);
         
         _npcName = DialogueWindow.GetChild(1).GetComponent<TextMeshProUGUI>();
-        _panel = DialogueWindow.GetChild(2).GetComponent<Transform>();
-        _continue = DialogueWindow.GetChild(3).GetComponent<Button>();
+        _panelForText = DialogueWindow.GetChild(2).GetComponent<Transform>();
+        _panelForButtons = DialogueWindow.GetChild(3).GetComponent<Transform>();
+        _continue = DialogueWindow.GetChild(4).GetComponent<Button>();
         _npcName.text = NPCName;
-        _replicText = _panel.GetChild(0).GetComponent<TextMeshProUGUI>();
         _continue.onClick.RemoveAllListeners();
         _continue.onClick.AddListener(Continue);
         
         IsTrigger = false;
         _prefab = Resources.Load<Button>("Prefabs/Interface/DialogueButton");
         printer = GetComponent<Printer>();
-        printer.Init(_replicText, TimeBetweenLetters);
         _replicParts = new Queue<string>();
     }
     /// <summary>
@@ -54,7 +54,7 @@ public class ShowDialogueDubl : MonoBehaviour
         Debug.Log($"_replicInd = {_replicInd}, Length = {_replicParts.Peek().Length}");
         printer.StopAllCoroutines();
         if (_replicInd != _replicParts.Peek().Length - 1)
-            printer.PrintReplicEntirely(ref _replicInd, _replicParts.Peek());
+            printer.PrintReplicEntirely(_replicInd, _replicParts.Peek());
         else
         {
             _replicParts.Dequeue();
@@ -63,7 +63,8 @@ public class ShowDialogueDubl : MonoBehaviour
                 GoToAnswers();
             else
             {
-                _replicText.text = "";
+                foreach (Transform child in _panelForText.GetComponentInChildren<Transform>())
+                    Destroy(child.gameObject);
                 printer.PrintReplicGradually(_replicInd, _replicParts.Peek());
             }
         }
@@ -75,6 +76,8 @@ public class ShowDialogueDubl : MonoBehaviour
             StartDialogue();
             IsTrigger = false;
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Continue();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -91,7 +94,8 @@ public class ShowDialogueDubl : MonoBehaviour
     private void StartDialogue()
     {
         DialogueWindow.gameObject.SetActive(true);
-        
+        printer.Init(_panelForText, TimeBetweenLetters);
+
         if (_dialogue.GetCurentNode().npcText != null)
             GoToReplic();
         else GoToAnswers();
@@ -105,15 +109,23 @@ public class ShowDialogueDubl : MonoBehaviour
         _replicParts.Clear();
         _continue.gameObject.SetActive(false);
         _npcName.gameObject.SetActive(false);
-        _replicText.gameObject.SetActive(false);
+        _panelForText.gameObject.SetActive(false);
 
+        //Очистка старых кнопок
+        var buttons = _panelForButtons.GetComponentsInChildren<Button>();
+        foreach (Button btn in buttons)
+        {
+            btn.onClick.RemoveAllListeners();
+            DestroyImmediate(btn.gameObject);
+        }
+        _panelForButtons.gameObject.SetActive(true);
+        //Добавление новых кнопок
         foreach (Dialogue.Answer answ in _dialogue.GetCurentNode().answers)
         {
             Dialogue.Answer locAnsw = answ;
-            Debug.Log(_panel.childCount);
-            Button btn = Instantiate(_prefab, _panel);
+            Button btn = Instantiate(_prefab, _panelForButtons);
             btn.GetComponentInChildren<TextMeshProUGUI>().text = locAnsw.text;
-            Debug.Log(locAnsw.toNode);
+
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() =>
             {
@@ -135,15 +147,11 @@ public class ShowDialogueDubl : MonoBehaviour
         Debug.Log("GoToReplic запущен!");
         _continue.gameObject.SetActive(true);
         _npcName.gameObject.SetActive(true);
+        _panelForButtons.gameObject.SetActive(false);
 
-        var buttons = _panel.GetComponentsInChildren<Button>();
-        foreach (Button btn in buttons)
-        {
-            btn.onClick.RemoveAllListeners();
-            DestroyImmediate(btn.gameObject);
-        }
-        _replicText.text = "";
-        _replicText.gameObject.SetActive(true);
+        foreach (Transform child in _panelForText.GetComponentInChildren<Transform>())
+            Destroy(child.gameObject);
+        _panelForText.gameObject.SetActive(true);
 
         //Заполнение очереди частями реплики
         string currentReplic = _dialogue.GetCurentNode().npcText;
