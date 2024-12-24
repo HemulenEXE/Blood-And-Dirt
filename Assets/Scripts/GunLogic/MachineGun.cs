@@ -61,7 +61,7 @@ namespace GunLogic
         /// <summary>
         /// Задержка между выстрелами.
         /// </summary>
-        [field: SerializeField] public float ShotDelay { get; private set; } = 0.05f;
+        [field: SerializeField] public float ShotDelay { get; private set; } = 0.1f;
         /// <summary>
         /// Возвращает суммарное число снарядов.
         /// </summary>
