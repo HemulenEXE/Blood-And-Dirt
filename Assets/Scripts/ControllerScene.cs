@@ -29,7 +29,7 @@ public class ControllerScene : MonoBehaviour
         BotController.DetectedEnemy += RaisingAlarm;
         HealthBot.death += DeathBot;
         PlayerMotion.makeNoise += CheckNose;
-        FlameThrower.makeNoiseShooting += CheckNose;
+        //FlameThrower.makeNoiseShooting += CheckNose;
         ShotGun.makeNoiseShooting += CheckNose;
         Pistol.makeNoiseShooting += CheckNose;
         MachineGun.makeNoiseShooting += CheckNose;
@@ -40,7 +40,7 @@ public class ControllerScene : MonoBehaviour
         BotController.DetectedEnemy -= RaisingAlarm;
         HealthBot.death -= DeathBot;
         PlayerMotion.makeNoise -= CheckNose;
-        FlameThrower.makeNoiseShooting -= CheckNose;
+        //FlameThrower.makeNoiseShooting -= CheckNose;
         ShotGun.makeNoiseShooting -= CheckNose;
         Pistol.makeNoiseShooting -= CheckNose;
         MachineGun.makeNoiseShooting -= CheckNose;

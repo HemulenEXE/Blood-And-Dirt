@@ -54,6 +54,10 @@ namespace GunLogic
         /// </summary>
         public int AmmoTotal { get; }
         /// <summary>
+        /// Возвращает задержку между выстрелами.
+        /// </summary>
+        public float ShotDelay { get; }
+        /// <summary>
         /// Возвращает вместимость очереди.
         /// </summary>
         public int AmmoCapacity { get; }
@@ -62,9 +66,9 @@ namespace GunLogic
         /// </summary>
         public int AmmoTotalCurrent { get; }
         /// <summary>
-        /// Возвращает и изменяет силу шума оружия при выстреле
+        /// Возвращает скорость вылета пули.
         /// </summary>
-        public float NoiseIntensity { get; set; }
+        public float SpeedProjectile { get; }
         /// <summary>
         /// Возврашает и изменяет флаг, указывающий, идёт ли перезарядка.
         /// </summary>
@@ -73,6 +77,10 @@ namespace GunLogic
         /// Возврашает и изменяет флаг, указывающий, идёт ли стрельба.
         /// </summary>
         public bool IsShooting { get; set; }
+        /// <summary>
+        /// Возвращает и изменяет силу шума оружия при выстреле
+        /// </summary>
+        public float NoiseIntensity { get; set; }
 
         /// <summary>
         /// Событие вызова реакции на шум стрельбы
@@ -82,10 +90,6 @@ namespace GunLogic
         /// Выстрел из ружья.
         /// </summary>
         public void Shoot(int layerMask = 0, bool IsPlayerShoot = false);
-        /// <summary>
-        /// Остановка стрельбы из ружья.
-        /// </summary>
-        public void StopShoot();
         /// <summary>
         /// Перезарядка ружья.
         /// </summary>

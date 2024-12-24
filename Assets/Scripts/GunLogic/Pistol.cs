@@ -16,30 +16,6 @@ namespace GunLogic
         /// </summary>
         [SerializeField] protected GameObject _prefabProjectile;
         /// <summary>
-        /// Наносимый урон.
-        /// </summary>
-        [SerializeField] protected float _damage = 2f;
-        /// <summary>
-        /// Задержка между выстрелами.
-        /// </summary>
-        [SerializeField] protected float _delayShot = 0.2f;
-        /// <summary>
-        /// Время до следующего выстрела.
-        /// </summary>
-        protected float _nextTimeShot = 0f;
-        /// <summary>
-        /// Суммарное число снарядов.
-        /// </summary>
-        [SerializeField] protected int _ammoTotal = 100;
-        /// <summary>
-        /// Вместимость очереди.
-        /// </summary>
-        [SerializeField] protected int _ammoCapacity = 10;
-        /// <summary>
-        /// Текущее число патронов в очереди.
-        /// </summary>
-        [SerializeField] protected int _ammoTotalCurrent = 0;
-        /// <summary>
         /// Сила шума оружия при выстреле
         /// </summary>
         [SerializeField] private float noiseIntensity = 5;
@@ -48,82 +24,56 @@ namespace GunLogic
         /// </summary>
         public static event Action<Transform, float> makeNoiseShooting;
         /// <summary>
-        /// Время перезарядки.
+        /// Компонент, управляющий аудио.
         /// </summary>
-        [SerializeField] protected float _timeRecharging = 1f;
+        [SerializeField] private AudioSource _audioControl;
         /// <summary>
-        /// Начальная скорость вылета пули.
+        /// Возвращает звук выстрела.
         /// </summary>
-        [SerializeField] protected float _speedProjectile = 50f;
+        [SerializeField] private AudioClip _audioFire;
         /// <summary>
-        /// Компонент, управляющий вызовами звуков.
+        /// Возвращает звук перезарядки.
         /// </summary>
-        protected AudioSource _audio;
+        [SerializeField] private AudioClip _audioRecharge;
         /// <summary>
-        /// Звук выстрела из пистолета.
+        /// Возвращает звук взвода.
         /// </summary>
-        [SerializeField] protected AudioClip _audioFire;
-        /// <summary>
-        /// Звук перезарядки пистолета.
-        /// </summary>
-        [SerializeField] protected AudioClip _audioRecharge;
+        [SerializeField] private AudioClip _audioPlatoon;
 
-        //Свойства.
+        //Автосвойства.
 
         /// <summary>
         /// Возвращает тип оружия.
         /// </summary>
         public GunType Type { get; } = GunType.Light;
         /// <summary>
-        /// Возвращает величину наносимого урона.
+        /// Возвращает наносимый урон.
         /// </summary>
-        public float Damage { get => _damage; }
+        [field: SerializeField] public float Damage { get; private set; } = 2f;
         /// <summary>
-        /// Возвращает текущее число патронов в очереди.
+        /// Возвращает задержку между выстрелами.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public int AmmoTotalCurrent
-        {
-            get
-            {
-                return _ammoTotalCurrent;
-            }
-            protected set
-            {
-                if (value > AmmoCapacity) throw new ArgumentOutOfRangeException("Pistol: value > AmmoCapacity");
-                if (value <= 0) _ammoTotalCurrent = 0;
-                else _ammoTotalCurrent = value;
-            }
-        }
+        [field: SerializeField] public float ShotDelay { get; private set; } = 0.2f;
         /// <summary>
-        /// Возвращает и изменяет суммарное число патронов.
+        /// Возвращает скорость вылета пули.
         /// </summary>
-        public int AmmoTotal
-        {
-            get
-            {
-                return _ammoTotal;
-            }
-            protected set
-            {
-                if (value <= 0) _ammoTotal = 0;
-                else _ammoTotal = value;
-            }
-        }
+        public float SpeedProjectile { get; private set; } = 50f;
+        /// <summary>
+        /// Возвращает суммарное число снарядов.
+        /// </summary>
+        [field: SerializeField] public int AmmoTotal { get; private set; } = 100;
         /// <summary>
         /// Возвращает вместимость очереди.
         /// </summary>
-        public int AmmoCapacity
-        {
-            get
-            {
-                return _ammoCapacity;
-            }
-        }
+        [field: SerializeField] public int AmmoCapacity { get; private set; } = 10;
         /// <summary>
-        /// Свойство для шума
+        /// Возвращает текущее число снарядов в очереди.
         /// </summary>
-        public float NoiseIntensity { get; set; }
+        [field: SerializeField] public int AmmoTotalCurrent { get; private set; } = 0;
+        /// <summary>
+        /// Возвращает время перезарядки.
+        /// </summary>
+        [field: SerializeField] public float RechargingTime { get; private set; } = 1f;
         /// <summary>
         /// Возврашает флаг, указывающий, идёт ли перезарядка.
         /// </summary>
@@ -132,8 +82,14 @@ namespace GunLogic
         /// Возврашает флаг, указывающий, идёт ли стрельба.
         /// </summary>
         public bool IsShooting { get; set; } = false;
+        /// <summary>
+        /// Свойство для шума
+        /// </summary>
+        public float NoiseIntensity { get; set; }
 
-        //Методы.
+        //Свойства.
+
+        //Встроенные методы.
 
         /// <summary>
         /// Настройка и проверка полей.
@@ -142,19 +98,22 @@ namespace GunLogic
         /// <exception cref="ArgumentNullException"></exception>
         protected void Awake()
         {
-            _audio = this.GetComponent<AudioSource>();
+            _audioControl = this.GetComponent<AudioSource>();
 
             if (Damage < 0) throw new ArgumentOutOfRangeException("Pistol: Damage < 0");
-            if (_delayShot < 0) throw new ArgumentOutOfRangeException("Pistol: _delayFire < 0");
+            if (ShotDelay < 0) throw new ArgumentOutOfRangeException("Pistol: ShotDelay < 0");
             if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("Pistol: AmmoTotal < 0");
             if (AmmoCapacity < 0) throw new ArgumentOutOfRangeException("Pistol: AmmoCapacity < 0");
-            if (_timeRecharging < 0) throw new ArgumentOutOfRangeException("Pistol: _timeRecharging < 0");
+            if (RechargingTime < 0) throw new ArgumentOutOfRangeException("Pistol: RechargingTime < 0");
             if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("Pistol: AmmoCapacity < AmmoTotalCurrent");
             if (_prefabProjectile == null) throw new ArgumentNullException("Pistol: _prefabPellet is null");
-            if (_audio == null) throw new ArgumentNullException("Pistol: _audio is null");
+            if (_audioControl == null) throw new ArgumentNullException("Pistol: _audioControl is null");
             if (_audioFire == null) throw new ArgumentNullException("Pistol: _audioFire is null");
             if (_audioRecharge == null) throw new ArgumentNullException("Pistol: _audioRecharge is null");
         }
+
+        //Вспомогательные методы.
+
         /// <summary>
         /// Выстрел из пистолета.<br/>
         /// </summary>
@@ -162,18 +121,17 @@ namespace GunLogic
         /// <exception cref="ArgumentNullException"></exception>
         public void Shoot(int layerMask = 0, bool IsPlayerShoot = false)
         {
-            if (!IsShooting && !IsRecharging && Time.time > _nextTimeShot)
+            if (!IsShooting && !IsRecharging)
             {
                 if (AmmoTotalCurrent > 0)
                 {
+                    _audioControl.PlayOneShot(_audioFire);
                     IsShooting = true;
-                    _nextTimeShot = Time.time + _delayShot;
 
                     var spawnerProjectile = this.transform.Find("SpawnerProjectile");
                     GameObject currentBullet = Instantiate(_prefabProjectile, spawnerProjectile.position, spawnerProjectile.rotation); //Вылет снаряда.
                     currentBullet.layer = layerMask;
                     AmmoTotalCurrent--;
-                    _audio.PlayOneShot(_audioFire);
 
                     var projectileData = currentBullet.GetComponent<ProjectileData>();
                     if (projectileData != null)
@@ -183,7 +141,7 @@ namespace GunLogic
                     }
 
                     var bulletController = currentBullet.AddComponent<BulletMovement>();
-                    bulletController.SetSpeed(_speedProjectile);
+                    bulletController.SetSpeed(SpeedProjectile);
 
                     IsShooting = false;
 
@@ -196,16 +154,11 @@ namespace GunLogic
             }
         }
         /// <summary>
-        /// Остановка стрельбы из пистолета.<br/>
-        /// Не содержит реализации.
-        /// </summary>
-        public void StopShoot() { }
-        /// <summary>
         /// Перезарядка пистолета.
         /// </summary>
         public void Recharge()
         {
-            if (_ammoTotal > 0 && !IsRecharging && !IsShooting)
+            if (AmmoTotal > 0 && !IsRecharging && !IsShooting)
             {
                 IsRecharging = true; //Начало перезарядки.
                 StartCoroutine(RechargeCoroutine());
@@ -214,16 +167,19 @@ namespace GunLogic
         /// <summary>
         /// Проверяет, пуст ли пистолет.
         /// </summary>
-        public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
+        public bool IsEmpty()
+        {
+            return AmmoTotal == 0 && AmmoTotalCurrent == 0;
+        }
         /// <summary>
         /// Корутина для перезарядки пистолета.
         /// </summary>
         /// <returns></returns>
         private IEnumerator RechargeCoroutine()
         {
-            yield return new WaitForSeconds(_timeRecharging);
-            _audio.PlayOneShot(_audioRecharge);
+            yield return new WaitForSeconds(RechargingTime);
             int count_need_patrons = AmmoCapacity - AmmoTotalCurrent; //Количество нехватаемых патронов.
+            _audioControl.PlayOneShot(_audioRecharge);
             if (AmmoTotal > count_need_patrons)
             {
                 AmmoTotalCurrent += count_need_patrons;

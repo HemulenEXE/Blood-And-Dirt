@@ -164,7 +164,7 @@ public class BotController : MonoBehaviour
             }
             else if(gun.IsShooting)
             {
-                gun.StopShoot();
+                //gun.StopShoot();
             }
         }
         else

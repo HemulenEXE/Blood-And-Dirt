@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 namespace GunLogic
 {
@@ -12,65 +13,38 @@ namespace GunLogic
         //Поля.
 
         /// <summary>
-        /// Наносимый урон.
-        /// </summary>
-        [SerializeField] private float _damage = 100f;
-        /// <summary>
-        /// Задержка атаки.
-        /// </summary>
-        [SerializeField] private float _attackDelay = 1f;
-        /// <summary>
-        /// Время до следующей атаки.
-        /// </summary>
-        private float _nextAttackTime = 0f;
-        /// <summary>
-        /// Радиус атаки.
-        /// </summary>
-        [SerializeField] private float _attackAngle = 45f;
-        /// <summary>
-        /// Дистанция атаки
-        /// </summary>
-        [SerializeField] private float _attackDistance = 1.2f;
-        /// <summary>
         /// Игнорируемый слой.
         /// </summary>
         [SerializeField] private LayerMask _ignoreLayer;
-        /// <summary>
-        /// Звук аттаки.
-        /// </summary>
-        [SerializeField] private AudioClip _attackSound;
-        /// <summary>
-        /// Компонент, отвечающий за управление аудио.
-        /// </summary>
-        private AudioSource _audio;
 
-        //Свойства.
+        //Автосвойства.
 
+        /// <summary>
+        /// Возвращает наносимый урон.
+        /// </summary>
+        [field: SerializeField] public float Damage { get; private set; } = 100f;
+        /// <summary>
+        /// Возвращает задержку аттаки.
+        /// </summary>
+        [field: SerializeField] public float AttackDelay { get; private set; } = 1f;
+        /// <summary>
+        /// Возвращает радиус аттаки.
+        /// </summary>
+        [field: SerializeField] public float AttackAngle { get; private set; } = 45f;
+        /// <summary>
+        /// Возвращает дистанцию аттаки.
+        /// </summary>
+        [field: SerializeField] public float AttackDistance { get; private set; } = 1.2f;
+        /// <summary>
+        /// Возвращает звук аттаки.
+        /// </summary>
+        [field: SerializeField] public AudioClip AttackSound { get; private set; }
         /// <summary>
         /// Возвращает тип оружия.
         /// </summary>
         public GunType Type { get; } = GunType.Light;
-        /// <summary>
-        /// Возвращает величину наносимого урона.
-        /// </summary>
-        public float Damage
-        {
-            get
-            {
-                return _damage;
-            }
-        }
 
         //Встроенные методы.
-
-        /// <summary>
-        /// Проверка и настройка полей.
-        /// </summary>
-        private void Awake()
-        {
-            _audio = this.GetComponent<AudioSource>();
-            if (_audio == null) throw new ArgumentNullException("Knife: _audio is null");
-        }
 
         /// <summary>
         /// Рисовка площади поражения.
@@ -79,19 +53,19 @@ namespace GunLogic
         {
             Gizmos.color = Color.green;
 
-            float startAngle = -_attackAngle / 2f;
-            float endAngle = _attackAngle / 2f;
-            Vector3 startPoint = this.transform.position + this.transform.rotation * Quaternion.Euler(0, 0, startAngle) * Vector3.right * _attackDistance;
-            Vector3 endPoint = this.transform.position + this.transform.rotation * Quaternion.Euler(0, 0, endAngle) * Vector3.right * _attackDistance;
+            float startAngle = -AttackAngle / 2f;
+            float endAngle = AttackAngle / 2f;
+            Vector3 startPoint = this.transform.position + this.transform.rotation * Quaternion.Euler(0, 0, startAngle) * Vector3.right * AttackDistance;
+            Vector3 endPoint = this.transform.position + this.transform.rotation * Quaternion.Euler(0, 0, endAngle) * Vector3.right * AttackDistance;
             Gizmos.DrawLine(this.transform.position, startPoint);
             Gizmos.DrawLine(this.transform.position, endPoint);
             int segments = 20;
-            float angleStep = _attackAngle / segments;
+            float angleStep = AttackAngle / segments;
             Vector3 previousPoint = startPoint;
             for (int i = 1; i <= segments; i++)
             {
                 float currentAngle = startAngle + angleStep * i;
-                Vector3 currentPoint = this.transform.position + this.transform.rotation * Quaternion.Euler(0, 0, currentAngle) * Vector3.right * _attackDistance;
+                Vector3 currentPoint = this.transform.position + this.transform.rotation * Quaternion.Euler(0, 0, currentAngle) * Vector3.right * AttackDistance;
                 Gizmos.DrawLine(previousPoint, currentPoint);
                 previousPoint = currentPoint;
             }
@@ -106,24 +80,19 @@ namespace GunLogic
         /// <param name="entity"></param>
         public void DealDamage()
         {
-            if (_nextAttackTime <= 0)
-            {
-                Ray2D ray = new Ray2D(this.transform.position, this.transform.right);
-                Debug.DrawRay(ray.origin, ray.direction * _attackDistance, Color.red); //Рисовка луча.
+            Ray2D ray = new Ray2D(this.transform.position, this.transform.right);
+            Debug.DrawRay(ray.origin, ray.direction * AttackDistance, Color.red); //Рисовка луча.
 
-                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, _attackDistance, ~_ignoreLayer);
-                if (hit.collider == null)
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, AttackDistance, ~_ignoreLayer);
+            if (hit.collider == null)
+            {
+                foreach (var x in GetColliders2DSector())
                 {
-                    //_audio.PlayOneShot(_attackSound);
-                    foreach (var x in GetColliders2DSector())
+                    //Логика получения урона сущностями.
+                    if (x.gameObject != this.gameObject)
                     {
-                        //Логика получения урона сущностями.
-                        if (x.gameObject != this.gameObject)
-                        {
-                            //Destroy(x.gameObject);
-                            var healthBot = x.GetComponent<HealthBot>();
-                            healthBot?.GetDamage(this);
-                        }
+                        var healthBot = x.GetComponent<HealthBot>();
+                        healthBot?.GetDamage(this);
                     }
                 }
             }
@@ -134,11 +103,11 @@ namespace GunLogic
         /// <returns></returns>
         private IEnumerable<Collider2D> GetColliders2DSector()
         {
-            Collider2D[] interim_colliders = Physics2D.OverlapCircleAll(this.transform.position, _attackDistance);
+            Collider2D[] interim_colliders = Physics2D.OverlapCircleAll(this.transform.position, AttackDistance);
             foreach (var x in interim_colliders)
             {
                 float angle = Vector2.Angle(this.transform.right, x.transform.position - this.transform.position);
-                if (angle <= _attackAngle / 2)
+                if (angle <= AttackAngle)
                 {
                     yield return x;
                 }
