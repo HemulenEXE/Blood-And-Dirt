@@ -21,6 +21,7 @@ public class Printer : MonoBehaviour
     private float currentX = 0f; //Текущая позиция буквы по Х
     private float currentY = 0f; //Текущая позиция буквы по Y
     private AudioSource _audio;
+    private bool IsAnim = false; //Происходит ли анимация тектса
     public int _rInd = 0; //Аналог _replicInd из ShowDialogue. Отслеживает позицию в тексте
 
     /// <summary>
@@ -43,18 +44,63 @@ public class Printer : MonoBehaviour
         _panel.gameObject.SetActive(false);
     }
     /// <summary>
+    /// Если побукыенная печать была остановлена на моменте печати текста с анимацией/форматированием, то этот метод вначале допечатывает этот текст, а потом переходит к быстрой печати
+    /// </summary>
+    /// <param name="_replicInd"></param>
+    /// <param name="text"></param>
+    public void PrintReplicEntirely(int _replicInd, string text)
+    {
+        if (IsAnim == true)
+        {
+            Match m = Regex.Match(text, @"<([^>]+)>(.*?)<\/[^>]+>");
+            while (!(m.Index < _replicInd && _replicInd < m.Index + m.Length))
+                m = m.NextMatch();
+            switch (m.Groups[1].Value)
+            {
+                case "wave":
+                    {
+                        List<string> chars = SplitForSimbols(text[_replicInd..(m.Groups[2].Index + m.Groups[2].Length)]);
+                        StartCoroutine(PrintWave(chars, 0f, null));
+                        break;
+                    }
+                case "shake":
+                    {
+                        List<string> chars = SplitForSimbols(text[_replicInd..(m.Groups[2].Index + m.Groups[2].Length)]);
+                        for (int j = 0; j < chars.Count; j++)
+                        {
+                            GameObject letter = AddLetter(chars[j], false);
+                            letter.transform.DOShakePosition(1f, 2.5f).SetLoops(-1);
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        List<string> chars = SplitForSimbols(m.Value);
+                        for (int i = _replicInd - m.Index - m.Groups[1].Length; i < chars.Count; i++)
+                            AddLetter(chars[i], false);
+                        break;
+                    }
+            }
+            IsAnim = false;
+            _replicInd += m.Length - (_replicInd - m.Index);
+            _PrintReplicEntirely(_replicInd, text);
+        }
+        else _PrintReplicEntirely(_replicInd, text);
+    }
+    /// <summary>
     /// Печатает реплику быстро
     /// </summary>
     /// <param name="from"></param>
     /// <param name="last"></param>
-    public void PrintReplicEntirely(int _replicInd, string text)
+    public void _PrintReplicEntirely(int _replicInd, string text)
     {
+        _rInd = _replicInd;
         Debug.Log("PrintReplicEntirely запущен!");
         
-        while (_replicInd < text.Length - 1)
+        while (_rInd < text.Length - 1)
         {
-            Debug.Log(_replicInd);
-            int i = _replicInd;
+            Debug.Log(_rInd);
+            int i = _rInd;
             float length = currentX;
             while ((i != -1) && (length < _lineWidth / 2))
             { 
@@ -63,19 +109,19 @@ public class Printer : MonoBehaviour
             }
             if (i == -1)
                 i = text.Length - 1;
-            if (text.IndexOf("<", _replicInd) != -1)
-                i = Math.Min(i, text.IndexOf("<", _replicInd) - 1);
+            if (text.IndexOf("<", _rInd) != -1)
+                i = Math.Min(i, text.IndexOf("<", _rInd) - 1);
 
-            //Ошибка - если i = text.IndexOf("<", _replicInd), ТО печатается начало тега и потом тег находиться неправильно
-            Debug.Log(text.Substring(_replicInd, i - _replicInd + 1));
-            AddLetter(text.Substring(_replicInd, i - _replicInd + 1), false);
-            _replicInd = i; 
+            Debug.Log(text.Substring(_rInd, i - _rInd + 1));
+            AddLetter(text.Substring(_rInd, i - _rInd + 1), false);
+            _rInd = i; 
             
             
-            Match m = Regex.Match(text[_replicInd..], @"<([^>]+)>(.*?)<\/[^>]+>");
-            int ind = text.Length - 1 - (text.Length - _replicInd) + m.Index; 
-            if (ind == _replicInd) 
-            { 
+            Match m = Regex.Match(text[_rInd..], @"<([^>]+)>(.*?)<\/([^>]+)>");
+            int ind = text.Length - 1 - (text.Length - _rInd) + m.Index; 
+            if (ind == _rInd) 
+            {
+                _rInd += m.Groups[1].Length + 2;
                 Debug.Log(m.Value);
                 switch (m.Groups[1].Value)
                 {
@@ -88,7 +134,11 @@ public class Printer : MonoBehaviour
                     case "shake":
                         {
                             List<string> chars = SplitForSimbols(m.Groups[2].Value);
-                            StartCoroutine(PrintShake(chars, 0f, null));
+                            for (int j = 0; j < chars.Count; j++)
+                            {
+                                GameObject letter = AddLetter(chars[j], false);
+                                letter.transform.DOShakePosition(1f, 2.5f).SetLoops(-1);
+                            }
                             break;
                         }
                     default:
@@ -99,9 +149,8 @@ public class Printer : MonoBehaviour
                             break;
                         }
                 }
-                _replicInd += m.Length + 1;
+                _rInd += m.Groups[3].Length + 4;
             }
-            _rInd = _replicInd;
         }
         _audio.Play();
         currentX = -_lineWidth / 2;
@@ -119,22 +168,24 @@ public class Printer : MonoBehaviour
     /// <returns></returns>
     public IEnumerator PrintReplicGraduallyCorutain(int _replicInd, string text)
     {
+        _rInd = _replicInd;
         Debug.Log("PrintReplicGradually запущен!");
 
         currentX = -_lineWidth / 2;
         currentY = _hightPanel / 2 - 20f;
 
-        while (_replicInd < text.Length)
+        while (_rInd < text.Length)
         {
-            if (text[_replicInd] != '<') //текст без анимаций, с обычны форматированием
+            if (text[_rInd] != '<') //текст без анимаций, с обычны форматированием
             {
-                AddLetter(text[_replicInd].ToString(), true);
-                _replicInd++;
+                AddLetter(text[_rInd].ToString(), true);
             }
             else//текст с необычным форматированием и/или анимацией 
             {
-                Match m = Regex.Match(text[_replicInd..], @"<([^>]+)>(.*?)<\/[^>]+>");
+                IsAnim = true;
+                Match m = Regex.Match(text[_rInd..], @"<([^>]+)>(.*?)<\/([^>]+)>");
                 Debug.Log(m.Value);
+                _rInd += m.Groups[1].Length + 2;
                 switch (m.Groups[1].Value)
                 {
                     case "wave":
@@ -149,28 +200,32 @@ public class Printer : MonoBehaviour
                     case "shake":
                         {
                             List<string> chars = SplitForSimbols(m.Groups[2].Value);
-                            bool wait = true;
-                            StartCoroutine(PrintShake(chars, TimeBetweenLetters, () => wait = false));
-                            while (wait)
-                                yield return null;
+                            for (int i = 0; i < chars.Count; i++)
+                            {
+                                GameObject letter = AddLetter(chars[i], true);
+                                letter.transform.DOShakePosition(1f, 2.5f).SetLoops(-1);
+                                yield return new WaitForSeconds(TimeBetweenLetters);
+                            }
                             break;
                         }
                     default:
                         {
                             List<string> chars = SplitForSimbols(m.Value);
                             foreach (var c in chars)
+                            {
                                 AddLetter(c, true);
+                                yield return new WaitForSeconds(TimeBetweenLetters);
+                            }
                             break;
                         }
                 }
-                _replicInd += m.Length;
+                IsAnim = false;
+                _rInd += m.Groups[3].Length + 4;
             }
-            _rInd = _replicInd;
             yield return new WaitForSeconds(TimeBetweenLetters);
         }
-        _replicInd--;
+        _rInd--;
         Debug.Log($"_replicInd = {_replicInd}");
-        _rInd = _replicInd;
     }
     /// <summary>
     /// Печатает поданный текст на панеле
@@ -197,34 +252,14 @@ public class Printer : MonoBehaviour
         }
         letter.GetComponent<RectTransform>().anchoredPosition = new Vector2(currentX, currentY);
         currentX += letterWidth + 0.5f;
-
+        Debug.Log($"currentX = {currentX}");
         if (playAudio)
             _audio.Play();
 
+        _rInd++;
         return letter.gameObject;
     }
-    /// <summary>
-    /// Печатает трясущиеся символы
-    /// </summary>
-    /// <param name="text"></param>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    private IEnumerator PrintShake(List<string> text, float time, Action callback)
-    {
-        float strength = 0.5f; //Сила тряски букв
-        
-        for (int i = 0; i < text.Count; i++)
-        {
-            GameObject letter;
-            if (time == 0f)
-                letter = AddLetter(text[i], false);
-            else letter = AddLetter(text[i], true);
 
-            letter.transform.DOShakePosition(1f, strength).SetLoops(-1);
-            yield return new WaitForSeconds(time);
-        }
-        callback?.Invoke();
-    }
     /// <summary>
     /// Печатает символы волной
     /// </summary>

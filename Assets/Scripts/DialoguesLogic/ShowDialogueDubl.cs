@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DG.Tweening;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,6 +58,7 @@ public class ShowDialogueDubl : MonoBehaviour
             printer.PrintReplicEntirely(_replicInd, _replicParts.Peek());
         else
         {
+            DOTween.KillAll();
             _replicParts.Dequeue();
             _replicInd = 0;
             if (_replicParts.Count == 0)
