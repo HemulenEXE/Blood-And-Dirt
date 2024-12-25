@@ -37,7 +37,7 @@ public class Printer : MonoBehaviour
         TimeBetweenLetters = time;
         _audio = audio;
 
-        _lineHight = _prefab.fontSize + 2f;
+        _lineHight = _prefab.fontSize + 4f;
         _panel.gameObject.SetActive(true);
         _lineWidth = _panel.GetComponent<RectTransform>().rect.width;
         _hightPanel = _panel.GetComponent<RectTransform>().rect.height;
@@ -59,14 +59,19 @@ public class Printer : MonoBehaviour
             {
                 case "wave":
                     {
-                        List<string> chars = SplitForSimbols(text[_replicInd..(m.Groups[2].Index + m.Groups[2].Length)]);
-                        StartCoroutine(PrintWave(chars, 0f, null));
+                        List<string> chars = SplitForSimbols(m.Groups[2].Value);
+                        for (int i = _replicInd - m.Groups[2].Index; i < chars.Count; i++)
+                        {
+                            GameObject letter = AddLetter(chars[i], false);
+                            float hight = currentY + _lineHight * 0.5f + Mathf.Sin(Time.time * (TimeBetweenLetters / i) + 0.4f * i) * (_lineHight * 0.5f);
+                            letter.transform.DOLocalMoveY(hight, 0.4f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+                        }
                         break;
                     }
                 case "shake":
                     {
-                        List<string> chars = SplitForSimbols(text[_replicInd..(m.Groups[2].Index + m.Groups[2].Length)]);
-                        for (int j = 0; j < chars.Count; j++)
+                        List<string> chars = SplitForSimbols(m.Groups[2].Value);
+                        for (int j = _replicInd - m.Groups[2].Index; j < chars.Count; j++)
                         {
                             GameObject letter = AddLetter(chars[j], false);
                             letter.transform.DOShakePosition(1f, 2.5f).SetLoops(-1);
@@ -76,11 +81,12 @@ public class Printer : MonoBehaviour
                 default:
                     {
                         List<string> chars = SplitForSimbols(m.Value);
-                        for (int i = _replicInd - m.Index - m.Groups[1].Length; i < chars.Count; i++)
+                        for (int i = _replicInd - m.Index - m.Groups[1].Length - 2; i < chars.Count; i++)
                             AddLetter(chars[i], false);
                         break;
                     }
             }
+            _audio.Play();
             IsAnim = false;
             _replicInd += m.Length - (_replicInd - m.Index);
             _PrintReplicEntirely(_replicInd, text);
@@ -128,7 +134,12 @@ public class Printer : MonoBehaviour
                     case "wave":
                         {
                             List<string> chars = SplitForSimbols(m.Groups[2].Value);
-                            StartCoroutine(PrintWave(chars, 0f, null));
+                            for (int j = 0; i < chars.Count; j++)
+                            {
+                                GameObject letter = AddLetter(chars[i], false);
+                                float hight = currentY + _lineHight * 0.5f + Mathf.Sin(Time.time * (TimeBetweenLetters / i) + 0.4f * i) * (_lineHight * 0.5f);
+                                letter.transform.DOLocalMoveY(hight, 0.4f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+                            }
                             break;
                         }
                     case "shake":
@@ -191,10 +202,12 @@ public class Printer : MonoBehaviour
                     case "wave":
                         {
                             List<string> chars = SplitForSimbols(m.Groups[2].Value);
-                            bool wait = true;
-                            StartCoroutine(PrintWave(chars, TimeBetweenLetters, ()=> wait = false));
-                            while (wait)
-                                yield return null;
+                            for (int i = 0; i < chars.Count; i++)
+                            {
+                                GameObject letter = AddLetter(chars[i], true);
+                                letter.transform.DOLocalMoveY(currentY + _lineHight * 0.5f, 0.4f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+                                yield return new WaitForSeconds(TimeBetweenLetters);
+                            }
                             break;
                         }
                     case "shake":
@@ -260,28 +273,6 @@ public class Printer : MonoBehaviour
         return letter.gameObject;
     }
 
-    /// <summary>
-    /// Печатает символы волной
-    /// </summary>
-    /// <param name="text"></param>
-    /// <param name="time"></param>
-    /// <returns></returns>
-    private IEnumerator PrintWave(List<string> text, float time, Action callback)
-    {
-        float startOffset = -1f; 
-        for (int i = 0; i < text.Count; i++)
-        {
-            GameObject letter;
-            if (time == 0f)
-                letter = AddLetter(text[i], false);
-            else letter = AddLetter(text[i], true);
-
-            letter.transform.DOMoveY(letter.transform.position.y - startOffset, 0.5f).From(letter.transform.position.y + startOffset).SetLoops(-1);
-            startOffset *= -1f;
-            yield return new WaitForSeconds(time);
-        }
-        callback?.Invoke();
-    }
     /// <summary>
     /// К каждому символу текста между тегами применяет теги и записывает их в массив
     /// </summary>
