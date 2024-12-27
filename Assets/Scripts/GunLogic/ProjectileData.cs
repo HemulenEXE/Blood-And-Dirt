@@ -33,6 +33,10 @@ namespace GunLogic
                 _damage = value;
             }
         }
+        private void Start()
+        {
+            Destroy(gameObject, _liveTime);
+        }
         protected void FixedUpdate()
         {
             Destroy(this.gameObject, _liveTime); //Это лучше, чем использование условного оператора if.
@@ -43,11 +47,12 @@ namespace GunLogic
         /// <param name="other"></param>
         protected void OnCollisionEnter2D(Collision2D other)
         {
-            if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("gun"))
+            if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("Gun"))
             {
                 //Debug.Log(other.gameObject.name);
                 Destroy(this.gameObject);
             }
         }
+
     }
 }

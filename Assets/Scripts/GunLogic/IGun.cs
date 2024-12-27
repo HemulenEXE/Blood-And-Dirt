@@ -1,4 +1,8 @@
 ﻿
+using System;
+using System.Runtime.CompilerServices;
+using UnityEngine;
+
 namespace GunLogic
 {
     /// <summary>
@@ -48,7 +52,7 @@ namespace GunLogic
         /// <summary>
         /// Возвращает и изменяет суммарное число снарядов.
         /// </summary>
-        public int AmmoTotal { get; set; }
+        public int AmmoTotal { get; }
         /// <summary>
         /// Возвращает вместимость очереди.
         /// </summary>
@@ -56,7 +60,11 @@ namespace GunLogic
         /// <summary>
         /// Возвращает и изменяет текущее число снарядов в очереди.
         /// </summary>
-        public int AmmoTotalCurrent { get; set; }
+        public int AmmoTotalCurrent { get; }
+        /// <summary>
+        /// Возвращает и изменяет силу шума оружия при выстреле
+        /// </summary>
+        public float NoiseIntensity { get; set; }
         /// <summary>
         /// Возврашает и изменяет флаг, указывающий, идёт ли перезарядка.
         /// </summary>
@@ -65,10 +73,15 @@ namespace GunLogic
         /// Возврашает и изменяет флаг, указывающий, идёт ли стрельба.
         /// </summary>
         public bool IsShooting { get; set; }
+
+        /// <summary>
+        /// Событие вызова реакции на шум стрельбы
+        /// </summary>
+        public static event Action<Transform, float> makeNoiseShooting;
         /// <summary>
         /// Выстрел из ружья.
         /// </summary>
-        public void Shoot();
+        public void Shoot(int layerMask = 0, bool IsPlayerShoot = false);
         /// <summary>
         /// Остановка стрельбы из ружья.
         /// </summary>

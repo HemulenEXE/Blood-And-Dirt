@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GunLogic
@@ -84,6 +85,18 @@ namespace GunLogic
         /// </summary>
         public bool IsShooting { get; set; } = false;
         /// <summary>
+        /// Сила шума оружия при выстреле
+        /// </summary>
+        [SerializeField] private float noiseIntensity = 5;
+        /// <summary>
+        /// Свойство для шума
+        /// </summary>
+        public float NoiseIntensity { get; set; }
+        /// <summary>
+        /// Событие вызова реакции на шум стрельбы
+        /// </summary>
+        public static event Action<Transform, float> makeNoiseShooting;
+        /// <summary>
         /// Префаб дробинки, вылетающий из дробовика.
         /// </summary>
         [SerializeField] protected GameObject _prefabProjectile;
@@ -144,7 +157,7 @@ namespace GunLogic
         /// </summary>
         /// <remarks>Порожает на сцене снаряд, вылетающий из дробовика.</remarks>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Shoot()
+        public void Shoot(int layerMask = 0, bool IsPlayerShoot = false)
         {
             if (!IsShooting && !IsRecharging && Time.time > _nextTimeShot)
             {
@@ -170,15 +183,25 @@ namespace GunLogic
 
                         Rigidbody2D rg = currentPellet.GetComponent<Rigidbody2D>();
                         if (rg == null) throw new ArgumentNullException("ShotGun: _prefabProjectile hasn't got Rigidbody2D");
-                        rg.velocity = currentPellet.transform.right * _speedProjectile;
+                        //rg.velocity = currentPellet.transform.right * _speedProjectile;
+
+                        currentPellet.layer = layerMask;
+
+                        var bulletController = currentPellet.AddComponent<BulletMovement>();
+                        bulletController.SetSpeed(_speedProjectile);
                     }
 
                     AmmoTotalCurrent--;
                     IsShooting = false;
+                    if(IsPlayerShoot)
+                    {
+                        makeNoiseShooting?.Invoke(transform, noiseIntensity);
+                    }
                 }
                 else Recharge();
             }
         }
+
         /// <summary>
         /// Остановка стрельбы из дробовика.<br/>
         /// Не содержит реализации.
@@ -189,6 +212,7 @@ namespace GunLogic
         /// </summary>
         public void Recharge()
         {
+
             if (AmmoTotal > 0 && !IsRecharging)
             {
                 IsRecharging = true;

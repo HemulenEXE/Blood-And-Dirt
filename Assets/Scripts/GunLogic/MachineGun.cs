@@ -5,26 +5,18 @@ using UnityEngine;
 namespace GunLogic
 {
     /// <summary>
-    /// Класс, реализующий "автомат.
+    /// Класс, реализующий "автомат".
     /// </summary>
     public class MachineGun : MonoBehaviour, IGun
     {
         /// <summary>
-        /// Возвращает тип оружия.
-        /// </summary>
-        public GunType Type { get; } = GunType.Heavy;
-        /// <summary>
-        /// Префаб пули, вылетающий из автомата.
+        /// Префаб пули, вылетающей из автомата.
         /// </summary>
         [SerializeField] protected GameObject _prefabProjectile;
         /// <summary>
         /// Наносимый урон.
         /// </summary>
         [SerializeField] protected float _damage = 6.5f;
-        /// <summary>
-        /// Возвращает величину наносимого урона.
-        /// </summary>
-        public float Damage { get => _damage; }
         /// <summary>
         /// Задержка между выстрелами.
         /// </summary>
@@ -38,18 +30,6 @@ namespace GunLogic
         /// </summary>
         [SerializeField] protected int _ammoTotal = 100;
         /// <summary>
-        /// Возвращает и изменяет суммарное число патронов.
-        /// </summary>
-        public int AmmoTotal
-        {
-            get => _ammoTotal;
-            set
-            {
-                if (value <= 0) _ammoTotal = 0;
-                else _ammoTotal = value;
-            }
-        }
-        /// <summary>
         /// Вместимость очереди.
         /// </summary>
         [SerializeField] protected int _ammoCapacity = 30;
@@ -62,31 +42,21 @@ namespace GunLogic
         /// </summary>
         [SerializeField] protected int _ammoTotalCurrent = 0;
         /// <summary>
-        /// Возвращает и изменяет текущее число патронов в очереди.
+        /// Сила шума оружия при выстреле
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public int AmmoTotalCurrent
-        {
-            get => _ammoTotalCurrent;
-            set
-            {
-                if (value > AmmoCapacity) throw new ArgumentOutOfRangeException("MachineGun: value > AmmoCapacity");
-                if (value <= 0) _ammoTotalCurrent = 0;
-                else _ammoTotalCurrent = value;
-            }
-        }
+        [SerializeField] private float noiseIntensity = 5;
+        /// <summary>
+        /// Свойство для шума
+        /// </summary>
+        public float NoiseIntensity { get; set; }
+        /// <summary>
+        /// Событие вызова реакции на шум стрельбы
+        /// </summary>
+        public static event Action<Transform, float> makeNoiseShooting;
         /// <summary>
         /// Время перезарядки.
         /// </summary>
         [SerializeField] protected float _timeRecharging = 1f;
-        /// <summary>
-        /// Возврашает флаг, указывающий, идёт ли перезарядка.
-        /// </summary>
-        public bool IsRecharging { get; set; } = false;
-        /// <summary>
-        /// Возврашает флаг, указывающий, идёт ли стрельба.
-        /// </summary>
-        public bool IsShooting { get; set; } = false;
         /// <summary>
         /// Начальная скорость вылета пули.
         /// </summary>
@@ -103,6 +73,60 @@ namespace GunLogic
         /// Звук перезарядки автомата.
         /// </summary>
         [SerializeField] protected AudioClip _audioRecharge;
+        /// <summary>
+        /// Возвращает тип оружия.
+        /// </summary>
+        public GunType Type { get; } = GunType.Heavy;
+        /// <summary>
+        /// Возвращает и изменяет текущее число патронов в очереди.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public int AmmoTotalCurrent
+        {
+            get
+            {
+                return _ammoTotalCurrent;
+            }
+            protected set
+            {
+                if (value > AmmoCapacity) throw new ArgumentOutOfRangeException("MachineGun: value > AmmoCapacity");
+                if (value <= 0) _ammoTotalCurrent = 0;
+                else _ammoTotalCurrent = value;
+            }
+        }
+        /// <summary>
+        /// Возвращает величину наносимого урона.
+        /// </summary>
+        public float Damage
+        {
+            get
+            {
+                return _damage;
+            }
+        }
+        /// <summary>
+        /// Возврашает флаг, указывающий, идёт ли перезарядка.
+        /// </summary>
+        public bool IsRecharging { get; set; } = false;
+        /// <summary>
+        /// Возврашает флаг, указывающий, идёт ли стрельба.
+        /// </summary>
+        public bool IsShooting { get; set; } = false;
+        /// <summary>
+        /// Возвращает суммарное число патронов.
+        /// </summary>
+        public int AmmoTotal
+        {
+            get
+            {
+                return _ammoTotal;
+            }
+            protected set
+            {
+                if (value <= 0) _ammoTotal = 0;
+                else _ammoTotal = value;
+            }
+        }
         /// <summary>
         /// Настройка и проверка полей.
         /// </summary>
@@ -128,7 +152,7 @@ namespace GunLogic
         /// </summary>
         /// <remarks>Порождает на сцене снаряд, вылетающий из автомата.</remarks>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Shoot()
+        public void Shoot(int layerMask = 0, bool IsPlayerShoot = false)
         {
             if (!IsShooting && !IsRecharging && Time.time > _nextTimeShot)
             {
@@ -149,10 +173,20 @@ namespace GunLogic
 
                     Rigidbody2D rg = currentPellet.GetComponent<Rigidbody2D>();
                     if (rg == null) throw new ArgumentNullException("MachineGun: _prefabProjectile hasn't got Rigidbody2D");
-                    rg.velocity = currentPellet.transform.right * _speedProjectile;
+                    //rg.isKinematic = true; // Кинематическое движение
+
+                    currentPellet.layer = layerMask;
+
+                    // Запуск скрипта для управления движением пули
+                    var bulletController = currentPellet.AddComponent<BulletMovement>();
+                    bulletController.SetSpeed(_speedProjectile);
 
                     AmmoTotalCurrent--;
                     IsShooting = false;
+                    if (IsPlayerShoot)
+                    {
+                        makeNoiseShooting?.Invoke(transform, noiseIntensity);
+                    }
                 }
                 else Recharge();
             }
@@ -167,28 +201,37 @@ namespace GunLogic
         /// </summary>
         public void Recharge()
         {
-            if (_ammoTotal > 0 && !IsRecharging)
+            if (AmmoTotal > 0 && !IsShooting && !IsRecharging)
             {
-                IsRecharging = true;
-                IsShooting = false;
-                StartCoroutine(RechargeCoroutine()); //На перезарядку отводится некоторое время.
+                IsRecharging = true; //Начинаем перезарядку.
+                StartCoroutine(RechargeCoroutine());
             }
         }
         /// <summary>
-        /// Корутина для перезарядки автомата.
+        /// Проверяет, пуст ли автомата.
+        /// </summary>
+        public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
+        /// <summary>
+        /// Корутина для перезарядки автомата.<br/>
+        /// Отвечает за распределение патронов и запуск аудио.
         /// </summary>
         /// <returns></returns>
         private IEnumerator RechargeCoroutine()
         {
             yield return new WaitForSeconds(_timeRecharging);
             _audio.PlayOneShot(_audioRecharge);
-            AmmoTotal -= AmmoCapacity - AmmoTotalCurrent;
-            AmmoTotalCurrent = AmmoCapacity;
-            IsRecharging = false;
+            int count_need_patrons = AmmoCapacity - AmmoTotalCurrent; //Количество нехватаемых патронов.
+            if (AmmoTotal > count_need_patrons)
+            {
+                AmmoTotalCurrent += count_need_patrons;
+                AmmoTotal -= count_need_patrons;
+            }
+            else
+            {
+                AmmoTotalCurrent += AmmoTotal;
+                AmmoTotal = 0;
+            }
+            IsRecharging = false; //Перезарядка окончена.
         }
-        /// <summary>
-        /// Проверяет, пуст ли автомата.
-        /// </summary>
-        public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
     }
 }

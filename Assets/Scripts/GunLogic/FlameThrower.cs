@@ -50,6 +50,18 @@ namespace GunLogic
         /// </summary>
         [SerializeField] protected int _ammoTotalCurrent = 0;
         /// <summary>
+        /// Сила шума оружия при выстреле
+        /// </summary>
+        [SerializeField] private float noiseIntensity = 5;
+        /// <summary>
+        /// Свойство для шума
+        /// </summary>
+        public float NoiseIntensity { get; set; }
+        /// <summary>
+        /// Событие вызова реакции на шум стрельбы
+        /// </summary>
+        public static event Action<Transform, float> makeNoiseShooting;
+        /// <summary>
         /// Возвращает и изменяет текущий объём топлива в очереди.
         /// </summary>
         public int AmmoTotalCurrent
@@ -126,7 +138,7 @@ namespace GunLogic
         /// Распыление из огнемёта.
         /// </summary>
         /// <remarks>Запускает particle пламени.</remarks>
-        public void Shoot()
+        public void Shoot(int layerMask = 0, bool IsPlayerShoot = false)
         {
             if (!IsRecharging)
             {
@@ -139,6 +151,11 @@ namespace GunLogic
                         IsShooting = true; //Вызывается _prefabProjectile.Play();
                     }
                     AmmoTotalCurrent--;
+                    if(IsPlayerShoot)
+                    {
+                        makeNoiseShooting?.Invoke(transform, noiseIntensity);
+                    }
+                    
                 }
                 else Recharge();
             }

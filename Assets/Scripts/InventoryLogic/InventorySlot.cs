@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using GunLogic;
 using InteractiveObjects;
-using Unity.VisualScripting;
 
 namespace InventoryLogic
 {
@@ -53,7 +52,7 @@ namespace InventoryLogic
             if (!IsFull())
             {
                 _pastLayerItem = item.gameObject.layer;
-                item.gameObject.layer = LayerMask.NameToLayer("IgnorePlayerRaycast");
+                item.gameObject.layer = LayerMask.NameToLayer("Gun");
                 item.Deactive();
                 StoredItem = item;
 
@@ -93,7 +92,6 @@ namespace InventoryLogic
                 StoredItem.Active();
                 StoredItem = null;
                 ImageStoredItem.GetComponent<Image>().sprite = InventorySlot._emptySlotImage;
-
             }
         }
         /// <summary>

@@ -143,3 +143,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9f4af1b091a0e742a04cb8906895e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _delayShot: 2
+  _ammoTotal: 100
+  _ammoCapacity: 5
+  _ammoTotalCurrent: 0
+  _timeRecharging: 5
+  _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
+  _countPerShotProjectile: 6
+  _speedProjectile: 5
+  _spreadAngle: 15
+--- !u!114 &3565921444293393619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7984570884006783020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6135961ef7cc92a4da727f1af5a7f2c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 07ffc5ca855e93a46a03404ffcdb66f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 11cb00c2739d1e5428087693b3cd1f15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: 101
+  _radius: 5
+  _fontName: PixelFont
+  _fontSize: 40
+  _offSet: 0.5

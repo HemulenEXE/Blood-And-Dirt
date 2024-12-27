@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 52289187910518915}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: spawnerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2830471453241202281}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.399, y: 0.129, z: 0}
+  m_LocalPosition: {x: 1.769, y: 0.122, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -43,11 +43,12 @@ GameObject:
   - component: {fileID: 4169788437097195682}
   - component: {fileID: 7702536778127459693}
   - component: {fileID: 7157973909701997318}
-  - component: {fileID: -3344810565310104842}
-  - component: {fileID: 5144078591382337795}
-  m_Layer: 0
+  - component: {fileID: 2994775627741083706}
+  - component: {fileID: 3429925549949326366}
+  - component: {fileID: -3043786388193303055}
+  m_Layer: 9
   m_Name: ShotGun
-  m_TagString: gun
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,7 +63,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 52289187910518915}
@@ -108,7 +109,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: c5899969126ab6346a38421efb824c3c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -163,7 +164,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.6059928, y: 0.7153399}
+  m_Size: {x: 3, y: 2}
   m_EdgeRadius: 0
 --- !u!82 &7157973909701997318
 AudioSource:
@@ -261,7 +262,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-3344810565310104842
+--- !u!114 &2994775627741083706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7984570884006783020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2870e0e9f555bf04485b663f86e8b6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _delayShot: 0.5
+  _ammoTotal: 100
+  _ammoCapacity: 5
+  _ammoTotalCurrent: 5
+  _timeRecharging: 2
+  noiseIntensity: 5
+  _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
+  _countPerShotProjectile: 6
+  _speedProjectile: 50
+  _spreadAngle: 15
+  _audioFire: {fileID: 8300000, guid: d7b5e1ec6a3a400419d87e47b88ab374, type: 3}
+  _audioRecharge: {fileID: 8300000, guid: cfdded6289e9b6645899379c13139bd4, type: 3}
+  _audioPlatoon: {fileID: 8300000, guid: 595f9f079b2c7be49ab74e193472a2d3, type: 3}
+--- !u!114 &3429925549949326366
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -274,27 +300,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 21300000, guid: 07ffc5ca855e93a46a03404ffcdb66f3, type: 3}
---- !u!114 &5144078591382337795
-MonoBehaviour:
+--- !u!50 &-3043786388193303055
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7984570884006783020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1033d5dc511db8046aa671f1bc716df6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _delayShot: 0.5
-  _ammoTotal: 100
-  _ammoCapacity: 5
-  _ammoTotalCurrent: 5
-  _timeRecharging: 2
-  _prefabProjectile: {fileID: 8185501928067670845, guid: f5e085aca3db9c9478488da9e1571f3c, type: 3}
-  _countPerShotProjectile: 6
-  _speedProjectile: 50
-  _spreadAngle: 15
-  _audioFire: {fileID: 8300000, guid: d7b5e1ec6a3a400419d87e47b88ab374, type: 3}
-  _audioRecharge: {fileID: 8300000, guid: cfdded6289e9b6645899379c13139bd4, type: 3}
-  _audioPlatoon: {fileID: 8300000, guid: 595f9f079b2c7be49ab74e193472a2d3, type: 3}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

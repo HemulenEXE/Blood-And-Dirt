@@ -59,6 +59,7 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private void Save()
     {
+        Time.timeScale = 1;
         _animator.SetBool(name: "startOpen", false);
     }
     /// <summary>
@@ -66,7 +67,7 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private void RestartScene()
     {
-        GameObject notice = transform.GetChild(4).gameObject;
+        GameObject notice = transform.GetChild(3).gameObject;
         notice.SetActive(true);
         //Указание на какую сцену перейти.
         notice.GetComponent<PopUpNotice>().SceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -77,8 +78,14 @@ public class GameMenu : MonoBehaviour
     private void ControllMenu()
     {
         if (_animator.GetBool(name: "startOpen"))
+        {
+            Time.timeScale = 1;
             _animator.SetBool(name: "startOpen", false);
+        }
         else
+        {
+            Time.timeScale = 0;
             _animator.SetBool(name: "startOpen", true);
+        }
     }
 }

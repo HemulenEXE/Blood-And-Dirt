@@ -5,6 +5,16 @@ using System.Collections.Generic;
 
 namespace CameraLogic.CameraEffects
 {
+
+    public enum StateBloodEffect
+    {
+        noBlood,
+        scratch,
+        minorInjury,
+        seriouslyInjured,
+        oneFootInHell
+    }
+
     /// <summary>
     /// Вспомагательный скрипт управления эффектом крови на экране.
     /// </summary>
@@ -39,6 +49,34 @@ namespace CameraLogic.CameraEffects
                 Sprite interim_sprite = Resources.Load<Sprite>("Sprites/Interface/Blood" + i);
                 if (interim_sprite == null) throw new ArgumentNullException("BloodEffect: interim_sprite is null");
                 _images.Add(interim_sprite);
+            }
+        }
+
+
+
+        public void SetBloodEffect(StateBloodEffect bloodState)
+        {
+            switch (bloodState)
+            {
+                case StateBloodEffect.noBlood:
+                    _image.gameObject.SetActive(false);
+                    break;
+                case StateBloodEffect.scratch:
+                    _image.sprite = _images[(int)bloodState - 1];
+                    _image.gameObject.SetActive(true);
+                    break;
+                case StateBloodEffect.minorInjury:
+                    _image.sprite = _images[(int)bloodState - 1];
+                    _image.gameObject.SetActive(true);
+                    break;
+                case StateBloodEffect.seriouslyInjured:
+                    _image.sprite = _images[(int)bloodState - 1];
+                    _image.gameObject.SetActive(true);
+                    break;
+                case StateBloodEffect.oneFootInHell:
+                    _image.sprite = _images[(int)bloodState - 1];
+                    _image.gameObject.SetActive(true);
+                    break;
             }
         }
         /// <summary>
