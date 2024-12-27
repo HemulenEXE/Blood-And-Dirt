@@ -19,6 +19,8 @@ public class Dialogue
     {
         [XmlAttribute("npcText")]
         public string npcText;
+        [XmlAttribute("npcName")]
+        public string npcName;
         [XmlAttribute("exit")]
         public string exit;
         [XmlElement("answer")]
@@ -31,6 +33,8 @@ public class Dialogue
         public string text;
         [XmlAttribute("toNode")]
         public int toNode;
+        [XmlAttribute("toScene")]
+        public int toScene;
         [XmlAttribute("exit")]
         public string exit;
     }
@@ -51,7 +55,7 @@ public class Dialogue
     /// </summary>
     /// <exception cref="IndexOutOfRangeException"></exception>
     public void ToNextNode() {
-        if (_curentNode++ > Nodes.Length)
+        if (_curentNode + 1 >= Nodes.Length)
             throw new IndexOutOfRangeException();
         _curentNode++; 
     }
@@ -61,7 +65,7 @@ public class Dialogue
     /// <param name="i"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void ToNodeWithInd(int i) {
-        if (i > Nodes.Length)
+        if (i >= Nodes.Length)
             throw new ArgumentOutOfRangeException();
         _curentNode = i;
     }

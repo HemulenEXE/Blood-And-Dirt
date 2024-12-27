@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,7 +11,6 @@ using UnityEngine.UI;
 public class ShowDialogueDubl : MonoBehaviour
 {
     [SerializeField] public TextAsset FileName;
-    [SerializeField] public string NPCName;
     [SerializeField] public Transform DialogueWindow; //Canvas
     [SerializeField] public const int MaxReplicLength = 350; //Максимальное число символов реплики на экране
     [SerializeField] public float TimeBetweenLetters = 0.01f;
@@ -36,7 +36,6 @@ public class ShowDialogueDubl : MonoBehaviour
         _panelForText = DialogueWindow.GetChild(2).GetComponent<Transform>();
         _panelForButtons = DialogueWindow.GetChild(3).GetComponent<Transform>();
         _continue = DialogueWindow.GetChild(4).GetComponent<Button>();
-        _npcName.text = NPCName;
         _audio = DialogueWindow.GetComponent<AudioSource>();
         _continue.onClick.RemoveAllListeners();
         _continue.onClick.AddListener(Continue);
@@ -62,7 +61,14 @@ public class ShowDialogueDubl : MonoBehaviour
             _replicParts.Dequeue();
             _replicInd = 0;
             if (_replicParts.Count == 0)
-                GoToAnswers();
+            {
+                if (_dialogue.GetCurentNode().exit == "True") EndDialogue();
+                else if (_dialogue.GetCurentNode().answers == null)
+                {
+                    _dialogue.ToNextNode();
+                    GoToReplic(); }
+                else GoToAnswers();
+            }
             else
             {
                 foreach (Transform child in _panelForText.GetComponentInChildren<Transform>())
@@ -132,12 +138,19 @@ public class ShowDialogueDubl : MonoBehaviour
             btn.onClick.AddListener(() =>
             {
                 _audio.Play();
+                if (locAnsw.toScene != 0)
+                {
+                    PlayerPrefs.SetInt("nextScene", locAnsw.toScene); //Сохраняет ключевые ответы 
+                    PlayerPrefs.Save();
+                }
                 if (locAnsw.exit == "True")
                     EndDialogue();
                 else 
                 {
                     _dialogue.ToNodeWithInd(locAnsw.toNode);
-                    GoToReplic(); 
+                    if (_dialogue.GetCurentNode().npcText != null)
+                        GoToReplic();
+                    else GoToAnswers();
                 }
             });
         }
@@ -152,18 +165,14 @@ public class ShowDialogueDubl : MonoBehaviour
         _npcName.gameObject.SetActive(true);
         _panelForButtons.gameObject.SetActive(false);
 
+        _npcName.text = _dialogue.GetCurentNode().npcName;
+
         foreach (Transform child in _panelForText.GetComponentInChildren<Transform>())
             Destroy(child.gameObject);
         _panelForText.gameObject.SetActive(true);
 
         //Заполнение очереди частями реплики
         string currentReplic = _dialogue.GetCurentNode().npcText;
-
-        if (string.IsNullOrEmpty(currentReplic))
-        {
-            Debug.LogWarning("Текущая реплика пуста!");
-            return;
-        }
 
         int start = 0, end = 0;
         char[] delimiters = new char[] { '!', '.', '?' };

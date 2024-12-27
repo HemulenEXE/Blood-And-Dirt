@@ -22,7 +22,7 @@ public class Printer : MonoBehaviour
     private float currentY = 0f; //Текущая позиция буквы по Y
     private AudioSource _audio;
     private bool IsAnim = false; //Происходит ли анимация тектса
-    public int _rInd = 0; //Аналог _replicInd из ShowDialogue. Отслеживает позицию в тексте
+    public int _rInd { get; private set; } //Аналог _replicInd из ShowDialogue. Отслеживает позицию в тексте
 
     /// <summary>
     /// Инициализация всех (кроме текста) полей
@@ -37,6 +37,7 @@ public class Printer : MonoBehaviour
         TimeBetweenLetters = time;
         _audio = audio;
 
+        _rInd = 0;
         _lineHight = _prefab.fontSize + 4f;
         _panel.gameObject.SetActive(true);
         _lineWidth = _panel.GetComponent<RectTransform>().rect.width;
