@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//Скрипт навешивается на компонент Tree. Управляет его перемещением и масштабированием
 public class ZoomAndMotion : MonoBehaviour
 {
     [SerializeField]
