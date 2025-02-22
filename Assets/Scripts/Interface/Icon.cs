@@ -3,12 +3,13 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using Unity.VisualScripting;
 
 //Иконка дерева прокачик (Её активация и управление всплывающим окном с описанием)
 public class Icon : MonoBehaviour
 {
     [SerializeField]
-    private Transform window; //всплывающее окно с описанием
+    private Animator window; //всплывающее окно с описанием 
     [SerializeField]
     private Sprite inactive;
     [SerializeField]
@@ -44,14 +45,13 @@ public class Icon : MonoBehaviour
     {
         this.GetComponent<Image>().sprite = inactive;
 
-        bool flag = false;
-
-        //Включает окно с описанием способности (выключает, сели уже включено)
+        //Включает окно с описанием способности (выключает, еcли уже включено)
         this.GetComponent<Button>().onClick.AddListener(() =>
         {
-            if (!flag)
+            if (!window.GetBool("isOpen"))
             {
-                window.gameObject.SetActive(true);
+                Debug.Log($"Открытие, isOpen = {window.GetBool("isOpen")}");
+                window.SetBool("isOpen", true);
                 Transform panel = window.transform.GetChild(0);
                 panel.GetChild(0).GetComponent<TextMeshProUGUI>().text = title;
                 panel.GetChild(1).GetComponent<TextMeshProUGUI>().text = discription;
@@ -59,12 +59,12 @@ public class Icon : MonoBehaviour
                 panel.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Стоимость: " + price;
                 panel.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
                 panel.GetChild(4).GetComponent<Button>().onClick.AddListener(OpenSkill);
-                flag = true;
             }
             else
             {
-                window.gameObject.SetActive(false);
-                flag = false;
+                Debug.Log($"Закрытие, isOpen = {window.GetBool("isOpen")}");
+                window.SetBool("isOpen", false);
+                
             }
         });
 
