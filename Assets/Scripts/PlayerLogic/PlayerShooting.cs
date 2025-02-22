@@ -1,33 +1,36 @@
+п»їusing GunLogic;
 using TMPro;
 using UnityEngine;
 
-/// <summary>
-/// Класс, реализующий "стрельбу игроком".
-/// </summary>
-public class PlayerShooting : MonoBehaviour
+namespace PlayerLogic
 {
     /// <summary>
-    /// Текущее выбранное ружьё.
+    /// РљР»Р°СЃСЃ, СЂРµР°Р»РёР·СѓСЋС‰РёР№ "СЃС‚СЂРµР»СЊР±Сѓ РёРіСЂРѕРєРѕРј".
     /// </summary>
-    private IGun _gun;
-    private void Update()
+    public class PlayerShooting : MonoBehaviour
     {
-        _gun = PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem?.GetComponent<IGun>();
-        if (_gun != null)
+        /// <summary>
+        /// РўРµРєСѓС‰РµРµ СЂСѓР¶СЊС‘.
+        /// </summary>
+        private IGun _gun;
+        private void Update()
         {
-            if (Input.GetKey(KeyCode.Mouse0))
+            _gun = PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem?.GetComponent<IGun>();
+            if (_gun != null)
             {
-                _gun.Shoot();
-                //Изменение показателя кол-ва потронов над ячейкой инвентаря
+                if (Input.GetKey(KeyCode.Mouse0))
+                {
+                    _gun.Shoot(IsPlayerShoot:true);
+                    //РР·РјРµРЅРµРЅРёРµ РїРѕРєР°Р·Р°С‚РµР»СЏ РєРѕР»-РІР° РїРѕС‚СЂРѕРЅРѕРІ РЅР°Рґ СЏС‡РµР№РєРѕР№ РёРЅРІРµРЅС‚Р°СЂСЏ
+                }
+                else _gun.StopShoot();
+
+                if (Input.GetKey(KeyCode.R))
+                {
+                    _gun.Recharge();
+                }
                 GameObject discription = PlayerInventory._slots[PlayerInventory._currentSlot].transform.GetChild(0).gameObject;
                 discription.GetComponent<TextMeshProUGUI>().text = _gun.AmmoTotalCurrent + "\\" + _gun.AmmoTotal;
-            }
-            else _gun.StopShoot();
-            if (Input.GetKey(KeyCode.R))
-            {
-                _gun.Recharge();
-                GameObject discription = PlayerInventory._slots[PlayerInventory._currentSlot].transform.GetChild(0).gameObject;
-                discription.GetComponent<TextMeshProUGUI>().text = _gun.AmmoTotalCurrent + "\\" + _gun.AmmoTotal; 
             }
         }
     }

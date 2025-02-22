@@ -4,23 +4,26 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Gun
   - Canvas
-  - bandage
+  - Enemy
+  - Projectile
+  - SmokeGrenade
+  - SimpleGrenade
   - firstAidKit
-  - simpleGraned
-  - smokeGraned
+  - bandage
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Invisible
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - PlayerProjectile
+  - EnemyProjectile
+  - Gun
+  - Player
   - 
   - 
   - 

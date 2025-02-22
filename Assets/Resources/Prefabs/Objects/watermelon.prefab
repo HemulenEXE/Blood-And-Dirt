@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5442295163799718812}
   - component: {fileID: 667857681159976534}
-  - component: {fileID: 4224585394555504107}
-  - component: {fileID: 4145746845865466731}
+  - component: {fileID: 293762999933725733}
+  - component: {fileID: 3405906891986450772}
   m_Layer: 0
   m_Name: watermelon
   m_TagString: Untagged
@@ -27,13 +27,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4420476537753089964}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.36042958, w: 0.93278646}
+  m_LocalRotation: {x: 0, y: 0, z: 0.38268343, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -42.253}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 45}
 --- !u!212 &667857681159976534
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -86,8 +86,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &4224585394555504107
-CircleCollider2D:
+--- !u!60 &293762999933725733
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -119,9 +119,36 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.28
---- !u!114 &4145746845865466731
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.56, y: 2.56}
+    newSize: {x: 2.56, y: 2.56}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.6663589, y: 0.51222634}
+      - {x: 0.5041571, y: 0.51718134}
+      - {x: 0.5104678, y: 0.669353}
+      - {x: 0.1771853, y: 0.66573054}
+      - {x: 0.17716697, y: 0.8192116}
+      - {x: -0.34, y: 0.82}
+      - {x: -0.35374373, y: -1.2960005}
+      - {x: -0.10839808, y: -1.2998214}
+      - {x: 0.1823433, y: -1.296883}
+      - {x: 0.181847, y: -1.1366628}
+      - {x: 0.496471, y: -1.1472353}
+      - {x: 0.5083101, y: -0.9858359}
+      - {x: 0.66569275, y: -0.97263455}
+      - {x: 0.66812474, y: -0.8276346}
+      - {x: 0.8286823, y: -0.82483387}
+      - {x: 0.82518244, y: 0.34992096}
+      - {x: 0.6544903, y: 0.35600266}
+  m_UseDelaunayMesh: 0
+--- !u!114 &3405906891986450772
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,12 +157,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4420476537753089964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1336b5aab5c9f247a61e8ca84be8f77, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3e7cdff1c3b28459ee66e13c2d880b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 21300000, guid: 870f793d038c7504a95930b9ce5af522, type: 3}
-  _key: 101
-  _radius: 5
-  _fontName: PixelFont
-  _fontSize: 40
-  _offSet: 0.5
