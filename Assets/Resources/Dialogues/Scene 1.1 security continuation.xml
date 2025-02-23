@@ -1,0 +1,6 @@
+<dialogue name="Scene 1.1 security continuation">
+  <node id="0" npcText="Так, вот этого и вот этих двоих мы забираем. &lt;b&gt;Приказ командира роты!&lt;/b&gt;" npcName="Охранник">
+    <answer text="" toNode="1" />
+  </node>
+  <node id="1" npcText="Советую никому из вас не делать глупостей. Будете хорошо себе вести и обойдёмся без наручников и без лишних жертв." exit="True" npcName="Охранник" />
+</dialogue>

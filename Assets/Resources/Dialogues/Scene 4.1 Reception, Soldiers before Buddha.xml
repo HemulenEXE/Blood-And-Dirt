@@ -1,0 +1,17 @@
+<dialogue name="Scene 4.1 Reception, Soldiers before Buddha">
+  <node id="0" npcName="Солдат">
+    <answer text="Эй, не знаешь, почему все здесь столпились?" />
+  </node>
+  <node id="1" npcText="Ты что, с луны свалился? Мы ждём, когда к нам выйдет &lt;color=red&gt;Святой Будда!&lt;/color&gt; Он приехал на базу где-то часа 2 назад, но всё говорит с командиром." npcName="Солдат">
+    <answer text="Вы его уже видели?" toNode="2" />
+    <answer text="Как скоро он выйдет?" toNode="3" />
+  </node>
+  <node id="2" npcText="Так, краем глаза, когда он только прибыл. Потом командир сразу увёл его к себе. " npcName="Солдат">
+    <answer text="Как скоро он выйдет?" toNode="4" />
+  </node>
+  <node id="3" npcText="&lt;b&gt;Должен с минуты на минуту!&lt;/b&gt;" npcName="Солдат">
+    <answer text="Вы его уже видели?" toNode="5" />
+  </node>
+  <node id="4" npcText="&lt;b&gt;Должен с минуты на минуту!&lt;/b&gt;" exit="True" npcName="Солдат" />
+  <node id="5" npcText="Так, краем глаза, когда он только прибыл. Потом командир сразу увёл его к себе. " exit="True" npcName="Солдат" />
+</dialogue>

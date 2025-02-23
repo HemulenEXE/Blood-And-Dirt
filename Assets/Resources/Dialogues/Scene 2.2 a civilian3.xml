@@ -1,0 +1,8 @@
+<dialogue name="Scene 2.2 a civilian3">
+  <node id="0" npcText="&lt;b&gt;Во имя Господа нашего единого, возьмите эту еду! &lt;/b&gt;" npcName="Житель">
+    <answer text="&lt;color=red&gt;Отказаться.&lt;/color&gt;" toNode="1" />
+    <answer text="&lt;color=red&gt;Взять еду.&lt;/color&gt;" toNode="2" />
+  </node>
+  <node id="1" npcText="&lt;b&gt;Горе мне, горе.&lt;/b&gt;Бог отвернётся от меня после такого! Прошу, не отказывайтесь!" exit="True" npcName="Житель" />
+  <node id="2" npcText="Спасибо, спасибо вам! Это настоящее благословение!" exit="True" npcName="Житель" />
+</dialogue>
