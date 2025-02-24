@@ -74,10 +74,6 @@ namespace GunLogic
 
         //Вспомогательные методы.
 
-        /// <summary>
-        /// Нанесение урона нескольким сущностям.
-        /// </summary>
-        /// <param name="entity"></param>
         public void DealDamage()
         {
             Ray2D ray = new Ray2D(this.transform.position, this.transform.right);
@@ -93,6 +89,24 @@ namespace GunLogic
                     {
                         var healthBot = x.GetComponent<HealthBot>();
                         healthBot?.GetDamage(this);
+                    }
+                }
+            }
+        }
+        public void InstantKill()
+        {
+            Ray2D ray = new Ray2D(this.transform.position, this.transform.right);
+            Debug.DrawRay(ray.origin, ray.direction * AttackDistance, Color.red); //Рисовка луча.
+
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, AttackDistance, ~_ignoreLayer);
+            if (hit.collider == null)
+            {
+                foreach (var x in GetColliders2DSector())
+                {
+                    if (x.gameObject != this.gameObject)
+                    {
+                        var healthBot = x.GetComponent<HealthBot>();
+                        healthBot?.Death();
                     }
                 }
             }

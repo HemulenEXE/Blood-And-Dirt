@@ -78,7 +78,7 @@ namespace PlayerLogic
             PlayerInfo._isRunnig = Input.GetKey(KeyCode.LeftShift);
             PlayerInfo._isStealing = Input.GetKey(KeyCode.LeftControl);
 
-            PlayerInfo.ExecuteSkill("Hatred", this.gameObject);
+            // PlayerInfo.ExecuteSkill("Hatred", this.gameObject);
             float speedCurrent = PlayerInfo._isStealing ? PlayerInfo._stealSpeed : (PlayerInfo._isRunnig ? PlayerInfo._runSpeed : PlayerInfo._walkSpeed);
             Vector3 movement = Vector2.zero;
 
@@ -100,11 +100,18 @@ namespace PlayerLogic
             }
             if (movement != Vector3.zero)
             {
-                this.transform.position += movement.normalized * speedCurrent * Time.fixedDeltaTime;
                 PlayerInfo._isWalking = true;
-                makeNoise?.Invoke(transform, noiseMapping[speedCurrent]);
+                PlayerInfo._isStaing = false;
+                this.transform.position += movement.normalized * speedCurrent * Time.fixedDeltaTime;
+                if (PlayerInfo._isStealing) makeNoise?.Invoke(this.transform, PlayerInfo._stealNoise);
+                else if (PlayerInfo._isRunnig) makeNoise?.Invoke(this.transform, PlayerInfo._runNoise);
+                else if (PlayerInfo._isWalking) makeNoise?.Invoke(this.transform, PlayerInfo._walkNoise);
             }
-            else PlayerInfo._isWalking = false;
+            else
+            {
+                PlayerInfo._isStaing = true;
+                PlayerInfo._isWalking = false;
+            }
         }
         /// <summary>
         /// Поворот игрока за компьтерной мышью.

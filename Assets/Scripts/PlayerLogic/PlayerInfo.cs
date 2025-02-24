@@ -16,10 +16,10 @@ namespace PlayerLogic
         public static float _walkSpeed = 4f;
         public static float _runSpeed = 6f;
 
-
         public static bool _isStealing;
         public static bool _isWalking;
         public static bool _isRunnig;
+        public static bool _isStaing;
 
         public static float _stealNoise = 0.3f;
         public static float _walkNoise = 2f;
@@ -39,6 +39,8 @@ namespace PlayerLogic
         public static int _hitsToSurvive = 0;
 
         public static bool _isGod; // Неузвимость
+
+        public static bool _isFighting;
 
         public static bool HasSkill<T>() where T : Skill
         {

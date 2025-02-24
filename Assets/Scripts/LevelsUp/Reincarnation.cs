@@ -1,15 +1,13 @@
 using PlayerLogic;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 
 namespace SkillLogic
 {
     public class Reincarnation : Skill
     {
-        //private GameObject _body;
-        //private AudioClip _audio;
+        private GameObject _body;
+        private AudioClip _audio;
         private int _newHitsToSurvive = 3;
 
         public Reincarnation()
@@ -17,8 +15,8 @@ namespace SkillLogic
             _name = "Reincarnation";
             _isUnlocked = false;
             _previousSkills = new List<Skill>();
-            //_body = Resources.Load<GameObject>("Skull");
-            //_audio = Resources.Load<AudioClip>("Reinc");
+            _body = Resources.Load<GameObject>("Prefabs/Ghost");
+            _audio = Resources.Load<AudioClip>("Audios/Reinc");
         }
 
         public override void Execute(GameObject point)
@@ -29,9 +27,10 @@ namespace SkillLogic
         {
             if (PlayerInfo._hitsToSurvive > 0)
             {
-                Debug.Log($"Body is spawned");
-                //point.GetComponent<AudioSource>().PlayOneShot(_audio);
-                //Object.Instantiate(_body, point.transform.position, Quaternion.identity);
+                // «вук не работает, потому что игрока быстро убивают
+                Debug.Log(point.GetComponent<AudioSource>() is null);
+                point.GetComponent<AudioSource>().PlayOneShot(_audio);
+                GameObject.Instantiate(_body, point.transform.position, Quaternion.identity);
             }
         }
     }

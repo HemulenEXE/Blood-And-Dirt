@@ -16,32 +16,31 @@ namespace InteractiveObjects{
             switch (this.tag)
             {
                 case "SmokeGrenade":
-                    if (ConsumableCounter.SmokeGrenadeCount < ConsumableCounter._maxCountSmokeGrenade)
+                    if (ConsumableCounter._smokeGrenadeCount < ConsumableCounter._maxCountSmokeGrenade)
                     {
                         Destroy(this.gameObject);
-                        ConsumableCounter.SmokeGrenadeCount++;
+                        ++ConsumableCounter._smokeGrenadeCount;
                     }
                     break;
                 case "SimpleGrenade":
-                    if (ConsumableCounter.SimpleGrenadeCount < ConsumableCounter._maxCountSimpleGrenade)
+                    if (ConsumableCounter._simpleGrenadeCount < ConsumableCounter._maxCountSimpleGrenade)
                     {
                         Destroy(this.gameObject);
-                        ConsumableCounter.SimpleGrenadeCount++; 
+                        ++ConsumableCounter._simpleGrenadeCount; 
                     }
                     break;
                 case "firstAidKit":
-                    if (ConsumableCounter.FirstAidKitCount < ConsumableCounter._maxCountFirstAidKit)
+                    if (ConsumableCounter._firstAidKitCount < ConsumableCounter._maxCountFirstAidKit)
                     {
                         Destroy(this.gameObject);
-                        ConsumableCounter.FirstAidKitCount++;
-                        Debug.Log($"firstAidKit {ConsumableCounter.FirstAidKitCount}");
+                        ++ConsumableCounter._firstAidKitCount;
                     }
                     break;
                 case "bandage":
-                    if (ConsumableCounter.BandageCount < ConsumableCounter._maxCountBandage)
+                    if (ConsumableCounter._bandageCount < ConsumableCounter._maxCountBandage)
                     {
                         Destroy(this.gameObject);
-                        ConsumableCounter.BandageCount++;
+                        ++ConsumableCounter._bandageCount;
                     }
                     break;
             }

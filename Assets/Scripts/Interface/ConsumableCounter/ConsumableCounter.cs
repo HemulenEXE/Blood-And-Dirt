@@ -10,159 +10,22 @@ namespace InventoryLogic
     /// </summary>
     public class ConsumableCounter : MonoBehaviour
     {
-        //Поля.
-        
-        /// <summary>
-        /// Единственный экземпляр счётчика расходников.
-        /// </summary>
-        private static ConsumableCounter _instance;
-        /// <summary>
-        /// Иконка дымовой гранаты.
-        /// </summary>
+
         private Transform _smokeGrenadeIcon;
-        /// <summary>
-        /// Иконка простой гранаты
-        /// </summary>
         private Transform _simpleGrenadeIcon;
-        /// <summary>
-        /// Иконка аптечки.
-        /// </summary>
         private Transform _firstAidKitIcon;
-        /// <summary>
-        /// Иконка бинта.
-        /// </summary>
         private Transform _bandageIcon;
-        /// <summary>
-        /// Количество дымовых гранат.
-        /// </summary>
-        private static int _smokeGrenadeCount = 0;
-        /// <summary>
-        /// Количество простых гранат.
-        /// </summary>
-        private static int _simpleGrenadeCount = 0;
-        /// <summary>
-        /// Количество аптечек.
-        /// </summary>
-        private static int _firstAidKitCount = 0;
-        /// <summary>
-        /// Количество бинтов.
-        /// </summary>
-        private static int _bandageCount = 0;
-        /// <summary>
-        /// Максимальное число дымовых гранат.
-        /// </summary>
-        [SerializeField] public const int _maxCountSmokeGrenade = 5;
-        /// <summary>
-        /// Максимальное число простых гранат.
-        /// </summary>
-        [SerializeField] public const int _maxCountSimpleGrenade = 5;
-        /// <summary>
-        /// Максимальное число аптечек.
-        /// </summary>
-        [SerializeField] public const int _maxCountFirstAidKit = 5;
-        /// <summary>
-        /// Максимальное число бинтов.
-        /// </summary>
-        [SerializeField] public const int _maxCountBandage = 5;
 
-        //Свойства.
+        public static int _smokeGrenadeCount = 0;
+        public static int _simpleGrenadeCount = 0;
+        public static int _firstAidKitCount = 0;
+        public static int _bandageCount = 0;
 
-        /// <summary>
-        /// Возвращает единственный экземпляр счётчика расходинков.
-        /// </summary>
-        public static ConsumableCounter GetInstance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = GameObject.FindObjectOfType<ConsumableCounter>();
+        public const int _maxCountSmokeGrenade = 5;
+        public const int _maxCountSimpleGrenade = 5;
+        public const int _maxCountFirstAidKit = 5;
+        public const int _maxCountBandage = 5;
 
-                    if (_instance == null)
-                    {
-                        var temp = GameObject.Find("Inventory&ConsumableCounter")?.AddComponent<ConsumableCounter>();
-                        if (temp == null) throw new ArgumentNullException("Inventory: Scene doesn't have the canvas \"Inventory&ConsumableCounter\"");
-                        _instance = temp;
-                    }
-                }
-                return _instance;
-            }
-        }
-        /// <summary>
-        /// Возвращает и изменяет количество дымовых гранат.
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static int SmokeGrenadeCount
-        {
-            get
-            {
-                return _smokeGrenadeCount;
-            }
-            set
-            {
-                if (value < 0) throw new ArgumentOutOfRangeException("ConsumableCounter: value < 0");
-                if (value > _maxCountSmokeGrenade) throw new ArgumentOutOfRangeException("ConsumableCounter: value > _maxCountSmokeGrenade");
-                _smokeGrenadeCount = value;
-            }
-        }
-        /// <summary>
-        /// Возвращает и изменяет количество простых гранат.
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static int SimpleGrenadeCount
-        {
-            get
-            {
-                return _simpleGrenadeCount;
-            }
-            set
-            {
-                if (value < 0) throw new ArgumentOutOfRangeException("ConsumableCounter: value < 0");
-                if (value > _maxCountSimpleGrenade) throw new ArgumentOutOfRangeException("ConsumableCounter: value > _maxCountSimpleGrenade");
-                _simpleGrenadeCount = value;
-            }
-        }
-        /// <summary>
-        /// Возвращает и изменяет количество аптечек.
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static int FirstAidKitCount
-        {
-            get
-            {
-                return _firstAidKitCount;
-            }
-            set
-            {
-                if (value < 0) throw new ArgumentOutOfRangeException("ConsumableCounter: value < 0");
-                if (value > _maxCountFirstAidKit) throw new ArgumentOutOfRangeException("ConsumableCounter: value > _maxCountFirstAidKit");
-                _firstAidKitCount = value;
-            }
-        }
-        /// <summary>
-        /// Возвращает и изменяет количество бинтов.
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static int BandageCount
-        {
-            get
-            {
-                return _bandageCount;
-            }
-            set
-            {
-                if (value < 0) throw new ArgumentOutOfRangeException("ConsumableCounter: value < 0");
-                if (value > _maxCountBandage) throw new ArgumentOutOfRangeException("ConsumableCounter: value > _maxCountBandage");
-                _bandageCount = value;
-            }
-        }
-
-        //Встроенные методы.
-
-        /// <summary>
-        /// Проверка и настройка полей.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"></exception>
         private void Awake()
         {
             _smokeGrenadeIcon = this.transform.Find("UIPanel")?.GetChild(0);
@@ -190,10 +53,10 @@ namespace InventoryLogic
         /// </summary>
         private void FixedUpdate()
         {
-            _smokeGrenadeIcon.GetComponentInChildren<TextMeshProUGUI>().text = SmokeGrenadeCount.ToString();
-            _simpleGrenadeIcon.GetComponentInChildren<TextMeshProUGUI>().text = SimpleGrenadeCount.ToString();
-            _firstAidKitIcon.GetComponentInChildren<TextMeshProUGUI>().text = FirstAidKitCount.ToString();
-            _bandageIcon.GetComponentInChildren<TextMeshProUGUI>().text = BandageCount.ToString();
+            _smokeGrenadeIcon.GetComponentInChildren<TextMeshProUGUI>().text = _smokeGrenadeCount.ToString();
+            _simpleGrenadeIcon.GetComponentInChildren<TextMeshProUGUI>().text = _simpleGrenadeCount.ToString();
+            _firstAidKitIcon.GetComponentInChildren<TextMeshProUGUI>().text = _firstAidKitCount.ToString();
+            _bandageIcon.GetComponentInChildren<TextMeshProUGUI>().text = _bandageCount.ToString();
         }
 
         //Вспомогательные методы.
@@ -203,10 +66,10 @@ namespace InventoryLogic
         /// </summary>
         public static void Clear()
         {
-            SmokeGrenadeCount = 0;
-            SimpleGrenadeCount = 0;
-            FirstAidKitCount = 0;
-            BandageCount = 0;
+            _smokeGrenadeCount = 0;
+            _simpleGrenadeCount = 0;
+            _firstAidKitCount = 0;
+            _bandageCount = 0;
         }
     }
 

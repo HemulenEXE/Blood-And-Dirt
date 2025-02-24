@@ -45,22 +45,22 @@ namespace PlayerLogic
             }
 
 
-            if (Input.GetKeyDown(KeyCode.Alpha3) && ConsumableCounter.FirstAidKitCount > 0)
+            if (Input.GetKeyDown(KeyCode.Alpha3) && ConsumableCounter._firstAidKitCount > 0)
             {
                 if (currentHealth + PlayerInfo._firstAidKitHealth > maxHealth)
                     currentHealth = maxHealth;
                 else currentHealth += PlayerInfo._firstAidKitHealth;
 
-                ConsumableCounter.FirstAidKitCount--;
+                ConsumableCounter._firstAidKitCount--;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha4) && ConsumableCounter.BandageCount > 0)
+            if (Input.GetKeyDown(KeyCode.Alpha4) && ConsumableCounter._bandageCount > 0)
             {
                 Debug.Log("Применены бинты!");
                 if (currentHealth + PlayerInfo._bandageHealth > maxHealth)
                     currentHealth = maxHealth;
                 else currentHealth += PlayerInfo._bandageHealth;
 
-                ConsumableCounter.BandageCount--;
+                ConsumableCounter._bandageCount--;
             }
             isInvulnerable = PlayerInfo._isGod;
         }

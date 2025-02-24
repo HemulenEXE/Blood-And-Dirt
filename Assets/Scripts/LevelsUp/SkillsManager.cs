@@ -2,6 +2,7 @@ using PlayerLogic;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UI;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
@@ -20,12 +21,14 @@ namespace SkillLogic
         public Button _blindRage;
         public Button _liveInVain;
         public Button _reincarnation;
-
+        public Button _spin;
+        public Button _anyPrice;
+        public Button _sledGrenade;
+        public Button _sound;
 
         private void Start()
         {
             _player = GameObject.FindWithTag("Player");
-
 
             var a1 = new StartOfANewLife();
             var a2 = new MusclesSecondSkeleton();
@@ -36,12 +39,20 @@ namespace SkillLogic
             var a7 = new BlindRange();
             var a8 = new LiveInNotVain();
             var a9 = new Reincarnation();
+            var a10 = new Spin();
+            var a11 = new AnyPrice();
+            var a12 = new SledGrenade();
+            var a13 = new Sound();
 
             a2._previousSkills.Add(a1);
+            a10._previousSkills.Add(a1);
+            a11._previousSkills.Add(a1);
 
             a3._previousSkills.Add(a2);
             a4._previousSkills.Add(a2);
             a5._previousSkills.Add(a2);
+            a12._previousSkills.Add(a10);
+            a13._previousSkills.Add(a11);
 
             a6._previousSkills.Add(a4);
 
@@ -57,6 +68,10 @@ namespace SkillLogic
             _hatred.onClick.AddListener(() => ActivateSkill(a6));
             _liveInVain.onClick.AddListener(() => AddSkill(a8));
             _reincarnation.onClick.AddListener(() => ActivateSkill(a9));
+            _spin.onClick.AddListener(() => AddSkill(a10));
+            _anyPrice.onClick.AddListener(() => ActivateSkill(a11));
+            _sledGrenade.onClick.AddListener(() => AddSkill(a12));
+            _sound.onClick.AddListener(() => AddSkill(a13));
         }
         private void AddSkill(Skill skill)
         {
