@@ -52,6 +52,8 @@ namespace GunLogic
 
         //Автосвойства.
 
+        public bool IsHeld { get; set; } = true;
+
         /// <summary>
         /// Возвращает тип оружия.
         /// </summary>
@@ -202,6 +204,11 @@ namespace GunLogic
                 AmmoTotal--;
                 AmmoTotalCurrent++;
                 yield return new WaitForSeconds(RechargingTime / AmmoCapacity);
+                if (!IsHeld)
+                {
+                    IsRecharging = false;
+                    yield break;
+                }
             }
             _audioControl.PlayOneShot(_audioPlatoon);
             IsRecharging = false; //Перезарядка окончена.

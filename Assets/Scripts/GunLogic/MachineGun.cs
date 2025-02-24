@@ -54,6 +54,8 @@ namespace GunLogic
         /// Возврашает флаг, указывающий, идёт ли стрельба.
         /// </summary>
         public bool IsShooting { get; set; } = false;
+
+        public bool IsHeld { get; set; } = true;
         /// <summary>
         /// Наносимый урон.
         /// </summary>
@@ -160,7 +162,7 @@ namespace GunLogic
         {
             if (AmmoTotal > 0 && !IsShooting && !IsRecharging)
             {
-                IsRecharging = true; //Начинаем перезарядку.
+                IsRecharging = true;
                 StartCoroutine(RechargeCoroutine());
             }
         }
@@ -179,7 +181,14 @@ namespace GunLogic
         private IEnumerator RechargeCoroutine()
         {
             yield return new WaitForSeconds(RechargingTime);
-            int count_need_patrons = AmmoCapacity - AmmoTotalCurrent; //Количество нехватаемых патронов.
+
+            if (!IsHeld)
+            {
+                IsRecharging = false;
+                yield break;
+            }
+
+            int count_need_patrons = AmmoCapacity - AmmoTotalCurrent;
             _audioControl.PlayOneShot(_audioRecharge);
             if (AmmoTotal > count_need_patrons)
             {
@@ -191,7 +200,7 @@ namespace GunLogic
                 AmmoTotalCurrent += AmmoTotal;
                 AmmoTotal = 0;
             }
-            IsRecharging = false; //Перезарядка окончена.
+            IsRecharging = false;
         }
     }
 }

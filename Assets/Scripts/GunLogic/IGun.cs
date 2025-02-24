@@ -82,6 +82,8 @@ namespace GunLogic
         /// </summary>
         public float NoiseIntensity { get; set; }
 
+        public bool IsHeld { get; set; }
+
         /// <summary>
         /// Событие вызова реакции на шум стрельбы
         /// </summary>

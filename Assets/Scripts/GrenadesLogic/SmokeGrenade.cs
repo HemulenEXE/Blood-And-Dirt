@@ -61,6 +61,7 @@ namespace Grenades
         public override void Explode()
         {
             _particle.Play();
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = null;
             IsActivated = true;
 
             CircleCollider2D smokeField = this.GetComponent<CircleCollider2D>(); //Установка коллайдера, чтобы враги путались в дыме.

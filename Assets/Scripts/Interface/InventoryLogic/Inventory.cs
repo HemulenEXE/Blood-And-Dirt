@@ -98,7 +98,7 @@ namespace InventoryLogic
                 if (_instance == null)
                 {
                     var temp = GameObject.Find("Inventory&ConsumableCounter")?.GetComponent<Inventory>();
-                    if (temp == null) throw new ArgumentNullException("Inventory: Scene doesn't have the canvas \"Inventory&ConsumableCounter\"");
+                    // if (temp == null) throw new ArgumentNullException("Inventory: Scene doesn't have the canvas \"Inventory&ConsumableCounter\"");
                     _instance = temp;
                 }
                 return _instance;
@@ -174,6 +174,7 @@ namespace InventoryLogic
             if (CurrentSlot.PushItem(item))
             {
                 CurrentSlot.ImageStoredItem.sprite = item.Icon;
+                item.Active();
 
                 //Если добавляемый объект является оружием - отобразить над ячейкой инвентаря кол-во патронов
                 IGun gun = CurrentSlot.StoredItem?.GetComponent<IGun>();

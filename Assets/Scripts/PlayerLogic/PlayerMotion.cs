@@ -1,90 +1,87 @@
-﻿using System;
+﻿using GunLogic;
+using InventoryLogic;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using SkillLogic;
 
 namespace PlayerLogic
 {
 
     public class PlayerMotion : MonoBehaviour
     {
-        /// <summary>
-        /// Достаточно маленький промежуток времени.
-        private float _deltaTime;
-        /// Главная камера.
-        /// </summary>
+        // Перенёс данные в класс PlayerInfo
+
         private Camera _mainCamera;
-        /// <summary>
-        /// скорость ползком
-        /// </summary>
-        [SerializeField] private float _stealSpeed = 2f;
-        /// <summary>
-        /// Пешая скорость.
-        /// </summary>
-        [SerializeField] private float _walkSpeed = 4f;
-        /// <summary>
-        /// Скорость бега.
-        /// </summary>
-        [SerializeField] private float _runSpeed = 6f;
-        /// <summary>
-        /// шум ползком
-        /// </summary>
-        [SerializeField] private float _stealNoise = 0.3f;
-        /// <summary>
-        /// Пеший шум.
-        /// </summary>
-        [SerializeField] private float _walkNoise = 2f;
-        /// <summary>
-        /// шум бега.
-        /// </summary>
-        [SerializeField] private float _runNoise = 8f;
+        private Animator _animator;
 
         public static event Action<Transform, float> makeNoise;
 
         private Dictionary<float, float> noiseMapping;
-        /// <summary>
-        /// Возвращает и приватно изменяет флаг, указывающий, движется ли игрок.
-        /// </summary>
-        public bool IsMoving { get; private set; }
-        /// <summary>
-        /// Возвращает и приватно изменяет флаг, указывающий, бежит ли игрок.
-        /// </summary>
-        public bool IsRunning { get; private set; }
-        /// <summary>
-        /// Настройка и проверка полей.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+
         private void Awake()
         {
             _mainCamera = Camera.main;
-            _deltaTime = Time.fixedDeltaTime;
+            _animator = this.transform.GetChild(0).GetComponent<Animator>();
             noiseMapping = new Dictionary<float, float>
         {
-            { _stealSpeed, _stealNoise },
-            { _walkSpeed, _walkNoise },
-            { _runSpeed, _runNoise }
+            { PlayerInfo._stealSpeed, PlayerInfo._stealNoise },
+            { PlayerInfo._walkSpeed, PlayerInfo._walkNoise },
+            { PlayerInfo._runSpeed, PlayerInfo._runNoise }
         };
 
             if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
-            if (_runSpeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedRun < 0");
-            if (_walkSpeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedWalk < 0");
         }
+
+        private void Update()
+        {
+            ControlAnimation();
+        }
+
         private void FixedUpdate()
         {
             Move();
             Rotate();
+        }   
+
+        private void ControlAnimation()
+        {
+            _animator.SetBool("IsMoving", PlayerInfo._isWalking);
+            var currentItem = Inventory.GetInstance?.CurrentSlot?.StoredItem;
+            if (currentItem?.GetComponent<ShotGun>() != null)
+            {
+                _animator.SetBool("ShotGun", true);
+            }
+            else _animator.SetBool("ShotGun", false);
+            if (currentItem?.GetComponent<MachineGun>() != null)
+            {
+                _animator.SetBool("MachineGun", true);
+            }
+            else _animator.SetBool("MachineGun", false);
+            if (currentItem?.GetComponent<Pistol>() != null)
+            {
+                _animator.SetBool("Pistol", true);
+            }
+            else _animator.SetBool("Pistol", false);
+            if (currentItem?.GetComponent<Knife>() != null)
+            {
+                _animator.SetBool("Knife", true);
+            }
+            else _animator.SetBool("Knife", false);
         }
+
         /// <summary>
         /// Передвижение игрока посредством клавиш WASD.
         /// </summary>
         private void Move()
         {
-            IsMoving = false;
-            IsRunning = false;
-            //Текущая скорость игрока в зависимости от состояния нажатия клавиши LeftShift.
-            float speedCurrent = Input.GetKey(KeyCode.LeftShift) ? _runSpeed : _walkSpeed;
+            PlayerInfo._isRunnig = Input.GetKey(KeyCode.LeftShift);
+            PlayerInfo._isStealing = Input.GetKey(KeyCode.LeftControl);
+
+            PlayerInfo.ExecuteSkill("Hatred", this.gameObject);
+            float speedCurrent = PlayerInfo._isStealing ? PlayerInfo._stealSpeed : (PlayerInfo._isRunnig ? PlayerInfo._runSpeed : PlayerInfo._walkSpeed);
             Vector3 movement = Vector2.zero;
-            //Отслеживание нажатия клавиш.
+
             if (Input.GetKey(KeyCode.A))
             {
                 movement += Vector3.left;
@@ -103,24 +100,23 @@ namespace PlayerLogic
             }
             if (movement != Vector3.zero)
             {
-                this.transform.position += movement.normalized * speedCurrent * _deltaTime;
-                IsMoving = true;
-                IsRunning = speedCurrent.Equals(_runSpeed);
+                this.transform.position += movement.normalized * speedCurrent * Time.fixedDeltaTime;
+                PlayerInfo._isWalking = true;
                 makeNoise?.Invoke(transform, noiseMapping[speedCurrent]);
             }
+            else PlayerInfo._isWalking = false;
         }
         /// <summary>
         /// Поворот игрока за компьтерной мышью.
         /// </summary>
         private void Rotate()
         {
-            //Вычисление положения компьютерной мыши в мировом пространстве
+            // Вычисление положения компьютерной мыши в мировом пространстве
             Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
 
-            //Вычисление угла поворота игрока за мышью
             Vector3 direction = mousePosition - this.transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; //Преобразование радиан в градусы - равен 360 / (2 * pi)
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Преобразование радиан в градусы - равен 360 / (2 * pi)
             this.transform.rotation = Quaternion.Euler(Vector3.forward* angle);
         }
 

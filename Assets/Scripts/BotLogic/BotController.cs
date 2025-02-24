@@ -10,6 +10,7 @@ using GunLogic;
 using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.GraphicsBuffer;
 using Unity.VisualScripting;
+using InventoryLogic;
 
 public class BotController : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class BotController : MonoBehaviour
     [SerializeField] private float rotationAngle = 15f;
     [SerializeField] private float rotationSpeed = 1;
     [SerializeField] private float stoppingDistance = 5;
+    private float _nextAttackTime;
 
 
     private Animator animator;
@@ -42,6 +44,10 @@ public class BotController : MonoBehaviour
     {
         InitializeComponents();
         ConfigureAgent();
+    }
+    private void Update()
+    {
+        _nextAttackTime -= Time.deltaTime;
     }
 
     private void InitializeComponents()
@@ -158,18 +164,15 @@ public class BotController : MonoBehaviour
         {
             ChasePlayer();
             UpdateChaseTimer();
-            if(IsPlayerVisible())
+            if(IsPlayerVisible() && _nextAttackTime <= 0)
             {
                 gun.Shoot(LayerMask.NameToLayer("EnemyProjectile"));
-            }
-            else if(gun.IsShooting)
-            {
-                //gun.StopShoot();
+                _nextAttackTime = gun.ShotDelay;
             }
         }
         else
         {
-            gun.IsShooting = false;
+            //gun.IsShooting = false;
             StopChase();
         }
         

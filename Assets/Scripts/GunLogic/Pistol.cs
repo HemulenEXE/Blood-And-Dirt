@@ -46,6 +46,9 @@ namespace GunLogic
         /// Возвращает тип оружия.
         /// </summary>
         public GunType Type { get; } = GunType.Light;
+
+        public bool IsHeld { get; set; } = true;
+
         /// <summary>
         /// Возвращает наносимый урон.
         /// </summary>
@@ -178,6 +181,13 @@ namespace GunLogic
         private IEnumerator RechargeCoroutine()
         {
             yield return new WaitForSeconds(RechargingTime);
+
+            if (!IsHeld)
+            {
+                IsRecharging = false;
+                yield break;
+            }
+
             int count_need_patrons = AmmoCapacity - AmmoTotalCurrent; //Количество нехватаемых патронов.
             _audioControl.PlayOneShot(_audioRecharge);
             if (AmmoTotal > count_need_patrons)

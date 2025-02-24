@@ -120,7 +120,7 @@ namespace Grenades
                 //Логика получения урона.
                 if (x.gameObject != this.gameObject)
                 {
-                    //Destroy(x.gameObject);
+                   //Destroy(x.gameObject);
                 }
             }
             Destroy(this.gameObject);

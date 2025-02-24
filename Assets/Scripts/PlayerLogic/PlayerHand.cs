@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using InventoryLogic;
+using InteractiveObjects;
 
 namespace PlayerLogic
 {
@@ -15,7 +16,6 @@ namespace PlayerLogic
                 Transform item_transform = Inventory.GetInstance.CurrentSlot.StoredItem.transform;
                 item_transform.position = this.transform.position - transform.up / 2;
                 item_transform.rotation = this.transform.rotation;
-                Inventory.GetInstance.CurrentSlot.StoredItem.Active();
                 Inventory.GetInstance.CurrentSlot.StoredItem.gameObject.layer = LayerMask.NameToLayer("Invisible");
             }
         }
