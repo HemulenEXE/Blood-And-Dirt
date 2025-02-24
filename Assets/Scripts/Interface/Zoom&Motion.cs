@@ -14,7 +14,7 @@ public class ZoomAndMotion : MonoBehaviour
     private Vector2 pos; 
     private Vector2 offset; 
     private Vector2 mousePos;
-    public Vector2 GStartPoint() {  return startPoint; }
+    public Vector2 StartPoint() {  return startPoint; }
     public Vector2 StartScale() { return startScale; }
     private void Start()
     {

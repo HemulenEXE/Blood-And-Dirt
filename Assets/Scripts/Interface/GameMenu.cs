@@ -60,11 +60,13 @@ public class GameMenu : MonoBehaviour
         if (skillTree.activeSelf)
         {
             _onSkillTree.GetComponentInChildren<TextMeshProUGUI>().text = "К дереву прокачки";
-            skillTree.SetActive(false);     
+            skillTree.transform.GetChild(1).localScale = skillTree.GetComponentInChildren<ZoomAndMotion>().StartScale();
+            skillTree.transform.GetChild(1).position = skillTree.GetComponentInChildren<ZoomAndMotion>().StartPoint();
+            skillTree.SetActive(false);   
         }
         else 
         {
-            skillTree.SetActive(true);
+            skillTree.SetActive(true);   
             _onSkillTree.GetComponentInChildren<TextMeshProUGUI>().text = "Обратно";
         }
     }
