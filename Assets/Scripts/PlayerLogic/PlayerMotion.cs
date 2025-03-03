@@ -72,9 +72,8 @@ namespace PlayerLogic
             PlayerInfo._isRunning = Input.GetKey(KeyCode.LeftShift);
             PlayerInfo._isStealing = Input.GetKey(KeyCode.LeftControl);
 
-            if (PlayerInfo.HasSkill<Hatred>() && PlayerInfo._isBleeding) PlayerInfo._isRunning = true;
+            PlayerInfo.GetSkill<Hatred>()?.Execute(this.gameObject);
 
-            // PlayerInfo.ExecuteSkill("Hatred", this.gameObject);
             float speedCurrent = PlayerInfo._isStealing ? PlayerInfo._stealSpeed : (PlayerInfo._isRunning ? PlayerInfo._runSpeed : PlayerInfo._walkSpeed);
             Vector3 movement = Vector2.zero;
 

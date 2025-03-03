@@ -75,7 +75,7 @@ namespace SkillLogic
             if (skill._isUnlocked && !PlayerInfo.HasSkill(skill))
             {
                 PlayerInfo.AddSkill(skill);
-                Debug.Log($"{skill._name} is activated!");
+                Debug.Log($"{skill._name} is added!");
             }
         }
         private void ActivateSkill(Skill skill)
@@ -85,7 +85,7 @@ namespace SkillLogic
             {
                 PlayerInfo.AddSkill(skill);
                 skill.Execute(_player);
-                Debug.Log($"{skill._name} is activated!");
+                Debug.Log($"{skill._name} is used!");
             }
         }
     }
