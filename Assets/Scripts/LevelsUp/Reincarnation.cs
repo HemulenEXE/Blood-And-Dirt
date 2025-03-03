@@ -8,7 +8,7 @@ namespace SkillLogic
     {
         private GameObject _body;
         private AudioClip _audio;
-        private int _newHitsToSurvive = 3;
+        private int _newBodyCount = 3;
 
         public Reincarnation()
         {
@@ -21,16 +21,17 @@ namespace SkillLogic
 
         public override void Execute(GameObject point)
         {
-            PlayerInfo._hitsToSurvive = _newHitsToSurvive;
+            PlayerInfo._bodyCount = _newBodyCount;
         }
         public virtual void SpawnBody(GameObject point)
         {
-            if (PlayerInfo._hitsToSurvive > 0)
+            if (PlayerInfo._bodyCount > 0)
             {
                 // «вук не работает, потому что игрока быстро убивают
                 Debug.Log(point.GetComponent<AudioSource>() is null);
                 point.GetComponent<AudioSource>().PlayOneShot(_audio);
                 GameObject.Instantiate(_body, point.transform.position, Quaternion.identity);
+                --PlayerInfo._bodyCount;
             }
         }
     }

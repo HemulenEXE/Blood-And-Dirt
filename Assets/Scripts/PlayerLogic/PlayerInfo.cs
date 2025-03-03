@@ -25,8 +25,8 @@ namespace PlayerLogic
         public static float _walkNoise = 2f;
         public static float _runNoise = 8f;
 
-        public static float _fullHealth = 10f;
-        public static float _currentHealth;
+        public static int _fullHealth = 100;
+        public static int _currentHealth = 100;
 
         public static int _bleedingDamage;
 
@@ -41,6 +41,8 @@ namespace PlayerLogic
         public static bool _isGod; // Неузвимость
 
         public static bool _isFighting;
+
+        public static int _bodyCount; // Количество воскрешений
 
         public static bool HasSkill<T>() where T : Skill
         {

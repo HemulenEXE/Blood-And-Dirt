@@ -33,13 +33,13 @@ namespace InteractiveObjects
             //_gun.IsRecharging = false;
             //_gun.IsShooting = false;
             _gun.IsHeld = false;
-            Debug.Log(_gun.IsHeld);
+            // Debug.Log(_gun.IsHeld);
             base.Deactive();
         }
         public override void Active()
         {
             _gun.IsHeld = true;
-            Debug.Log(_gun.IsHeld);
+            // Debug.Log(_gun.IsHeld);
             base.Active();
         }
     }

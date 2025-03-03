@@ -7,9 +7,9 @@ namespace SkillLogic
     public class StartOfANewLife : Skill
     {
         [SerializeField]
-        private float _newFullHealth = 20f;
+        private int _newFullHealth = 200;
         [SerializeField]
-        private int _newDamageBleeding;
+        private int _newDamageBleeding = 2;
 
         public StartOfANewLife()
         {

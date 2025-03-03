@@ -11,7 +11,6 @@ public class HoverDescription : MonoBehaviour
     public void ShowDescription()
     {
         this.gameObject.SetActive(true);
-        Debug.Log("Show" + this.gameObject.active);
     }
     public void HideDescription()
     {

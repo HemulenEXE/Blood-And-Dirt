@@ -23,12 +23,6 @@ namespace PlayerLogic
         {
             _mainCamera = Camera.main;
             _animator = this.transform.GetChild(0).GetComponent<Animator>();
-            noiseMapping = new Dictionary<float, float>
-        {
-            { PlayerInfo._stealSpeed, PlayerInfo._stealNoise },
-            { PlayerInfo._walkSpeed, PlayerInfo._walkNoise },
-            { PlayerInfo._runSpeed, PlayerInfo._runNoise }
-        };
 
             if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
         }
@@ -77,6 +71,8 @@ namespace PlayerLogic
         {
             PlayerInfo._isRunnig = Input.GetKey(KeyCode.LeftShift);
             PlayerInfo._isStealing = Input.GetKey(KeyCode.LeftControl);
+
+            if (PlayerInfo.HasSkill<Hatred>() && PlayerInfo._isBleeding) PlayerInfo._isRunnig = true;
 
             // PlayerInfo.ExecuteSkill("Hatred", this.gameObject);
             float speedCurrent = PlayerInfo._isStealing ? PlayerInfo._stealSpeed : (PlayerInfo._isRunnig ? PlayerInfo._runSpeed : PlayerInfo._walkSpeed);

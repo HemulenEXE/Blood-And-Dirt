@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace PlayerLogic
@@ -8,6 +6,7 @@ namespace PlayerLogic
     {
         private void Update()
         {
+
             if (Input.GetKeyDown(KeyCode.P))
             {
                 Debug.Log($"Count of skills: {PlayerInfo._skills.Count}\n" +

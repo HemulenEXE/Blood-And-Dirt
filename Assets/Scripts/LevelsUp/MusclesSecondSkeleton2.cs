@@ -6,7 +6,6 @@ namespace SkillLogic
 {
     public class MusclesSecondSkeleton2 : Skill
     {
-        [SerializeField]
         private int _newHitsToSurvive = 5;
 
         public MusclesSecondSkeleton2()

@@ -24,13 +24,12 @@ namespace PlayerLogic
         private float _currentTime = 0f;
         private int _hitsToSurvive;
 
+        private float _updateStateTimeBleeding = 10f;
+        private float _currentTimeBleeding = 0f;
         private void Start()
         {
-            //PlayerInfo.ExecuteSkill("StartOfANewLife", this.gameObject);
-            //PlayerInfo.ExecuteSkill("MusclesSecondSkeleton", this.gameObject);
-
-            maxHealth = (int)PlayerInfo._fullHealth;
-            currentHealth = (int)PlayerInfo._currentHealth;
+            // PlayerInfo.ExecuteSkill("StartOfANewLife", this.gameObject);
+            // PlayerInfo.ExecuteSkill("MusclesSecondSkeleton", this.gameObject);
 
             bloodController = GetComponent<BloodEffect>();
             StartCoroutine(BleedDamage());
@@ -43,22 +42,26 @@ namespace PlayerLogic
                 _currentTime = _updateStateTime;
                 _hitsToSurvive = PlayerInfo._hitsToSurvive;
             }
+            if (_currentTimeBleeding <= 0)
+            {
+                _currentTimeBleeding = _updateStateTimeBleeding;
+                PlayerInfo._isBleeding = false;
+            }
 
 
             if (Input.GetKeyDown(KeyCode.Alpha3) && ConsumableCounter._firstAidKitCount > 0)
             {
-                if (currentHealth + PlayerInfo._firstAidKitHealth > maxHealth)
-                    currentHealth = maxHealth;
-                else currentHealth += PlayerInfo._firstAidKitHealth;
+                if (PlayerInfo._currentHealth + PlayerInfo._firstAidKitHealth > PlayerInfo._fullHealth)
+                    PlayerInfo._currentHealth = PlayerInfo._fullHealth;
+                else PlayerInfo._currentHealth += PlayerInfo._firstAidKitHealth;
 
                 ConsumableCounter._firstAidKitCount--;
             }
             if (Input.GetKeyDown(KeyCode.Alpha4) && ConsumableCounter._bandageCount > 0)
             {
-                Debug.Log("Применены бинты!");
-                if (currentHealth + PlayerInfo._bandageHealth > maxHealth)
-                    currentHealth = maxHealth;
-                else currentHealth += PlayerInfo._bandageHealth;
+                if (PlayerInfo._currentHealth + PlayerInfo._bandageHealth > PlayerInfo._fullHealth)
+                    PlayerInfo._currentHealth = PlayerInfo._fullHealth;
+                else PlayerInfo._currentHealth += PlayerInfo._bandageHealth;
 
                 ConsumableCounter._bandageCount--;
             }
@@ -74,7 +77,11 @@ namespace PlayerLogic
         {
             if (collision.gameObject.tag == "Projectile")
             {
-                if (_hitsToSurvive > 0) --_hitsToSurvive;
+                if (_hitsToSurvive > 0)
+                {
+                    --_hitsToSurvive;
+                    _currentTime = _updateStateTime;
+                }
                 else
                 {
                     var dataBullet = collision.gameObject.GetComponent<ProjectileData>();
@@ -92,14 +99,25 @@ namespace PlayerLogic
             if (!isInvulnerable)
             {
                 PlayerInfo._isBleeding = true;
-                currentHealth -= (int)bullet.Damage;
+                PlayerInfo._currentHealth -= (int)bullet.Damage;
+                _currentTimeBleeding = _updateStateTimeBleeding;
+                Debug.Log("currentHealth: " + PlayerInfo._currentHealth);
 
-                if (currentHealth <= 0)
+                if (PlayerInfo._currentHealth <= 0)
                 {
-                    Death();
-                    return;
+                    if (PlayerInfo._bodyCount > 0)
+                    {
+                        PlayerInfo.GetSkill<Reincarnation>().SpawnBody(this.gameObject); // Спавн трупа
+                        PlayerInfo._fullHealth /= 2;
+                        PlayerInfo._currentHealth = PlayerInfo._fullHealth;
+                        return;
+                    }
+                    else
+                    {
+                        Death();
+                        return;
+                    }
                 }
-
                 StartCoroutine(InvulnerabilityFrames(_frameDuration));
             }
         }
@@ -110,7 +128,7 @@ namespace PlayerLogic
             {
                 if (PlayerInfo._isBleeding && !isInvulnerable)
                 {
-                    currentHealth -= PlayerInfo._bleedingDamage;
+                    PlayerInfo._currentHealth -= PlayerInfo._bleedingDamage;
                 }
                 yield return new WaitForSeconds(60f);
             }
@@ -123,16 +141,11 @@ namespace PlayerLogic
         StateBloodEffect CalculateStateDamaged()
         {
             // print($"Damaged = {Math.Floor((maxHealth - currentHealth) / (maxHealth / 5.0))}");
-            return (StateBloodEffect)Math.Floor((maxHealth - currentHealth) / (maxHealth / 5.0));
+            return (StateBloodEffect)Math.Floor((PlayerInfo._fullHealth - PlayerInfo._currentHealth) / (PlayerInfo._fullHealth / 5.0));
         }
         public override void Death()
         {
-            if (PlayerInfo._hitsToSurvive <= 0) Destroy(this.gameObject);
-            else
-            {
-                --PlayerInfo._hitsToSurvive;
-                PlayerInfo.GetSkill<Reincarnation>()?.SpawnBody(this.gameObject);
-            }
+            Destroy(this.gameObject);
         }
     }
 

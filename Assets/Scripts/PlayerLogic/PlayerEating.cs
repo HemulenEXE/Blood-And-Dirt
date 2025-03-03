@@ -1,3 +1,4 @@
+using SkillLogic;
 using UnityEngine;
 
 namespace PlayerLogic
@@ -12,8 +13,7 @@ namespace PlayerLogic
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                Debug.Log("F");
-                PlayerInfo.ExecuteSkill("LiveInNotVain", this.gameObject);
+                PlayerInfo.GetSkill<LiveInNotVain>().Execute(this.gameObject);
             }
         }
     }
