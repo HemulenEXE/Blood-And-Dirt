@@ -41,9 +41,9 @@ namespace PlayerLogic
                 if (Input.GetKey(KeyCode.Mouse0) && _nextAttackTime <= 0)
                 {
                     _audioControl.PlayOneShot(_knife.AttackSound);
-                    if (!PlayerInfo._isFighting && PlayerInfo.HasSkill<AnyPrice>())
-                        _knife.InstantKill();
-                    else _knife.DealDamage();
+                    //if (!PlayerInfo._isFighting && PlayerInfo.HasSkill<AnyPrice>())
+                    //    _knife.InstantKill();
+                    _knife.DealDamage();
                     _nextAttackTime = _knife.AttackDelay;
                 }
             }

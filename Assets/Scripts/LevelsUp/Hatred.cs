@@ -21,7 +21,7 @@ namespace SkillLogic
         {
             if (PlayerInfo._isBleeding)
             {
-                PlayerInfo._isRunnig = true;
+                PlayerInfo._isRunning = true;
                 PlayerInfo._runSpeed = _newRunSpeed;
                 var bodies = GameObject.FindGameObjectsWithTag("Body");
                 // Уменьшение целостности трупов - можно вызвать отдельно метод

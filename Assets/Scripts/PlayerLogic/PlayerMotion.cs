@@ -69,13 +69,13 @@ namespace PlayerLogic
         /// </summary>
         private void Move()
         {
-            PlayerInfo._isRunnig = Input.GetKey(KeyCode.LeftShift);
+            PlayerInfo._isRunning = Input.GetKey(KeyCode.LeftShift);
             PlayerInfo._isStealing = Input.GetKey(KeyCode.LeftControl);
 
-            if (PlayerInfo.HasSkill<Hatred>() && PlayerInfo._isBleeding) PlayerInfo._isRunnig = true;
+            if (PlayerInfo.HasSkill<Hatred>() && PlayerInfo._isBleeding) PlayerInfo._isRunning = true;
 
             // PlayerInfo.ExecuteSkill("Hatred", this.gameObject);
-            float speedCurrent = PlayerInfo._isStealing ? PlayerInfo._stealSpeed : (PlayerInfo._isRunnig ? PlayerInfo._runSpeed : PlayerInfo._walkSpeed);
+            float speedCurrent = PlayerInfo._isStealing ? PlayerInfo._stealSpeed : (PlayerInfo._isRunning ? PlayerInfo._runSpeed : PlayerInfo._walkSpeed);
             Vector3 movement = Vector2.zero;
 
             if (Input.GetKey(KeyCode.A))
@@ -97,15 +97,15 @@ namespace PlayerLogic
             if (movement != Vector3.zero)
             {
                 PlayerInfo._isWalking = true;
-                PlayerInfo._isStaing = false;
+                PlayerInfo._isStaying = false;
                 this.transform.position += movement.normalized * speedCurrent * Time.fixedDeltaTime;
                 if (PlayerInfo._isStealing) makeNoise?.Invoke(this.transform, PlayerInfo._stealNoise);
-                else if (PlayerInfo._isRunnig) makeNoise?.Invoke(this.transform, PlayerInfo._runNoise);
+                else if (PlayerInfo._isRunning) makeNoise?.Invoke(this.transform, PlayerInfo._runNoise);
                 else if (PlayerInfo._isWalking) makeNoise?.Invoke(this.transform, PlayerInfo._walkNoise);
             }
             else
             {
-                PlayerInfo._isStaing = true;
+                PlayerInfo._isStaying = true;
                 PlayerInfo._isWalking = false;
             }
         }

@@ -1,10 +1,6 @@
 using PlayerLogic;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UI;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace SkillLogic
 {
@@ -76,7 +72,7 @@ namespace SkillLogic
         private void AddSkill(Skill skill)
         {
             skill.Unlock();
-            if (skill._isUnlocked)
+            if (skill._isUnlocked && !PlayerInfo.HasSkill(skill))
             {
                 PlayerInfo.AddSkill(skill);
                 Debug.Log($"{skill._name} is activated!");
@@ -85,7 +81,7 @@ namespace SkillLogic
         private void ActivateSkill(Skill skill)
         {
             skill.Unlock();
-            if (skill._isUnlocked)
+            if (skill._isUnlocked && !PlayerInfo.HasSkill(skill))
             {
                 PlayerInfo.AddSkill(skill);
                 skill.Execute(_player);
