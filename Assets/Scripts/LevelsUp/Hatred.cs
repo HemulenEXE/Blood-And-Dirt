@@ -1,5 +1,4 @@
 using PlayerLogic;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +6,7 @@ namespace SkillLogic
 {
     public class Hatred : Skill
     {
-        [SerializeField]
-        private float _newRunSpeed;
+        private float _newRunSpeed = 8f;
 
         public Hatred()
         {

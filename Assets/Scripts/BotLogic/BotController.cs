@@ -1,16 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 using UnityEngine.AI;
-using TMPro;
 using System;
 using GunLogic;
-using static UnityEngine.EventSystems.EventTrigger;
-using static UnityEngine.GraphicsBuffer;
-using Unity.VisualScripting;
-using InventoryLogic;
 
 public class BotController : MonoBehaviour
 {
@@ -238,7 +231,6 @@ public class BotController : MonoBehaviour
 
         return hit.collider != null && hit.collider.CompareTag("Player");
     }
-
 
     private void StopChase()
     {
