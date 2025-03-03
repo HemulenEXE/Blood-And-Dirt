@@ -27,8 +27,6 @@ namespace SkillLogic
         {
             if (PlayerInfo._bodyCount > 0)
             {
-                // «вук не работает, потому что игрока быстро убивают
-                Debug.Log(point.GetComponent<AudioSource>() is null);
                 point.GetComponent<AudioSource>().PlayOneShot(_audio);
                 GameObject.Instantiate(_body, point.transform.position, Quaternion.identity);
                 --PlayerInfo._bodyCount;

@@ -13,7 +13,7 @@ namespace PlayerLogic
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                PlayerInfo.GetSkill<LiveInNotVain>().Execute(this.gameObject);
+                PlayerInfo.GetSkill<LiveInNotVain>()?.Execute(this.gameObject);
             }
         }
     }

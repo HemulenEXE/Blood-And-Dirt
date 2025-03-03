@@ -20,7 +20,6 @@ public class HealthBot : AbstractHealth
     {
         if (!isInvulnerable)
         {
-            Debug.Log("check");
             currentHealth -= (int)bullet.Damage;
 
             if (currentHealth <= 0)

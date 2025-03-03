@@ -7,7 +7,7 @@ namespace SkillLogic
 {
     public class LiveInNotVain : Skill
     {
-        private float _searchRadius = 100f;
+        private float _searchRadius = 1f;
 
         public LiveInNotVain()
         {
@@ -19,10 +19,9 @@ namespace SkillLogic
         public override void Execute(GameObject point)
         {
             var hitColliders = Physics.OverlapSphere(point.transform.position, _searchRadius);
-            Debug.Log(hitColliders.Length);
             foreach(var x in hitColliders)
             {
-                x.GetComponent<Body>().GetDamage(1);
+                x.gameObject.GetComponent<Body>().GetDamage(1);
                 Debug.Log($"{x.name} is eated");
             }
 

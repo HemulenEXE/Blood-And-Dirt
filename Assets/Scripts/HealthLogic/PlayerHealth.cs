@@ -13,19 +13,17 @@ namespace PlayerLogic
     /// </summary>
     public class PlayerHealth : AbstractHealth
     {
-        // Перенёс данные в класс PlayerInfo
-
-
-        [SerializeField]
-        private float _frameDuration = 0.5f; //Сколько длится кадр, во время которого игрок не получает урон
+        private float _frameDuration = 0.5f; // Сколько длится кадр, во время которого игрок не получает урон
 
         private BloodEffect bloodController;
-        private float _updateStateTime = 10f; // Время обновления состояния игрока
-        private float _currentTime = 0f;
-        private int _hitsToSurvive;
 
         private float _updateStateTimeBleeding = 10f;
         private float _currentTimeBleeding = 0f;
+
+        private int _currentHitsToSurvive;
+        private float _updateStateTime = 10f; // Время обновления состояния игрока
+        private float _currentTimeHits = 0f;
+
         private void Start()
         {
             // PlayerInfo.ExecuteSkill("StartOfANewLife", this.gameObject);
@@ -37,17 +35,19 @@ namespace PlayerLogic
 
         private void Update()
         {
-            if (_currentTime <= 0)
+            if (_currentTimeHits <= 0)
             {
-                _currentTime = _updateStateTime;
-                _hitsToSurvive = PlayerInfo._hitsToSurvive;
+                _currentTimeHits = _updateStateTime;
+                _currentHitsToSurvive = PlayerInfo._hitsToSurvive; // Обновление количества пропускаемых ударов
             }
+            _currentTimeHits -= Time.deltaTime;
+
             if (_currentTimeBleeding <= 0)
             {
                 _currentTimeBleeding = _updateStateTimeBleeding;
-                PlayerInfo._isBleeding = false;
+                PlayerInfo._isBleeding = false; // Обновление состояния кровотечения
             }
-
+            _currentTimeBleeding -= Time.deltaTime;
 
             if (Input.GetKeyDown(KeyCode.Alpha3) && ConsumableCounter._firstAidKitCount > 0)
             {
@@ -57,6 +57,7 @@ namespace PlayerLogic
 
                 ConsumableCounter._firstAidKitCount--;
             }
+
             if (Input.GetKeyDown(KeyCode.Alpha4) && ConsumableCounter._bandageCount > 0)
             {
                 if (PlayerInfo._currentHealth + PlayerInfo._bandageHealth > PlayerInfo._fullHealth)
@@ -65,11 +66,9 @@ namespace PlayerLogic
 
                 ConsumableCounter._bandageCount--;
             }
-            isInvulnerable = PlayerInfo._isGod;
         }
         void FixedUpdate()
         {
-            // Debug.Log("XP = " + currentHealth);
             bloodController?.SetBloodEffect(CalculateStateDamaged());
         }
 
@@ -77,10 +76,10 @@ namespace PlayerLogic
         {
             if (collision.gameObject.tag == "Projectile")
             {
-                if (_hitsToSurvive > 0)
+                if (_currentHitsToSurvive > 0)
                 {
-                    --_hitsToSurvive;
-                    _currentTime = _updateStateTime;
+                    --_currentHitsToSurvive;
+                    _currentTimeHits = _updateStateTime;
                 }
                 else
                 {
@@ -90,24 +89,20 @@ namespace PlayerLogic
             }
         }
 
-        /// <summary>
-        /// Реализует получение урона от снаряда
-        /// </summary>
-        /// <param name="bullet"></param>
         public override void GetDamage(ProjectileData bullet)
         {
-            if (!isInvulnerable)
+            if (!PlayerInfo._isGod)
             {
                 PlayerInfo._isBleeding = true;
                 PlayerInfo._currentHealth -= (int)bullet.Damage;
                 _currentTimeBleeding = _updateStateTimeBleeding;
-                Debug.Log("currentHealth: " + PlayerInfo._currentHealth);
 
                 if (PlayerInfo._currentHealth <= 0)
                 {
-                    if (PlayerInfo._bodyCount > 0)
+                    var temp = PlayerInfo.GetSkill<Reincarnation>();
+                    if (temp != null && PlayerInfo._bodyCount > 0)
                     {
-                        PlayerInfo.GetSkill<Reincarnation>().SpawnBody(this.gameObject); // Спавн трупа
+                        temp.SpawnBody(this.gameObject); // Спавн трупа
                         PlayerInfo._fullHealth /= 2;
                         PlayerInfo._currentHealth = PlayerInfo._fullHealth;
                         return;
@@ -126,13 +121,12 @@ namespace PlayerLogic
         {
             while (true)
             {
-                if (PlayerInfo._isBleeding && !isInvulnerable)
+                if (PlayerInfo._isBleeding && !PlayerInfo._isGod)
                 {
                     PlayerInfo._currentHealth -= PlayerInfo._bleedingDamage;
                 }
-                yield return new WaitForSeconds(60f);
+                yield return new WaitForSeconds(60f); // Что за 60f?
             }
-
         }
         /// <summary>
         /// Высчитывает текущее состояние эффекта крови
@@ -143,11 +137,6 @@ namespace PlayerLogic
             // print($"Damaged = {Math.Floor((maxHealth - currentHealth) / (maxHealth / 5.0))}");
             return (StateBloodEffect)Math.Floor((PlayerInfo._fullHealth - PlayerInfo._currentHealth) / (PlayerInfo._fullHealth / 5.0));
         }
-        public override void Death()
-        {
-            Destroy(this.gameObject);
-        }
     }
-
 }
 

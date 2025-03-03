@@ -32,8 +32,8 @@ namespace PlayerLogic
         public static bool _isBleeding;
 
         public static int _countArmor;
-        public static int _bandageHealth;
-        public static int _firstAidKitHealth;
+        public static int _bandageHealth = 15;
+        public static int _firstAidKitHealth = 30;
 
         public static int _hitsToSurvive = 0;
 
@@ -41,7 +41,7 @@ namespace PlayerLogic
 
         public static int _bodyCount; // Количество воскрешений
 
-        private static string _savedPath = "";
+        private static string _savedPath = "C:\\Users\\Amethyst\\Desktop\\Downloads\\PlayerData.xml";
 
         public static HashSet<Skill> _skillSet = new HashSet<Skill>();
 
