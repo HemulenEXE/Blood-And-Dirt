@@ -1,7 +1,5 @@
 using SkillLogic;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -51,7 +49,7 @@ namespace PlayerLogic
         }
         public static bool HasSkill(Skill skill)
         {
-            foreach(var x in _skillSet)
+            foreach (var x in _skillSet)
             {
                 if (x.GetType() == skill.GetType()) return true;
             }
@@ -157,64 +155,13 @@ namespace PlayerLogic
                 {
                     string name = x.SelectSingleNode("name").InnerText;
                     bool isUnlocked = bool.Parse(x.SelectSingleNode("isUnlocked").InnerText);
-                    switch (name)
+                    if (SkillStorage._skills.TryGetValue(name, out Skill skill))
                     {
-                        case "AnyPrice":
-                            AnyPrice ap = new AnyPrice();
-                            _skillSet.Add(ap);
-                            break;
-                        case "BlindRange":
-                            BlindRange br = new BlindRange();
-                            _skillSet.Add(br);
-                            break;
-                        case "DropByDrop":
-                            DropByDrop dbd = new DropByDrop();
-                            _skillSet.Add(dbd);
-                            break;
-                        case "Hatred":
-                            Hatred h = new Hatred();
-                            _skillSet.Add(h);
-                            break;
-                        case "IncreasedMetabolism":
-                            IncreasedMetabolism im = new IncreasedMetabolism();
-                            _skillSet.Add(im);
-                            break;
-                        case "LiveInNotVain":
-                            LiveInNotVain lnv = new LiveInNotVain();
-                            _skillSet.Add(lnv);
-                            break;
-                        case "MusclesSecondSkeleton":
-                            MusclesSecondSkeleton mss = new MusclesSecondSkeleton();
-                            _skillSet.Add(mss);
-                            break;
-                        case "MusclesSecondSkeleton2":
-                            MusclesSecondSkeleton2 mss2 = new MusclesSecondSkeleton2();
-                            _skillSet.Add(mss2);
-                            break;
-                        case "Reincarnation":
-                            Reincarnation r = new Reincarnation();
-                            _skillSet.Add(r);
-                            break;
-                        case "SledGrenade":
-                            SledGrenade sg = new SledGrenade();
-                            _skillSet.Add(sg);
-                            break;
-                        case "Sound":
-                            Sound s = new Sound();
-                            _skillSet.Add(s);
-                            break;
-                        case "Spin":
-                            Spin s2 = new Spin();
-                            _skillSet.Add(s2);
-                            break;
-                        case "StartOfANewLife":
-                            StartOfANewLife soanl = new StartOfANewLife();
-                            _skillSet.Add(soanl);
-                            break;
+                        skill._isUnlocked = isUnlocked;
+                        _skillSet.Add(skill);
                     }
                 }
             }
         }
     }
-
 }

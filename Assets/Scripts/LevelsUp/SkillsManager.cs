@@ -26,19 +26,19 @@ namespace SkillLogic
         {
             _player = GameObject.FindWithTag("Player");
 
-            var a1 = new StartOfANewLife();
-            var a2 = new MusclesSecondSkeleton();
-            var a3 = new IncreasedMetabolism();
-            var a4 = new DropByDrop();
-            var a5 = new MusclesSecondSkeleton2();
-            var a6 = new Hatred();
-            var a7 = new BlindRange();
-            var a8 = new LiveInNotVain();
-            var a9 = new Reincarnation();
-            var a10 = new Spin();
-            var a11 = new AnyPrice();
-            var a12 = new SledGrenade();
-            var a13 = new Sound();
+            var a1 = SkillStorage._skills["StartOfANewLife"];
+            var a2 = SkillStorage._skills["MusclesSecondSkeleton"];
+            var a3 = SkillStorage._skills["IncreasedMetabolism"];
+            var a4 = SkillStorage._skills["DropByDrop"];
+            var a5 = SkillStorage._skills["MusclesSecondSkeleton2"];
+            var a6 = SkillStorage._skills["Hatred"];
+            var a7 = SkillStorage._skills["BlindRange"];
+            var a8 = SkillStorage._skills["LiveInNotVain"];
+            var a9 = SkillStorage._skills["Reincarnation"];
+            var a10 = SkillStorage._skills["Spin"];
+            var a11 = SkillStorage._skills["AnyPrice"];
+            var a12 = SkillStorage._skills["SledGrenade"];
+            var a13 = SkillStorage._skills["Sound"];
 
             a2._previousSkills.Add(a1);
             a10._previousSkills.Add(a1);
@@ -68,6 +68,8 @@ namespace SkillLogic
             _anyPrice.onClick.AddListener(() => ActivateSkill(a11));
             _sledGrenade.onClick.AddListener(() => AddSkill(a12));
             _sound.onClick.AddListener(() => AddSkill(a13));
+
+            PlayerInfo.LoadData();
         }
         private void AddSkill(Skill skill)
         {
