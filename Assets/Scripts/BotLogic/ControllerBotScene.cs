@@ -16,7 +16,8 @@ public class ControllerBotScene : MonoBehaviour
     [SerializeField] private string enemiesTag = "Player";
     [SerializeField] private bool _isPlayerEnemy = true;
 
-    [SerializeField] private uint _countSolders;
+    [SerializeField] private Barraks barraks;
+    [SerializeField] private uint _countSoldersMin;
     [SerializeField] private bool _needToRestoreSolder;
     [SerializeField] private bool _restoreKilledNonPlayer;
 
@@ -58,6 +59,12 @@ public class ControllerBotScene : MonoBehaviour
         {
             RestartScene();
         }
+
+        if (_needToRestoreSolder && _countSoldersMin >= _alliesSolders.Count)
+        {
+            var newSolder = barraks.SpawnSolders();
+            _alliesSolders.Concat(newSolder);
+        }
     }
 
     private void RestartScene()
@@ -69,20 +76,20 @@ public class ControllerBotScene : MonoBehaviour
         }
     }
 
-    private void RaisingAlarm(Transform enemy, Transform player)
+    private void RaisingAlarm(Transform solder, Transform detechedEnemy)
     {
         
         if(_alliesSolders != null)
         {
             foreach (var _enemy in _alliesSolders)
             {
-                if (_enemy.transform.position == enemy.transform.position)
+                if (_enemy.transform.position == solder.transform.position)
                 {
                     continue;
                 }
-                if (Vector3.Distance(enemy.position, _enemy.transform.position) <= alarmDistance)
+                if (Vector3.Distance(solder.position, _enemy.transform.position) <= alarmDistance)
                 {
-                    _enemy.NotifiedOfEnemy(player);
+                    _enemy.NotifiedOfEnemy(detechedEnemy);
                 }
             }
         }

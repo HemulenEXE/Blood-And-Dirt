@@ -255,6 +255,10 @@ public class BotController : MonoBehaviour
         {
             stateBot = StateBot.patrol;
         }
+        else
+        {
+            stateBot = StateBot.peace;
+        }
     }
 
     private void LookToDirection(Transform targetTransform)
