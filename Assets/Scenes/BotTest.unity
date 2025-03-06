@@ -590,6 +590,63 @@ MonoBehaviour:
   m_Area: 1
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!1001 &379113250
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1071187120894598181, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: m_Name
+      value: Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677416276791184484, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.122422
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677416276791184484, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.34385496
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677416276791184484, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677416276791184484, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677416276791184484, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677416276791184484, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677416276791184484, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677416276791184484, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677416276791184484, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677416276791184484, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: febcd915ff73824438af34ba6ab49cef, type: 3}
 --- !u!1 &396544523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1938,63 +1995,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd4f35fcb02d0f6418b39264db4ce86c, type: 3}
---- !u!1001 &1338306404
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8600251558979457149, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
-      propertyPath: m_Name
-      value: NetheriteSword
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842749379077994520, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.78
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842749379077994520, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.91
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842749379077994520, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842749379077994520, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842749379077994520, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842749379077994520, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842749379077994520, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842749379077994520, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842749379077994520, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8842749379077994520, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2c3ded7352ed32c4b84e56300f6ef8e2, type: 3}
 --- !u!1 &1523181340
 GameObject:
   m_ObjectHideFlags: 0
@@ -3135,9 +3135,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3e49b3c093e62f448fa402532772cda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 0}
-  _enemies: []
+  _enemiesSolders: []
+  _alliesSolders: []
   alarmDistance: 5
+  alliesTag: 
+  enemiesTag: 
+  _isPlayerEnemy: 1
+  _countSolders: 0
+  _needToRestoreSolder: 0
+  _restoreKilledNonPlayer: 0
 --- !u!4 &2141055733
 Transform:
   m_ObjectHideFlags: 0
@@ -3337,7 +3343,12 @@ SceneRoots:
   - {fileID: 802537670}
   - {fileID: 979710114}
   - {fileID: 1570983974}
-  - {fileID: 1375011049}
-  - {fileID: 1318071749}
-  - {fileID: 1467357946}
   - {fileID: 916280602}
+  - {fileID: 1025161664}
+  - {fileID: 2003350568}
+  - {fileID: 204363654}
+  - {fileID: 336896553}
+  - {fileID: 1158718566}
+  - {fileID: 517565440}
+  - {fileID: 2141055733}
+  - {fileID: 379113250}

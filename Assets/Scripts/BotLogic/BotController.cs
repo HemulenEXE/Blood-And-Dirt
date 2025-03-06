@@ -280,13 +280,6 @@ public class BotController : MonoBehaviour
         sourceNoise = noiseTransform;
         stateBot = StateBot.checkNoise;
 
-        
-
-        //Vector3 direction = (noiseTransform.position - transform.position).normalized;
-
-        //// Рассчитываем угол поворота по оси Z (в 2D поворачиваем только по этой оси)
-        //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
         while (Mathf.Abs(Quaternion.Angle(transform.rotation, Quaternion.Euler(0, 0, SmoothLookToDirection(noiseTransform)))) > 5f)
         {
             yield return null;
