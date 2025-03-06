@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Linq;
+using System.Xml;
 using UnityEngine;
 
 /// <summary>
@@ -21,7 +22,9 @@ public class DialogGenerator : MonoBehaviour
     [System.Serializable]
     public class DialogueNode
     {
+        public string npcName;
         public string npcText;
+        public bool exit; 
         public PlayerAnswer[] playerAnswer;
     }
     /// <summary>
@@ -32,6 +35,7 @@ public class DialogGenerator : MonoBehaviour
     {
         public string text;
         public int toNode;
+        public int toScene;
         public bool exit; //конечный ли ответ
     }
     /// <summary>
@@ -39,7 +43,7 @@ public class DialogGenerator : MonoBehaviour
     /// </summary>
     public void Generate()
     {
-        string path = Application.dataPath + "/Dialogues/" + FileName + ".xml";
+        string path = Application.dataPath + "/Resources/Dialogues/" + FileName + ".xml";
         
         //Переменные для создания реплик и ответов к ним соответственно 
         XmlNode userNode;
@@ -60,17 +64,30 @@ public class DialogGenerator : MonoBehaviour
             attribute = xmlDoc.CreateAttribute("id");
             attribute.Value = j.ToString();
             userNode.Attributes.Append(attribute);
-            attribute = xmlDoc.CreateAttribute("npcText");
-            attribute.Value = Nodes[j].npcText;
+            if (Nodes[j].npcText != "")
+            {
+                attribute = xmlDoc.CreateAttribute("npcText");
+                attribute.Value = Nodes[j].npcText;
+                userNode.Attributes.Append(attribute);
+            }
+            if (Nodes[j].exit) 
+            {
+                attribute = xmlDoc.CreateAttribute("exit");
+                attribute.Value = Nodes[j].exit.ToString();
+                userNode.Attributes.Append(attribute);
+            }
+            attribute = xmlDoc.CreateAttribute("npcName");
+            attribute.Value = Nodes[j].npcName;
             userNode.Attributes.Append(attribute);
 
-            //В нутри созданного node'а заполнение возможных ответов игрока
+            //Внутри созданного node'а заполнение возможных ответов игрока
             for (int i = 0; i < Nodes[j].playerAnswer.Length; i++)
             {
                 element = xmlDoc.CreateElement("answer");
                 element.SetAttribute("text", Nodes[j].playerAnswer[i].text);
                 if (Nodes[j].playerAnswer[i].toNode > 0) element.SetAttribute("toNode", Nodes[j].playerAnswer[i].toNode.ToString());
                 if (Nodes[j].playerAnswer[i].exit) element.SetAttribute("exit", Nodes[j].playerAnswer[i].exit.ToString());
+                if (Nodes[j].playerAnswer[i].toScene > 0) element.SetAttribute("toScene", Nodes[j].playerAnswer[i].toScene.ToString());
                 userNode.AppendChild(element);
             }
 

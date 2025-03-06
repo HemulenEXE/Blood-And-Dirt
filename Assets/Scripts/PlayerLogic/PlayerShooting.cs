@@ -20,7 +20,7 @@ namespace PlayerLogic
             {
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    _gun.Shoot();
+                    _gun.Shoot(IsPlayerShoot:true);
                     //Изменение показателя кол-ва потронов над ячейкой инвентаря
                 }
                 else _gun.StopShoot();

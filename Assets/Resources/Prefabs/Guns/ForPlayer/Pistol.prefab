@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 404049911053339574}
   - component: {fileID: 5064910455428657618}
   - component: {fileID: -7795121948412750003}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pistol
-  m_TagString: gun
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3479752625367007692}
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: -642848129507076058, guid: 1a3032229f77763499a4e9b9d4ecda43, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -261,6 +261,7 @@ MonoBehaviour:
   _ammoTotal: 100
   _ammoCapacity: 10
   _ammoTotalCurrent: 0
+  noiseIntensity: 5
   _timeRecharging: 1
   _speedProjectile: 50
   _audioFire: {fileID: 8300000, guid: f6aa75816b9bc394d81a68a878fe7f5e, type: 3}
@@ -274,7 +275,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3479752625367007692}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: spawnerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,7 +291,7 @@ Transform:
   m_GameObject: {fileID: 8161390117245776335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.175, y: 0.162, z: 0}
+  m_LocalPosition: {x: 0.282, y: 0.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

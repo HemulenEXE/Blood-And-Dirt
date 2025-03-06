@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using GunLogic;
 
-namespace Guns
+namespace GunLogic
 {
     /// <summary>
     /// Класс, реализующий "нож".
@@ -40,7 +39,13 @@ namespace Guns
                 //Логика получения урона сущностями.
                 if (x.gameObject != this.gameObject)
                 {
-                    Destroy(x.gameObject);
+                    //Destroy(x.gameObject);
+                    var healthBot = x.GetComponent<HealthBot>();
+                    if(healthBot != null)
+                    {
+                        healthBot.GetDamage(this);
+                    }
+                    
                 }
             }
         }
