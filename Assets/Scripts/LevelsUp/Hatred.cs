@@ -13,8 +13,8 @@ namespace SkillLogic
         {
             _name = "Hatred";
             _isUnlocked = false;
-            _previousSkills = new List<Skill>();
             _oldRunSpeed = PlayerInfo._runSpeed;
+            _type = SkillType.Activated;
         }
 
         public override void Execute(GameObject point)

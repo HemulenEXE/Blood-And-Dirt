@@ -11,7 +11,7 @@ namespace SkillLogic
         {
             _name = "LiveInNotVain";
             _isUnlocked = false;
-            _previousSkills = new List<Skill>();
+            _type = SkillType.Added;
         }
 
         public override void Execute(GameObject point)

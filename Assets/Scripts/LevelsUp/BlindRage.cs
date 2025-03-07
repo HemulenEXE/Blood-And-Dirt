@@ -11,7 +11,6 @@ namespace SkillLogic
         {
             _name = "BlindRange";
             _isUnlocked = false;
-            _previousSkills = new List<Skill>();
         }
 
         public override void Execute(GameObject point)

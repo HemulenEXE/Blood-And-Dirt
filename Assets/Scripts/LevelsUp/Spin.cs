@@ -10,7 +10,7 @@ namespace SkillLogic
         {
             _name = "Spin";
             _isUnlocked = false;
-            _previousSkills = new List<Skill>();
+            _type = SkillType.Added;
         }
 
         public override void Execute(GameObject point)

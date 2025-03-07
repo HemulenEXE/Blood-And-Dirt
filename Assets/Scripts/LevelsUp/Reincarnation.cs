@@ -14,9 +14,9 @@ namespace SkillLogic
         {
             _name = "Reincarnation";
             _isUnlocked = false;
-            _previousSkills = new List<Skill>();
             _body = Resources.Load<GameObject>("Prefabs/Ghost");
             _audio = Resources.Load<AudioClip>("Audios/Reinc");
+            _type = SkillType.Activated;
         }
 
         public override void Execute(GameObject point)

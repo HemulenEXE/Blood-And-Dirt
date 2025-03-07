@@ -14,7 +14,7 @@ namespace SkillLogic
         {
             _name = "MusclesSecondSkeleton";
             _isUnlocked = false;
-            _previousSkills = new List<Skill>();
+            _type = SkillType.Activated;
         }
 
         public override void Execute(GameObject point)

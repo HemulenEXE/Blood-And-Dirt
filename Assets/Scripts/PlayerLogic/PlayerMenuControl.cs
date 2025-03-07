@@ -13,8 +13,8 @@ public class PlayerMenuControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _skillMenu = GameObject.Find("LevelsUp");
-        _skillMenu.SetActive(false);
+        //_skillMenu = GameObject.Find("LevelsUp");
+        //_skillMenu.SetActive(false);
         _inventoryMenu = GameObject.Find("Inventory&ConsumableCounter");
     }
 
@@ -24,7 +24,7 @@ public class PlayerMenuControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             _inventoryMenu.SetActive(!_inventoryMenu.active);
-            _skillMenu.SetActive(!_skillMenu.active);
+            //_skillMenu.SetActive(!_skillMenu.active);
         }
     }
 }

@@ -14,9 +14,8 @@ namespace SkillLogic
         {
             _name = "Sound";
             _isUnlocked = false;
-            _previousSkills = new List<Skill>();
             _light = Resources.Load<GameObject>("Prefabs/Lights/TargetLight");
-
+            _type = SkillType.Added;
         }
         public override void Execute(GameObject point)
         {

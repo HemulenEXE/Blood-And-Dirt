@@ -2,21 +2,18 @@
 using System.Linq;
 using UnityEngine;
 
+public enum SkillType { Added, Activated };
+
 namespace SkillLogic
 {
     public abstract class Skill
     {
+        
         public string _name;
         public bool _isUnlocked;
-        public List<Skill> _previousSkills;
+        public SkillType _type;
 
         public abstract void Execute(GameObject point);
-        public void Unlock()
-        {
-            if (!_isUnlocked)
-            {
-                _isUnlocked = _previousSkills.All(x => x._isUnlocked);
-            }
-        }
+
     }
 }

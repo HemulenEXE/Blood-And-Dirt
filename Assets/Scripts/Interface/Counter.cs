@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 //Счётчик игровых очков
-public class Counter : MonoBehaviour
+public class Counter
 {
     private int points;
     private static Counter instance;
