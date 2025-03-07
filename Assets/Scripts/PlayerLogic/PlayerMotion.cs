@@ -14,10 +14,6 @@ namespace PlayerLogic
         /// </summary>
         private Camera _mainCamera;
         /// <summary>
-        /// Компонент, управляющий анимациями игрока.
-        /// </summary>
-        private Animator _animator;
-        /// <summary>
         /// скорость ползком
         /// </summary>
         [SerializeField] private float _stealSpeed = 2f;
@@ -28,7 +24,7 @@ namespace PlayerLogic
         /// <summary>
         /// Скорость бега.
         /// </summary>
-        [SerializeField] private float _runSpeed = 8f;
+        [SerializeField] private float _runSpeed = 6f;
         /// <summary>
         /// шум ползком
         /// </summary>
@@ -62,7 +58,6 @@ namespace PlayerLogic
         {
             _mainCamera = Camera.main;
             _deltaTime = Time.fixedDeltaTime;
-            _animator = this.transform.GetChild(0).GetComponent<Animator>(); //0-ым компонентом (ребёнком) должно быть визуально представление игрока.
             noiseMapping = new Dictionary<float, float>
         {
             { _stealSpeed, _stealNoise },
@@ -71,7 +66,6 @@ namespace PlayerLogic
         };
 
             if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
-            if (_animator == null) throw new ArgumentNullException("PlayerMotion: _animator is mull");
             if (_runSpeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedRun < 0");
             if (_walkSpeed < 0) throw new ArgumentOutOfRangeException("PlayerMotion: _speedWalk < 0");
         }
@@ -89,41 +83,37 @@ namespace PlayerLogic
             IsRunning = false;
             //Текущая скорость игрока в зависимости от состояния нажатия клавиши LeftShift.
             float speedCurrent = Input.GetKey(KeyCode.LeftShift) ? _runSpeed : _walkSpeed;
+            Vector3 movement = Vector2.zero;
             //Отслеживание нажатия клавиш.
             if (Input.GetKey(KeyCode.A))
             {
-                this.transform.position += Vector3.left * speedCurrent * _deltaTime;
-                IsMoving = true;
+                movement += Vector3.left;
             }
             if (Input.GetKey(KeyCode.D))
             {
-                this.transform.position += Vector3.right * speedCurrent * _deltaTime;
-                IsMoving = true;
+                movement += Vector3.right;
             }
             if (Input.GetKey(KeyCode.W))
             {
-                this.transform.position += Vector3.up * speedCurrent * _deltaTime;
-                IsMoving = true;
+                movement += Vector3.up;
             }
             if (Input.GetKey(KeyCode.S))
             {
-                this.transform.position += Vector3.down * speedCurrent * _deltaTime;
-                IsMoving = true;
+                movement += Vector3.down;
             }
-            if (IsMoving)
+            if (movement != Vector3.zero)
             {
+                this.transform.position += movement.normalized * speedCurrent * _deltaTime;
+                IsMoving = true;
                 IsRunning = speedCurrent.Equals(_runSpeed);
                 makeNoise?.Invoke(transform, noiseMapping[speedCurrent]);
             }
-
-            _animator.SetBool("IsMoving", IsMoving);
         }
-
         /// <summary>
         /// Поворот игрока за компьтерной мышью.
         /// </summary>
         private void Rotate()
-        { 
+        {
             //Вычисление положения компьютерной мыши в мировом пространстве
             Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;

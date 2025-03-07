@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using TMPro;
 
 /// <summary>
 /// Скрипт управления внутриигровым меню. Навешивается на GameMenu
@@ -25,6 +26,10 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private Button _restartScene;
     /// <summary>
+    /// Кнопка включения/выключения дерева прокачики
+    /// </summary>
+    private Button _onSkillTree;
+    /// <summary>
     /// Проверка и настройка полей.
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
@@ -39,20 +44,38 @@ public class GameMenu : MonoBehaviour
         _save = menu?.transform?.GetChild(2)?.GetComponent<Button>();
         _inMainMenu = menu?.transform?.GetChild(3)?.GetComponent<Button>();
         _restartScene = menu?.transform?.GetChild(4)?.GetComponent<Button>();
+        _onSkillTree = menu.transform.GetChild(5).GetComponent<Button>();
         if (_save == null) throw new ArgumentNullException("GameMenu: _save is null");
         if (_inMainMenu == null) throw new ArgumentNullException("GameMenu: _inMainMenu is null");
         if (_restartScene == null) throw new ArgumentNullException("GameMenu: _restartScene is null");
         _save.onClick.AddListener(Save);
         _inMainMenu.onClick.AddListener(InMainMenu);
         _restartScene.onClick.AddListener(RestartScene);
+        _onSkillTree.onClick.AddListener(OnSkillTree);
 
+    }
+    private void OnSkillTree()
+    {
+        GameObject skillTree = this.transform.GetChild(0).gameObject;
+        if (skillTree.activeSelf)
+        {
+            _onSkillTree.GetComponentInChildren<TextMeshProUGUI>().text = "К дереву прокачки";
+            skillTree.transform.GetChild(1).localScale = skillTree.GetComponentInChildren<ZoomAndMotion>().StartScale();
+            skillTree.transform.GetChild(1).position = skillTree.GetComponentInChildren<ZoomAndMotion>().StartPoint();
+            skillTree.SetActive(false);   
+        }
+        else 
+        {
+            skillTree.SetActive(true);   
+            _onSkillTree.GetComponentInChildren<TextMeshProUGUI>().text = "Обратно";
+        }
     }
     /// <summary>
     /// Переключение на главное меню (без сохранения прогресса на текущей сцене)
     /// </summary>
     private void InMainMenu()
     {
-        transform.GetChild(3).gameObject.SetActive(true);
+        transform.GetChild(4).gameObject.SetActive(true);
     }
     /// <summary>
     /// Закрытие меню с сохранением настроек

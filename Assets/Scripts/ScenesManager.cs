@@ -39,10 +39,12 @@ public class ScenesManager : MonoBehaviour
     }
     private IEnumerator _OnMainMenu()
     {
-        Fader.Instance.FadeIn(() => _isfade = true);
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
+        Time.timeScale = 1;
 
-        if (!_isfade && !asyncLoad.isDone)
+        Fader.Instance.FadeIn(() => _isfade = true);
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
+        if (!(_isfade && asyncLoad.isDone))
             yield return null;
 
         Fader.Instance.FadeOut(() => _isfade = false);
@@ -75,16 +77,17 @@ public class ScenesManager : MonoBehaviour
     {
 
         if (index < 0) throw new ArgumentOutOfRangeException("index can't be < 0!");
-
+        
+        Time.timeScale = 1;
         PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы перешли на указанный уровень 
         PlayerPrefs.Save();
 
         Fader.Instance.FadeIn(() => _isfade = true);
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index);
 
-        if (!_isfade && !asyncLoad.isDone)
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index);
+        if (!(_isfade && asyncLoad.isDone))
             yield return null;
-        
+
         Fader.Instance.FadeOut(() => _isfade = false);
     }
     /// <summary>

@@ -1,4 +1,4 @@
-﻿using Guns;
+﻿using GunLogic;
 using UnityEngine;
 
 namespace PlayerLogic

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3479752625367007692}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: spawnerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 8161390117245776335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.175, y: 0.162, z: 0}
+  m_LocalPosition: {x: 0.237, y: 0.162, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,11 +45,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 1a3032229f77763499a4e9b9d4ecda43, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 1a3032229f77763499a4e9b9d4ecda43, type: 3}
       propertyPath: m_TagString
-      value: gun
+      value: Gun
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 1a3032229f77763499a4e9b9d4ecda43, type: 3}
       propertyPath: m_LocalScale.x
@@ -289,6 +289,7 @@ MonoBehaviour:
   _ammoTotal: 100
   _ammoCapacity: 10
   _ammoTotalCurrent: 10
+  noiseIntensity: 5
   _timeRecharging: 1
   _speedProjectile: 50
   _audioFire: {fileID: 8300000, guid: f6aa75816b9bc394d81a68a878fe7f5e, type: 3}

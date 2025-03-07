@@ -1,10 +1,13 @@
-using GunLogic;
+﻿using GunLogic;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 using CameraLogic.CameraEffects;
+using InventoryLogic;
 
+/// <summary>
+/// Класс здоровья игрока. Скрипт навешивается на игрока
+/// </summary>
 public class HealthPlayer : AbstractHealth
 {
     [SerializeField]
@@ -12,7 +15,11 @@ public class HealthPlayer : AbstractHealth
     [SerializeField]
     private int _countArmor;
     [SerializeField]
-    private float _frameDuration = 0.5f;
+    private float _frameDuration = 0.5f; //Сколько длится кадр, во время которого игрок не получает урон
+    [SerializeField]
+    private int _bandageHalth = 10;
+    [SerializeField]
+    private int _firstAidKitHalth = 25;
 
     private BloodEffect bloodController;
 
@@ -24,12 +31,15 @@ public class HealthPlayer : AbstractHealth
         if (collision.gameObject.tag == "Projectile")
         {
             var dataBullet = collision.gameObject.GetComponent<ProjectileData>();
-            GetDamge(dataBullet);
+            GetDamage(dataBullet);
         }
     }
 
-
-    public override void GetDamge(ProjectileData bullet)
+    /// <summary>
+    /// Реализует получение урона от снаряда
+    /// </summary>
+    /// <param name="bullet"></param>
+    public override void GetDamage(ProjectileData bullet)
     {
         if (!isInvulnerable)
         {
@@ -68,17 +78,41 @@ public class HealthPlayer : AbstractHealth
         }
 
     }
-
+    /// <summary>
+    /// Высчитывает текущее состояние эффекта крови
+    /// </summary>
+    /// <returns></returns>
     StateBloodEffect CalculateStateDamaged()
     {
-        print($"Damaged = {Math.Floor((maxHealth - currentHealth) / (maxHealth / 5.0))}");
+        //print($"Damaged = {Math.Floor((maxHealth - currentHealth) / (maxHealth / 5.0))}");
         return (StateBloodEffect)Math.Floor((maxHealth - currentHealth) / (maxHealth / 5.0));
     }
 
-    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha3) && ConsumablesCounter.FirstAidKitCount > 0)
+        {
+            if (currentHealth + _firstAidKitHalth > maxHealth)
+                currentHealth = maxHealth;
+            else currentHealth += _firstAidKitHalth;
+
+            ConsumablesCounter.FirstAidKitCount--;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4) && ConsumablesCounter.BandageCount > 0)
+        {
+            Debug.Log("Применены бинты!");
+            if (currentHealth + _bandageHalth > maxHealth)
+                currentHealth = maxHealth;
+            else currentHealth += _bandageHalth;
+
+            ConsumablesCounter.BandageCount--;
+        }
+    }
+
     void FixedUpdate()
     {
-        Debug.Log("XP = " + currentHealth);
+           
+        //Debug.Log("XP = " + currentHealth);
         bloodController.SetBloodEffect(CalculateStateDamaged());
     }
 }

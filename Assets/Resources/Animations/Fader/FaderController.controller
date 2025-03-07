@@ -34,14 +34,14 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Base Layer
+  m_Name: Fader
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -8390838555615885726}
     m_Position: {x: 310, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8028302965289210121}
-    m_Position: {x: 307.5868, y: 121.26199, z: 0}
+    m_Position: {x: 310, y: 150, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -51,7 +51,7 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: -8390838555615885726}
+  m_DefaultState: {fileID: 8028302965289210121}
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -69,7 +69,7 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: Base Layer
+    m_Name: Fader
     m_StateMachine: {fileID: -1449325252807415325}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -99,7 +99,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_ExitTime: 0.75000006
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -124,7 +124,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_ExitTime: 0.75000006
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0

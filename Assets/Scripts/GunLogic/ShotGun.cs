@@ -85,6 +85,18 @@ namespace GunLogic
         /// </summary>
         public bool IsShooting { get; set; } = false;
         /// <summary>
+        /// Сила шума оружия при выстреле
+        /// </summary>
+        [SerializeField] private float noiseIntensity = 5;
+        /// <summary>
+        /// Свойство для шума
+        /// </summary>
+        public float NoiseIntensity { get; set; }
+        /// <summary>
+        /// Событие вызова реакции на шум стрельбы
+        /// </summary>
+        public static event Action<Transform, float> makeNoiseShooting;
+        /// <summary>
         /// Префаб дробинки, вылетающий из дробовика.
         /// </summary>
         [SerializeField] protected GameObject _prefabProjectile;
@@ -145,7 +157,7 @@ namespace GunLogic
         /// </summary>
         /// <remarks>Порожает на сцене снаряд, вылетающий из дробовика.</remarks>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Shoot(int layerMask = 0)
+        public void Shoot(int layerMask = 0, bool IsPlayerShoot = false)
         {
             if (!IsShooting && !IsRecharging && Time.time > _nextTimeShot)
             {
@@ -181,6 +193,10 @@ namespace GunLogic
 
                     AmmoTotalCurrent--;
                     IsShooting = false;
+                    if(IsPlayerShoot)
+                    {
+                        makeNoiseShooting?.Invoke(transform, noiseIntensity);
+                    }
                 }
                 else Recharge();
             }
