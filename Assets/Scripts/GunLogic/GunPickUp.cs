@@ -1,5 +1,7 @@
 ﻿using System;
 using GunLogic;
+using UnityEngine;
+
 
 namespace InteractiveObjects
 {
@@ -28,9 +30,17 @@ namespace InteractiveObjects
         /// </summary>
         public override void Deactive()
         {
-            _gun.IsRecharging = false;
-            _gun.IsShooting = false;
+            //_gun.IsRecharging = false;
+            //_gun.IsShooting = false;
+            _gun.IsHeld = false;
+            // Debug.Log(_gun.IsHeld);
             base.Deactive();
+        }
+        public override void Active()
+        {
+            _gun.IsHeld = true;
+            // Debug.Log(_gun.IsHeld);
+            base.Active();
         }
     }
 }

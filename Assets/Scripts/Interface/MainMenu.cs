@@ -42,7 +42,7 @@ public class MainMenu : MonoBehaviour
         _exit.onClick.AddListener(OnExitClick);
 
         _settingsMenu.SetActive(true);
-        _settingsMenu.GetComponent<SettingMenu>().LoadSettings();
+        SettingData.LoadSettings();
         _settingsMenu.SetActive(false);
     }
     /// <summary>

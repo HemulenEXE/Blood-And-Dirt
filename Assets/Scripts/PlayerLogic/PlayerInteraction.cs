@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using InteractiveObjects;
+using InteractiveLogic;
 
 namespace PlayerLogic
 {
@@ -10,6 +11,8 @@ namespace PlayerLogic
     /// </summary>
     public class PlayerInteract : MonoBehaviour
     {
+        //Поля.
+
         /// <summary>
         /// Дистанция взаимодействия с объектами.<br/>
         /// Не может быть отрицательной.
@@ -20,17 +23,6 @@ namespace PlayerLogic
         /// </summary>
         public static KeyCode _key = KeyCode.E;
         /// <summary>
-        /// Вертикальное смещение интерактивного текста.<br/>
-        /// Может принимать отрицательные значения.
-        /// </summary>
-        public float OffSet = 0.5f;
-        /// <summary>
-        /// Интерактивный текст.<br/>
-        /// Содержится на канвасе.<br/>
-        /// Не может равняться null.
-        /// </summary>
-        private GameObject _interactionText;
-        /// <summary>
         /// Объект, с которым на текущий момент взаимодействует игрок.<br/>
         /// Может равняться null.
         /// </summary>
@@ -39,17 +31,18 @@ namespace PlayerLogic
         /// Игнорируемый слой.
         /// </summary>
         [SerializeField] private LayerMask _ignoreLayer;
+
+        //Встроенные методы.
+
         /// <summary>
         /// Проверка и настройка полей.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         private void Awake()
         {
-            _interactionText = GameObject.FindGameObjectWithTag("Canvas")?.transform?.Find("InteractiveUI")?.transform?.Find("InteractionText")?.gameObject;
-            if (_interactionText == null) throw new ArgumentNullException("PlayerInventory: _interactionText is null");
-            if (_interactionDistance < 0) throw new ArgumentOutOfRangeException("PlayerInventory: _interactionDistance < 0");
+            if (_interactionDistance < 0) throw new ArgumentOutOfRangeException("PlayerInteract: _interactionDistance < 0");
         }
-        void Update()
+        private void Update()
         {
             Ray2D ray = new Ray2D(this.transform.position, this.transform.right);
             Debug.DrawRay(ray.origin, ray.direction * _interactionDistance, Color.red); //Рисовка луча.
@@ -57,30 +50,15 @@ namespace PlayerLogic
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, _interactionDistance, ~_ignoreLayer);
             if (hit.collider != null) //Проверка на пересечение с каким-либо объектом, содержащим Collider2D.
             {
-                IInteractable interim_interactive_object = hit.transform.GetComponent<IInteractable>();
-                if (interim_interactive_object != null)
-                {
-                    _interactionText.SetActive(true);
-                    _currentInteractiveObject = interim_interactive_object;
-                    TextMeshProUGUI interim_textMeshProUGUI = _interactionText.GetComponent<TextMeshProUGUI>();
-                    if (interim_textMeshProUGUI != null)
-                    {
-                        //Корректировка интерактивного текста.
-                        interim_textMeshProUGUI.text = _currentInteractiveObject.Description;
-                        Vector3 positionObject = _currentInteractiveObject.Transform.position;
-                        positionObject.y = _currentInteractiveObject.Renderer.bounds.max.y + OffSet; //Получение верхней границы визуального представления объекта.
-                        positionObject.x = (_currentInteractiveObject.Renderer.bounds.max.x + _currentInteractiveObject.Renderer.bounds.min.x) / 2;
-                        Vector3 positionInWorld = RectTransformUtility.WorldToScreenPoint(Camera.main, positionObject);
-                        interim_textMeshProUGUI.transform.position = positionInWorld;
-                    }
-                }
+                _currentInteractiveObject = hit.transform.GetComponent<IInteractable>();
+
+                Interactive.GetInstance.TurnOnText(_currentInteractiveObject);
             }
             else
             {
                 _currentInteractiveObject = null;
-                _interactionText.SetActive(false);
+                Interactive.GetInstance.TurnOffText();
             }
-
             if (Input.GetKeyDown(_key))
             {
                 _currentInteractiveObject?.Interact();

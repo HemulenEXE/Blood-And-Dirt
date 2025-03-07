@@ -1,13 +1,16 @@
 using UnityEngine;
 using GunLogic;
 using System;
+using System.Drawing;
 
 public class HealthBot : AbstractHealth
 {
+    private GameObject _body;
+    private AudioClip _audio;
+
     public static event Action<BotController> death;
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log("Col");
         if (collision.gameObject.tag == "Projectile" && collision.gameObject.layer != LayerMask.NameToLayer("EnemyProjectile"))
         {
             
@@ -20,7 +23,6 @@ public class HealthBot : AbstractHealth
     {
         if (!isInvulnerable)
         {
-            Debug.Log("check");
             currentHealth -= (int)bullet.Damage;
 
             if (currentHealth <= 0)
@@ -35,7 +37,6 @@ public class HealthBot : AbstractHealth
     {
         if (!isInvulnerable)
         {
-            Debug.Log("check");
             currentHealth -= (int)knife.Damage;
 
             if (currentHealth <= 0)
@@ -49,18 +50,17 @@ public class HealthBot : AbstractHealth
     public override void Death()
     {
         death?.Invoke(transform.root.GetComponent<BotController>());
+        // this.GetComponent<AudioSource>()?.PlayOneShot(_audio);
+        GameObject.Instantiate(_body, this.transform.position, Quaternion.identity);
         Destroy(transform.root.gameObject);
 
     }
 
     void Start()
     {
+        _body = Resources.Load<GameObject>("Prefabs/Ghost");
+        _audio = _audio = Resources.Load<AudioClip>("Audios/death_sound");
         currentHealth = maxHealth;
-    }
-
-    private void FixedUpdate()
-    {
-        //Debug.Log(currentHealth);
     }
 }
 
