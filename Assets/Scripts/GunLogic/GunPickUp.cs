@@ -1,14 +1,12 @@
-﻿using System;
-using GunLogic;
-using UnityEngine;
-
+﻿using GunLogic;
+using System;
 
 namespace InteractiveObjects
 {
     /// <summary>
     /// Скрипт, реализующий "оружие, которое игрок может взять в свой инвентарь".
     /// </summary>
-    public class GunPickUp : ItemPickUp
+    public class GunPickUp : Item
     {
         /// <summary>
         /// Выбранное оружие.
@@ -34,7 +32,7 @@ namespace InteractiveObjects
             //_gun.IsShooting = false;
             _gun.IsHeld = false;
             // Debug.Log(_gun.IsHeld);
-            base.Deactive();
+            //base.Deactive();
         }
         public override void Active()
         {

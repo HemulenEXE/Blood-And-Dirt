@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Grenades;
+using System;
 using System.Collections;
 using UnityEngine;
-using Grenades;
-using InventoryLogic;
 
 namespace PlayerLogic
 {
@@ -40,15 +39,15 @@ namespace PlayerLogic
         /// </summary>
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha2) && ConsumableCounter._simpleGrenadeCount > 0)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && PlayerData.SimpleGrenadeCount > 0)
             {
                 ThrowGranade(_prefabSimpleGrenade);
-                --ConsumableCounter._simpleGrenadeCount;
+                --PlayerData.SimpleGrenadeCount;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1) && ConsumableCounter._smokeGrenadeCount > 0)
+            if (Input.GetKeyDown(KeyCode.Alpha1) && PlayerData.SmokeGrenadeCount > 0)
             {
                 ThrowGranade(_prefabSmokeGrenade);
-                --ConsumableCounter._smokeGrenadeCount;
+                --PlayerData.SmokeGrenadeCount;
             }
 
         }

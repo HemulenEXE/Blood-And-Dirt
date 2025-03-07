@@ -13,14 +13,18 @@ public static class SettingData
     public static float Sensitivity { get; private set; }
     public static bool FullScreen { get; private set; }
 
-    public static Resolution[] Resolutions { get; private set; }  = Screen.resolutions;
+    public static Resolution[] Resolutions { get; private set; }
 
     public static KeyCode Up { get; private set; }
     public static KeyCode Down { get; private set; }
     public static KeyCode Left { get; private set; }
     public static KeyCode Right { get; private set; }
 
-    public static void SaveSetting()
+    public static KeyCode Run { get; private set; }
+    public static KeyCode Steal { get; private set; }
+    public static KeyCode Interact { get; private set; } = KeyCode.E;
+
+    public static void SaveData()
     {
         XmlDocument xmlDoc = new XmlDocument();
         XmlElement root = xmlDoc.CreateElement("Settings");
@@ -42,10 +46,26 @@ public static class SettingData
         sensitivityElement.InnerText = Sensitivity.ToString();
         root.AppendChild(sensitivityElement);
 
+        XmlElement upElement = xmlDoc.CreateElement("Up");
+        upElement.InnerText = Up.ToString();
+        root.AppendChild(upElement);
+
+        XmlElement downElement = xmlDoc.CreateElement("Down");
+        downElement.InnerText = Down.ToString();
+        root.AppendChild(downElement);
+
+        XmlElement leftElement = xmlDoc.CreateElement("Left");
+        leftElement.InnerText = Left.ToString();
+        root.AppendChild(leftElement);
+
+        XmlElement rightElement = xmlDoc.CreateElement("Right");
+        rightElement.InnerText = Right.ToString();
+        root.AppendChild(rightElement);
+
         xmlDoc.Save(_savedPath);
-        LoadSettings();
+        LoadData();
     }
-    public static void LoadSettings()
+    public static void LoadData()
     {
         if (File.Exists(_savedPath))
         {
@@ -66,11 +86,16 @@ public static class SettingData
         }
         else
         {
+            Resolutions = Screen.resolutions;
             // Значения по умолчанию
             Volume = 0.5f;
             Resolution = Resolutions.Last();
             FullScreen = true;
             Sensitivity = 1.0f;
+            Up = KeyCode.W;
+            Down = KeyCode.S;
+            Left = KeyCode.A;
+            Right = KeyCode.D;
         }
         ApplySettings();
     }

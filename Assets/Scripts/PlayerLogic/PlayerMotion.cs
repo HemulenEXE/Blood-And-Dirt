@@ -1,13 +1,14 @@
 ﻿using GunLogic;
-using InventoryLogic;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMotion : MonoBehaviour
 {
-    private Camera _mainCamera = Camera.main;
+    private Camera _mainCamera;
     private Animator _animator;
+
+    private InventoryAndConsumableCounterUI _inventoryAndConsumableCounterUI;
 
     private Dictionary<float, float> noiseMapping;
     public static event Action<Transform, float> makeNoise;
@@ -15,7 +16,7 @@ public class PlayerMotion : MonoBehaviour
     private void AnimationControl()
     {
         _animator.SetBool("IsMoving", PlayerData.IsWalking);
-        var currentItem = Inventory.GetInstance?.CurrentSlot?.StoredItem;
+        var currentItem = _inventoryAndConsumableCounterUI.GetItem();
         if (currentItem?.GetComponent<ShotGun>() != null)
         {
             _animator.SetBool("ShotGun", true);
@@ -47,15 +48,15 @@ public class PlayerMotion : MonoBehaviour
         // PlayerData.GetSkill<Hatred>()?.Execute(this.gameObject);
 
         float currentSpeed = PlayerData.IsStealing ? PlayerData.StealSpeed : (PlayerData.IsRunning ? PlayerData.RunSpeed : PlayerData.WalkSpeed);
-        Vector3 movement = Vector2.zero;
+        Vector3 movement = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(SettingData.Left))
             movement += Vector3.left;
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(SettingData.Right))
             movement += Vector3.right;
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(SettingData.Up))
             movement += Vector3.up;
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(SettingData.Down))
             movement += Vector3.down;
 
         if (movement != Vector3.zero)
@@ -72,13 +73,21 @@ public class PlayerMotion : MonoBehaviour
         mousePosition.z = 0;
         Vector3 direction = mousePosition - this.transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Преобразование радиан в градусы - равен 360 / (2 * pi)
-        this.transform.rotation = Quaternion.Euler(Vector3.forward * angle);
+        float rotationSpeed = 5f * SettingData.Sensitivity;
+        Quaternion targetRotation = Quaternion.Euler(Vector3.forward * angle);
+        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
     }
 
-    private void Awake()
+    private void Start()
     {
+        _mainCamera = Camera.main;
+        _animator = this.GetComponentInChildren<Animator>();
+        _inventoryAndConsumableCounterUI = GameObject.FindAnyObjectByType<InventoryAndConsumableCounterUI>();
+
         if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
         if (_animator == null) throw new ArgumentNullException("PlayerMotion: _animator is null");
+        if (_inventoryAndConsumableCounterUI == null) throw new ArgumentNullException("PlayerMotion: _inventoryAndConsumableCounterUI is null");
     }
     private void Update()
     {

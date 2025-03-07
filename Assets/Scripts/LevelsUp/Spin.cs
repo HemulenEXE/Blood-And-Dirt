@@ -1,4 +1,3 @@
-using InventoryLogic;
 using SkillLogic;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ public class Spin : Skill
 
     public override void Execute(GameObject point)
     {
-        ++ConsumableCounter._bandageCount;
-        ++ConsumableCounter._firstAidKitCount;
+        ++PlayerData.BandageCount;
+        ++PlayerData.FirstAidKitCount;
     }
 }

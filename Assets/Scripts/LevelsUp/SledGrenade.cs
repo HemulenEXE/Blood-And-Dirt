@@ -1,6 +1,5 @@
-using InventoryLogic;
-using UnityEngine;
 using SkillLogic;
+using UnityEngine;
 public class SledGrenade : Skill
 {
     public SledGrenade()
@@ -11,7 +10,7 @@ public class SledGrenade : Skill
     }
     public override void Execute(GameObject point)
     {
-        ConsumableCounter._simpleGrenadeCount += 2;
-        ConsumableCounter._smokeGrenadeCount += 2;
+        PlayerData.SimpleGrenadeCount += 2;
+        PlayerData.SmokeGrenadeCount += 2;
     }
 }

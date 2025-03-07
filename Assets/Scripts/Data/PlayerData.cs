@@ -1,8 +1,8 @@
-using SkillLogic;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using SkillLogic;
 
 public static class PlayerData
 {
@@ -45,10 +45,17 @@ public static class PlayerData
     public static int BleedingDamage { get; set; }
     public static bool IsBleeding { get; set; }
 
-    public static int BandageCount { get; set; }
-    public static int FirstAidKitCount { get; set; }
-    public static int SimpleGrenadeCount { get; set; }
-    public static int SmokeGrenadeCount { get; set; }
+    public static int BandageCount { get; set; } = 0;
+    public static int MaxBandageCount { get; set; } = 5;
+
+    public static int FirstAidKitCount { get; set; } = 0;
+    public static int MaxFirstAidKitCount { get; set; } = 5;
+
+    public static int SimpleGrenadeCount { get; set; } = 0;
+    public static int MaxSimpleGrenadeCount { get; set; } = 5;
+
+    public static int SmokeGrenadeCount { get; set; } = 0;
+    public static int MaxSmokeGrenadeCount { get; set; } = 5;
 
     public static int BandageHealth { get; set; } // Сколько бинт восстанавливает здоровья
     public static int FirstAidKitHealth { get; set; } // Сколько аптечка восстанавливает здоровья
@@ -56,6 +63,8 @@ public static class PlayerData
     public static int Score { get; set; } // Количество очков для прокачки
 
     public static int CountArmor;
+
+    public static int InventoryCapacity { get; set; } = 3;
 
     public static void LoadData()
     {
