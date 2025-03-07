@@ -60,7 +60,6 @@ public class HealthBot : AbstractHealth
     {
         _body = Resources.Load<GameObject>("Prefabs/Ghost");
         _audio = _audio = Resources.Load<AudioClip>("Audios/death_sound");
-        Debug.Log(_audio is null);
         currentHealth = maxHealth;
     }
 }
