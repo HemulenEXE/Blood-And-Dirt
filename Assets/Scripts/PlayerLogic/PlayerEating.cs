@@ -1,21 +1,13 @@
 using SkillLogic;
 using UnityEngine;
 
-namespace PlayerLogic
+public class PlayerEating : MonoBehaviour
 {
-    /// <summary>
-    /// Скрипт, отвечающий за "поедание трупов"
-    /// Навешивается на игрока
-    /// </summary>
-    public class PlayerEating : MonoBehaviour   
+    private void Update()
     {
-        private void Update()
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                PlayerInfo.GetSkill<LiveInNotVain>()?.Execute(this.gameObject);
-            }
+            PlayerData.GetSkill<LiveInNotVain>()?.Execute(this.gameObject);
         }
     }
-
 }

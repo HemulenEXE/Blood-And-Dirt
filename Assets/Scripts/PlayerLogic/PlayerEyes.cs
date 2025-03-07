@@ -13,9 +13,9 @@ namespace PlayerLogic
         // Update is called once per frame
         void Update()
         {
-            if (PlayerInfo.HasSkill<Sound>())
+            if (PlayerData.HasSkill<Sound>())
             {
-                PlayerInfo.GetSkill<Sound>().Execute(this.gameObject);
+                PlayerData.GetSkill<Sound>().Execute(this.gameObject);
             }
         }
     }

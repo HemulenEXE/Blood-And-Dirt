@@ -1,6 +1,3 @@
-using PlayerLogic;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SkillLogic
@@ -9,8 +6,8 @@ namespace SkillLogic
     {
         public BlindRange()
         {
-            _name = "BlindRange";
-            _isUnlocked = false;
+            Name = "BlindRange";
+            IsUnlocked = false;
         }
 
         public override void Execute(GameObject point)

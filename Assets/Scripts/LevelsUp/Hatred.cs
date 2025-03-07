@@ -1,5 +1,3 @@
-using PlayerLogic;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SkillLogic
@@ -11,22 +9,22 @@ namespace SkillLogic
 
         public Hatred()
         {
-            _name = "Hatred";
-            _isUnlocked = false;
-            _oldRunSpeed = PlayerInfo._runSpeed;
-            _type = SkillType.Activated;
+            Name = "Hatred";
+            IsUnlocked = false;
+            _oldRunSpeed = PlayerData.RunSpeed;
+            Type = SkillType.Activated;
         }
 
         public override void Execute(GameObject point)
         {
-            if (PlayerInfo._isBleeding)
+            if (PlayerData.IsBleeding)
             {
-                PlayerInfo._isRunning = true;
-                PlayerInfo._runSpeed = _newRunSpeed;
+                PlayerData.IsRunning = true;
+                PlayerData.RunSpeed = _newRunSpeed;
                 //var bodies = GameObject.FindGameObjectsWithTag("Body");
                 // Уменьшение целостности трупов - можно вызвать отдельно метод
             }
-            else PlayerInfo._runSpeed = _oldRunSpeed;
+            else PlayerData.RunSpeed = _oldRunSpeed;
         }
     }
 }

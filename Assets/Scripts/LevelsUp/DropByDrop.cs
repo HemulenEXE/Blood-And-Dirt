@@ -1,6 +1,3 @@
-using PlayerLogic;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SkillLogic
@@ -9,14 +6,14 @@ namespace SkillLogic
     {
         public DropByDrop()
         {
-            _name = "DropByDrop";
-            _isUnlocked = false;
-            _type = SkillType.Activated;
+            Name = "DropByDrop";
+            IsUnlocked = false;
+            Type = SkillType.Activated;
         }
 
         public override void Execute(GameObject point)
         {
-            PlayerInfo._bleedingDamage /= 2;
+            PlayerData.BleedingDamage /= 2;
         }
     }
 

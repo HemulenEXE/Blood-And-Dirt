@@ -38,13 +38,13 @@ public class Icon : MonoBehaviour
         if (Counter.Instance().Points() >= price) //Активирует, если достаточно монет
         {
             // Активирует, если активирован один из предшествующих навыков, или если их нет
-            if ((Privioses.Length == 0 || Privioses.Any(gm => gm.GetComponentInChildren<Icon>().Active())) && !PlayerInfo.HasSkill(skill))
+            if ((Privioses.Length == 0 || Privioses.Any(gm => gm.GetComponentInChildren<Icon>().Active())) && !PlayerData.HasSkill(skill))
             {
                 isActive = true;
                 this.GetComponent<Image>().sprite = active;
                 Counter.Instance().RemovePoints(price);
 
-                if (skill._type == SkillType.Added)
+                if (skill.Type == SkillType.Added)
                     AddSkill(skill);
                 else ActivateSkill(skill);
 
@@ -59,8 +59,8 @@ public class Icon : MonoBehaviour
 
         _player = GameObject.FindWithTag("Player");
 
-        if (SkillStorage._skills.ContainsKey(skillName))
-            skill = SkillStorage._skills[skillName];
+        if (PlayerData.SkillsStorage.ContainsKey(skillName))
+            skill = PlayerData.SkillsStorage[skillName];
         else throw new ArgumentNullException("Skill with such name don't exists!");
 
         //Раскоментировать, когда будет добавлено поле со стоимостью!!!!
@@ -90,15 +90,15 @@ public class Icon : MonoBehaviour
     }
     private void AddSkill(Skill skill)
     {
-        skill._isUnlocked = true;
-        PlayerInfo.AddSkill(skill);
-        Debug.Log($"{skill._name} is added!");
+        skill.IsUnlocked = true;
+        PlayerData.AddSkill(skill);
+        Debug.Log($"{skill.Name} is added!");
     }
     private void ActivateSkill(Skill skill)
     {
-        PlayerInfo.AddSkill(skill);
+        PlayerData.AddSkill(skill);
         skill.Execute(_player);
-        Debug.Log($"{skill._name} is used!");     
+        Debug.Log($"{skill.Name} is used!");     
     }
 
 }

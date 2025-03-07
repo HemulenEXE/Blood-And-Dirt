@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum SkillType { Added, Activated };
 
@@ -8,12 +6,11 @@ namespace SkillLogic
 {
     public abstract class Skill
     {
-        
-        public string _name;
-        public bool _isUnlocked;
-        public SkillType _type;
+        public string Name { get; set; }
+        public bool IsUnlocked { get; set; }
+        public int Cost { get; set; }
+        public SkillType Type { get; set; }
 
         public abstract void Execute(GameObject point);
-
     }
 }

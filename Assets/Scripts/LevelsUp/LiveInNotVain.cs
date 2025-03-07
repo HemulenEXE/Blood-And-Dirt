@@ -1,28 +1,25 @@
-using System.Collections.Generic;
+using SkillLogic;
 using UnityEngine;
 
-namespace SkillLogic
+public class LiveInNotVain : Skill
 {
-    public class LiveInNotVain : Skill
+    private float _searchRadius = 1f;
+
+    public LiveInNotVain()
     {
-        private float _searchRadius = 1f;
+        Name = "LiveInNotVain";
+        IsUnlocked = false;
+        Type = SkillType.Added;
+    }
 
-        public LiveInNotVain()
+    public override void Execute(GameObject point)
+    {
+        var hitColliders = Physics.OverlapSphere(point.transform.position, _searchRadius);
+        foreach (var x in hitColliders)
         {
-            _name = "LiveInNotVain";
-            _isUnlocked = false;
-            _type = SkillType.Added;
+            x.gameObject.GetComponent<Body>().GetDamage(1);
+            Debug.Log($"{x.name} is eated");
         }
 
-        public override void Execute(GameObject point)
-        {
-            var hitColliders = Physics.OverlapSphere(point.transform.position, _searchRadius);
-            foreach(var x in hitColliders)
-            {
-                x.gameObject.GetComponent<Body>().GetDamage(1);
-                Debug.Log($"{x.name} is eated");
-            }
-
-        }
     }
 }

@@ -1,22 +1,19 @@
 using InventoryLogic;
-using System.Collections.Generic;
+using SkillLogic;
 using UnityEngine;
 
-namespace SkillLogic
+public class Spin : Skill
 {
-    public class Spin : Skill
+    public Spin()
     {
-        public Spin()
-        {
-            _name = "Spin";
-            _isUnlocked = false;
-            _type = SkillType.Added;
-        }
+        Name = "Spin";
+        IsUnlocked = false;
+        Type = SkillType.Added;
+    }
 
-        public override void Execute(GameObject point)
-        {
-            ++ConsumableCounter._bandageCount;
-            ++ConsumableCounter._firstAidKitCount;
-        }
+    public override void Execute(GameObject point)
+    {
+        ++ConsumableCounter._bandageCount;
+        ++ConsumableCounter._firstAidKitCount;
     }
 }

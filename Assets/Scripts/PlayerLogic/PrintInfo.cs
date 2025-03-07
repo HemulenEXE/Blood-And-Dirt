@@ -6,7 +6,7 @@ namespace PlayerLogic
     {
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.J)) PlayerInfo.SaveData();
+            if (Input.GetKeyDown(KeyCode.J)) PlayerData.SaveData();
         }
     }
 

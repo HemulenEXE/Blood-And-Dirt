@@ -38,31 +38,31 @@ namespace PlayerLogic
             if (_currentTimeHits <= 0)
             {
                 _currentTimeHits = _updateStateTime;
-                _currentHitsToSurvive = PlayerInfo._hitsToSurvive; // Обновление количества пропускаемых ударов
+                _currentHitsToSurvive = PlayerData.HitsToSurvive; // Обновление количества пропускаемых ударов
             }
             _currentTimeHits -= Time.deltaTime;
 
             if (_currentTimeBleeding <= 0)
             {
                 _currentTimeBleeding = _updateStateTimeBleeding;
-                PlayerInfo._isBleeding = false; // Обновление состояния кровотечения
+                PlayerData.IsBleeding = false; // Обновление состояния кровотечения
             }
             _currentTimeBleeding -= Time.deltaTime;
 
             if (Input.GetKeyDown(KeyCode.Alpha3) && ConsumableCounter._firstAidKitCount > 0)
             {
-                if (PlayerInfo._currentHealth + PlayerInfo._firstAidKitHealth > PlayerInfo._fullHealth)
-                    PlayerInfo._currentHealth = PlayerInfo._fullHealth;
-                else PlayerInfo._currentHealth += PlayerInfo._firstAidKitHealth;
+                if (PlayerData.CurrentHealth + PlayerData.FirstAidKitHealth > PlayerData.MaxHealth)
+                    PlayerData.CurrentHealth = PlayerData.MaxHealth;
+                else PlayerData.CurrentHealth += PlayerData.FirstAidKitHealth;
 
                 ConsumableCounter._firstAidKitCount--;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha4) && ConsumableCounter._bandageCount > 0)
             {
-                if (PlayerInfo._currentHealth + PlayerInfo._bandageHealth > PlayerInfo._fullHealth)
-                    PlayerInfo._currentHealth = PlayerInfo._fullHealth;
-                else PlayerInfo._currentHealth += PlayerInfo._bandageHealth;
+                if (PlayerData.CurrentHealth + PlayerData.BandageHealth > PlayerData.MaxHealth)
+                    PlayerData.CurrentHealth = PlayerData.MaxHealth;
+                else PlayerData.CurrentHealth += PlayerData.BandageHealth;
 
                 ConsumableCounter._bandageCount--;
             }
@@ -91,20 +91,20 @@ namespace PlayerLogic
 
         public override void GetDamage(ProjectileData bullet)
         {
-            if (!PlayerInfo._isGod)
+            if (!PlayerData.IsGod)
             {
-                PlayerInfo._isBleeding = true;
-                PlayerInfo._currentHealth -= (int)bullet.Damage;
+                PlayerData.IsBleeding = true;
+                PlayerData.CurrentHealth -= (int)bullet.Damage;
                 _currentTimeBleeding = _updateStateTimeBleeding;
 
-                if (PlayerInfo._currentHealth <= 0)
+                if (PlayerData.CurrentHealth <= 0)
                 {
-                    var temp = PlayerInfo.GetSkill<Reincarnation>();
-                    if (temp != null && PlayerInfo._bodyCount > 0)
+                    var temp = PlayerData.GetSkill<Reincarnation>();
+                    if (temp != null && PlayerData.ResurrectionCount > 0)
                     {
                         temp.SpawnBody(this.gameObject); // Спавн трупа
-                        PlayerInfo._fullHealth /= 2;
-                        PlayerInfo._currentHealth = PlayerInfo._fullHealth;
+                        PlayerData.MaxHealth /= 2;
+                        PlayerData.CurrentHealth = PlayerData.MaxHealth;
                         return;
                     }
                     else
@@ -121,9 +121,9 @@ namespace PlayerLogic
         {
             while (true)
             {
-                if (PlayerInfo._isBleeding && !PlayerInfo._isGod)
+                if (PlayerData.IsBleeding && !PlayerData.IsGod)
                 {
-                    PlayerInfo._currentHealth -= PlayerInfo._bleedingDamage;
+                    PlayerData.CurrentHealth -= PlayerData.BleedingDamage;
                 }
                 yield return new WaitForSeconds(60f); // Что за 60f?
             }
@@ -135,7 +135,7 @@ namespace PlayerLogic
         StateBloodEffect CalculateStateDamaged()
         {
             // print($"Damaged = {Math.Floor((maxHealth - currentHealth) / (maxHealth / 5.0))}");
-            return (StateBloodEffect)Math.Floor((PlayerInfo._fullHealth - PlayerInfo._currentHealth) / (PlayerInfo._fullHealth / 5.0));
+            return (StateBloodEffect)Math.Floor((PlayerData.MaxHealth - PlayerData.CurrentHealth) / (PlayerData.MaxHealth / 5.0));
         }
     }
 }

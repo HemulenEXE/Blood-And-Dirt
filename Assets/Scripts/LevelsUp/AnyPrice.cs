@@ -8,14 +8,14 @@ namespace SkillLogic
     {
         public AnyPrice()
         {
-            _name = "AnyPrice";
-            _isUnlocked = false;
-            _type = SkillType.Activated;
+            Name = "AnyPrice";
+            IsUnlocked = false;
+            Type = SkillType.Activated;
         }
         public override void Execute(GameObject point)
         {
-            PlayerInfo._runNoise /= 2;
-            PlayerInfo._walkNoise /= 2;
+            PlayerData.RunNoise /= 2;
+            PlayerData.WalkNoise /= 2;
         }
     }
 

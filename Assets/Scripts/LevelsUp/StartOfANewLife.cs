@@ -1,28 +1,23 @@
-using PlayerLogic;
-using System.Collections.Generic;
+using SkillLogic;
 using UnityEngine;
 
-namespace SkillLogic
+public class StartOfANewLife : Skill
 {
-    public class StartOfANewLife : Skill
+    [SerializeField]
+    private int _newFullHealth = 200;
+    [SerializeField]
+    private int _newDamageBleeding = 2;
+
+    public StartOfANewLife()
     {
-        [SerializeField]
-        private int _newFullHealth = 200;
-        [SerializeField]
-        private int _newDamageBleeding = 2;
+        Name = "StartOfANewLife";
+        IsUnlocked = false;
+        Type = SkillType.Activated;
+    }
 
-        public StartOfANewLife()
-        {
-            _name = "StartOfANewLife";
-            _isUnlocked = false;
-            _type = SkillType.Activated;
-        }
-
-        public override void Execute(GameObject point)
-        {
-            PlayerInfo._fullHealth = _newFullHealth;
-            PlayerInfo._bleedingDamage = _newDamageBleeding;
-        }
+    public override void Execute(GameObject point)
+    {
+        PlayerData.MaxHealth = _newFullHealth;
+        PlayerData.BleedingDamage = _newDamageBleeding;
     }
 }
-

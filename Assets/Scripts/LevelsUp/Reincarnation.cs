@@ -1,36 +1,32 @@
-using PlayerLogic;
-using System.Collections.Generic;
 using UnityEngine;
+using SkillLogic;
 
-namespace SkillLogic
+public class Reincarnation : Skill
 {
-    public class Reincarnation : Skill
+    private GameObject _body;
+    private AudioClip _audio;
+    private int _newBodyCount = 3;
+
+    public Reincarnation()
     {
-        private GameObject _body;
-        private AudioClip _audio;
-        private int _newBodyCount = 3;
+        Name = "Reincarnation";
+        IsUnlocked = false;
+        _body = Resources.Load<GameObject>("Prefabs/Ghost");
+        _audio = Resources.Load<AudioClip>("Audios/Reinc");
+        Type = SkillType.Activated;
+    }
 
-        public Reincarnation()
+    public override void Execute(GameObject point)
+    {
+        PlayerData.ResurrectionCount = _newBodyCount;
+    }
+    public virtual void SpawnBody(GameObject point)
+    {
+        if (PlayerData.ResurrectionCount > 0)
         {
-            _name = "Reincarnation";
-            _isUnlocked = false;
-            _body = Resources.Load<GameObject>("Prefabs/Ghost");
-            _audio = Resources.Load<AudioClip>("Audios/Reinc");
-            _type = SkillType.Activated;
-        }
-
-        public override void Execute(GameObject point)
-        {
-            PlayerInfo._bodyCount = _newBodyCount;
-        }
-        public virtual void SpawnBody(GameObject point)
-        {
-            if (PlayerInfo._bodyCount > 0)
-            {
-                point.GetComponent<AudioSource>().PlayOneShot(_audio);
-                GameObject.Instantiate(_body, point.transform.position, Quaternion.identity);
-                --PlayerInfo._bodyCount;
-            }
+            point.GetComponent<AudioSource>().PlayOneShot(_audio);
+            GameObject.Instantiate(_body, point.transform.position, Quaternion.identity);
+            --PlayerData.ResurrectionCount;
         }
     }
 }

@@ -12,10 +12,10 @@ namespace SkillLogic
 
         public Sound()
         {
-            _name = "Sound";
-            _isUnlocked = false;
+            Name = "Sound";
+            IsUnlocked = false;
             _light = Resources.Load<GameObject>("Prefabs/Lights/TargetLight");
-            _type = SkillType.Added;
+            Type = SkillType.Added;
         }
         public override void Execute(GameObject point)
         {
