@@ -1,30 +1,24 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
-namespace SkillLogic
+public class Hatred : Skill
 {
-    public class Hatred : Skill
+    private float _newRunSpeed = 8f;
+
+    public Hatred()
     {
-        private float _newRunSpeed = 20f;
-        private float _oldRunSpeed;
+        Name = "Hatred";
+        IsUnlocked = false;
+        Type = SkillType.Activated;
+    }
 
-        public Hatred()
+    public override void Execute(GameObject point) // Р’С‹Р·С‹РІР°РµС‚СЃСЏ РІ PlayerMotion
+    {
+        PlayerData.RunSpeed = _newRunSpeed;
+        if (PlayerData.IsBleeding)
         {
-            Name = "Hatred";
-            IsUnlocked = false;
-            _oldRunSpeed = PlayerData.RunSpeed;
-            Type = SkillType.Activated;
-        }
-
-        public override void Execute(GameObject point)
-        {
-            if (PlayerData.IsBleeding)
-            {
-                PlayerData.IsRunning = true;
-                PlayerData.RunSpeed = _newRunSpeed;
-                //var bodies = GameObject.FindGameObjectsWithTag("Body");
-                // Уменьшение целостности трупов - можно вызвать отдельно метод
-            }
-            else PlayerData.RunSpeed = _oldRunSpeed;
+            PlayerData.IsRunning = true;
+            //var bodies = GameObject.FindGameObjectsWithTag("Body");
+            // РЈРјРµРЅСЊС€РµРЅРёРµ С†РµР»РѕСЃС‚РЅРѕСЃС‚Рё С‚СЂСѓРїРѕРІ - РјРѕР¶РЅРѕ РІС‹Р·РІР°С‚СЊ РѕС‚РґРµР»СЊРЅРѕ РјРµС‚РѕРґ
         }
     }
 }

@@ -1,10 +1,7 @@
-using SkillLogic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LiveInNotVain : Skill
 {
-    private float _searchRadius = 1f;
-
     public LiveInNotVain()
     {
         Name = "LiveInNotVain";
@@ -12,14 +9,5 @@ public class LiveInNotVain : Skill
         Type = SkillType.Added;
     }
 
-    public override void Execute(GameObject point)
-    {
-        var hitColliders = Physics.OverlapSphere(point.transform.position, _searchRadius);
-        foreach (var x in hitColliders)
-        {
-            x.gameObject.GetComponent<Body>().GetDamage(1);
-            Debug.Log($"{x.name} is eated");
-        }
-
-    }
+    public override void Execute(GameObject point) { /* Не содержит реализацию - за поедание трупов отвечает класс Body */}
 }

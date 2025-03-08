@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using SkillLogic;
 
 public class Reincarnation : Skill
@@ -11,22 +11,27 @@ public class Reincarnation : Skill
     {
         Name = "Reincarnation";
         IsUnlocked = false;
-        _body = Resources.Load<GameObject>("Prefabs/Ghost");
-        _audio = Resources.Load<AudioClip>("Audios/Reinc");
+        _body = Resources.Load<GameObject>("Prefabs/Enemies/Body");
+        _audio = Resources.Load<AudioClip>("Audios/Reincarnation");
         Type = SkillType.Activated;
     }
 
-    public override void Execute(GameObject point)
+    public override void Execute(GameObject point) // Вызывается единственный раз при активации навыка
     {
         PlayerData.ResurrectionCount = _newBodyCount;
+        PlayerData.CurrentResurrectionCount = _newBodyCount;
     }
     public virtual void SpawnBody(GameObject point)
     {
-        if (PlayerData.ResurrectionCount > 0)
+        if (PlayerData.CurrentResurrectionCount > 0)
         {
             point.GetComponent<AudioSource>().PlayOneShot(_audio);
             GameObject.Instantiate(_body, point.transform.position, Quaternion.identity);
-            --PlayerData.ResurrectionCount;
+            Debug.Log(_body is null);
+            --PlayerData.CurrentResurrectionCount;
+
+            PlayerData.MaxHealth /= 2;
+            PlayerData.CurrentHealth = PlayerData.MaxHealth;
         }
     }
 }

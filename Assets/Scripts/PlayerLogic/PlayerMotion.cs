@@ -44,7 +44,7 @@ public class PlayerMotion : MonoBehaviour
         PlayerData.IsRunning = Input.GetKey(KeyCode.LeftShift);
         PlayerData.IsStealing = Input.GetKey(KeyCode.LeftControl);
 
-        // PlayerData.GetSkill<Hatred>()?.Execute(this.gameObject);
+        PlayerData.GetSkill<Hatred>()?.Execute(this.gameObject); // ~ PlayerData.IsRunning = PlayerData.IsBleeding ? true : PlayerData.IsRunning
 
         float currentSpeed = PlayerData.IsStealing ? PlayerData.StealSpeed : (PlayerData.IsRunning ? PlayerData.RunSpeed : PlayerData.WalkSpeed);
         Vector3 movement = Vector3.zero;

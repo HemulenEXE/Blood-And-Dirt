@@ -1,12 +1,12 @@
+using SkillLogic;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using SkillLogic;
 
 public static class PlayerData
 {
-    private static string _savedPath = "C:\\Users\\Amethyst\\Desktop\\Downloads\\PlayerData.xml";
+    private static string _savedPath = "PlayerData.xml";
     public static Dictionary<string, Skill> SkillsStorage { get; } = new Dictionary<string, Skill>{ // Загатовки навыков
         { "AnyPrice", new AnyPrice() },
         { "BlindRange", new BlindRange() },
@@ -20,7 +20,8 @@ public static class PlayerData
         { "SledGrenade", new SledGrenade() },
         { "Sound", new Sound() },
         { "Spin", new Spin() },
-        { "StartOfANewLife", new StartOfANewLife() }};
+        { "StartOfANewLife", new StartOfANewLife() },
+        {"InevitableDeath", new InevitableDeath() } };
 
     public static HashSet<Skill> Skills = new HashSet<Skill>();
 
@@ -28,7 +29,9 @@ public static class PlayerData
     public static int CurrentHealth { get; set; }
     public static bool IsGod { get; set; } // Неузвимость
     public static int ResurrectionCount { get; set; } // Количество воскрешений
+    public static int CurrentResurrectionCount { get; set; }
     public static int HitsToSurvive { get; set; } // Количество пропускаемых ударов
+    public static int CurrentHitsToSurvive { get; set; }
 
     public static bool IsStealing { get; set; }
     public static bool IsWalking { get; set; }
@@ -45,17 +48,17 @@ public static class PlayerData
     public static int BleedingDamage { get; set; }
     public static bool IsBleeding { get; set; }
 
-    public static int BandageCount { get; set; } = 0;
-    public static int MaxBandageCount { get; set; } = 5;
+    public static int BandageCount { get; set; }
+    public static int MaxBandageCount { get; set; }
 
-    public static int FirstAidKitCount { get; set; } = 0;
-    public static int MaxFirstAidKitCount { get; set; } = 5;
+    public static int FirstAidKitCount { get; set; }
+    public static int MaxFirstAidKitCount { get; set; }
 
-    public static int SimpleGrenadeCount { get; set; } = 0;
-    public static int MaxSimpleGrenadeCount { get; set; } = 5;
+    public static int SimpleGrenadeCount { get; set; }
+    public static int MaxSimpleGrenadeCount { get; set; }
 
-    public static int SmokeGrenadeCount { get; set; } = 0;
-    public static int MaxSmokeGrenadeCount { get; set; } = 5;
+    public static int SmokeGrenadeCount { get; set; }
+    public static int MaxSmokeGrenadeCount { get; set; }
 
     public static int BandageHealth { get; set; } // Сколько бинт восстанавливает здоровья
     public static int FirstAidKitHealth { get; set; } // Сколько аптечка восстанавливает здоровья
@@ -64,7 +67,7 @@ public static class PlayerData
 
     public static int CountArmor;
 
-    public static int InventoryCapacity { get; set; } = 3;
+    public static int InventoryCapacity { get; set; } // Число слотов
 
     public static void LoadData()
     {
@@ -103,7 +106,17 @@ public static class PlayerData
             SimpleGrenadeCount = int.Parse(root.SelectSingleNode("SimpleGrenadeCount").InnerText);
             SmokeGrenadeCount = int.Parse(root.SelectSingleNode("SmokeGrenadeCount").InnerText);
 
+            MaxBandageCount = int.Parse(root.SelectSingleNode("MaxBandageCount").InnerText);
+            MaxFirstAidKitCount = int.Parse(root.SelectSingleNode("MaxFirstAidKitCount").InnerText);
+            MaxSmokeGrenadeCount = int.Parse(root.SelectSingleNode("MaxSmokeGrenadeCount").InnerText);
+            MaxSimpleGrenadeCount = int.Parse(root.SelectSingleNode("MaxSimpleGrenadeCount").InnerText);
+
+            CurrentHitsToSurvive = int.Parse(root.SelectSingleNode("CurrentHitsToSurvive").InnerText);
+            CurrentResurrectionCount = int.Parse(root.SelectSingleNode("CurrentResurrectionCount").InnerText);
+
             Score = int.Parse(root.SelectSingleNode("Score").InnerText);
+
+            InventoryCapacity = int.Parse(root.SelectSingleNode("InventoryCapacity").InnerText);
 
             Skills.Clear();
 
@@ -121,9 +134,11 @@ public static class PlayerData
         else
         {
             // Значения по умолчанию
+
             Skills.Clear();
+
             MaxHealth = 100;
-            CurrentHealth = 100;
+            CurrentHealth = MaxHealth;
             HitsToSurvive = 0;
             IsGod = false;
             ResurrectionCount = 0;
@@ -138,9 +153,30 @@ public static class PlayerData
 
             BleedingDamage = 5;
             IsBleeding = false;
+
             CountArmor = 0;
+
             BandageHealth = 15;
             FirstAidKitHealth = 30;
+
+            BandageCount = 0;
+            MaxBandageCount = 5;
+
+            FirstAidKitCount = 0;
+            MaxFirstAidKitCount = 5;
+
+            SmokeGrenadeCount = 0;
+            MaxSmokeGrenadeCount = 5;
+
+            SimpleGrenadeCount = 0;
+            MaxSimpleGrenadeCount = 5;
+
+            CurrentResurrectionCount = ResurrectionCount;
+            CurrentHitsToSurvive = HitsToSurvive;
+
+            Score = 0;
+
+            InventoryCapacity = 3;
         }
     }
     public static void SaveData()
@@ -176,7 +212,17 @@ public static class PlayerData
         root.AppendChild(CreateElement(xmlDoc, "BandageHealth", BandageHealth));
         root.AppendChild(CreateElement(xmlDoc, "FirstAidKitHealth", FirstAidKitHealth));
 
+        root.AppendChild(CreateElement(xmlDoc, "MaxBandageCount", MaxBandageCount));
+        root.AppendChild(CreateElement(xmlDoc, "MaxFirstAidKitCount", MaxFirstAidKitCount));
+        root.AppendChild(CreateElement(xmlDoc, "MaxSmokeGrenadeCount", MaxSmokeGrenadeCount));
+        root.AppendChild(CreateElement(xmlDoc, "MaxSimpleGrenadeCount", MaxSimpleGrenadeCount));
+
+        root.AppendChild(CreateElement(xmlDoc, "CurrentResurrectionCount", CurrentResurrectionCount));
+        root.AppendChild(CreateElement(xmlDoc, "CurrentHitsToSurvive", CurrentHitsToSurvive));
+
         root.AppendChild(CreateElement(xmlDoc, "Score", Score));
+
+        root.AppendChild(CreateElement(xmlDoc, "InventoryCapacity", InventoryCapacity));
 
         XmlElement skillsElement = xmlDoc.CreateElement("Skills");
         foreach (var skill in Skills)
@@ -189,7 +235,6 @@ public static class PlayerData
 
         xmlDoc.Save(_savedPath);
     }
-
     public static bool HasSkill<T>() where T : Skill
     {
         return Skills.OfType<T>().Any();
@@ -221,6 +266,13 @@ public static class PlayerData
             if (skill is T result) return result;
         }
         return null;
+    }
+    public static void ClearInventoryConsumables()
+    {
+        BandageCount = 0;
+        FirstAidKitCount = 0;
+        SmokeGrenadeCount = 0;
+        SimpleGrenadeCount = 0;
     }
     private static XmlElement CreateElement(XmlDocument xmlDoc, string name, object value) // Для сохранения в .xml
     {

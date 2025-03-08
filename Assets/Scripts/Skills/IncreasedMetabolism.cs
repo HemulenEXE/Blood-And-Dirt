@@ -1,19 +1,49 @@
+﻿using System.Collections;
 using UnityEngine;
 
-namespace SkillLogic
+public class IncreasedMetabolism : Skill
 {
-    public class IncreasedMetabolism : Skill
-    {
-        public IncreasedMetabolism()
-        {
-            Name = "IncreasedMetabolism";
-            IsUnlocked = false;
-            Type = SkillType.Activated;
-        }
+    private float _timeWithoutDamage = 5f;
+    private float _damageTimer = 0f;
+    private bool _isStartedTimer;
 
-        public override void Execute(GameObject point)
+    public IncreasedMetabolism()
+    {
+        Name = "IncreasedMetabolism";
+        IsUnlocked = false;
+        Type = SkillType.Activated;
+    }
+
+    public override void Execute(GameObject point)
+    {
+        if (!PlayerData.HasSkill<DropByDrop>()) { /* Внедрение дебафа */ }
+        if (PlayerData.IsBleeding && !_isStartedTimer)
         {
-            if (!PlayerData.HasSkill<DropByDrop>()) --PlayerData.MaxHealth;
+            _isStartedTimer = true;
+            point.GetComponent<PlayerHealth>().StartCoroutine(StopBleedingCoroutine(point));
         }
+    }
+
+    private IEnumerator StopBleedingCoroutine(GameObject player)
+    {
+        while (PlayerData.IsBleeding)
+        {
+            yield return new WaitForSeconds(1f);
+
+            if (_damageTimer >= _timeWithoutDamage) StopBleeding(player);
+            else _damageTimer += 1f;
+        }
+    }
+
+    public void RebootTimer()
+    {
+        _damageTimer = 0f;
+    }
+
+    private void StopBleeding(GameObject player)
+    {
+        PlayerData.IsBleeding = false;
+        _isStartedTimer = false;
+        Debug.Log(PlayerData.IsBleeding);
     }
 }

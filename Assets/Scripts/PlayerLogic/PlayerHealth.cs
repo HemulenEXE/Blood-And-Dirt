@@ -20,6 +20,12 @@ public class PlayerHealth : AbstractHealth
         PlayerData.IsBleeding = true;
         PlayerData.CurrentHealth -= (int)bullet.Damage;
 
+        Debug.Log(PlayerData.IsBleeding);
+        PlayerData.GetSkill<IncreasedMetabolism>()?.Execute(this.gameObject);
+        PlayerData.GetSkill<IncreasedMetabolism>()?.RebootTimer();
+
+        Debug.Log(PlayerData.CurrentHealth);
+
         if (PlayerData.CurrentHealth <= 0) HandleDeath();
 
         StartCoroutine(InvulnerabilityFrames(_frameDuration));
@@ -27,11 +33,9 @@ public class PlayerHealth : AbstractHealth
     private void HandleDeath()
     {
         var temp = PlayerData.GetSkill<Reincarnation>();
-        if (temp != null && PlayerData.ResurrectionCount > 0)
+        if (temp != null && PlayerData.CurrentResurrectionCount > 0)
         {
             temp.SpawnBody(this.gameObject); // Спавн трупа
-            PlayerData.MaxHealth /= 2;
-            PlayerData.CurrentHealth = PlayerData.MaxHealth;
             return;
         }
         else Death();
@@ -57,9 +61,6 @@ public class PlayerHealth : AbstractHealth
 
     private void Start()
     {
-        // PlayerInfo.ExecuteSkill("StartOfANewLife", this.gameObject);
-        // PlayerInfo.ExecuteSkill("MusclesSecondSkeleton", this.gameObject);
-
         bloodController = GetComponent<BloodEffect>();
         StartCoroutine(BleedDamage());
     }
@@ -83,8 +84,10 @@ public class PlayerHealth : AbstractHealth
 
             --PlayerData.BandageCount;
         }
+
+        PlayerData.GetSkill<InevitableDeath>()?.Execute(this.gameObject);
     }
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         bloodController?.SetBloodEffect(CalculateStateDamaged());
     }

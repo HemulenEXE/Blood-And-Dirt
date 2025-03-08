@@ -1,4 +1,4 @@
-using SkillLogic;
+﻿using SkillLogic;
 using UnityEngine;
 
 public class Spin : Skill
@@ -10,7 +10,7 @@ public class Spin : Skill
         Type = SkillType.Added;
     }
 
-    public override void Execute(GameObject point)
+    public override void Execute(GameObject point) // Вызов осуществляется или в начале миссии, или после воскрешения
     {
         ++PlayerData.BandageCount;
         ++PlayerData.FirstAidKitCount;

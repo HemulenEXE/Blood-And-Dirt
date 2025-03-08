@@ -1,20 +1,19 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace SkillLogic
+public class DropByDrop : Skill
 {
-    public class DropByDrop : Skill
-    {
-        public DropByDrop()
-        {
-            Name = "DropByDrop";
-            IsUnlocked = false;
-            Type = SkillType.Activated;
-        }
+    private int _newBleedingDamage = 3;
 
-        public override void Execute(GameObject point)
-        {
-            PlayerData.BleedingDamage /= 2;
-        }
+    public DropByDrop()
+    {
+        Name = "DropByDrop";
+        IsUnlocked = false;
+        Type = SkillType.Activated;
     }
 
+    public override void Execute(GameObject point) // Вызывается один раз при активации навыка
+    {
+        PlayerData.BleedingDamage = _newBleedingDamage;
+        if (PlayerData.HasSkill<IncreasedMetabolism>()) { /* Отмена дебафа */ }
+    }
 }

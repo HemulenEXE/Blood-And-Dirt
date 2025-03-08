@@ -1,11 +1,8 @@
-using SkillLogic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StartOfANewLife : Skill
 {
-    [SerializeField]
     private int _newFullHealth = 200;
-    [SerializeField]
     private int _newDamageBleeding = 2;
 
     public StartOfANewLife()
