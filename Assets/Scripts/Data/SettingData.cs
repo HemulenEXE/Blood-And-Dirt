@@ -24,6 +24,10 @@ public static class SettingData
     public static KeyCode Steal { get; private set; }
     public static KeyCode Interact { get; private set; } = KeyCode.E;
 
+    public static KeyCode FirstAidKit { get; private set; } = KeyCode.Alpha3;
+    public static KeyCode Bandage { get; private set; } = KeyCode.Alpha4;
+
+
     public static void SaveData()
     {
         XmlDocument xmlDoc = new XmlDocument();

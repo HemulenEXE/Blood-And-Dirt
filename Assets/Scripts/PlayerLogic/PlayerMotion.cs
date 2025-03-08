@@ -43,7 +43,6 @@ public class PlayerMotion : MonoBehaviour
     {
         PlayerData.IsRunning = Input.GetKey(KeyCode.LeftShift);
         PlayerData.IsStealing = Input.GetKey(KeyCode.LeftControl);
-        PlayerData.IsWalking = !PlayerData.IsRunning && !PlayerData.IsStealing;
 
         // PlayerData.GetSkill<Hatred>()?.Execute(this.gameObject);
 
@@ -61,11 +60,13 @@ public class PlayerMotion : MonoBehaviour
 
         if (movement != Vector3.zero)
         {
+            PlayerData.IsWalking = !PlayerData.IsRunning && !PlayerData.IsStealing;
             this.transform.position += movement.normalized * currentSpeed * Time.fixedDeltaTime;
             if (PlayerData.IsStealing) makeNoise?.Invoke(this.transform, PlayerData.StealNoise);
             else if (PlayerData.IsRunning) makeNoise?.Invoke(this.transform, PlayerData.RunNoise);
             else if (PlayerData.IsWalking) makeNoise?.Invoke(this.transform, PlayerData.WalkNoise);
         }
+        else PlayerData.IsWalking = false;
     }
     private void Rotate()
     {
