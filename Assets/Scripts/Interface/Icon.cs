@@ -1,12 +1,8 @@
-﻿using TMPro;
-using System;
+﻿using System;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
-using Unity.VisualScripting;
-using SkillLogic;
-using PlayerLogic;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 //Иконка дерева прокачик (Её активация и управление всплывающим окном с описанием)
 public class Icon : MonoBehaviour
@@ -98,7 +94,7 @@ public class Icon : MonoBehaviour
     {
         PlayerData.AddSkill(skill);
         skill.Execute(_player);
-        Debug.Log($"{skill.Name} is used!");     
+        Debug.Log($"{skill.Name} is used!");
     }
 
 }

@@ -1,6 +1,7 @@
 using GunLogic;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +11,7 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     public List<GameObject> slots;
     public Sprite emptySlotIcon;
     public Inventory inventory;
-    public TextMeshProUGUI description; // Панелька для описания взятых в руку предметов
+    public TextMeshProUGUI description; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     public TextMeshProUGUI smokeGrenade;
     public TextMeshProUGUI simpleGrenade;
@@ -18,8 +19,18 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     public TextMeshProUGUI bandage;
 
     public int IndexCurrentSlot { get; private set; } = 0;
-    public int Size { get { return slots.Count; } }
+    public int Size { get { return PlayerData.InventoryCapacity; } }
 
+    public void AddSlot()
+    {
+        ++PlayerData.InventoryCapacity;
+        GameObject new_slot = new GameObject($"Slot {PlayerData.InventoryCapacity}");
+        new_slot.transform.position = slots.Last().transform.position;
+        new_slot.gameObject.GetComponent<Image>().sprite = emptySlotIcon;
+        slots.Add(new_slot);
+        inventory.items.Add(null);
+        new_slot.transform.SetParent(this.transform.Find("Slots"));
+    }
     public void SelectNextSlot()
     {
         SelectSlot((IndexCurrentSlot + 1) % PlayerData.InventoryCapacity);
@@ -54,7 +65,12 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     }
     public void RemoveItem()
     {
-        inventory.GetItem(IndexCurrentSlot)?.Deactive();
+        var temp = inventory.GetItem(IndexCurrentSlot);
+        if (temp != null)
+        {
+            temp.Deactive();
+            temp.gameObject.layer = temp.Layer;
+        }
         inventory.RemoveItem(IndexCurrentSlot);
         slots[IndexCurrentSlot].GetComponent<Image>().sprite = emptySlotIcon;
     }
@@ -64,6 +80,8 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     }
     private void Start()
     {
+        emptySlotIcon = Resources.Load<Sprite>("Sprites/Interface/cell");
+
         if (smokeGrenade == null) throw new ArgumentNullException("ConsumableCounter: smokeGrenadeIcon doesn't have TextMeshProUGUI");
         if (simpleGrenade == null) throw new ArgumentNullException("ConsumableCounter: simpleGrenadeIcon doesn't have TextMeshProUGUI");
         if (firstAidKit.GetComponentInChildren<TextMeshProUGUI>() == null) throw new ArgumentNullException("ConsumableCounter: firstAidKitIcon doesn't have TextMeshProUGUI");

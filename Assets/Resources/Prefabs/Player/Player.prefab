@@ -122,10 +122,14 @@ GameObject:
   - component: {fileID: 8995039941021256433}
   - component: {fileID: -1710368453161390098}
   - component: {fileID: -6690349085112174669}
+  - component: {fileID: 4556258128578407619}
   - component: {fileID: 3590008173519722790}
   - component: {fileID: -1366983085893150303}
+  - component: {fileID: 7625671559153547684}
+  - component: {fileID: 1609684869619803032}
+  - component: {fileID: -3305018509639675972}
   m_Layer: 10
-  m_Name: showcasePlayer
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -367,6 +371,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bcad6a3a854a74d93b6157f0b50a57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4556258128578407619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686392455674397021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c63532369b4c118478704d75b82110a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3590008173519722790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,3 +408,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 0
+--- !u!114 &7625671559153547684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686392455674397021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c63532369b4c118478704d75b82110a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1609684869619803032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686392455674397021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94ad16b9e122f5d45925d6fa309ce080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3305018509639675972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686392455674397021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46c9f94b295abda40805fccd4e8d4ded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,22 +1,16 @@
-using PlayerLogic;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace SkillLogic
+public class AnyPrice : Skill
 {
-    public class AnyPrice : Skill
+    public AnyPrice()
     {
-        public AnyPrice()
-        {
-            Name = "AnyPrice";
-            IsUnlocked = false;
-            Type = SkillType.Activated;
-        }
-        public override void Execute(GameObject point)
-        {
-            PlayerData.RunNoise /= 2;
-            PlayerData.WalkNoise /= 2;
-        }
+        Name = "AnyPrice";
+        IsUnlocked = false;
+        Type = SkillType.Activated;
     }
-
+    public override void Execute(GameObject point)
+    {
+        PlayerData.RunNoise /= 2;
+        PlayerData.WalkNoise /= 2;
+    }
 }

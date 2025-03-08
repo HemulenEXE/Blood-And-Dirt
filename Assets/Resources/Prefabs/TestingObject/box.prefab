@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3319447996810485200
+--- !u!1 &2060480534647178842
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2699248619299393521}
-  - component: {fileID: 5699399273485253279}
-  - component: {fileID: 5675004266000256728}
-  - component: {fileID: 4639497535261576497}
-  m_Layer: 9
-  m_Name: SimpleGrenade
-  m_TagString: SimpleGrenade
+  - component: {fileID: 6795588323783278308}
+  - component: {fileID: 3477709499306568793}
+  - component: {fileID: -4150575516082650967}
+  - component: {fileID: -658448184880359399}
+  m_Layer: 0
+  m_Name: box
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2699248619299393521
+--- !u!4 &6795588323783278308
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3319447996810485200}
+  m_GameObject: {fileID: 2060480534647178842}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.032316, y: -0.40583044, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 0.3}
+  m_LocalRotation: {x: 0, y: 0, z: 0.13052616, w: 0.9914449}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5699399273485253279
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 15}
+--- !u!212 &3477709499306568793
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3319447996810485200}
+  m_GameObject: {fileID: 2060480534647178842}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -54,7 +54,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -74,25 +74,25 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
-  m_Sprite: {fileID: -7421773109208792966, guid: 2b7b1bf6a95308645b28b863cb90f344, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: bff58209d7b3d5c439101ddde9e311bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &5675004266000256728
+--- !u!61 &-4150575516082650967
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3319447996810485200}
+  m_GameObject: {fileID: 2060480534647178842}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -118,28 +118,32 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0035489202, y: -0.0073249936}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.08, y: 0.1}
-    newSize: {x: 1, y: 1}
+    border: {x: 0.31, y: 0.31, z: 0.31, w: 0.31}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.56, y: 2.56}
+    newSize: {x: 2.56, y: 2.56}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.3}
+  m_Size: {x: 1.9937247, y: 1.9941791}
   m_EdgeRadius: 0
---- !u!114 &4639497535261576497
+--- !u!114 &-658448184880359399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3319447996810485200}
+  m_GameObject: {fileID: 2060480534647178842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8daf3eac055f4c5409cc71376a0c1674, type: 3}
+  m_Script: {fileID: 11500000, guid: cd3e7cdff1c3b28459ee66e13c2d880b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Icon: {fileID: 21300000, guid: bff58209d7b3d5c439101ddde9e311bd, type: 3}
+  Layer:
+    serializedVersion: 2
+    m_Bits: 0

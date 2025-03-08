@@ -26,6 +26,8 @@ public static class SettingData
 
     public static KeyCode FirstAidKit { get; private set; } = KeyCode.Alpha3;
     public static KeyCode Bandage { get; private set; } = KeyCode.Alpha4;
+    public static KeyCode SimpleGrenade { get; private set; } = KeyCode.Alpha2;
+    public static KeyCode SmokeGrenade { get; private set; } = KeyCode.Alpha1;
 
 
     public static void SaveData()

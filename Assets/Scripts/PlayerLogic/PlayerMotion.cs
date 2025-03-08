@@ -15,7 +15,7 @@ public class PlayerMotion : MonoBehaviour
 
     private void AnimationControl()
     {
-        _animator.SetBool("IsMoving", PlayerData.IsWalking);
+        _animator.SetBool("IsMoving", PlayerData.IsWalking || PlayerData.IsRunning || PlayerData.IsStealing);
         var currentItem = _inventoryAndConsumableCounterUI.GetItem();
         if (currentItem?.GetComponent<ShotGun>() != null)
         {

@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// Класс, реализующий "предметы, которые можно взять в инвентарь".
@@ -10,6 +9,7 @@ public class Item : MonoBehaviour, IInteractable
     public string Name { get; }
     public string Description { get; } = SettingData.Interact.ToString();
     public Sprite Icon;
+    public LayerMask Layer { get; private set; }
     public GameObject GameObject { get; }
 
     public virtual void Interact()
@@ -34,6 +34,7 @@ public class Item : MonoBehaviour, IInteractable
     }
     protected virtual void Awake()
     {
+        Layer = this.gameObject.layer;
         if (Icon == null) throw new ArgumentNullException("PickUpItem: Icon is null");
     }
 }
