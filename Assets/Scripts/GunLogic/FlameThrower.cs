@@ -138,7 +138,7 @@ namespace GunLogic
         /// Распыление из огнемёта.
         /// </summary>
         /// <remarks>Запускает particle пламени.</remarks>
-        public void Shoot(int layerMask = 0, bool IsPlayerShoot = false)
+        public void Shoot(Side sideShooter, bool IsPlayerShoot = false)
         {
             if (!IsRecharging)
             {

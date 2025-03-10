@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GunLogic
 {
@@ -152,7 +153,7 @@ namespace GunLogic
         /// </summary>
         /// <remarks>Порождает на сцене снаряд, вылетающий из автомата.</remarks>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Shoot(int layerMask = 0, bool IsPlayerShoot = false)
+        public void Shoot(Side sideShooter, bool IsPlayerShoot = false)
         {
             if (!IsShooting && !IsRecharging && Time.time > _nextTimeShot)
             {
@@ -167,6 +168,7 @@ namespace GunLogic
                     var interim_projectile_component = currentPellet.GetComponent<ProjectileData>();
                     if (interim_projectile_component != null)
                     {
+                        interim_projectile_component.sideBullet = sideShooter.CreateSideBullet();
                         interim_projectile_component.Damage = this._damage;
                         interim_projectile_component.GunType = Type;
                     }
@@ -175,7 +177,7 @@ namespace GunLogic
                     if (rg == null) throw new ArgumentNullException("MachineGun: _prefabProjectile hasn't got Rigidbody2D");
                     //rg.isKinematic = true; // Кинематическое движение
 
-                    currentPellet.layer = layerMask;
+                    currentPellet.layer = LayerMask.GetMask(sideShooter.GetOwnLayer());
 
                     // Запуск скрипта для управления движением пули
                     var bulletController = currentPellet.AddComponent<BulletMovement>();

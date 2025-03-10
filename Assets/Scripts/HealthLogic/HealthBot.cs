@@ -4,23 +4,30 @@ using System;
 
 public class HealthBot : AbstractHealth
 {
+    [SerializeField] private EnemySides side;
+    private string enemyBullet;
     public static event Action<BotController> death;
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log("Col");
-        if (collision.gameObject.tag == "Projectile" && collision.gameObject.layer != LayerMask.NameToLayer("EnemyProjectile"))
+        ProjectileData Bullet = collision.gameObject.GetComponent<ProjectileData>();
+        if (Bullet != null)
         {
-            
-            var dataBullet = collision.gameObject.GetComponent<ProjectileData>();
-            GetDamage(dataBullet);
+            if (collision.gameObject.tag == "Projectile" && collision.gameObject.layer != LayerMask.NameToLayer(Bullet.sideBullet.GetOwnLayer()))
+            {
+                if(Bullet.sideBullet.IsEnemyMask(this.gameObject.layer))
+                {
+                    GetDamage(Bullet);
+                }
+                
+            }
         }
+        
     }
 
     public override void GetDamage(ProjectileData bullet)
     {
         if (!isInvulnerable)
         {
-            Debug.Log("check");
             currentHealth -= (int)bullet.Damage;
 
             if (currentHealth <= 0)
@@ -35,7 +42,6 @@ public class HealthBot : AbstractHealth
     {
         if (!isInvulnerable)
         {
-            Debug.Log("check");
             currentHealth -= (int)knife.Damage;
 
             if (currentHealth <= 0)

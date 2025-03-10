@@ -13,6 +13,11 @@ namespace PlayerLogic
         /// Текущее ружьё.
         /// </summary>
         private IGun _gun;
+        private Side _sideplayer;
+        private void Awake()
+        {
+            _sideplayer = GetComponent<Side>();
+        }
         private void Update()
         {
             _gun = PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem?.GetComponent<IGun>();
@@ -20,7 +25,7 @@ namespace PlayerLogic
             {
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    _gun.Shoot(IsPlayerShoot:true);
+                    _gun.Shoot(_sideplayer, IsPlayerShoot:true);
                     //Изменение показателя кол-ва потронов над ячейкой инвентаря
                 }
                 else _gun.StopShoot();

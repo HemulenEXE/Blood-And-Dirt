@@ -30,8 +30,13 @@ public class HealthPlayer : AbstractHealth
     {
         if (collision.gameObject.tag == "Projectile")
         {
-            var dataBullet = collision.gameObject.GetComponent<ProjectileData>();
-            GetDamage(dataBullet);
+            var bullet = collision.gameObject.GetComponent<ProjectileData>();
+            if(bullet != null && bullet.sideBullet.IsEnemyMask(this.gameObject.layer))
+            {
+                var dataBullet = collision.gameObject.GetComponent<ProjectileData>();
+                GetDamage(dataBullet);
+            }
+            
         }
     }
 

@@ -81,7 +81,7 @@ namespace GunLogic
         /// <summary>
         /// Выстрел из ружья.
         /// </summary>
-        public void Shoot(int layerMask = 0, bool IsPlayerShoot = false);
+        public void Shoot(Side sideShooter, bool IsPlayerShoot = false);
         /// <summary>
         /// Остановка стрельбы из ружья.
         /// </summary>

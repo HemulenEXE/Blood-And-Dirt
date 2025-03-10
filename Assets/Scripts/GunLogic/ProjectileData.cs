@@ -9,6 +9,10 @@ namespace GunLogic
     public class ProjectileData : MonoBehaviour
     {
         /// <summary>
+        /// Обьект, отвечающий за врагов пули, с которыми она должна взаимодействовать
+        /// </summary>
+        public Side sideBullet;
+        /// <summary>
         /// Тип оружия, из которого вылетел снаряд.
         /// </summary>
         public GunType GunType;

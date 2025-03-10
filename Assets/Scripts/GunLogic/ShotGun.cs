@@ -157,7 +157,7 @@ namespace GunLogic
         /// </summary>
         /// <remarks>Порожает на сцене снаряд, вылетающий из дробовика.</remarks>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Shoot(int layerMask = 0, bool IsPlayerShoot = false)
+        public void Shoot(Side sideShooter, bool IsPlayerShoot = false)
         {
             if (!IsShooting && !IsRecharging && Time.time > _nextTimeShot)
             {
@@ -177,6 +177,7 @@ namespace GunLogic
                         var interim_projectile_component = currentPellet.GetComponent<ProjectileData>();
                         if (interim_projectile_component != null)
                         {
+                            interim_projectile_component.sideBullet = sideShooter.CreateSideBullet();
                             interim_projectile_component.Damage = this._damage;
                             interim_projectile_component.GunType = Type;
                         }
@@ -185,7 +186,7 @@ namespace GunLogic
                         if (rg == null) throw new ArgumentNullException("ShotGun: _prefabProjectile hasn't got Rigidbody2D");
                         //rg.velocity = currentPellet.transform.right * _speedProjectile;
 
-                        currentPellet.layer = layerMask;
+                        currentPellet.layer = LayerMask.GetMask(sideShooter.GetOwnLayer());
 
                         var bulletController = currentPellet.AddComponent<BulletMovement>();
                         bulletController.SetSpeed(_speedProjectile);

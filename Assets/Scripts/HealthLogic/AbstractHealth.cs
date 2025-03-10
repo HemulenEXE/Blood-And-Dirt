@@ -6,8 +6,7 @@ using CameraLogic.CameraEffects;
 
 public abstract class AbstractHealth : MonoBehaviour
 {
-    [SerializeField]
-    public int maxHealth;
+    [SerializeField] public int maxHealth;
 
     protected int currentHealth;
 
