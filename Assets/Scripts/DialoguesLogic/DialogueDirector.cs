@@ -79,7 +79,7 @@ public class ShowDialogueDubl : MonoBehaviour
     }
     private void Update()
     {
-        if (IsTrigger && Input.GetKeyDown(KeyCode.E))
+        if (IsTrigger && Input.GetKeyDown(KeyCode.T)) //Поменялась кнопка!!! 
         {
             StartDialogue();
             IsTrigger = false;

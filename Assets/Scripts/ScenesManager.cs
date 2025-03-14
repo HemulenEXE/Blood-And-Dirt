@@ -76,7 +76,7 @@ public class ScenesManager : MonoBehaviour
     private IEnumerator _OnSelectedScene(int index)
     {
 
-        if (index < 0) throw new ArgumentOutOfRangeException("index can't be < 0!");
+        if (index < 0) throw new ArgumentOutOfRangeException("index can't be < 0!"); //Добавить проверку, что индекс не больше, чем есть индексы у сцен
         
         Time.timeScale = 1;
         PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы перешли на указанный уровень 
@@ -96,7 +96,7 @@ public class ScenesManager : MonoBehaviour
     public void OnSelectedScene(string name)
     {
         Scene scene = SceneManager.GetSceneByName(name);
-        if (!scene.IsValid()) throw new ArgumentNullException($"Scene with name '{name}' doesn't exist!");
+        if (!scene.IsValid()) throw new ArgumentNullException($"Scene with name '{name}' doesn't exist!"); //Уточнить правильно ли осуществляется проверка!
         OnSelectedScene(scene.buildIndex); 
     }
 }
