@@ -24,7 +24,7 @@ public class BotEventMediator : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
 

@@ -14,8 +14,8 @@ public class BotController : MonoBehaviour
     [SerializeField] private float rotationAngle = 15f;
     [SerializeField] private float rotationSpeed = 1;
     [SerializeField] private float stoppingDistance = 5;
+    [SerializeField ]private Side sideBot;
 
-    private Side sideBot;
     private Animator animator;
     private IGun gun;
     private StateBot stateBot;

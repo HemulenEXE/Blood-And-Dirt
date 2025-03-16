@@ -51,4 +51,16 @@ public class Helper
     {
         return agent.hasPath && !agent.pathPending && agent.remainingDistance > agent.stoppingDistance && agent.velocity.sqrMagnitude > 0;
     }
+
+    void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        if (obj == null) return;
+
+        obj.layer = newLayer; // Меняем слой у родителя
+
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer); // Рекурсивно меняем у дочерних объектов
+        }
+    }
 }
