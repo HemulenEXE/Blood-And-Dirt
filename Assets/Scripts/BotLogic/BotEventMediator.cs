@@ -27,7 +27,7 @@ public class BotEventMediator : MonoBehaviour
             Destroy(this);
             return;
         }
-
+        
         believesBot = GameObject.FindGameObjectsWithTag("EnemyBelievers").ToList().ConvertAll(e => e.GetComponent<BotController>());
         falconsBot = GameObject.FindGameObjectsWithTag("EnemyFalcons").ToList().ConvertAll(e => e.GetComponent<BotController>());
         allBot = believesBot.Union(falconsBot).ToList();

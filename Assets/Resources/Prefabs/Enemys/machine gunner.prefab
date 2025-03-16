@@ -74,6 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
+  side: 0
 --- !u!61 &7472827829166072381
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -362,6 +363,7 @@ MonoBehaviour:
   _speedProjectile: 50
   _audioFire: {fileID: 8300000, guid: 087dc73cae54ede448a7ee2263c4cbb9, type: 3}
   _audioRecharge: {fileID: 8300000, guid: f579a69586a6b284ca9f6dd5fb3c5d4b, type: 3}
+  attackRange: 10
 --- !u!114 &4650639804957484937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,7 +531,7 @@ GameObject:
   - component: {fileID: 3828984879713643637}
   m_Layer: 6
   m_Name: machine gunner
-  m_TagString: Enemy
+  m_TagString: EnemyBelievers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -651,6 +653,8 @@ MonoBehaviour:
   rotationAngle: 15
   rotationSpeed: 1
   stoppingDistance: 5
+  stateSide: 0
+  stateBot: 0
 --- !u!50 &3679168518769529899
 Rigidbody2D:
   serializedVersion: 4

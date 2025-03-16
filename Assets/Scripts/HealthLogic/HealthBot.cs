@@ -1,6 +1,7 @@
 using UnityEngine;
 using GunLogic;
 using System;
+using Grenades;
 
 public class HealthBot : AbstractHealth
 {
@@ -23,12 +24,11 @@ public class HealthBot : AbstractHealth
         }
         
     }
-
-    public override void GetDamage(ProjectileData bullet)
+    protected override void GetDamage(int value)
     {
         if (!isInvulnerable)
         {
-            currentHealth -= (int)bullet.Damage;
+            currentHealth -= value;
 
             if (currentHealth <= 0)
             {
@@ -37,19 +37,19 @@ public class HealthBot : AbstractHealth
             }
         }
     }
+    public override void GetDamage(ProjectileData bullet)
+    {
+        GetDamage((int)bullet.Damage);
+    }
 
     public void GetDamage(Knife knife)
     {
-        if (!isInvulnerable)
-        {
-            currentHealth -= (int)knife.Damage;
+        GetDamage((int)knife.Damage);
+    }
 
-            if (currentHealth <= 0)
-            {
-                Death();
-                return;
-            }
-        }
+    public override void GetDamage(SimpleGrenade granade)
+    {
+        GetDamage((int)granade.DamageExplosion);
     }
 
     public override void Death()

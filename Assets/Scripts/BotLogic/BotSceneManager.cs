@@ -31,7 +31,7 @@ public class BotSceneManager : MonoBehaviour
     void Update()
     {
 
-        if (_needToRestoreSolder && _countSoldersMin >= BotEventMediator.Instance.CountBotSide(sides))
+        if (_needToRestoreSolder && _countSoldersMin > BotEventMediator.Instance.CountBotSide(sides))
         {
             var newSolder = barraks.SpawnSolders(sideController);
             BotEventMediator.Instance.AddBot(sides,newSolder);

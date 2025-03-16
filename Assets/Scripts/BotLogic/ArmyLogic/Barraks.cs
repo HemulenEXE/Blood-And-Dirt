@@ -9,7 +9,6 @@ public class Barraks : MonoBehaviour
     private ILevelArmy levelArmy ;
     [SerializeField] private List<GameObject> spawns;
     [SerializeField] private List<GameObject> targets;
-    [SerializeField] private int maxStrenghtArmy;
     [SerializeField] private int maxStrenghtWave = 10;
 
     private void Awake()
@@ -32,7 +31,9 @@ public class Barraks : MonoBehaviour
             Debug.Log(sideEnemy);
             GameObject spawnBot = Instantiate(buyUnit.unit, spawns[placeSpawn].transform.position, Quaternion.identity);
             spawnBot.GetComponent<BotController>().InitEnemy(sideEnemy);
-            spawnBot.GetComponent<NavMeshAgent>().SetDestination(targets[target].transform.position);
+            Helper.SetLayerRecursive(spawnBot, LayerMask.NameToLayer(sideEnemy.GetOwnLayer()));
+            spawnBot.tag = sideEnemy.GetOwnLayer();
+            spawnBot.GetComponent<BotController>().AddPatrolState(targets[target].transform);
             spawnedBot.Add(spawnBot.GetComponent<BotController>());
         }
 

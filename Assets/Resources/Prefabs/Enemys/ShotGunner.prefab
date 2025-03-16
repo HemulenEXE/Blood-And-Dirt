@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  side: 0
 --- !u!1 &5893452345217136748
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +168,7 @@ GameObject:
   - component: {fileID: 3836942728927331220}
   m_Layer: 6
   m_Name: ShotGunner
-  m_TagString: Enemy
+  m_TagString: EnemyBelievers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -289,6 +290,8 @@ MonoBehaviour:
   rotationAngle: 15
   rotationSpeed: 1
   stoppingDistance: 5
+  stateSide: 0
+  stateBot: 0
 --- !u!50 &672257775031539312
 Rigidbody2D:
   serializedVersion: 4
@@ -643,6 +646,7 @@ MonoBehaviour:
   _audioFire: {fileID: 8300000, guid: d7b5e1ec6a3a400419d87e47b88ab374, type: 3}
   _audioRecharge: {fileID: 8300000, guid: cfdded6289e9b6645899379c13139bd4, type: 3}
   _audioPlatoon: {fileID: 8300000, guid: 595f9f079b2c7be49ab74e193472a2d3, type: 3}
+  attackRange: 7
 --- !u!58 &3770069618172774037
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -877,7 +877,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7686392455674397021, guid: 4eff152320452ad4bbb340adda24e965, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2090743102}
   m_SourcePrefab: {fileID: 100100000, guid: 4eff152320452ad4bbb340adda24e965, type: 3}
 --- !u!1 &703388756
 GameObject:
@@ -1950,6 +1953,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShotGunner
       objectReference: {fileID: 0}
+    - target: {fileID: 5893452345217136748, guid: fd4f35fcb02d0f6418b39264db4ce86c, type: 3}
+      propertyPath: m_TagString
+      value: EnemyBelievers
+      objectReference: {fileID: 0}
     - target: {fileID: 8131447860137616551, guid: fd4f35fcb02d0f6418b39264db4ce86c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.43
@@ -2577,6 +2584,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cc668b01493e7145ad03b8d16cd1784, type: 3}
+--- !u!1001 &1612543958
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2699248619299393521, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.0864215
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699248619299393521, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.0308701
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699248619299393521, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699248619299393521, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699248619299393521, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699248619299393521, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699248619299393521, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699248619299393521, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699248619299393521, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2699248619299393521, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3319447996810485200, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
+      propertyPath: m_Name
+      value: SimpleGrenade
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 868e04f8cbb97a54aa0ea1d380297dfb, type: 3}
 --- !u!1001 &1624924797
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3106,6 +3170,25 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47259ac91e9f18d469f0e24489748054, type: 3}
+--- !u!1 &2090743088 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7686392455674397021, guid: 4eff152320452ad4bbb340adda24e965, type: 3}
+  m_PrefabInstance: {fileID: 517565440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2090743102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090743088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94ad16b9e122f5d45925d6fa309ce080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabSimpleGrenade: {fileID: 0}
+  _prefabSmokeGrenade: {fileID: 0}
 --- !u!1 &2141055731
 GameObject:
   m_ObjectHideFlags: 0
@@ -3116,6 +3199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2141055733}
   - component: {fileID: 2141055732}
+  - component: {fileID: 2141055734}
   m_Layer: 0
   m_Name: ControllerScene
   m_TagString: Untagged
@@ -3135,13 +3219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3e49b3c093e62f448fa402532772cda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemiesSolders: []
-  _alliesSolders: []
-  alarmDistance: 5
-  alliesTag: 
-  enemiesTag: 
+  sides: 0
   _isPlayerEnemy: 1
-  _countSolders: 0
+  _countSoldersMin: 0
   _needToRestoreSolder: 0
   _restoreKilledNonPlayer: 0
 --- !u!4 &2141055733
@@ -3159,6 +3239,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2141055734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141055731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d4f71b734e0f14fbf7c3d09be72f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alarmDistance: 5
 --- !u!1001 &4385460799862929813
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3211,6 +3304,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: machine gunner
       objectReference: {fileID: 0}
+    - target: {fileID: 8080232951600587331, guid: 7e19e5b6a692a5d4aab5737ca92dd612, type: 3}
+      propertyPath: m_TagString
+      value: EnemyBelievers
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3227,6 +3324,10 @@ PrefabInstance:
     - target: {fileID: 4103973174957079966, guid: e4ff0276b30488f4b86ce5816188a272, type: 3}
       propertyPath: m_Name
       value: Pistoller
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103973174957079966, guid: e4ff0276b30488f4b86ce5816188a272, type: 3}
+      propertyPath: m_TagString
+      value: EnemyBelievers
       objectReference: {fileID: 0}
     - target: {fileID: 7086636088839060460, guid: e4ff0276b30488f4b86ce5816188a272, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3352,3 +3453,4 @@ SceneRoots:
   - {fileID: 517565440}
   - {fileID: 2141055733}
   - {fileID: 379113250}
+  - {fileID: 1612543958}

@@ -13,12 +13,13 @@ public class BotController : MonoBehaviour
     [SerializeField] private bool addStartPositionToPatrol = true;
     [SerializeField] private float rotationAngle = 15f;
     [SerializeField] private float rotationSpeed = 1;
-    [SerializeField] private float stoppingDistance = 5;
-    [SerializeField ]private Side sideBot;
+    [SerializeField] private float stoppingDistance = 1f;
+    [SerializeField] private EnemySides stateSide;
+    [SerializeField] private StateBot stateBot;
 
+    private Side sideBot;
     private Animator animator;
     private IGun gun;
-    private StateBot stateBot;
     private GameObject lastPatrolPoint;
     private Quaternion initialRotation;
     private AudioSource audioSource;
@@ -35,7 +36,7 @@ public class BotController : MonoBehaviour
     {
         InitializeComponents();
         ConfigureAgent();
-        InitEnemy();
+        InitEnemy(stateSide,true);
     }
 
     private void InitializeComponents()
@@ -65,20 +66,23 @@ public class BotController : MonoBehaviour
     {
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        agent.avoidancePriority = UnityEngine.Random.Range(30, 80);
+
         //agent.stoppingDistance = stoppingDistance;
     }
 
     private void OnTriggerStay2D(Collider2D collider)
     {
-        if (sideBot.IsEnemyTag(collider.tag) && stateBot != StateBot.combat)
+        if (sideBot.IsEnemyMask(collider.gameObject.layer) && stateBot != StateBot.combat)
         {
+            Debug.Log("Objection!");
             TryDetectPlayer(collider.transform);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (sideBot.IsEnemyTag(collider.tag))
+        if (sideBot.IsEnemyMask(collider.gameObject.layer))
         {
             hasCollidedWithPlayer = false;
         }
@@ -93,8 +97,7 @@ public class BotController : MonoBehaviour
     {
         Vector2 directionToPlayer = (playerTransform.position - selfTransform.position).normalized;
         RaycastHit2D hit = Physics2D.Raycast(selfTransform.position, directionToPlayer, visionRange, sideBot.GetTargetMask());
-
-        if (hit.collider != null && sideBot.IsEnemyTag(hit.collider.gameObject.tag))
+        if (hit.collider != null && sideBot.IsEnemyMask(hit.collider.gameObject.layer))
         {
             OnPlayerDetected(playerTransform);
         }
@@ -132,15 +135,15 @@ public class BotController : MonoBehaviour
         switch (stateBot) 
         {
             case StateBot.combat:
-                animator.SetBool("IsRun", true);
+                //animator.SetBool("IsRun", true);
                 CombateState();
                 break;
             case StateBot.peace:
-                animator.SetBool("IsRun", Helper.IsAgentMoving(agent));
+                //animator.SetBool("IsRun", Helper.IsAgentMoving(agent));
                 PeaceState();
                 break;
             case StateBot.patrol:
-                animator.SetBool("IsRun", true);
+                //animator.SetBool("IsRun", true);
                 PatrolState();
                 break; 
             case StateBot.checkNoise:
@@ -149,6 +152,7 @@ public class BotController : MonoBehaviour
                 break;
 
         }
+        animator.SetBool("IsRun", Helper.IsAgentMoving(agent)); 
 
     }
 
@@ -204,7 +208,18 @@ public class BotController : MonoBehaviour
 
     private void ChasePlayer()
     {
-        agent.SetDestination(targetPlayer.position);
+        if (IsPlayerVisible() && gun.IsInRange(targetPlayer.transform.position))
+        {
+            // Если игрок в поле зрения и в радиусе атаки, останавливаемся
+            agent.isStopped = true;
+        }
+        else
+        {
+            // Если игрок не в зоне атаки, продолжаем погоню
+            agent.isStopped = false;
+            agent.SetDestination(targetPlayer.position);
+        }
+
         LookToDirection(targetPlayer);
 
     }
@@ -233,7 +248,7 @@ public class BotController : MonoBehaviour
         Vector2 directionToPlayer = (targetPlayer.position - selfTransform.position).normalized;
         RaycastHit2D hit = Physics2D.Raycast(selfTransform.position, directionToPlayer, visionRange, sideBot.GetTargetMask());
 
-        return hit.collider != null && sideBot.IsEnemyTag(hit.collider.tag);
+        return hit.collider != null && sideBot.IsEnemyMask(hit.collider.gameObject.layer);
     }
 
 
@@ -241,6 +256,7 @@ public class BotController : MonoBehaviour
     {
         targetPlayer = null;
         hasCollidedWithPlayer = false;
+        agent.isStopped = false;
         InitToStartState();
     }
 
@@ -284,8 +300,15 @@ public class BotController : MonoBehaviour
         sourceNoise = noiseTransform;
         stateBot = StateBot.checkNoise;
 
+        float timeout = 2f;
+        float timer = 0f;
+
         while (Mathf.Abs(Quaternion.Angle(transform.rotation, Quaternion.Euler(0, 0, SmoothLookToDirection(noiseTransform)))) > 5f)
         {
+            if (timer > timeout)
+                break; // Выход из бесконечного цикла
+
+            timer += Time.deltaTime;
             yield return null;
         }
 
@@ -298,12 +321,12 @@ public class BotController : MonoBehaviour
         }
 
         animator.SetBool("IsRun", false);
-
         yield return new WaitForSeconds(timeAwaiting);
-        
+
         animator.SetBool("IsRun", true);
         InitToStartState();
     }
+
 
     private float SmoothLookToDirection(Transform target)
     {
@@ -318,6 +341,12 @@ public class BotController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
         return angle;
+    }
+
+    public void AddPatrolState(Transform target) 
+    {
+        patrolPoints.Add(target.gameObject);
+        InitToStartState();
     }
 
     

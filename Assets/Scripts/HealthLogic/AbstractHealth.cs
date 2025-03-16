@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GunLogic;
 using CameraLogic.CameraEffects;
+using Grenades;
 
 public abstract class AbstractHealth : MonoBehaviour
 {
@@ -18,8 +19,10 @@ public abstract class AbstractHealth : MonoBehaviour
         yield return new WaitForSeconds(seconds); // Ждём указанное количество секунд
         isInvulnerable = false; // Возвращаем переменную в false
     }
+    protected abstract void GetDamage(int valueDamage);
+    public abstract void GetDamage(ProjectileData bullet);
 
-    public abstract void GetDamage(ProjectileData bullet); 
+    public abstract void GetDamage(SimpleGrenade grenade);
 
     public virtual void Death()
     {

@@ -62,9 +62,9 @@ public class Helper
         }
         gameObject.layer = layer;
 
-        foreach(var subObject in gameObject.GetComponentsInChildren<GameObject>())
+        foreach (Transform child in gameObject.transform)
         {
-            SetLayerRecursive(subObject, layer);
+            SetLayerRecursive(child.gameObject, layer);
         }
     }
 }

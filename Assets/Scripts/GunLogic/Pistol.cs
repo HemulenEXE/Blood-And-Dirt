@@ -120,6 +120,14 @@ namespace GunLogic
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
+        /// /// <summary>
+        /// Дальность стрельбы оружия (для ботов)
+        /// </summary>
+        [SerializeField] protected float attackRange;
+        /// <summary>
+        /// Свойство дальности атаки (для ботов)
+        /// </summary>
+        public float AttackRange { get; set; }
         protected void Awake()
         {
             _audio = this.GetComponent<AudioSource>();
@@ -164,7 +172,7 @@ namespace GunLogic
                     if (rg == null) throw new ArgumentNullException("Pistol: _prefabProjectile hasn't got Rigidbody2D");
                     //rg.velocity = currentPellet.transform.right * _speedProjectile;
 
-                    currentPellet.layer = LayerMask.GetMask(sideShooter.GetOwnLayer());
+                    currentPellet.layer = LayerMask.NameToLayer(sideShooter.GetOwnLayer());
 
                     var bulletController = currentPellet.AddComponent<BulletMovement>();
                     bulletController.SetSpeed(_speedProjectile);
@@ -172,10 +180,10 @@ namespace GunLogic
                     AmmoTotalCurrent--;
                     IsShooting = false;
 
-                    if (IsPlayerShoot)
-                    {
+                    //if (IsPlayerShoot)
+                    //{
                         makeNoiseShooting?.Invoke(transform, noiseIntensity);
-                    }
+                    //}
                 }
                 else Recharge();
             }
@@ -222,6 +230,15 @@ namespace GunLogic
                 AmmoTotal = 0;
             }
             IsRecharging = false; //Перезарядка окончена.
+        }
+        /// <summary>
+        /// Проверяет, эффективное ли расстояние стрельбы до цели
+        /// </summary>
+        /// <param name="targetPosition"></param>
+        /// <returns></returns>
+        public bool IsInRange(Vector3 targetPosition)
+        {
+            return Vector3.Distance(transform.position, targetPosition) <= attackRange;
         }
     }
 }

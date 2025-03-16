@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using CameraLogic.CameraEffects;
 using InventoryLogic;
+using Grenades;
 
 /// <summary>
 /// Класс здоровья игрока. Скрипт навешивается на игрока
@@ -44,23 +45,33 @@ public class HealthPlayer : AbstractHealth
     /// Реализует получение урона от снаряда
     /// </summary>
     /// <param name="bullet"></param>
-    public override void GetDamage(ProjectileData bullet)
+    protected override void GetDamage(int value)
     {
         if (!isInvulnerable)
         {
-            isBlood = true;
-            currentHealth -= (int)bullet.Damage;
+            currentHealth -= value;
 
             if (currentHealth <= 0)
             {
                 Death();
                 return;
             }
-
-            StartCoroutine(InvulnerabilityFrames(_frameDuration));
         }
     }
+    public override void GetDamage(ProjectileData bullet)
+    {
+        GetDamage((int)bullet.Damage);
+    }
 
+    public void GetDamage(Knife knife)
+    {
+        GetDamage((int)knife.Damage);
+    }
+
+    public override void GetDamage(SimpleGrenade granade)
+    {
+        GetDamage((int)granade.DamageExplosion);
+    }
 
 
     // Start is called before the first frame update

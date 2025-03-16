@@ -376,6 +376,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: machine gunner (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8080232951600587331, guid: 7e19e5b6a692a5d4aab5737ca92dd612, type: 3}
+      propertyPath: m_TagString
+      value: EnemyBelievers
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -521,10 +525,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7686392455674397021, guid: 4eff152320452ad4bbb340adda24e965, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1038597566}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4eff152320452ad4bbb340adda24e965, type: 3}
 --- !u!1 &207677149 stripped
 GameObject:
@@ -32723,25 +32724,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d6b8b4b0bf89e1498cc731e4f8b6daf, type: 3}
---- !u!1 &1038597554 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7686392455674397021, guid: 4eff152320452ad4bbb340adda24e965, type: 3}
-  m_PrefabInstance: {fileID: 199126019}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1038597566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1038597554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94ad16b9e122f5d45925d6fa309ce080, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefabSimpleGrenade: {fileID: 3051211301524953665, guid: b1e9c19ae33c6044197ef8087896694c, type: 3}
-  _prefabSmokeGrenade: {fileID: 434093834803365319, guid: 783d09c14c7a72b49ba8f1639471af10, type: 3}
 --- !u!1001 &1058265906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51121,6 +51103,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1548986004}
+  - component: {fileID: 1548986006}
+  - component: {fileID: 1548986005}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -51143,6 +51127,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1548986005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548986003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3e49b3c093e62f448fa402532772cda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sides: 0
+  _isPlayerEnemy: 1
+  _countSoldersMin: 0
+  _needToRestoreSolder: 0
+  _restoreKilledNonPlayer: 0
+--- !u!114 &1548986006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548986003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d4f71b734e0f14fbf7c3d09be72f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alarmDistance: 5
 --- !u!1001 &1573288001
 PrefabInstance:
   m_ObjectHideFlags: 0

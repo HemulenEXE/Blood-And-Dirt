@@ -75,6 +75,14 @@ namespace GunLogic
         /// </summary>
         [SerializeField] protected AudioClip _audioRecharge;
         /// <summary>
+        /// Дальность стрельбы оружия (для ботов)
+        /// </summary>
+        [SerializeField] protected float attackRange;
+        /// <summary>
+        /// Свойство дальности атаки (для ботов)
+        /// </summary>
+        public float AttackRange { get; set; }
+        /// <summary>
         /// Возвращает тип оружия.
         /// </summary>
         public GunType Type { get; } = GunType.Heavy;
@@ -177,7 +185,7 @@ namespace GunLogic
                     if (rg == null) throw new ArgumentNullException("MachineGun: _prefabProjectile hasn't got Rigidbody2D");
                     //rg.isKinematic = true; // Кинематическое движение
 
-                    currentPellet.layer = LayerMask.GetMask(sideShooter.GetOwnLayer());
+                    currentPellet.layer = LayerMask.NameToLayer(sideShooter.GetOwnLayer());
 
                     // Запуск скрипта для управления движением пули
                     var bulletController = currentPellet.AddComponent<BulletMovement>();
@@ -185,10 +193,10 @@ namespace GunLogic
 
                     AmmoTotalCurrent--;
                     IsShooting = false;
-                    if (IsPlayerShoot)
-                    {
+                    //if (IsPlayerShoot)
+                    //{
                         makeNoiseShooting?.Invoke(transform, noiseIntensity);
-                    }
+                    //}
                 }
                 else Recharge();
             }
@@ -234,6 +242,15 @@ namespace GunLogic
                 AmmoTotal = 0;
             }
             IsRecharging = false; //Перезарядка окончена.
+        }
+        /// <summary>
+        /// Проверяет, эффективное ли расстояние стрельбы до цели
+        /// </summary>
+        /// <param name="targetPosition"></param>
+        /// <returns></returns>
+        public bool IsInRange(Vector3 targetPosition)
+        {
+            return Vector3.Distance(transform.position, targetPosition) <= attackRange;
         }
     }
 }

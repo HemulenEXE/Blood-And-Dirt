@@ -2,23 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Side
+public class Side : MonoBehaviour
 {
     [SerializeField] public EnemySides side;
     private List<string> enemyTags = new List<string>();
     private List<string> enemyLayers = new List<string>();
     private List<string> alliesTags = new List<string>();
     /// <summary>
-    /// ???
+    /// Свой слой
     /// </summary>
     private string ownSideLayer;
 
     private int maskVision;
 
-    //private void Awake()
-    //{
-    //    Init(side, true);
-    //}
+    private void Awake()
+    {
+        Init(side, true);
+    }
     public void Init(EnemySides side, bool isPlayerEnemy)
     {
         switch (side)
@@ -26,58 +26,58 @@ public class Side
             case EnemySides.believers:
                 if (isPlayerEnemy)
                 {
-                    maskVision = Helper.SetMask(new string[] { "Player", "Default", "EnemyFalcons" }, "EnemyBeliever");
+                    maskVision = Helper.SetMask(new string[] { "Player", "Default", "EnemyFalcons" }, "EnemyBelievers");
                     enemyTags.Add("Player");
                     enemyLayers.Add("Player");
                 }
                 else
                 {
-                    maskVision = Helper.SetMask(new string[] { "Default", "EnemyFalcons" }, "EnemyBeliever");
+                    maskVision = Helper.SetMask(new string[] { "Default", "EnemyFalcons" }, "EnemyBelievers");
                 }
-                alliesTags.Add("EnemyBeliever");
+                alliesTags.Add("EnemyBelievers");
                 enemyTags.Add("EnemyFalcons");
                 enemyLayers.Add("EnemyFalcons");
-                ownSideLayer = "EnemyBeliever";
+                ownSideLayer = "EnemyBelievers";
                 break;
             case EnemySides.falcons:
                 if (isPlayerEnemy)
                 {
-                    maskVision = Helper.SetMask(new string[] { "Player", "Default", "EnemyBeliever" }, "EnemyFalcons");
+                    maskVision = Helper.SetMask(new string[] { "Player", "Default", "EnemyBelievers" }, "EnemyFalcons");
                     enemyTags.Add("Player");
                     enemyLayers.Add("Player");
                 }
                 else
                 {
-                    maskVision = Helper.SetMask(new string[] { "Default", "EnemyBeliever" }, "EnemyFalcons");
+                    maskVision = Helper.SetMask(new string[] { "Default", "EnemyBelievers" }, "EnemyFalcons");
                 }
                 alliesTags.Add("EnemyFalcons");
-                enemyTags.Add("EnemyBeliever");
-                enemyLayers.Add("EnemyBeliever");
+                enemyTags.Add("EnemyBelievers");
+                enemyLayers.Add("EnemyBelievers");
                 ownSideLayer = "EnemyFalcons";
                 break;
             case EnemySides.neutral:
-                maskVision = Helper.SetMask(new string[] { "EnemyFalcons", "EnemyBeliever", "Default" }, new string[] { "Player" });
+                maskVision = Helper.SetMask(new string[] { "EnemyFalcons", "EnemyBelievers", "Default" }, new string[] { "Player" });
                 enemyTags.Add("EnemyFalcons");
-                enemyTags.Add("EnemyBeliever");
+                enemyTags.Add("EnemyBelievers");
                 enemyLayers.Add("EnemyFalcons");
-                enemyLayers.Add("EnemyBeliever");
+                enemyLayers.Add("EnemyBelievers");
                 ownSideLayer = "EnemyNeutral";
                 break;
             case EnemySides.agressive:
-                maskVision = Helper.SetMask(new string[] { "Player", "EnemyFalcons", "EnemyBeliever", "Default" }, new string[] { });
+                maskVision = Helper.SetMask(new string[] { "Player", "EnemyFalcons", "EnemyBelievers", "Default" }, new string[] { });
                 enemyTags.Add("Player");
                 enemyTags.Add("EnemyFalcons");
-                enemyTags.Add("EnemyBeliever");
+                enemyTags.Add("EnemyBelievers");
                 enemyLayers.Add("Player");
                 enemyLayers.Add("EnemyFalcons");
-                enemyLayers.Add("EnemyBeliever");
+                enemyLayers.Add("EnemyBelievers");
                 ownSideLayer = "Enemy";
                 break;
             case EnemySides.playerNeutral:
                 enemyTags.Add("EnemyFalcons");
-                enemyTags.Add("EnemyBeliever");
+                enemyTags.Add("EnemyBelievers");
                 enemyLayers.Add("EnemyFalcons");
-                enemyLayers.Add("EnemyBeliever");
+                enemyLayers.Add("EnemyBelievers");
                 ownSideLayer = "Player";
                 break;
             case EnemySides.playerBeliever:
@@ -86,8 +86,8 @@ public class Side
                 ownSideLayer = "Player";
                 break;
             case EnemySides.playerFalcons:
-                enemyTags.Add("EnemyBeliever");
-                enemyLayers.Add("EnemyBeliever");
+                enemyTags.Add("EnemyBelievers");
+                enemyLayers.Add("EnemyBelievers");
                 ownSideLayer = "Player";
                 break;
         }
@@ -135,7 +135,7 @@ public class Side
         sideBullet.maskVision = this.maskVision;
         sideBullet.enemyLayers = this.enemyLayers;
         sideBullet.enemyTags = this.enemyTags;
-        if(this.ownSideLayer == "EnemyBeliever")
+        if(this.ownSideLayer == "EnemyBelievers")
         {
             sideBullet.ownSideLayer = "BelieverProjectile";
         }

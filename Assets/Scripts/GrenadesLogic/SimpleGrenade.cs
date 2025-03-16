@@ -101,7 +101,11 @@ namespace Grenades
                 //Логика получения урона.
                 if (x.gameObject != this.gameObject)
                 {
-                    //Destroy(x.gameObject);
+                    var health = x.GetComponent<AbstractHealth>();
+                    if (health != null) 
+                    {
+                        health.GetDamage(this);
+                    }
                 }
             }
             Destroy(this.gameObject);

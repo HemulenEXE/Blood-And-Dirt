@@ -10,6 +10,14 @@ namespace GunLogic
     public class FlameThrower : MonoBehaviour, IGun
     {
         /// <summary>
+        /// Дальность стрельбы оружия (для ботов)
+        /// </summary>
+        [SerializeField] protected float attackRange;
+        /// <summary>
+        /// Свойство дальности атаки (для ботов)
+        /// </summary>
+        public float AttackRange { get; set; }
+        /// <summary>
         /// Возвращает тип оружия.
         /// </summary>
         public GunType Type { get; } = GunType.Firebased;
@@ -205,5 +213,14 @@ namespace GunLogic
         /// Проверяет, пуст ли огнемёт.
         /// </summary>
         public bool IsEmpty() => AmmoTotal == 0 && AmmoTotalCurrent == 0;
+        /// <summary>
+        /// Проверяет, эффективное ли расстояние стрельбы до цели
+        /// </summary>
+        /// <param name="targetPosition"></param>
+        /// <returns></returns>
+        public bool IsInRange(Vector3 targetPosition)
+        {
+            return Vector3.Distance(transform.position, targetPosition) <= attackRange;
+        }
     }
 }

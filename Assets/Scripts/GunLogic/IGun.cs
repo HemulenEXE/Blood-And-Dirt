@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+//using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace GunLogic
 {
@@ -66,6 +67,10 @@ namespace GunLogic
         /// </summary>
         public float NoiseIntensity { get; set; }
         /// <summary>
+        /// Возвращает и изменяет дистанцию атаки оружия (в основном для ботов)
+        /// </summary>
+        public float AttackRange { get; set; }
+        /// <summary>
         /// Возврашает и изменяет флаг, указывающий, идёт ли перезарядка.
         /// </summary>
         public bool IsRecharging { get; set; }
@@ -94,5 +99,12 @@ namespace GunLogic
         /// Проверяет, пусто ли ружьё.
         /// </summary>
         public bool IsEmpty();
+        /// <summary>
+        /// Проверяет, находится ли цель в эффективной дальности стрельбы оружия
+        /// </summary>
+        /// <param name="targetPosition"></param>
+        /// <returns></returns>
+        public bool IsInRange(Vector3 targetPosition);
+
     }
 }
