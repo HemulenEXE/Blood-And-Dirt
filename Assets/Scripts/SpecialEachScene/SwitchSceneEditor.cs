@@ -26,6 +26,24 @@ public class ChangeSceneEditor : Editor
             e.Name = EditorGUILayout.TextField("Scene Name:", e.Name);
         }
 
+        // Получаем объект SerializedObject
+        SerializedObject serializedObject = new SerializedObject(e);
+
+        // Получаем итератор по всем свойствам SerializedObject
+        SerializedProperty property = serializedObject.GetIterator();
+
+        // Переходим к первому свойству (пропускаем Script)
+        property.NextVisible(true);
+
+        while (property.NextVisible(false))
+        {
+            if (property.name != "SwitchOn" && property.name != "Name" && property.name != "Index")
+                EditorGUILayout.PropertyField(property, true); // true включает вложенные свойства
+        }
+
+        // Применяем изменения, если были внесены
+        serializedObject.ApplyModifiedProperties();
+    
         // Обновляем значения в скрипте
         if (GUI.changed)
         {

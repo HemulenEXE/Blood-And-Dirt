@@ -1,18 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class SwitchAfterDialogue : MonoBehaviour
+//Скрипт перехода на новую сцену после окончания диалога (считается, что диалог закончен, если проиграна его ПОСЛЕДНЯЯ реплика, НЕ реплика со свойством EXIT)
+//Навешивать на персонажа, после разговора с которым происхдит переход на другую сцену
+public class SwitchAfterDialogue : SwitchScene
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] TextAsset FileName;
+    private GameObject DialogueWindow;
+    private Dialogue _dialogue;
+    private ShowDialogueDubl _director;
+    private void Start()
     {
-        
+        _director = GetComponent<ShowDialogueDubl>();
     }
-
-    // Update is called once per frame
     void Update()
     {
-        
+        if (_director.FileName == FileName)
+        {
+            DialogueWindow = _director.DialogueWindow.gameObject;
+            _dialogue = _director.GetDialogue();
+        }
+
+        if (!DialogueWindow.activeSelf && (_dialogue.GetCurentNodeIndex() == _dialogue.Nodes.Length - 1))
+            Switch();   
     }
 }

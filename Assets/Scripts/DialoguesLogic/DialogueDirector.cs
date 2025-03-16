@@ -28,6 +28,7 @@ public class ShowDialogueDubl : MonoBehaviour
     private Button _prefab;
     private Printer printer;
 
+    public Dialogue GetDialogue() { return _dialogue; }
     private void Awake()
     {   
         _dialogue = Dialogue.Load(FileName);

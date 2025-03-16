@@ -62,7 +62,7 @@ public class Door : MonoBehaviour
         isRunning = true;
         Debug.Log("Start Open");
         if (Side == SideOpen.Left || Side == SideOpen.Down) {
-            while (transform.rotation.eulerAngles.z > -90)
+            while (Math.Abs(360 - 90 - transform.rotation.eulerAngles.z) > 1.5)
             {
                 Debug.Log($"{transform.rotation.eulerAngles.z} <-> {transform.rotation.z}");
                 transform.RotateAround(pos, Vector3.back, speed * Time.deltaTime);
