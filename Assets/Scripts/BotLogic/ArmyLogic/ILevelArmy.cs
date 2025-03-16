@@ -5,5 +5,5 @@ using UnityEngine;
 
 public interface ILevelArmy
 {
-    abstract public Tuple<BotController,int> GetRandomSolder(int maxStrength);
+    abstract public Unit GetRandomSolder(int maxStrength);
 }

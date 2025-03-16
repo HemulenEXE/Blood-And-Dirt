@@ -53,8 +53,13 @@ public class Helper
         return agent.hasPath && !agent.pathPending && agent.remainingDistance > agent.stoppingDistance && agent.velocity.sqrMagnitude > 0;
     }
 
+
     public static void SetLayerRecursive(GameObject gameObject, int layer)
     {
+        if (gameObject == null) 
+        {
+            return;
+        }
         gameObject.layer = layer;
 
         foreach(var subObject in gameObject.GetComponentsInChildren<GameObject>())
