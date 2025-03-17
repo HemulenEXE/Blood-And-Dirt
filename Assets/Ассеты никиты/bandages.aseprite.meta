@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 12587ec44243501478abaecac57c105e
+guid: 4936e51bfd5352f4795963033174cc8a
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -121,18 +121,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: first aid kit
+  - name: bandages
     originalName: 
-    pivot: {x: 0.5, y: -0.27659574}
+    pivot: {x: 0.48979592, y: -0.2820513}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 58
-      height: 47
-    spriteID: ae615051ca2727042bccabac155fc5f0
+      width: 49
+      height: 39
+    spriteID: e019a7a6d3b60bc4f959d0ac20a0541d
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,21 +144,21 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1421630706
-    name: first aid kit
+    guid: -791022755
+    name: bandages
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: first aid kit
+    - name: bandages
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 3
-        y: 13
-        width: 58
-        height: 47
-      spriteId: ae615051ca2727042bccabac155fc5f0
+        x: 8
+        y: 11
+        width: 49
+        height: 39
+      spriteId: e019a7a6d3b60bc4f959d0ac20a0541d
     linkedCells: []
     parentIndex: -1
   platformSettings:

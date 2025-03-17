@@ -3,6 +3,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using CameraLogic.CameraEffects;
+using UnityEditor.Rendering.Universal;
+using UnityEditor;
+using UnityEditor.Build.Content;
 
 /// <summary>
 /// Скрипт управления переходами между сценами + сохранением состояния сцен. Методы вызываются в других скриптах
@@ -95,8 +98,12 @@ public class ScenesManager : MonoBehaviour
     /// </summary>
     public void OnSelectedScene(string name)
     {
-        Scene scene = SceneManager.GetSceneByName(name);
-        if (!scene.IsValid()) throw new ArgumentNullException($"Scene with name '{name}' doesn't exist!"); //Уточнить правильно ли осуществляется проверка!
-        OnSelectedScene(scene.buildIndex); 
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        {
+            var scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+            if (scenePath.EndsWith(name + ".unity"))
+                OnSelectedScene(i);
+        }
+        throw new ArgumentNullException($"Scene with name '{name}' doesn't exist!"); //Уточнить правильно ли осуществляется проверка!
     }
 }
