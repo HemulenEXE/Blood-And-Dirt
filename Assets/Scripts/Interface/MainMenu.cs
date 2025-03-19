@@ -51,7 +51,7 @@ public class MainMenu : MonoBehaviour
     private void OnCompaniClick()
     { 
         Debug.Log("Company");
-        //ScenesManager.Instance.OnNextScene();
+        ScenesManager.Instance.OnSelectedScene(2);
     }
     /// <summary>
     /// Нажатие на кнопку арена

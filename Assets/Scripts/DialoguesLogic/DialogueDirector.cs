@@ -28,6 +28,7 @@ public class ShowDialogueDubl : MonoBehaviour
     private Button _prefab;
     private Printer printer;
 
+    public Dialogue GetDialogue() { return _dialogue; }
     private void Awake()
     {   
         _dialogue = Dialogue.Load(FileName);
@@ -79,7 +80,7 @@ public class ShowDialogueDubl : MonoBehaviour
     }
     private void Update()
     {
-        if (IsTrigger && Input.GetKeyDown(KeyCode.E))
+        if (IsTrigger && Input.GetKeyDown(KeyCode.T)) //Поменялась кнопка!!! 
         {
             StartDialogue();
             IsTrigger = false;
