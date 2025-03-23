@@ -20,11 +20,12 @@ public class SmokeGrenade : SimpleGrenade
 
     public override void Explode()
     {
+                IsActivated = true;
+
         _smokeParticle.Play();
         this.GetComponent<SpriteRenderer>().sprite = null;
-        IsActivated = true;
 
-        _animator.SetTrigger("Explosion");
+        //_animator.SetTrigger("Explosion");
 
         CircleCollider2D smokeField = this.GetComponent<CircleCollider2D>(); // Установка коллайдера, чтобы враги путались в дыме.
         smokeField.radius = _explosionRadius;

@@ -44,12 +44,13 @@ public class PlayerGrenade : MonoBehaviour
             yield return null; // Ждем следующего кадра
         }
     }
+
     private void Awake()
     {
         _camera = Camera.main;
 
-        _prefabSimpleGrenade = Resources.Load<GameObject>("Prefabs/GunsAndConsumables/SimpleGrenade").GetComponent<SimpleGrenade>();
-        _prefabSmokeGrenade = Resources.Load<GameObject>("Prefabs/GunsAndConsumables/SmokeGrenade").GetComponent<SmokeGrenade>();
+        _prefabSimpleGrenade = Resources.Load<GameObject>("Prefabs/Weapons/SimpleGrenade").GetComponent<SimpleGrenade>();
+        _prefabSmokeGrenade = Resources.Load<GameObject>("Prefabs/Weapons/SmokeGrenade").GetComponent<SmokeGrenade>();
 
         if (_camera == null) throw new ArgumentNullException("PlayerGrenade: _camera is null");
         if (_prefabSimpleGrenade == null) throw new ArgumentNullException("PlayerGrenade: _prefabSimpleGrenade is null");

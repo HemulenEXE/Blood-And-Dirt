@@ -6,7 +6,6 @@ public class SimpleGrenade : MonoBehaviour
 {
     public float _timeToExplosion = 2f;
     public float _explosionRadius = 0.3f;
-    public float _expolosionDuration;
     public float _damageExplosion = 3f;
     public bool IsActivated { get; set; } = false;
 
@@ -26,9 +25,6 @@ public class SimpleGrenade : MonoBehaviour
         if (_camera == null) throw new ArgumentNullException("SimpleGrenade: _camera is null");
         if (_player == null) throw new ArgumentNullException("SimpleGrenade: _player is null");
         if (_animator == null) throw new ArgumentNullException("SimpleGrenade: _animator is null");
-
-        foreach (var x in _animator.runtimeAnimatorController.animationClips)
-            if (x.name.Equals("GrenadeExplosion_Clip")) _expolosionDuration = x.length;
     }
     protected virtual void Update()
     {
@@ -53,7 +49,13 @@ public class SimpleGrenade : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _explosionRadius);
     }
+    private float GetAnimationLength(string animationName)
+    {
+        foreach (var x in _animator.runtimeAnimatorController.animationClips)
+            if (x.name.Equals(animationName)) return x.length;
 
+        return 0f;
+    }
     public virtual void Explode()
     {
         IsActivated = true;
@@ -67,7 +69,7 @@ public class SimpleGrenade : MonoBehaviour
         {
             // Логика получения урона
         }
-        Destroy(this.gameObject, _expolosionDuration);
+        Destroy(this.gameObject, GetAnimationLength("ShrapnelGrenadeExplosion"));
     }
     protected virtual void Crash() // Тряска камеры во время взрыва
     {

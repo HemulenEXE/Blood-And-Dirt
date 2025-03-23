@@ -134,6 +134,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fb2c677df27e544c99422ce8d2f0029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _timeToExplosion: 2
+  _explosionRadius: 0.3
+  _expolosionDuration: 0
+  _damageExplosion: 3
 --- !u!95 &7770905916939064194
 Animator:
   serializedVersion: 5
@@ -144,7 +148,7 @@ Animator:
   m_GameObject: {fileID: 3319447996810485200}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 1188052766207813419, guid: 325ede11a7ca1084ba7a42596b8cce13, type: 3}
+  m_Controller: {fileID: 9100000, guid: 2e5bdd32566d1b642ae266c6781ee7dc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
