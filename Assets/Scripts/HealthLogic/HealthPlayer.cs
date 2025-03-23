@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using CameraLogic.CameraEffects;
 using InventoryLogic;
+using SkillLogic;
 using Grenades;
 
 /// <summary>
@@ -24,9 +25,15 @@ public class HealthPlayer : AbstractHealth
 
     private BloodEffect bloodController;
 
+    private ConsumablesCounter consumablesCounter;
+
 
     private bool isBlood = false;
 
+    private void Awake()
+    {
+        
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Projectile")

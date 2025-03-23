@@ -36,13 +36,6 @@ namespace GunLogic
         /// компонент Источник звуков.
         /// </summary>
         private AudioSource _audioControl;
-
-        //РђРІС‚РѕСЃРІРѕР№СЃС‚РІР°.
-
-        /// <summary>
-        /// Звук перезарядки автомата.
-        /// </summary>
-        [SerializeField] protected AudioClip _audioRecharge;
         /// <summary>
         /// Дальность стрельбы оружия (для ботов)
         /// </summary>
@@ -134,39 +127,32 @@ namespace GunLogic
             {
                 if (AmmoTotalCurrent > 0)
                 {
-                    _audioControl.PlayOneShot(_audioFire);
+                    _audioControl.PlayOneShot(_audioFire, 0.5f);
                     IsShooting = true;
-                    _nextTimeShot = Time.time + _delayShot;
-                    _audio.PlayOneShot(_audioFire, 0.5f);
 
                     var spawnerProjectile = this.transform.Find("SpawnerProjectile");
-                    GameObject currentBullet = Instantiate(_prefabProjectile, spawnerProjectile.position, spawnerProjectile.rotation); //Р’С‹Р»РµС‚ СЃРЅР°СЂСЏРґР°.
-                    AmmoTotalCurrent--;
-                    currentBullet.layer = layerMask;
+                    GameObject currentBullet = Instantiate(_prefabProjectile, spawnerProjectile.position, spawnerProjectile.rotation); 
+                    
 
                     var projectileData = currentBullet.GetComponent<ProjectileData>();
                     if (projectileData != null)
                     {
-                        interim_projectile_component.sideBullet = sideShooter.CreateSideBullet();
-                        interim_projectile_component.Damage = this._damage;
-                        interim_projectile_component.GunType = Type;
+                        projectileData.sideBullet = sideShooter.CreateSideBullet();
+                        projectileData.Damage = this.Damage;
+                        projectileData.GunType = Type;
                     }
 
-                    
+                    currentBullet.layer = LayerMask.NameToLayer(sideShooter.GetOwnLayer());
+                    // Запуск скрипта для управления движением пули
                     var bulletController = currentBullet.AddComponent<BulletMovement>();
                     bulletController.SetSpeed(SpeedProjectile);
 
-                    currentPellet.layer = LayerMask.NameToLayer(sideShooter.GetOwnLayer());
-
-                    // Запуск скрипта для управления движением пули
-                    var bulletController = currentPellet.AddComponent<BulletMovement>();
-                    bulletController.SetSpeed(_speedProjectile);
 
                     AmmoTotalCurrent--;
                     IsShooting = false;
                     //if (IsPlayerShoot)
                     //{
-                        makeNoiseShooting?.Invoke(transform, noiseIntensity);
+                    makeNoiseShooting?.Invoke(transform, noiseIntensity);
                     //}
                 }
                 else Recharge();

@@ -149,10 +149,8 @@ namespace GunLogic
             {
                 if (AmmoTotalCurrent > 0)
                 {
-                    _audioControl.PlayOneShot(_audioFire);
+                    _audioControl.PlayOneShot(_audioFire, 0.5f);
                     IsShooting = true;
-                    _nextTimeShot = Time.time + _delayShot;
-                    _audio.PlayOneShot(_audioFire,0.5f);
 
                     for (int i = 1; i <= _countPerShotProjectile; i++) //Механика вылета дробинок.
                     {
@@ -161,26 +159,25 @@ namespace GunLogic
 
                         var spawnerProjectile = this.transform.Find("SpawnerProjectile");
                         GameObject currentBullet = Instantiate(_prefabProjectile, spawnerProjectile.position, spawnerProjectile.rotation); //Вылет дробинки.
-                        currentBullet.layer = layerMask;
+                        
                         currentBullet.transform.Rotate(0, 0, interim_spread_angle); //Поворот снаряда.
 
                         var projectileData = currentBullet.GetComponent<ProjectileData>();
                         if (projectileData != null)
                         {
 
-                            interim_projectile_component.sideBullet = sideShooter.CreateSideBullet();
-                            interim_projectile_component.Damage = this._damage;
-                            interim_projectile_component.GunType = Type;
+                            projectileData.sideBullet = sideShooter.CreateSideBullet();
+                            projectileData.Damage = this.Damage;
+                            projectileData.GunType = Type;
                         }
 
-                        Rigidbody2D rg = currentPellet.GetComponent<Rigidbody2D>();
-                        if (rg == null) throw new ArgumentNullException("ShotGun: _prefabProjectile hasn't got Rigidbody2D");
+                       
                         //rg.velocity = currentPellet.transform.right * _speedProjectile;
 
-                        currentPellet.layer = LayerMask.NameToLayer(sideShooter.GetOwnLayer());
+                        currentBullet.layer = LayerMask.NameToLayer(sideShooter.GetOwnLayer());
 
-                        var bulletController = currentPellet.AddComponent<BulletMovement>();
-                        bulletController.SetSpeed(_speedProjectile);
+                        var bulletController = currentBullet.AddComponent<BulletMovement>();
+                        bulletController.SetSpeed(SpeedProjectile);
                     }
                     AmmoTotalCurrent--;
                     IsShooting = false;
@@ -202,13 +199,6 @@ namespace GunLogic
                 IsRecharging = true; //Начало перезарядки.
                 StartCoroutine(RechargeCoroutine());
             }
-        }
-        /// <summary>
-        /// Проверяет, пуст ли дробовик.
-        /// </summary>
-        public bool IsEmpty()
-        {
-            return AmmoTotal == 0 && AmmoTotalCurrent == 0;
         }
         /// <summary>
         /// Корутина для перезарядки дробовика.

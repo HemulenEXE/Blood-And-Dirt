@@ -37,7 +37,7 @@ public class BotEventMediator : MonoBehaviour
         BotController.DetectedEnemy += RaisingAlarm;
         HealthBot.death += DeathBot;
         PlayerMotion.makeNoise += CheckNoise;
-        FlameThrower.makeNoiseShooting += CheckNoise;
+        //FlameThrower.makeNoiseShooting += CheckNoise;
         ShotGun.makeNoiseShooting += CheckNoise;
         Pistol.makeNoiseShooting += CheckNoise;
         MachineGun.makeNoiseShooting += CheckNoise;
@@ -48,7 +48,7 @@ public class BotEventMediator : MonoBehaviour
         BotController.DetectedEnemy -= RaisingAlarm;
         HealthBot.death -= DeathBot;
         PlayerMotion.makeNoise -= CheckNoise;
-        FlameThrower.makeNoiseShooting -= CheckNoise;
+        //FlameThrower.makeNoiseShooting -= CheckNoise;
         ShotGun.makeNoiseShooting -= CheckNoise;
         Pistol.makeNoiseShooting -= CheckNoise;
         MachineGun.makeNoiseShooting -= CheckNoise;

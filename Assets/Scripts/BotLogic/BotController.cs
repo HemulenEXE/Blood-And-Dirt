@@ -16,7 +16,6 @@ public class BotController : MonoBehaviour
     [SerializeField] private float stoppingDistance = 1f;
     [SerializeField] private EnemySides stateSide;
     [SerializeField] private StateBot stateBot;
-    [SerializeField] private float stoppingDistance = 5;
     private float _nextAttackTime;
 
 
@@ -175,7 +174,7 @@ public class BotController : MonoBehaviour
             }
             else if(gun.IsShooting)
             {
-                gun.StopShoot();
+                //gun.StopShoot();
             }
         }
         else

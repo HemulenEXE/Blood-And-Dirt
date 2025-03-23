@@ -136,33 +136,26 @@ namespace GunLogic
             {
                 if (AmmoTotalCurrent > 0)
                 {
-                    _audioControl.PlayOneShot(_audioFire);
+                    _audioControl.PlayOneShot(_audioFire, 0.5f);
                     IsShooting = true;
-                    _nextTimeShot = Time.time + _delayShot;
-                    _audio.PlayOneShot(_audioFire,0.5f);
 
                     var spawnerProjectile = this.transform.Find("SpawnerProjectile");
                     GameObject currentBullet = Instantiate(_prefabProjectile, spawnerProjectile.position, spawnerProjectile.rotation); //Вылет снаряда.
-                    currentBullet.layer = layerMask;
                     AmmoTotalCurrent--;
 
                     var projectileData = currentBullet.GetComponent<ProjectileData>();
                     if (projectileData != null)
                     {
-                        interim_projectile_component.sideBullet = sideShooter.CreateSideBullet();
-                        interim_projectile_component.Damage = this._damage;
-                        interim_projectile_component.GunType = Type;
+                        projectileData.sideBullet = sideShooter.CreateSideBullet();
+                        projectileData.Damage = this.Damage;
+                        projectileData.GunType = Type;
                     }
 
                     var bulletController = currentBullet.AddComponent<BulletMovement>();
                     bulletController.SetSpeed(SpeedProjectile);
 
-                    currentPellet.layer = LayerMask.NameToLayer(sideShooter.GetOwnLayer());
+                    currentBullet.layer = LayerMask.NameToLayer(sideShooter.GetOwnLayer());
 
-                    var bulletController = currentPellet.AddComponent<BulletMovement>();
-                    bulletController.SetSpeed(_speedProjectile);
-
-                    AmmoTotalCurrent--;
                     IsShooting = false;
 
                     //if (IsPlayerShoot)

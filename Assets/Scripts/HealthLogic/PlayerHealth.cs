@@ -5,6 +5,7 @@ using System;
 using CameraLogic.CameraEffects;
 using InventoryLogic;
 using SkillLogic;
+using Grenades;
 
 namespace PlayerLogic
 {
@@ -91,10 +92,20 @@ namespace PlayerLogic
 
         public override void GetDamage(ProjectileData bullet)
         {
+            GetDamage((int)bullet.Damage);
+        }
+
+        public override void GetDamage(SimpleGrenade grenade)
+        {
+            GetDamage((int)grenade.DamageExplosion);
+        }
+
+        protected override void GetDamage(int damage)
+        {
             if (!PlayerInfo._isGod)
             {
                 PlayerInfo._isBleeding = true;
-                PlayerInfo._currentHealth -= (int)bullet.Damage;
+                PlayerInfo._currentHealth -= damage;
                 _currentTimeBleeding = _updateStateTimeBleeding;
 
                 if (PlayerInfo._currentHealth <= 0)

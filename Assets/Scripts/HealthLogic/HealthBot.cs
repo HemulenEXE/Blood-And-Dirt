@@ -2,7 +2,6 @@ using UnityEngine;
 using GunLogic;
 using System;
 using System.Drawing;
-<<<<<<< HEAD
 using Grenades;
 
 public class HealthBot : AbstractHealth
