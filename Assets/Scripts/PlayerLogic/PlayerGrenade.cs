@@ -27,9 +27,9 @@ public class PlayerGrenade : MonoBehaviour
                                                             //float amplitude = Math.Abs(this.transform.position.y - cursor.y); //Амплитуда броска (Высота на которой находиться курсор по отношению к ироку)
         float elapsedTime = 0f;
 
-        while (elapsedTime < grenade.TimeToExplosion)
+        while (elapsedTime < grenade._timeToExplosion)
         {
-            float t = elapsedTime / grenade.TimeToExplosion; // Нормализуем время (Для того, чтобы отмерить как должны были за этот промежуток измениться координаты)
+            float t = elapsedTime / grenade._timeToExplosion; // Нормализуем время (Для того, чтобы отмерить как должны были за этот промежуток измениться координаты)
                                                              //float angle = Mathf.Lerp(0, Mathf.PI, t); // Линейная интерполяция угла от 0 до π (полукруг)
 
             float x = Mathf.Lerp(startPoint.x, endPoint.x, t);

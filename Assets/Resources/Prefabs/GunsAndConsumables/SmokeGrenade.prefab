@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4472147030132609468}
   - component: {fileID: 8192363890181036524}
   - component: {fileID: 434093834803365319}
+  - component: {fileID: 8841755503460703330}
   m_Layer: 0
   m_Name: SmokeGrenade
   m_TagString: SmokeGrenade
@@ -134,11 +135,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 890ea17d585165b459268f80d8c58544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeToExplosion: 2
-  _explosionRadius: 0.3
-  _damageExplosion: 3
-  _particle: {fileID: 133425882727099284}
+  _smokeParticle: {fileID: 0}
   _smokeDuraion: 5
+--- !u!95 &8841755503460703330
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461434353609039766}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 1188052766207813419, guid: 325ede11a7ca1084ba7a42596b8cce13, type: 3}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1238451646404115334
 GameObject:
   m_ObjectHideFlags: 0

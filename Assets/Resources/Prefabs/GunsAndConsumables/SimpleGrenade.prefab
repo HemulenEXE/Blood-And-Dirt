@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5699399273485253279}
   - component: {fileID: 6495790865208239291}
   - component: {fileID: 3051211301524953665}
+  - component: {fileID: 7770905916939064194}
   m_Layer: 0
   m_Name: SimpleGrenade
   m_TagString: SimpleGrenade
@@ -133,6 +134,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fb2c677df27e544c99422ce8d2f0029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeToExplosion: 2
-  _explosionRadius: 0.3
-  _damageExplosion: 3
+--- !u!95 &7770905916939064194
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3319447996810485200}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 1188052766207813419, guid: 325ede11a7ca1084ba7a42596b8cce13, type: 3}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
