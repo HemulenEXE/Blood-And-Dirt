@@ -173,7 +173,7 @@ namespace GunLogic
                 {
                     IsShooting = true;
                     _nextTimeShot = Time.time + _delayShot;
-                    _audio.PlayOneShot(_audioFire);
+                    _audio.PlayOneShot(_audioFire,0.5f);
 
                     for (int i = 1; i <= _countPerShotProjectile; i++) //Механика вылета дробинок.
                     {

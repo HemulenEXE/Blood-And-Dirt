@@ -169,7 +169,7 @@ namespace GunLogic
                 {
                     IsShooting = true;
                     _nextTimeShot = Time.time + _delayShot;
-                    _audio.PlayOneShot(_audioFire);
+                    _audio.PlayOneShot(_audioFire, 0.5f);
 
                     GameObject currentPellet = Instantiate(_prefabProjectile, this.transform.GetChild(0).position, this.transform.GetChild(0).rotation); //Вылет снаряда.
 
