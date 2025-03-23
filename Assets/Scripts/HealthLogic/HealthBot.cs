@@ -1,6 +1,8 @@
 using UnityEngine;
 using GunLogic;
 using System;
+using System.Drawing;
+<<<<<<< HEAD
 using Grenades;
 
 public class HealthBot : AbstractHealth
@@ -8,6 +10,9 @@ public class HealthBot : AbstractHealth
     [SerializeField] private EnemySides side;
     private string enemyBullet;
     public static event Action<BotController> death;
+    private GameObject _body;
+    private AudioClip _audio;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         ProjectileData Bullet = collision.gameObject.GetComponent<ProjectileData>();
@@ -55,18 +60,17 @@ public class HealthBot : AbstractHealth
     public override void Death()
     {
         death?.Invoke(transform.root.GetComponent<BotController>());
+        // this.GetComponent<AudioSource>()?.PlayOneShot(_audio);
+        GameObject.Instantiate(_body, this.transform.position, Quaternion.identity);
         Destroy(transform.root.gameObject);
 
     }
 
     void Start()
     {
+        _body = Resources.Load<GameObject>("Prefabs/Ghost");
+        _audio = _audio = Resources.Load<AudioClip>("Audios/death_sound");
         currentHealth = maxHealth;
-    }
-
-    private void FixedUpdate()
-    {
-        //Debug.Log(currentHealth);
     }
 }
 

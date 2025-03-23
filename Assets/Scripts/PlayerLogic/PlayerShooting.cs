@@ -1,14 +1,18 @@
 ﻿using GunLogic;
+using InventoryLogic;
+using System;
 using TMPro;
 using UnityEngine;
 
 namespace PlayerLogic
 {
     /// <summary>
-    /// Класс, реализующий "стрельбу игроком".
+    /// Класс, реализующий "механику стрельбы игроком".
     /// </summary>
     public class PlayerShooting : MonoBehaviour
     {
+        //Поля.
+
         /// <summary>
         /// Текущее ружьё.
         /// </summary>
@@ -18,25 +22,31 @@ namespace PlayerLogic
         {
             _sideplayer = GetComponent<Side>();
         }
+        /// <summary>
+        /// Время следующей аттаки.
+        /// </summary>
+        private float _nextAttackTime;
+
+        //Встроенные методы.
+
         private void Update()
         {
-            _gun = PlayerInventory._slots[PlayerInventory._currentSlot]?.StoredItem?.GetComponent<IGun>();
+            _gun = Inventory.GetInstance.CurrentSlot.StoredItem?.GetComponent<IGun>();
             if (_gun != null)
             {
-                if (Input.GetKey(KeyCode.Mouse0))
+                if (Input.GetKey(KeyCode.Mouse0) && _nextAttackTime <= 0)
                 {
+                    _nextAttackTime = _gun.ShotDelay;
                     _gun.Shoot(_sideplayer, IsPlayerShoot:true);
-                    //Изменение показателя кол-ва потронов над ячейкой инвентаря
                 }
-                else _gun.StopShoot();
-
                 if (Input.GetKey(KeyCode.R))
                 {
                     _gun.Recharge();
                 }
-                GameObject discription = PlayerInventory._slots[PlayerInventory._currentSlot].transform.GetChild(0).gameObject;
+                GameObject discription = Inventory.GetInstance.CurrentSlot.transform.GetChild(0).gameObject;
                 discription.GetComponent<TextMeshProUGUI>().text = _gun.AmmoTotalCurrent + "\\" + _gun.AmmoTotal;
             }
+            _nextAttackTime -= Time.deltaTime;
         }
     }
 }

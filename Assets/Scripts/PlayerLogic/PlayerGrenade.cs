@@ -40,15 +40,15 @@ namespace PlayerLogic
         /// </summary>
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha2) && ConsumablesCounter.SimpleGrenadeCount > 0)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && ConsumableCounter._simpleGrenadeCount > 0)
             {
                 ThrowGranade(_prefabSimpleGrenade);
-                ConsumablesCounter.SimpleGrenadeCount--;
+                --ConsumableCounter._simpleGrenadeCount;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1) && ConsumablesCounter.SmokeGrenadeCount > 0)
+            if (Input.GetKeyDown(KeyCode.Alpha1) && ConsumableCounter._smokeGrenadeCount > 0)
             {
                 ThrowGranade(_prefabSmokeGrenade);
-                ConsumablesCounter.SmokeGrenadeCount--;
+                --ConsumableCounter._smokeGrenadeCount;
             }
 
         }

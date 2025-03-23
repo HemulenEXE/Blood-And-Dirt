@@ -16,6 +16,9 @@ public class BotController : MonoBehaviour
     [SerializeField] private float stoppingDistance = 1f;
     [SerializeField] private EnemySides stateSide;
     [SerializeField] private StateBot stateBot;
+    [SerializeField] private float stoppingDistance = 5;
+    private float _nextAttackTime;
+
 
     private Side sideBot;
     private Animator animator;
@@ -37,6 +40,10 @@ public class BotController : MonoBehaviour
         InitializeComponents();
         ConfigureAgent();
         InitEnemy(stateSide,true);
+    }
+    private void Update()
+    {
+        _nextAttackTime -= Time.deltaTime;
     }
 
     private void InitializeComponents()
@@ -162,7 +169,7 @@ public class BotController : MonoBehaviour
         {
             ChasePlayer();
             UpdateChaseTimer();
-            if(IsPlayerVisible())
+            if(IsPlayerVisible() && _nextAttackTime <= 0)
             {
                 gun.Shoot(sideBot.CreateSideBullet());
             }
@@ -173,7 +180,7 @@ public class BotController : MonoBehaviour
         }
         else
         {
-            gun.IsShooting = false;
+            //gun.IsShooting = false;
             StopChase();
         }
         
@@ -250,7 +257,6 @@ public class BotController : MonoBehaviour
 
         return hit.collider != null && sideBot.IsEnemyMask(hit.collider.gameObject.layer);
     }
-
 
     private void StopChase()
     {
