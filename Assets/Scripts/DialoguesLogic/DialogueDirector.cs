@@ -49,7 +49,7 @@ public class ShowDialogueDubl : MonoBehaviour
     /// <summary>
     /// Переход к выбору ответов/пропуск анимации печати/окончание диалога по нажатию кнопки _continue
     /// </summary>
-    private void Continue()
+    public void Continue()
     {
         _replicInd = printer._rInd;
         Debug.Log($"_replicInd = {_replicInd}, Length = {_replicParts.Peek().Length}");
@@ -100,10 +100,14 @@ public class ShowDialogueDubl : MonoBehaviour
     /// <summary>
     /// Запускает диалог
     /// </summary>
-    private void StartDialogue()
+    public void StartDialogue()
     {
         DialogueWindow.gameObject.SetActive(true);
         printer.Init(_panelForText, TimeBetweenLetters, _audio);
+
+        _dialogue.ToNodeWithInd(0);
+        _replicParts.Clear();
+        _replicInd = 0;
 
         if (_dialogue.GetCurentNode().npcText != null)
             GoToReplic();
@@ -213,9 +217,10 @@ public class ShowDialogueDubl : MonoBehaviour
         //Запуск побуквенной печати
         printer.PrintReplicGradually(_replicInd, _replicParts.Peek());
     }
-    private void EndDialogue()
+    public void EndDialogue()
     {
         if (DialogueWindow.gameObject.activeSelf)
             DialogueWindow.gameObject.SetActive(false);
+
     }
 }
