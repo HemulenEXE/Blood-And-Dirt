@@ -1,0 +1,9 @@
+<dialogue name="Scene 1.3a Prison Break">
+  <node id="0" npcName="Гектор">
+    <answer text="&lt;b&gt;Гектор!&lt;/b&gt; Охранник куда-то ушёл. Скорее, нужно выбираться, пока он не вернулся! " toNode="1" />
+  </node>
+  <node id="1" npcText="У тебя есть ключи? " npcName="Гектор">
+    <answer text="&lt;color=green&gt;Да, сейчас открою!&lt;/color&gt;" exit="True" />
+    <answer text="&lt;color=red&gt;Нет, но они должны быть где-то здесь&lt;/color&gt;" exit="True" />
+  </node>
+</dialogue>

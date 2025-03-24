@@ -45,6 +45,7 @@ public class Dialogue
         Dialogue dialogue = serializer.Deserialize(sr) as Dialogue;
         return dialogue;
     }
+    public int GetCurentNodeIndex() { return _curentNode; }
     /// <summary>
     /// Возвращает текущую рерлику
     /// </summary>

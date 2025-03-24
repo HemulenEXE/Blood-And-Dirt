@@ -1,0 +1,18 @@
+<dialogue name="Scene 3.7 The Hospital again, patient is in bandages">
+  <node id="0" npcName="Пациент">
+    <answer text="Ты как? Живой ещё?" toNode="1" />
+  </node>
+  <node id="1" npcText="&lt;shake&gt;Кха-пха-кха, луше пы умех.&lt;/shake&gt;" npcName="Пациент">
+    <answer text="Я могу тебе чем-то помочь? " toNode="2" />
+  </node>
+  <node id="2" npcText="&lt;shake&gt;Таплетки… таи их ме.&lt;/shake&gt;" npcName="Пациент">
+    <answer text="Дать ему таблетки." toNode="3" />
+    <answer text="Пожелать выздоровления и уйти." toNode="3" />
+  </node>
+  <node id="3" npcText="&lt;shake&gt;Кхе-хе.&lt;/shake&gt;" npcName="Пациент">
+    <answer text="С тобой всё хорошо? " toNode="4" />
+  </node>
+  <node id="4" npcText="..." npcName="Пациент">
+    <answer text="Ладно, поправляйся. " exit="True" />
+  </node>
+</dialogue>
