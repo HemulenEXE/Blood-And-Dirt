@@ -1,0 +1,7 @@
+<dialogue name="Scene 4.2 The City Chase">
+  <node id="0" npcName="Гектор">
+    <answer text="Спокойно предложить им сдаться." toNode="1" />
+    <answer text="Насмехаться над их неудачным побегом и снисходительно предложить сдаться. " toNode="1" />
+  </node>
+  <node id="1" npcText="Черта с два я так просто &lt;color=red&gt;сдамся!&lt;/color&gt; &lt;b&gt;Получите, уроды!&lt;/b&gt;" exit="True" npcName="Гектор" />
+</dialogue>

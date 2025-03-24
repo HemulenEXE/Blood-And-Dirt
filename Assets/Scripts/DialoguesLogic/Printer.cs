@@ -249,7 +249,7 @@ public class Printer : MonoBehaviour
     /// <returns></returns>
     private GameObject AddLetter(string text, bool playAudio)
     {
-        Debug.Log($"current sibol = {text}");
+        //Debug.Log($"current sibol = {text}");
         TextMeshProUGUI letter = Instantiate(_prefab, _panel);
         letter.text = text;
         letter.ForceMeshUpdate(); //Обновление для получения актуальных размеров
@@ -257,16 +257,16 @@ public class Printer : MonoBehaviour
         float letterWidth = Math.Max(letter.GetPreferredValues().x, 7f); //ширина символа не меньше 7f
         if (text.Length > 1 && text[^1] == ' ') letterWidth += 7f; //Для учёта пробелов в конце фраз
 
-        Debug.Log($"letterWidth = {letterWidth}, currentX = {currentX}") ;
+        //Debug.Log($"letterWidth = {letterWidth}, currentX = {currentX}") ;
         if (currentX + letterWidth > _lineWidth / 2)
         {
-            Debug.Log($"{currentX} + {letterWidth} = {currentX + letterWidth} > {_lineWidth}");
+            //Debug.Log($"{currentX} + {letterWidth} = {currentX + letterWidth} > {_lineWidth}");
             currentX = -_lineWidth / 2;
             currentY -= _lineHight;
         }
         letter.GetComponent<RectTransform>().anchoredPosition = new Vector2(currentX, currentY);
         currentX += letterWidth + 0.5f;
-        Debug.Log($"currentX = {currentX}");
+        //Debug.Log($"currentX = {currentX}");
         if (playAudio)
             _audio.Play();
 
