@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using GunLogic;
-using CameraLogic.CameraEffects;
 
 public abstract class AbstractHealth : MonoBehaviour
 {
@@ -20,7 +17,7 @@ public abstract class AbstractHealth : MonoBehaviour
         isInvulnerable = false; // Возвращаем переменную в false
     }
 
-    public abstract void GetDamage(ProjectileData bullet); 
+    public abstract void GetDamage(IBullet bullet);
 
     public virtual void Death()
     {
