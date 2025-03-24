@@ -1,0 +1,12 @@
+<dialogue name="Scene 4.1 Reception, While eating">
+  <node id="0" npcName="">
+    <answer text="&lt;color=red&gt;Отведать деликатес из дальних краёв.&lt;/color&gt;" toNode="1" />
+    <answer text="&lt;color=red&gt;Попробовать необычный напиток.&lt;/color&gt;" toNode="2" />
+  </node>
+  <node id="1" npcName="">
+    <answer text="Как вкусно! Напоминает телятину." exit="True" />
+  </node>
+  <node id="2" npcName="">
+    <answer text="Интересный привкус, как будто пробовал что-то похожее раньше. " exit="True" />
+  </node>
+</dialogue>
