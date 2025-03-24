@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Класс, реализующий "интерактивные объекты, которые нельзя взять в инвентарь".

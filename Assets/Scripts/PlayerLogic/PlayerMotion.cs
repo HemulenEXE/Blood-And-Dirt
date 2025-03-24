@@ -12,6 +12,7 @@ public class PlayerMotion : MonoBehaviour
 
     private Dictionary<float, float> noiseMapping;
     public static event Action<Transform, float> makeNoise;
+    public bool IsInStationaryGun { get; set; } = false;
 
     private void AnimationControl()
     {
@@ -37,6 +38,15 @@ public class PlayerMotion : MonoBehaviour
             _animator.SetBool("Knife", true);
         }
         else _animator.SetBool("Knife", false);
+    }
+
+    public void EnterInStationaryGun()
+    {
+        IsInStationaryGun = true;
+    }
+    public void ExitInStationaryGun()
+    {
+        IsInStationaryGun = false;
     }
 
     private void Move()
@@ -77,7 +87,6 @@ public class PlayerMotion : MonoBehaviour
         float rotationSpeed = 5f * SettingData.Sensitivity;
         Quaternion targetRotation = Quaternion.Euler(Vector3.forward * angle);
         this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
     }
 
     private void Start()

@@ -1,6 +1,4 @@
-﻿using CameraLogic.CameraEffects;
-using GunLogic;
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
@@ -44,7 +42,7 @@ public class PlayerHealth : AbstractHealth
         {
             if (PlayerData.IsBleeding && !PlayerData.IsGod)
                 PlayerData.CurrentHealth -= PlayerData.BleedingDamage;
-            yield return new WaitForSeconds(60f); // Что за 60f?
+            yield return new WaitForSeconds(60f); // Что за магическое число?
         }
     }
     /// <summary>
