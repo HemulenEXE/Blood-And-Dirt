@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ShrapnelMineExplosion
+  m_Name: ExplosionBullet
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 426465d451ccf734f94f52bd229470c4, type: 2}
+  m_Motion: {fileID: 7400000, guid: b449d66fc946b6d46b4e77693cb86d7d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -68,7 +68,7 @@ AnimatorStateMachine:
     m_Position: {x: 443.5185, y: 245, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7982341061103759078}
-    m_Position: {x: 504.6858, y: 128.07408, z: 0}
+    m_Position: {x: 510, y: 130, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

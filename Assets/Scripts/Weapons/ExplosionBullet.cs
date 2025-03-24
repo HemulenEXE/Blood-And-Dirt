@@ -6,6 +6,7 @@ public class ExplosionBullet : MonoBehaviour, IBullet
     public float Damage { get; set; }
     public GunType GunType { get; set; }
     public float Speed { get; set; } = 1f;
+    public float ExplosionRadius { get; set; } = 2f;
 
     private float _lifeTime = 5.5f;
     private Animator _animationController;
@@ -39,6 +40,12 @@ public class ExplosionBullet : MonoBehaviour, IBullet
             this.GetComponent<SpriteRenderer>().sprite = null;
 
             _animationController.SetTrigger("Explosion");
+
+            Collider2D[] enemies = Physics2D.OverlapCircleAll(this.transform.position, ExplosionRadius);
+            foreach (var x in enemies)
+            {
+                // Логика получения урона
+            }
 
             Destroy(this.gameObject, GetAnimationLength("ExplosionBullet"));
         }

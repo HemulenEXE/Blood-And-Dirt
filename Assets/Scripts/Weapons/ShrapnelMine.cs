@@ -14,6 +14,7 @@ public class ShrapnelMine : MonoBehaviour
         Debug.Log("The ShrapnelMine is exploded");
 
         isActivated = true;
+        this.GetComponent<SpriteRenderer>().sprite = null;
 
         _animator.SetTrigger("Explosion");
 
@@ -38,7 +39,7 @@ public class ShrapnelMine : MonoBehaviour
     private void Awake()
     {
         var _collider = this.GetComponent<Collider2D>();
-        _animator = this.GetComponent<Animator>();
+        _animator = this.GetComponentInChildren<Animator>();
 
         if (_animator == null) throw new ArgumentNullException("ShrapnelMine: _animator is null");
         if (_collider == null) throw new ArgumentNullException("ShrapnelMine: _collider is null");
