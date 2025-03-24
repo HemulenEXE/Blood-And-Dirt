@@ -13,18 +13,15 @@ public class PlayerHealth : AbstractHealth
 
     private BloodEffect bloodController;
 
-    public override void GetDamage(ProjectileData bullet)
+    public override void GetDamage(IBullet bullet)
     {
         if (PlayerData.IsGod) return;
 
         PlayerData.IsBleeding = true;
         PlayerData.CurrentHealth -= (int)bullet.Damage;
 
-        Debug.Log(PlayerData.IsBleeding);
         PlayerData.GetSkill<IncreasedMetabolism>()?.Execute(this.gameObject);
         PlayerData.GetSkill<IncreasedMetabolism>()?.RebootTimer();
-
-        Debug.Log(PlayerData.CurrentHealth);
 
         if (PlayerData.CurrentHealth <= 0) HandleDeath();
 
@@ -96,7 +93,7 @@ public class PlayerHealth : AbstractHealth
     {
         if (collision.gameObject.tag == "Projectile")
         {
-            var dataBullet = collision.gameObject.GetComponent<ProjectileData>();
+            var dataBullet = collision.gameObject.GetComponent<IBullet>();
             GetDamage(dataBullet);
         }
     }

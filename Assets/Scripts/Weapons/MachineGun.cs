@@ -135,16 +135,13 @@ namespace GunLogic
                     AmmoTotalCurrent--;
                     currentBullet.layer = layerMask;
 
-                    var projectileData = currentBullet.GetComponent<ProjectileData>();
+                    var projectileData = currentBullet.GetComponent<IBullet>();
                     if (projectileData != null)
                     {
                         projectileData.Damage = Damage;
                         projectileData.GunType = Type;
+                        projectileData.Speed = SpeedProjectile;
                     }
-
-                    //Запуск скрипта для управления движением пули
-                    var bulletController = currentBullet.AddComponent<BulletMovement>();
-                    bulletController.SetSpeed(SpeedProjectile);
 
                     IsShooting = false;
                     if (IsPlayerShoot)

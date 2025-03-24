@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class SmokeGrenade : SimpleGrenade
+public class SmokeGrenade : ShrapnelGrenade
 {
     [SerializeField] private ParticleSystem _smokeParticle;
     [SerializeField] protected float _smokeDuraion = 5f;
@@ -28,7 +28,7 @@ public class SmokeGrenade : SimpleGrenade
         //_animator.SetTrigger("Explosion");
 
         CircleCollider2D smokeField = this.GetComponent<CircleCollider2D>(); // Установка коллайдера, чтобы враги путались в дыме.
-        smokeField.radius = _explosionRadius;
+        smokeField.radius = explosionRadius;
         // Враги не получают урон в дыму
         Destroy(this.gameObject, _smokeDuraion);
     }

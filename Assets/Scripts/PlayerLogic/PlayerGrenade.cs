@@ -8,14 +8,14 @@ using UnityEngine;
 public class PlayerGrenade : MonoBehaviour
 {
     private Camera _camera;
-    private SimpleGrenade _prefabSimpleGrenade;
+    private ShrapnelGrenade _prefabSimpleGrenade;
     private SmokeGrenade _prefabSmokeGrenade;
 
-    public void ThrowGranade(SimpleGrenade grenade)
+    public void ThrowGranade(ShrapnelGrenade grenade)
     {
         StartCoroutine(CoroutineThrowGranade(grenade));
     }
-    private IEnumerator CoroutineThrowGranade(SimpleGrenade grenade)
+    private IEnumerator CoroutineThrowGranade(ShrapnelGrenade grenade)
     {
         var current_grenade = Instantiate(grenade, this.transform.position, Quaternion.identity);
 
@@ -27,9 +27,9 @@ public class PlayerGrenade : MonoBehaviour
                                                             //float amplitude = Math.Abs(this.transform.position.y - cursor.y); //Амплитуда броска (Высота на которой находиться курсор по отношению к ироку)
         float elapsedTime = 0f;
 
-        while (elapsedTime < grenade._timeToExplosion)
+        while (elapsedTime < grenade.timeToExplosion)
         {
-            float t = elapsedTime / grenade._timeToExplosion; // Нормализуем время (Для того, чтобы отмерить как должны были за этот промежуток измениться координаты)
+            float t = elapsedTime / grenade.timeToExplosion; // Нормализуем время (Для того, чтобы отмерить как должны были за этот промежуток измениться координаты)
                                                              //float angle = Mathf.Lerp(0, Mathf.PI, t); // Линейная интерполяция угла от 0 до π (полукруг)
 
             float x = Mathf.Lerp(startPoint.x, endPoint.x, t);
@@ -49,7 +49,7 @@ public class PlayerGrenade : MonoBehaviour
     {
         _camera = Camera.main;
 
-        _prefabSimpleGrenade = Resources.Load<GameObject>("Prefabs/Weapons/SimpleGrenade").GetComponent<SimpleGrenade>();
+        _prefabSimpleGrenade = Resources.Load<GameObject>("Prefabs/Weapons/SimpleGrenade").GetComponent<ShrapnelGrenade>();
         _prefabSmokeGrenade = Resources.Load<GameObject>("Prefabs/Weapons/SmokeGrenade").GetComponent<SmokeGrenade>();
 
         if (_camera == null) throw new ArgumentNullException("PlayerGrenade: _camera is null");

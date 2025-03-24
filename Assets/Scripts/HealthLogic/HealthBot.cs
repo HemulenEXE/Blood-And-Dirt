@@ -13,12 +13,12 @@ public class HealthBot : AbstractHealth
         if (collision.gameObject.tag == "Projectile" && collision.gameObject.layer != LayerMask.NameToLayer("EnemyProjectile"))
         {
 
-            var dataBullet = collision.gameObject.GetComponent<ProjectileData>();
+            var dataBullet = collision.gameObject.GetComponent<IBullet>();
             GetDamage(dataBullet);
         }
     }
 
-    public override void GetDamage(ProjectileData bullet)
+    public override void GetDamage(IBullet bullet)
     {
         if (!isInvulnerable)
         {

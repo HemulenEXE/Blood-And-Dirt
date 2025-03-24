@@ -1,22 +1,18 @@
-п»їusing GunLogic;
+using GunLogic;
 using System;
 using System.Collections;
 using UnityEngine;
 
-/// <summary>
-/// РљР»Р°СЃСЃ, СЂРµР°Р»РёР·СѓСЋС‰РёР№ "РїРёСЃС‚РѕР»РµС‚".
-/// </summary>
-public class Pistol : MonoBehaviour, IGun
+public class GrenadeLauncher : MonoBehaviour, IGun
 {
     [SerializeField] private float noiseIntensity = 5;
-    public static event Action<Transform, float> makeNoiseShooting; // РЎРѕР±С‹С‚РёРµ РІС‹Р·РѕРІР° СЂРµР°РєС†РёРё РЅР° С€СѓРј СЃС‚СЂРµР»СЊР±С‹
+    public static event Action<Transform, float> makeNoiseShooting; // Событие вызова реакции на шум стрельбы
 
     [SerializeField] protected GameObject _prefabProjectile;
 
-    [SerializeField] private AudioSource _audioControl;
-    [SerializeField] private AudioClip _audioFire;
-    [SerializeField] private AudioClip _audioRecharge;
-    [SerializeField] private AudioClip _audioPlatoon;
+    private AudioSource _audioController;
+    private AudioClip _shootingAudio;
+    private AudioClip _rechargingAudio;
 
     public GunType Type { get; } = GunType.Light;
     public bool IsHeld { get; set; } = true;
@@ -38,11 +34,11 @@ public class Pistol : MonoBehaviour, IGun
         {
             if (AmmoTotalCurrent > 0)
             {
-                _audioControl.PlayOneShot(_audioFire);
+                _audioController.PlayOneShot(_shootingAudio);
                 IsShooting = true;
 
                 var spawnerProjectile = this.transform.Find("SpawnerProjectile");
-                GameObject currentBullet = Instantiate(_prefabProjectile, spawnerProjectile.position, spawnerProjectile.rotation); // Р’С‹Р»РµС‚ СЃРЅР°СЂСЏРґР°
+                GameObject currentBullet = Instantiate(_prefabProjectile, spawnerProjectile.position, spawnerProjectile.rotation); // Вылет снаряда
                 currentBullet.layer = layerMask;
                 AmmoTotalCurrent--;
 
@@ -65,7 +61,7 @@ public class Pistol : MonoBehaviour, IGun
         }
     }
     /// <summary>
-    /// РџРµСЂРµР·Р°СЂСЏРґРєР° РїРёСЃС‚РѕР»РµС‚Р°.
+    /// Перезарядка пистолета.
     /// </summary>
     public void Recharge()
     {
@@ -89,8 +85,8 @@ public class Pistol : MonoBehaviour, IGun
             yield break;
         }
 
-        int count_need_patrons = AmmoCapacity - AmmoTotalCurrent; //РљРѕР»РёС‡РµСЃС‚РІРѕ РЅРµС…РІР°С‚Р°РµРјС‹С… РїР°С‚СЂРѕРЅРѕРІ.
-        _audioControl.PlayOneShot(_audioRecharge);
+        int count_need_patrons = AmmoCapacity - AmmoTotalCurrent; //Количество нехватаемых патронов.
+        _audioController.PlayOneShot(_rechargingAudio);
         if (AmmoTotal > count_need_patrons)
         {
             AmmoTotalCurrent += count_need_patrons;
@@ -104,13 +100,15 @@ public class Pistol : MonoBehaviour, IGun
         IsRecharging = false;
     }
     /// <summary>
-    /// РќР°СЃС‚СЂРѕР№РєР° Рё РїСЂРѕРІРµСЂРєР° РїРѕР»РµР№.
+    /// Настройка и проверка полей.
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     /// <exception cref="ArgumentNullException"></exception>
     protected void Awake()
     {
-        _audioControl = this.GetComponent<AudioSource>();
+        _audioController = this.GetComponent<AudioSource>();
+        _shootingAudio = Resources.Load<AudioClip>("Audios/Weapons/GrenadeLauncher/ShootingAudio");
+        _rechargingAudio = Resources.Load<AudioClip>("Audios/Weapons/GrenadeLauncher/RechargingAudio");
 
         if (Damage < 0) throw new ArgumentOutOfRangeException("Pistol: Damage < 0");
         if (ShotDelay < 0) throw new ArgumentOutOfRangeException("Pistol: ShotDelay < 0");
@@ -119,8 +117,8 @@ public class Pistol : MonoBehaviour, IGun
         if (RechargingTime < 0) throw new ArgumentOutOfRangeException("Pistol: RechargingTime < 0");
         if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("Pistol: AmmoCapacity < AmmoTotalCurrent");
         if (_prefabProjectile == null) throw new ArgumentNullException("Pistol: _prefabPellet is null");
-        if (_audioControl == null) throw new ArgumentNullException("Pistol: _audioControl is null");
-        if (_audioFire == null) throw new ArgumentNullException("Pistol: _audioFire is null");
-        if (_audioRecharge == null) throw new ArgumentNullException("Pistol: _audioRecharge is null");
+        if (_audioController == null) throw new ArgumentNullException("Pistol: _audioControl is null");
+        if (_shootingAudio == null) throw new ArgumentNullException("Pistol: _audioFire is null");
+        if (_rechargingAudio == null) throw new ArgumentNullException("Pistol: _audioRecharge is null");
     }
 }

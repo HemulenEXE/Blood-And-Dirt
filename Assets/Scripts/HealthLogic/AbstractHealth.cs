@@ -17,7 +17,7 @@ public abstract class AbstractHealth : MonoBehaviour
         isInvulnerable = false; // Возвращаем переменную в false
     }
 
-    public abstract void GetDamage(ProjectileData bullet);
+    public abstract void GetDamage(IBullet bullet);
 
     public virtual void Death()
     {
