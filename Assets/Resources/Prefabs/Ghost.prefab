@@ -8,18 +8,11 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<<< HEAD:Assets/Resources/Prefabs/Ghost.prefab
-  - component: {fileID: 2910152489055678249}
-  - component: {fileID: 597023620726534259}
-  - component: {fileID: 7150838097210164828}
-  - component: {fileID: 4435219821057409739}
-========
   - component: {fileID: 6185006718499354536}
   - component: {fileID: 4878901440153209942}
   - component: {fileID: -6159648487957436893}
   - component: {fileID: 3037552586680824788}
   - component: {fileID: 7572144427893233871}
->>>>>>>> origin/scene2:Assets/Resources/Prefabs/Other/Soldier.prefab
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -37,11 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-<<<<<<<< HEAD:Assets/Resources/Prefabs/Ghost.prefab
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
-========
   m_LocalScale: {x: 0.6, y: 0.6, z: 1}
->>>>>>>> origin/scene2:Assets/Resources/Prefabs/Other/Soldier.prefab
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,13 +75,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-<<<<<<<< HEAD:Assets/Resources/Prefabs/Ghost.prefab
-  m_SortingOrder: 100
-  m_Sprite: {fileID: 21300000, guid: 0d552b208b489d64fa6c5072bda009f2, type: 3}
-========
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 6127e5bace53e3349832e1b98ab9a70b, type: 3}
->>>>>>>> origin/scene2:Assets/Resources/Prefabs/Other/Soldier.prefab
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -164,8 +148,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 9, y: 9}
   m_EdgeRadius: 0
-<<<<<<<< HEAD:Assets/Resources/Prefabs/Ghost.prefab
-========
 --- !u!50 &3037552586680824788
 Rigidbody2D:
   serializedVersion: 4
@@ -238,4 +220,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.62, y: 0.96}
   m_EdgeRadius: 0
->>>>>>>> origin/scene2:Assets/Resources/Prefabs/Other/Soldier.prefab
