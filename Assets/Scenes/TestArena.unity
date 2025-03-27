@@ -723,6 +723,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1366983085893150303, guid: f7989a9e9738b344db9e9b18429ffc11, type: 3}
+      propertyPath: maxHealth
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7315440686052831511, guid: f7989a9e9738b344db9e9b18429ffc11, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.0843024
@@ -1768,14 +1772,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9eff6c7adcd2774e962519a01d9f7c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noiseIntensity: 5
-  _prefabProjectile: {fileID: 8185501928067670845, guid: a947aed24b1dd7f45b64125d485ae841, type: 3}
-  <Damage>k__BackingField: 2
-  <ShotDelay>k__BackingField: 0.2
-  <AmmoTotal>k__BackingField: 100
-  <AmmoCapacity>k__BackingField: 10
-  <AmmoTotalCurrent>k__BackingField: 0
-  <RechargingTime>k__BackingField: 1
+  sideBullet: {fileID: 0}
+  GunType: 0
 --- !u!114 &1623069452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1788,7 +1786,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6135961ef7cc92a4da727f1af5a7f2c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 52651533ed55d9946896f504d4127de7, type: 3}
 --- !u!82 &1623069453
 AudioSource:
   m_ObjectHideFlags: 0

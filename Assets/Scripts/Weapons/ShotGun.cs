@@ -43,8 +43,9 @@ public class ShotGun : MonoBehaviour, IGun
         {
             if (AmmoTotalCurrent > 0)
             {
-                _audioControl.PlayOneShot(_audioFire);
+                
                 IsShooting = true;
+                _audioControl.PlayOneShot(_audioFire);
 
                 for (int i = 1; i <= _countPerShotProjectile; i++) // Вылет дробинок
                 {

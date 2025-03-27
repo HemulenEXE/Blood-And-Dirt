@@ -31,7 +31,12 @@ public class ShrapnelGrenade : MonoBehaviour
         Collider2D[] entity_colliders = Physics2D.OverlapCircleAll(this.transform.position, explosionRadius); //Получаем коллайдеры всех сущностей поблизости.
         foreach (var x in entity_colliders)
         {
-            // Логика получения урона
+            var health = x.GetComponent<AbstractHealth>();
+            if(health != null)
+            {
+                health.GetDamage(this);
+            }
+            
         }
         Destroy(this.gameObject, GetAnimationLength("ShrapnelGrenadeExplosion"));
     }

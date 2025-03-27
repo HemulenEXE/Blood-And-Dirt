@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class HealthBot : AbstractHealth
 {
-    [SerializeField] private EnemySides side;
+    private EnemySides side;
     private string enemyBullet;
     public static event Action<BotController> death;
     private GameObject _body;
@@ -14,7 +14,7 @@ public class HealthBot : AbstractHealth
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        ProjectileData Bullet = collision.gameObject.GetComponent<ProjectileData>();
+        IBullet Bullet = collision.gameObject.GetComponent<IBullet>();
         if (Bullet != null)
         {
             if (collision.gameObject.tag == "Projectile" && collision.gameObject.layer != LayerMask.NameToLayer(Bullet.sideBullet.GetOwnLayer()))
@@ -69,6 +69,10 @@ public class HealthBot : AbstractHealth
     {
         GetDamage((int)granade.DamageExplosion);
     }
+    public override void GetDamage(ShrapnelGrenade granade)
+    {
+        GetDamage((int)granade.damageExplosion);
+    }
 
     public override void Death()
     {
@@ -78,7 +82,10 @@ public class HealthBot : AbstractHealth
         Destroy(transform.root.gameObject);
 
     }
-
+    private void Awake()
+    {
+        side = GetComponentInParent<Side>().side;
+    }
     void Start()
     {
         _body = Resources.Load<GameObject>("Prefabs/Enemies/Body");

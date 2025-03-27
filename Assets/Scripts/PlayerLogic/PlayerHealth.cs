@@ -3,11 +3,13 @@ using System.Collections;
 using UnityEngine;
 using Grenades;
 using GunLogic;
+using CameraLogic.CameraEffects;
 /// <summary>
 /// Класс здоровья игрока. Скрипт навешивается на игрока
 /// </summary>
 public class PlayerHealth : AbstractHealth
 {
+    
     private float _frameDuration = 0.5f; // Сколько длится кадр, во время которого игрок не получает урон
 
     private BloodEffect bloodController;
@@ -39,6 +41,10 @@ public class PlayerHealth : AbstractHealth
     {
         GetDamage((int)grenade.DamageExplosion);
     }
+    public override void GetDamage(ShrapnelGrenade granade)
+    {
+        GetDamage((int)granade.damageExplosion);
+    }
     private void HandleDeath()
     {
         var temp = PlayerData.GetSkill<Reincarnation>();
@@ -68,9 +74,10 @@ public class PlayerHealth : AbstractHealth
         return (StateBloodEffect)Math.Floor((PlayerData.MaxHealth - PlayerData.CurrentHealth) / (PlayerData.MaxHealth / 5.0));
     }
 
-    private void Start()
+    public void Awake()
     {
         bloodController = GetComponent<BloodEffect>();
+        Debug.Log(bloodController);
         StartCoroutine(BleedDamage());
     }
 
@@ -98,7 +105,8 @@ public class PlayerHealth : AbstractHealth
     }
     private void FixedUpdate()
     {
-        bloodController?.SetBloodEffect(CalculateStateDamaged());
+        bloodController.SetBloodEffect(CalculateStateDamaged());
+        Debug.Log(PlayerData.CurrentHealth);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

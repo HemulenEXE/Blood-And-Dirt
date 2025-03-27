@@ -355,21 +355,8 @@ MonoBehaviour:
   noiseIntensity: 5
   _audioFire: {fileID: 8300000, guid: 087dc73cae54ede448a7ee2263c4cbb9, type: 3}
   _audioRecharge: {fileID: 8300000, guid: f579a69586a6b284ca9f6dd5fb3c5d4b, type: 3}
-  attackRange: 10
---- !u!114 &4650639804957484937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1584149762902731267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6135961ef7cc92a4da727f1af5a7f2c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _icon: {fileID: 3916280208365928010, guid: 91d2154fafa621f4ea7ff9c63ff0e448, type: 3}
   _audioPlatoon: {fileID: 0}
+  attackRange: 10
   <Damage>k__BackingField: 6.5
   <ShotDelay>k__BackingField: 0.1
   <AmmoTotal>k__BackingField: 100
@@ -529,6 +516,7 @@ GameObject:
   - component: {fileID: 3679168518769529899}
   - component: {fileID: 6532914847995470812}
   - component: {fileID: 3828984879713643637}
+  - component: {fileID: 3171335756473961953}
   m_Layer: 6
   m_Name: machine gunner
   m_TagString: EnemyBelievers
@@ -800,3 +788,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3171335756473961953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8080232951600587331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c80cc3b1726ab0c4cb07dc32b551d6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  side: 0

@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 672257775031539312}
   - component: {fileID: 5519988664084937071}
   - component: {fileID: 3836942728927331220}
+  - component: {fileID: 6860611282809461083}
   m_Layer: 6
   m_Name: ShotGunner
   m_TagString: EnemyBelievers
@@ -437,6 +438,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6860611282809461083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5893452345217136748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c80cc3b1726ab0c4cb07dc32b551d6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  side: 0
 --- !u!1 &7984570884006783020
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,20 +647,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2870e0e9f555bf04485b663f86e8b6e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delayShot: 0.5
-  _ammoTotal: 100
-  _ammoCapacity: 5
-  _ammoTotalCurrent: 5
-  _timeRecharging: 2
   noiseIntensity: 5
   _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
   _countPerShotProjectile: 6
-  _speedProjectile: 50
   _spreadAngle: 15
+  _audioControl: {fileID: 0}
   _audioFire: {fileID: 8300000, guid: d7b5e1ec6a3a400419d87e47b88ab374, type: 3}
   _audioRecharge: {fileID: 8300000, guid: cfdded6289e9b6645899379c13139bd4, type: 3}
   _audioPlatoon: {fileID: 8300000, guid: 595f9f079b2c7be49ab74e193472a2d3, type: 3}
-  attackRange: 7
+  <Damage>k__BackingField: 5
+  <ShotDelay>k__BackingField: 0.5
+  <AmmoTotal>k__BackingField: 100
+  <AmmoCapacity>k__BackingField: 5
+  <AmmoTotalCurrent>k__BackingField: 0
+  <RechargingTime>k__BackingField: 2
+  <AttackRange>k__BackingField: 15
 --- !u!58 &3770069618172774037
 CircleCollider2D:
   m_ObjectHideFlags: 0

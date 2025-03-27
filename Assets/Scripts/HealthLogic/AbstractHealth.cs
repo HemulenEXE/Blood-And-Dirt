@@ -23,6 +23,7 @@ public abstract class AbstractHealth : MonoBehaviour
 
 
     public abstract void GetDamage(SimpleGrenade grenade);
+    public abstract void GetDamage(ShrapnelGrenade grenade);
 
     public abstract void GetDamage(IBullet bullet);
 
