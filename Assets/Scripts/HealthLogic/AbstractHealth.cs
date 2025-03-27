@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GunLogic;
 using CameraLogic.CameraEffects;
@@ -22,7 +21,11 @@ public abstract class AbstractHealth : MonoBehaviour
     protected abstract void GetDamage(int valueDamage);
     public abstract void GetDamage(ProjectileData bullet);
 
+
     public abstract void GetDamage(SimpleGrenade grenade);
+
+    public abstract void GetDamage(IBullet bullet);
+
 
     public virtual void Death()
     {

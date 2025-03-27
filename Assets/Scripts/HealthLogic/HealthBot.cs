@@ -1,8 +1,8 @@
-using UnityEngine;
 using GunLogic;
 using System;
 using System.Drawing;
 using Grenades;
+using UnityEngine;
 
 public class HealthBot : AbstractHealth
 {
@@ -28,7 +28,9 @@ public class HealthBot : AbstractHealth
         }
         
     }
-    protected override void GetDamage(int value)
+
+
+    public override void GetDamage(IBullet bullet)
     {
         if (!isInvulnerable)
         {
@@ -67,7 +69,7 @@ public class HealthBot : AbstractHealth
 
     void Start()
     {
-        _body = Resources.Load<GameObject>("Prefabs/Ghost");
+        _body = Resources.Load<GameObject>("Prefabs/Enemies/Body");
         _audio = _audio = Resources.Load<AudioClip>("Audios/death_sound");
         currentHealth = maxHealth;
     }

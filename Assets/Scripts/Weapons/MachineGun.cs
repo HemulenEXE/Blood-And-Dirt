@@ -134,21 +134,18 @@ namespace GunLogic
                     GameObject currentBullet = Instantiate(_prefabProjectile, spawnerProjectile.position, spawnerProjectile.rotation); 
                     
 
-                    var projectileData = currentBullet.GetComponent<ProjectileData>();
+                    var projectileData = currentBullet.GetComponent<IBullet>();
                     if (projectileData != null)
                     {
                         projectileData.sideBullet = sideShooter.CreateSideBullet();
                         projectileData.Damage = this.Damage;
                         projectileData.GunType = Type;
+                        projectileData.Speed = SpeedProjectile;
                     }
-
-                    currentBullet.layer = LayerMask.NameToLayer(sideShooter.GetOwnLayer());
-                    // Запуск скрипта для управления движением пули
-                    var bulletController = currentBullet.AddComponent<BulletMovement>();
-                    bulletController.SetSpeed(SpeedProjectile);
 
 
                     AmmoTotalCurrent--;
+                    currentBullet.layer = LayerMask.NameToLayer(sideShooter.GetOwnLayer());
                     IsShooting = false;
                     //if (IsPlayerShoot)
                     //{

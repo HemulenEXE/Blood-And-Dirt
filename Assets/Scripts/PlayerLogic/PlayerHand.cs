@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
-using InventoryLogic;
-using InteractiveObjects;
+using System;
 
-namespace PlayerLogic
+public class PlayerHand : MonoBehaviour
 {
-    /// <summary>
-    /// Класс, реализующий "руку игрока".
-    /// </summary>
-    public class PlayerHand : MonoBehaviour
+    private InventoryAndConsumableCounterUI inventoryAndConsumableCounterUI;
+
+    private void Start()
     {
-        private void Update()
+        inventoryAndConsumableCounterUI = GameObject.FindAnyObjectByType<InventoryAndConsumableCounterUI>();
+
+        if (inventoryAndConsumableCounterUI == null) throw new ArgumentNullException("PlayerHand: inventoryAndConsumableCounterUI is null");
+    }
+    private void Update()
+    {
+        var temp = inventoryAndConsumableCounterUI.GetItem();
+        if (temp != null)
         {
-            if (Inventory.GetInstance.CurrentSlot.StoredItem != null)
-            {
-                Transform item_transform = Inventory.GetInstance.CurrentSlot.StoredItem.transform;
-                item_transform.position = this.transform.position - transform.up / 2;
-                item_transform.rotation = this.transform.rotation;
-                Inventory.GetInstance.CurrentSlot.StoredItem.gameObject.layer = LayerMask.NameToLayer("Invisible");
-            }
+            Transform item_transform = temp.transform;
+            item_transform.position = this.transform.position - transform.up / 2;
+            item_transform.rotation = this.transform.rotation;
+            temp.gameObject.layer = LayerMask.NameToLayer("Invisible");
         }
     }
 }

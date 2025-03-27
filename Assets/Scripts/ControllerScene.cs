@@ -1,10 +1,8 @@
-using System.Collections;
+using GunLogic;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using PlayerLogic;
-using GunLogic;
 
 public class ControllerScene : MonoBehaviour
 {
@@ -20,7 +18,7 @@ public class ControllerScene : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         _enemies = GameObject.FindGameObjectsWithTag("Enemy").Where(x => x.GetComponent<BotController>()).ToList().ConvertAll(e => e.GetComponent<BotController>());
-        
+
 
     }
 
@@ -48,7 +46,7 @@ public class ControllerScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_player == null) 
+        if (_player == null)
         {
             RestartScene();
         }
@@ -56,7 +54,7 @@ public class ControllerScene : MonoBehaviour
 
     private void RestartScene()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
@@ -65,8 +63,8 @@ public class ControllerScene : MonoBehaviour
 
     private void RaisingAlarm(Transform enemy, Transform player)
     {
-        
-        if(_enemies != null)
+
+        if (_enemies != null)
         {
             foreach (var _enemy in _enemies)
             {
@@ -80,16 +78,16 @@ public class ControllerScene : MonoBehaviour
                 }
             }
         }
-        
+
     }
 
     private void CheckNose(Transform transform, float radiusNoise)
     {
-        if(_enemies != null)
+        if (_enemies != null)
         {
-            foreach(var _enemy in _enemies)
+            foreach (var _enemy in _enemies)
             {
-                if(Vector2.Distance(_enemy.transform.position, transform.position) <= radiusNoise)
+                if (Vector2.Distance(_enemy.transform.position, transform.position) <= radiusNoise)
                 {
                     _enemy.ReactToNoise(transform);
                 }
