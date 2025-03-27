@@ -7,9 +7,14 @@ public class NewBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     public MusicSelector musicSelector;
 
-    public void  startComfortMusic()
+    public void  startComfortInsideMusic()
     {
-        musicSelector.MusicModeSelector(MusicSelector.MusicMode.Comfort);
+        musicSelector.MusicModeSelector(MusicSelector.MusicMode.ComfortInside);
+    }
+
+    public void  startComfortOutsideMusic()
+    {
+        musicSelector.MusicModeSelector(MusicSelector.MusicMode.ComfortOutside);
     }
 
     public void  startStressMusic()

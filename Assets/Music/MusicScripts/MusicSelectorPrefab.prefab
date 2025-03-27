@@ -49,8 +49,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2ed8db8dc0912ba46be9ab0c0d94e0d5, type: 3}
   StressMusic:
   - {fileID: 8300000, guid: c43bf1ae17e74ac4e96231906cc4a5db, type: 3}
-  ComfortMusic:
+  ComfortInsideMusic:
+  - {fileID: 8300000, guid: 1bb517c86f763de4b9a7d1fa7bb8dc06, type: 3}
   - {fileID: 8300000, guid: 9cde77765963b984ebc6d3ebcb26592f, type: 3}
+  ComfortOutsideMusic:
+  - {fileID: 8300000, guid: 9cde77765963b984ebc6d3ebcb26592f, type: 3}
+  - {fileID: 8300000, guid: cf29ac14ae8791545bc0b6a230778bd1, type: 3}
+  - {fileID: 8300000, guid: c06bf29dd8c58354882f1b144fa2bd3e, type: 3}
+  - {fileID: 8300000, guid: 45427295f9e28994d85317d13bf946a3, type: 3}
 --- !u!82 &4976594255605747490
 AudioSource:
   m_ObjectHideFlags: 0

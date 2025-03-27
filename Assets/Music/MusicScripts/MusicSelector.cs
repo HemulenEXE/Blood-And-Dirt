@@ -9,12 +9,14 @@ public class MusicSelector : MonoBehaviour
     // Start is called before the first frame update
     public List<AudioClip> BattleMusic = new List<AudioClip>();
     public List<AudioClip> StressMusic = new List<AudioClip>();
-    public List<AudioClip> ComfortMusic = new List<AudioClip>();
+    public List<AudioClip> ComfortInsideMusic = new List<AudioClip>();
+    public List<AudioClip> ComfortOutsideMusic = new List<AudioClip>();
 
 
     public enum MusicMode
     {
-        Comfort,
+        ComfortInside,
+        ComfortOutside,
         Stress,
         Battle
     }
@@ -29,10 +31,16 @@ public class MusicSelector : MonoBehaviour
     {
         switch (musicMode)
         {
-            case MusicMode.Comfort:
+            case MusicMode.ComfortInside:
                 CancelInvoke();
                 InvokeRepeating("FadeOut", 1f, 0.02f);
-                Invoke("PlayComfortMusic", 10f);
+                Invoke("PlayComfortInsideMusic", 10f);
+                InvokeRepeating("FadeIn", 10f, 0.02f);
+                break;
+            case MusicMode.ComfortOutside:
+                CancelInvoke();
+                InvokeRepeating("FadeOut", 1f, 0.02f);
+                Invoke("PlayComfortOutsideMusic", 10f);
                 InvokeRepeating("FadeIn", 10f, 0.02f);
                 break;
             case MusicMode.Stress:
@@ -51,11 +59,17 @@ public class MusicSelector : MonoBehaviour
         }
     }
 
-    void PlayComfortMusic()
+    void PlayComfortInsideMusic()
     {
-        audiosource.clip = ComfortMusic[UnityEngine.Random.Range(0, ComfortMusic.Count)];
+        audiosource.clip = ComfortInsideMusic[UnityEngine.Random.Range(0, ComfortInsideMusic.Count)];
         audiosource.PlayDelayed(2);
-        Invoke("PlayComfortMusic", audiosource.clip.length+5);
+        Invoke("PlayComfortInsideMusic", audiosource.clip.length+5);
+    }
+    void PlayComfortOutsideMusic()
+    {
+        audiosource.clip = ComfortOutsideMusic[UnityEngine.Random.Range(0, ComfortOutsideMusic.Count)];
+        audiosource.PlayDelayed(2);
+        Invoke("PlayComfortOutsideMusic", audiosource.clip.length+5);
     }
 
     void PlayStressMusic()
