@@ -23,12 +23,13 @@ public class GrenadeLauncher : MonoBehaviour, IGun
     [field: SerializeField] public int AmmoCapacity { get; private set; } = 10;
     [field: SerializeField] public int AmmoTotalCurrent { get; private set; } = 0;
     [field: SerializeField] public float RechargingTime { get; private set; } = 1f;
+    [field: SerializeField] public float AttackRange { get; private set; } = 25f;
     public bool IsRecharging { get; set; } = false;
     public bool IsShooting { get; set; } = false;
     public float NoiseIntensity { get; set; }
 
 
-    public void Shoot(int layerMask = 0, bool IsPlayerShoot = false)
+    public void Shoot(Side sideBull, bool IsPlayerShoot = false)
     {
         if (!IsShooting && !IsRecharging)
         {
@@ -39,12 +40,13 @@ public class GrenadeLauncher : MonoBehaviour, IGun
 
                 var spawnerProjectile = this.transform.Find("SpawnerProjectile");
                 GameObject currentBullet = Instantiate(_prefabProjectile, spawnerProjectile.position, spawnerProjectile.rotation); // Вылет снаряда
-                currentBullet.layer = layerMask;
+                currentBullet.layer = LayerMask.NameToLayer(sideBull.GetOwnLayer());
                 AmmoTotalCurrent--;
 
                 var projectileData = currentBullet.GetComponent<IBullet>();
                 if (projectileData != null)
                 {
+                    projectileData.sideBullet = sideBull.CreateSideBullet();
                     projectileData.Damage = Damage;
                     projectileData.GunType = Type;
                     projectileData.Speed = SpeedProjectile;
@@ -120,5 +122,10 @@ public class GrenadeLauncher : MonoBehaviour, IGun
         if (_audioController == null) throw new ArgumentNullException("Pistol: _audioControl is null");
         if (_shootingAudio == null) throw new ArgumentNullException("Pistol: _audioFire is null");
         if (_rechargingAudio == null) throw new ArgumentNullException("Pistol: _audioRecharge is null");
+    }
+
+    public bool IsInRange(Vector3 targetPosition)
+    {
+        return Vector3.Distance(transform.position, targetPosition) <= AttackRange;
     }
 }

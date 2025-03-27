@@ -27,6 +27,7 @@ public class Pistol : MonoBehaviour, IGun
     [field: SerializeField] public int AmmoCapacity { get; private set; } = 10;
     [field: SerializeField] public int AmmoTotalCurrent { get; private set; } = 0;
     [field: SerializeField] public float RechargingTime { get; private set; } = 1f;
+    [field: SerializeField] public float AttackRange { get; private set; } = 10f;
     public bool IsRecharging { get; set; } = false;
     public bool IsShooting { get; set; } = false;
     public float NoiseIntensity { get; set; }
@@ -125,7 +126,7 @@ public class Pistol : MonoBehaviour, IGun
         if (_audioRecharge == null) throw new ArgumentNullException("Pistol: _audioRecharge is null");
     }
     public bool IsInRange(Vector3 targetPosition)
-        {
-            return Vector3.Distance(transform.position, targetPosition) <= attackRange;
-        }
+    {
+        return Vector3.Distance(transform.position, targetPosition) <= AttackRange;
+    }
 }

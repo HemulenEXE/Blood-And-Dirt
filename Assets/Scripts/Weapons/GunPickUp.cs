@@ -8,7 +8,7 @@ namespace InteractiveObjects
     /// <summary>
     /// Скрипт, реализующий "оружие, которое игрок может взять в свой инвентарь".
     /// </summary>
-    public class GunPickUp : ItemPickUp
+    public class GunPickUp : MonoBehaviour//: ItemPickUp
     {
         /// <summary>
         /// Выбранное оружие.
@@ -18,9 +18,9 @@ namespace InteractiveObjects
         /// Настройка и проверка полей.
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
-        protected override void Awake()
+        void Awake()
         {
-            base.Awake();
+            //base.Awake();
             _gun = this.GetComponent<IGun>();
             if (_gun == null) throw new ArgumentNullException("GunPickUp: _gun is null");
         }
@@ -28,19 +28,19 @@ namespace InteractiveObjects
         /// Деактивирование предмета на сцене.<br/>
         /// Более безопасный аналог метода SetActive(false).
         /// </summary>
-        public override void Deactive()
+        /*public override*/ void Deactive()
         {
             //_gun.IsRecharging = false;
             //_gun.IsShooting = false;
             _gun.IsHeld = false;
             // Debug.Log(_gun.IsHeld);
-            base.Deactive();
+            /*base.*/Deactive();
         }
-        public override void Active()
+        /*public override*/ void Active()
         {
             _gun.IsHeld = true;
             // Debug.Log(_gun.IsHeld);
-            base.Active();
+            /*base.*/Active();
         }
     }
 }

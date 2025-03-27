@@ -29,6 +29,7 @@ public class ShotGun : MonoBehaviour, IGun
     [field: SerializeField] public int AmmoCapacity { get; private set; } = 5;
     [field: SerializeField] public int AmmoTotalCurrent { get; private set; } = 0;
     [field: SerializeField] public float RechargingTime { get; private set; } = 2;
+    [field: SerializeField] public float AttackRange { get; set; } = 15;
     public float NoiseIntensity { get; set; }
 
     /// <summary>
@@ -129,6 +130,6 @@ public class ShotGun : MonoBehaviour, IGun
     /// <returns></returns>
     public bool IsInRange(Vector3 targetPosition)
     {
-        return Vector3.Distance(transform.position, targetPosition) <= attackRange;
+        return Vector3.Distance(transform.position, targetPosition) <= AttackRange;
     }
 }

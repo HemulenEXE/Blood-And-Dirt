@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-
+using Grenades;
+using GunLogic;
 /// <summary>
 /// Класс здоровья игрока. Скрипт навешивается на игрока
 /// </summary>
@@ -10,13 +11,12 @@ public class PlayerHealth : AbstractHealth
     private float _frameDuration = 0.5f; // Сколько длится кадр, во время которого игрок не получает урон
 
     private BloodEffect bloodController;
-
-    public override void GetDamage(IBullet bullet)
+    protected override void GetDamage(int value)
     {
         if (PlayerData.IsGod) return;
 
         PlayerData.IsBleeding = true;
-        PlayerData.CurrentHealth -= (int)bullet.Damage;
+        PlayerData.CurrentHealth -= value;
 
         PlayerData.GetSkill<IncreasedMetabolism>()?.Execute(this.gameObject);
         PlayerData.GetSkill<IncreasedMetabolism>()?.RebootTimer();
@@ -24,6 +24,20 @@ public class PlayerHealth : AbstractHealth
         if (PlayerData.CurrentHealth <= 0) HandleDeath();
 
         StartCoroutine(InvulnerabilityFrames(_frameDuration));
+    }
+    public override void GetDamage(IBullet bullet)
+    {
+        GetDamage((int)bullet.Damage);
+    }
+    public override void GetDamage(ProjectileData bullet)
+    {
+        GetDamage((int)bullet.Damage);
+    }
+
+
+    public override void GetDamage(SimpleGrenade grenade)
+    {
+        GetDamage((int)grenade.DamageExplosion);
     }
     private void HandleDeath()
     {

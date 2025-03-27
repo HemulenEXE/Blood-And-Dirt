@@ -29,12 +29,24 @@ public class HealthBot : AbstractHealth
         
     }
 
-
-    public override void GetDamage(IBullet bullet)
+    protected override void GetDamage(int value)
     {
         if (!isInvulnerable)
         {
             currentHealth -= value;
+
+            if (currentHealth <= 0)
+            {
+                Death();
+                return;
+            }
+        }
+    }
+    public override void GetDamage(IBullet bullet)
+    {
+        if (!isInvulnerable)
+        {
+            currentHealth -= (int)bullet.Damage;
 
             if (currentHealth <= 0)
             {
