@@ -43,7 +43,7 @@ public class ShowDialogueDubl : MonoBehaviour
         
         IsTrigger = false;
         _prefab = Resources.Load<Button>("Prefabs/Interface/DialogueButton");
-        printer = GetComponent<Printer>();
+        printer = this.GetComponent<Printer>();
         _replicParts = new Queue<string>();
     }
     /// <summary>
@@ -52,7 +52,6 @@ public class ShowDialogueDubl : MonoBehaviour
     public void Continue()
     {
         _replicInd = printer._rInd;
-        Debug.Log($"_replicInd = {_replicInd}, Length = {_replicParts.Peek().Length}");
         printer.StopAllCoroutines();
         if (_replicInd < _replicParts.Peek().Length - 1)
             printer.PrintReplicEntirely(_replicInd, _replicParts.Peek());

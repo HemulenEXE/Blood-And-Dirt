@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using PlayerLogic;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
@@ -28,9 +29,22 @@ public class FanaticsBaseController : MonoBehaviour
                     GameObject.Find("DoorOpenRight").transform.GetChild(1).gameObject.SetActive(false); //Отключили триггер на двери тюрьмы
                     PlayableDirector catScene = GameObject.Find("CatScene2").GetComponent<PlayableDirector>();
                     catScene.Play();
+                    catScene.stopped += DialoguePreparing;
                     break;
                 }
         
         }
+    }
+    //Отключает возможность двигаться во время проигрывания диалога в кат-сцене 
+    private void DialoguePreparing(PlayableDirector anim)
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<PlayerMotion>().enabled = false;
+    }
+    //Включает эту возможность обратно
+    public void DialogueEnd() 
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<PlayerMotion>().enabled = true;
     }
 }
