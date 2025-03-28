@@ -12,9 +12,9 @@ public class LevelArmyEasy : MonoBehaviour, ILevelArmy
     private void Awake()
     {
         costSolders = new List<Unit>();
-        costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemys/Pistoller"), 1));
-        costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemys/machine gunner"), 2));
-        costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemys/ShotGunner"), 2));
+        costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/Pistoller"), 1));
+        costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/machine gunner"), 2));
+        costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/ShotGunner"), 2));
 
         foreach(Unit u in costSolders)
         {

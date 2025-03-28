@@ -302,6 +302,10 @@ public class BotController : MonoBehaviour
 
     private IEnumerator CheckNoiseState(Transform noiseTransform, float timeAwaiting = 5)
     {
+        if(noiseTransform == null)
+        {
+            yield return null;
+        }
         sourceNoise = noiseTransform;
         stateBot = StateBot.checkNoise;
 
@@ -310,6 +314,10 @@ public class BotController : MonoBehaviour
 
         while (Mathf.Abs(Quaternion.Angle(transform.rotation, Quaternion.Euler(0, 0, SmoothLookToDirection(noiseTransform)))) > 5f)
         {
+            if (noiseTransform == null)
+            {
+                yield return null;
+            }
             if (timer > timeout)
                 break; // Выход из бесконечного цикла
 
