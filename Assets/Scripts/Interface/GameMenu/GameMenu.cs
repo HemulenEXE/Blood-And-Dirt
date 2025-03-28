@@ -38,11 +38,7 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     private void Awake()
-    {
-        Button icon = GameObject.Find("MenuIcon")?.GetComponent<Button>();
-        if (icon == null) throw new ArgumentNullException("GameMenu: icon is null");
-        icon.onClick.AddListener(ControllMenu);
-        
+    {        
         GameObject menu = GameObject.Find("SettingsMenu");
         if (menu == null) throw new ArgumentNullException("GameMenu: menu is null");
         _save = menu?.transform?.GetChild(2)?.GetComponent<Button>();
@@ -60,6 +56,10 @@ public class GameMenu : MonoBehaviour
         _audio.onValueChanged.AddListener(SetVolume);
         if (PlayerPrefs.HasKey("Volume")) _audio.value = PlayerPrefs.GetFloat("Volume");
         _onSkillTree.onClick.AddListener(OnSkillTree);
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) ControllMenu();
     }
     private void OnSkillTree()
     {
