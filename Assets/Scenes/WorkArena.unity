@@ -53480,38 +53480,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
---- !u!114 &1548986005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1548986003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3e49b3c093e62f448fa402532772cda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sides: 0
-  _isPlayerEnemy: 1
-  _countSoldersMin: 0
-  _needToRestoreSolder: 0
-  _restoreKilledNonPlayer: 0
---- !u!114 &1548986006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1548986003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98d4f71b734e0f14fbf7c3d09be72f79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  alarmDistance: 5
-=======
 --- !u!1001 &1551123272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53689,7 +53657,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f5af4b278fe4f248bf88173265d828d, type: 3}
->>>>>>> origin/develop
 --- !u!1001 &1573288001
 PrefabInstance:
   m_ObjectHideFlags: 0
