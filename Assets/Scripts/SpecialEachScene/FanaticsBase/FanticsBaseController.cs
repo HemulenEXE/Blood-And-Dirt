@@ -16,6 +16,7 @@ public class FanaticsBaseController : MonoBehaviour
         Debug.Log($"{PlayerPrefs.HasKey("LoadingNumber")} <-> {PlayerPrefs.GetInt("LoadingNumber")}");
         LoadingNumber = PlayerPrefs.GetInt("LoadingNumber", 1);
         Debug.Log(LoadingNumber);
+        //Запускает действия, которые должны происходить при каждом заходе на сцену по его номеру
         switch (LoadingNumber)
         {
             case 1: 
@@ -24,29 +25,44 @@ public class FanaticsBaseController : MonoBehaviour
                 }
             case 2: 
                 {
-                    Debug.Log(LoadingNumber);
-                    GameObject.Find("Player1").SetActive(false);
-                    GameObject.Find("DoorOpenRight").transform.GetChild(1).gameObject.SetActive(false); //Отключили триггер на двери тюрьмы
+                    InActive(2);
+                    Camera.main.transform.position = new Vector3(-48.23f, -10.1f, -10f);
+                    GameObject scene = GameObject.Find("Scene1.2");
+                    scene.transform.Find("Player2").gameObject.SetActive(true);
                     PlayableDirector catScene = GameObject.Find("CatScene2").GetComponent<PlayableDirector>();
                     catScene.Play();
-                    catScene.stopped += DialoguePreparing;
                     break;
                 }
-            default: Debug.Log($"OTHER LODING NUMBER = {LoadingNumber}"); break;
+            case 3:
+                {
+                    InActive(2);
+                    InActive(3);
+                    break;
+                }
         
         }
     }
-    //Отключает возможность двигаться во время проигрывания диалога в кат-сцене 
-    private void DialoguePreparing(PlayableDirector anim)
+    //Отключает ненужные объекты из сцены по номеру захода на сцену
+    private void InActive(int n)
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<PlayerMotion>().enabled = false;
-    }
-    //Включает эту возможность обратно
-    public void DialogueEnd() 
-    {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<PlayerMotion>().enabled = true;
-    }
+        switch (n)
+        {
+            case 2:
+                {
+                    GameObject.Find("Player1").SetActive(false);
+                    GameObject.Find("DoorOpenRight").transform.GetChild(1).gameObject.SetActive(false); //Отключили триггер на двери тюрьмы
+                    break;
+                }
+            case 3:
+                {
+                    GameObject scene = GameObject.Find("Scene1.2");
+                    scene.GetComponentInChildren<SwitchScene>().enabled = false;
+                    scene.transform.Find("Soldier").gameObject.SetActive(false);
+                    scene.transform.Find("Soldier (1)").gameObject.SetActive(false);
+                    scene.transform.Find("Patient1").gameObject.SetActive(false);
+                    break;
+                }
 
+        }
+    }
 }

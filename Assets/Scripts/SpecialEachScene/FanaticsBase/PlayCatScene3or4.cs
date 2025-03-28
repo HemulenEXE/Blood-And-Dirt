@@ -12,7 +12,6 @@ public class NewBehaviourScript : MonoBehaviour
     private Dialogue _dialogue;
     private ShowDialogueDubl _director;
     private bool isTriger = false;
-    private PlayableDirector catScene;
     private void Start()
     {
         _director = GetComponent<ShowDialogueDubl>();
@@ -27,7 +26,9 @@ public class NewBehaviourScript : MonoBehaviour
 
         if (!isTriger && !DialogueWindow.activeSelf && (_dialogue.GetCurentNode().exit == "True"))
         {
+            Debug.Log("Окончание диалога зафиксировано!");
             isTriger = true;
+            Debug.Log(PlayerPrefs.GetInt("nextScene"));
             if (PlayerPrefs.GetInt("nextScene") == -1)
                 GameObject.Find("CatScene3").GetComponent<PlayableDirector>().Play(); 
             else GameObject.Find("CatScene4").GetComponent<PlayableDirector>().Play();

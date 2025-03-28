@@ -9,9 +9,9 @@ namespace CameraLogic.CameraMotion
     public class CameraMove : MonoBehaviour
     {
         /// <summary>
-        /// Возвращает компонент, отвечающий представление игрока в пространстве.
+        /// Возвращает компонент, отвечающий представление игрока 
         /// </summary>
-        private Transform _transformPlayer;
+        private GameObject _transformPlayer;
         /// <summary>
         /// Скорость перемещения камеры.
         /// </summary>
@@ -26,23 +26,24 @@ namespace CameraLogic.CameraMotion
         /// <exception cref="ArgumentException"></exception>
         private void Awake()
         {
-            _transformPlayer = GameObject.FindGameObjectWithTag("Player")?.transform;
+            _transformPlayer = GameObject.FindGameObjectWithTag("Player");
 
             if (_transformPlayer == null) throw new ArgumentNullException("CameraMove: _transformPlayer is null");
             if (_speed < 0) throw new ArgumentOutOfRangeException("CameraMove: _speed < 0");
         }
         private void Update()
         {
-            Move();
+            if (_transformPlayer.activeSelf)
+                Move();
         }
         /// <summary>
         /// Плавное перемещение камеры.
         /// </summary>
         private void Move()
         {
-            if(_transformPlayer != null)
+            if(_transformPlayer.transform != null )
             {
-                Vector3 distance = _transformPlayer.position + _offset;
+                Vector3 distance = _transformPlayer.transform.position + _offset;
                 this.transform.position = Vector3.Lerp(this.transform.position, distance, _speed * Time.deltaTime); //Плавное перемещение камеры.
             }
             
