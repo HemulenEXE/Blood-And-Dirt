@@ -515,7 +515,7 @@ GameObject:
   - component: {fileID: 6532914847995470812}
   - component: {fileID: 3828984879713643637}
   m_Layer: 6
-  m_Name: machine gunner
+  m_Name: GreenSoldierWithMachineGun
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -694,7 +694,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8080232951600587331}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a4fde9c7ae2792d43a66b5b5b04298c1, type: 3}

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class HealthBot : AbstractHealth
 {
-    private GameObject _body;
-    private AudioClip _audio;
+    private GameObject[] _bodyPrefabs;
+    private AudioClip _deathSound;
 
     public static event Action<BotController> death;
     private void OnCollisionEnter2D(Collision2D collision)
@@ -48,17 +48,32 @@ public class HealthBot : AbstractHealth
 
     public override void Death()
     {
+        SetLayerRecursively(transform.parent.gameObject, LayerMask.NameToLayer("Invisible"));
         death?.Invoke(transform.root.GetComponent<BotController>());
-        // this.GetComponent<AudioSource>()?.PlayOneShot(_audio);
-        GameObject.Instantiate(_body, this.transform.position, Quaternion.identity);
-        Destroy(transform.root.gameObject);
+        this.transform.parent.GetComponent<AudioSource>()?.PlayOneShot(_deathSound);
+        GameObject.Instantiate(_bodyPrefabs[UnityEngine.Random.Range(0, _bodyPrefabs.Length)], this.transform.position, Quaternion.identity);
+        Destroy(transform.root.gameObject, _deathSound.length);
 
     }
-
-    void Start()
+    private void SetLayerRecursively(GameObject obj, int newLayer)
     {
-        _body = Resources.Load<GameObject>("Prefabs/Enemies/Body");
-        _audio = _audio = Resources.Load<AudioClip>("Audios/death_sound");
+        obj.layer = newLayer;
+
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer);
+            Destroy(child.GetComponent<Collider2D>());
+            Destroy(child.GetComponent<Rigidbody2D>());
+        }
+    }
+
+    private void Awake()
+    {
+        string type = transform.parent.name;
+        if (type.Contains("GreenSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/GreenSoldierBodies");
+        if (type.Contains("PurpleSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/PurpleSoldierBodies");
+
+        _deathSound = Resources.Load<AudioClip>("Audios/Enemies/DeathSound");
         currentHealth = maxHealth;
     }
 }
