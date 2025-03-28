@@ -30,8 +30,13 @@ public class NewBehaviourScript : MonoBehaviour
             isTriger = true;
             Debug.Log(PlayerPrefs.GetInt("nextScene"));
             if (PlayerPrefs.GetInt("nextScene") == -1)
-                GameObject.Find("CatScene3").GetComponent<PlayableDirector>().Play(); 
-            else GameObject.Find("CatScene4").GetComponent<PlayableDirector>().Play();
+                GameObject.Find("CatScene3").GetComponent<PlayableDirector>().Play();
+            else
+            {
+                PlayerPrefs.SetInt("LoadingNumber", 3);
+                PlayerPrefs.Save();
+                GameObject.Find("CatScene4").GetComponent<PlayableDirector>().Play();
+            }
         }
     }
 }

@@ -59,7 +59,7 @@ public class MainMenu : MonoBehaviour
         else
         {
             ScenesManager.Instance.OnSelectedScene(PlayerPrefs.GetInt("currentScene"));
-            PlayerPrefs.DeleteAll(); //Строчка добавлена для проверки, потом удалить!
+           // PlayerPrefs.DeleteAll(); //Строчка добавлена для проверки, потом удалить!
         }
     }
     /// <summary>

@@ -27,6 +27,7 @@ public class End1_2 : MonoBehaviour
         if (!DialogueWindow.activeSelf && (_dialogue.GetCurentNodeIndex() == _dialogue.Nodes.Length - 1) && catSceneOver) 
         {
             PlayerPrefs.SetInt("LoadingNumber", 3);
+            PlayerPrefs.Save();
             GameObject.Find("CatScene5").GetComponent<PlayableDirector>().Play();
         }
     }

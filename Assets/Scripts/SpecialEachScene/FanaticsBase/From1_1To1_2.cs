@@ -13,7 +13,7 @@ public class From1_1To1_2 : SwitchScene
         {
             PlayerPrefs.SetInt("LoadingNumber", 2);
             PlayerPrefs.Save();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            ScenesManager.Instance.OnSelectedScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }
