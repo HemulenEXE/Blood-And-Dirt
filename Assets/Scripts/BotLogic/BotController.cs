@@ -302,39 +302,41 @@ public class BotController : MonoBehaviour
 
     private IEnumerator CheckNoiseState(Transform noiseTransform, float timeAwaiting = 5)
     {
-        if(noiseTransform == null)
+        if (noiseTransform == null)
         {
-            yield return null;
+            yield break; // Завершаем корутину, если изначально объект отсутствует
         }
+
         sourceNoise = noiseTransform;
         stateBot = StateBot.checkNoise;
 
         float timeout = 2f;
         float timer = 0f;
 
-        while (Mathf.Abs(Quaternion.Angle(transform.rotation, Quaternion.Euler(0, 0, SmoothLookToDirection(noiseTransform)))) > 5f)
+        while (noiseTransform != null && Mathf.Abs(Quaternion.Angle(transform.rotation, Quaternion.Euler(0, 0, SmoothLookToDirection(noiseTransform)))) > 5f)
         {
-            if (noiseTransform == null)
-            {
-                yield return null;
-            }
             if (timer > timeout)
-                break; // Выход из бесконечного цикла
+                break; // Выход из цикла, если не успели повернуться за отведённое время
 
             timer += Time.deltaTime;
             yield return null;
         }
 
+        if (noiseTransform == null) yield break; // Проверяем снова перед перемещением
+
         animator.SetBool("IsRun", true);
         agent.SetDestination(noiseTransform.position);
 
-        while (agent == null || agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
+        while (agent != null && !agent.pathPending && agent.remainingDistance > agent.stoppingDistance)
         {
+            if (noiseTransform == null) yield break; // Если объект пропал, прерываем корутину
             yield return null;
         }
 
         animator.SetBool("IsRun", false);
         yield return new WaitForSeconds(timeAwaiting);
+
+        if (noiseTransform == null) yield break; // Еще одна финальная проверка
 
         animator.SetBool("IsRun", true);
         InitToStartState();

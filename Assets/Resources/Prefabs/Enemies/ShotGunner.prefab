@@ -150,7 +150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  side: 0
 --- !u!1 &5893452345217136748
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +183,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -10.43, y: -1.37, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1940348008045369638}
@@ -287,7 +286,7 @@ MonoBehaviour:
   visionRange: 10
   loseSightTime: 3
   patrolPoints: []
-  addStartPositionToPatrol: 1
+  addStartPositionToPatrol: 0
   rotationAngle: 15
   rotationSpeed: 1
   stoppingDistance: 5
@@ -770,7 +769,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: 1007715279, guid: 91c74407ec8805245bd407b96f15fa1a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

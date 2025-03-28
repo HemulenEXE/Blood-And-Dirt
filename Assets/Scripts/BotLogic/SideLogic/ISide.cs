@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Side : MonoBehaviour
 {
+    Animator animator;
     [SerializeField] public EnemySides side;
     private List<string> enemyTags = new List<string>();
     private List<string> enemyLayers = new List<string>();

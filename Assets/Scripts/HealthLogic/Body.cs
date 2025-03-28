@@ -10,6 +10,8 @@ public class Body : ClickedObject
     private AudioClip _eating;
     [SerializeField]
     private AudioClip _eatingFinish;
+    [SerializeField]
+    private float _timeSecondsLife; // Время жизни тела (нужно, чтобы не перегружать сцены трупами)
     // Эти поля настроены у префаба
 
     public override void Interact()
@@ -28,5 +30,10 @@ public class Body : ClickedObject
         }
         else this.gameObject.GetComponent<AudioSource>().PlayOneShot(_eating);
 
+    }
+
+    public void Start()
+    {
+        Destroy(gameObject, _timeSecondsLife); 
     }
 }
