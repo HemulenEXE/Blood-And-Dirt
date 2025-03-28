@@ -16,7 +16,6 @@ public class BotController : MonoBehaviour
     [SerializeField] private float stoppingDistance = 5;
     private float _nextAttackTime;
 
-
     private Animator animator;
     private IGun gun;
     private StateBot stateBot;
@@ -131,15 +130,15 @@ public class BotController : MonoBehaviour
         switch (stateBot) 
         {
             case StateBot.combat:
-                animator.SetBool("IsRun", true);
+                animator.SetBool("IsMoving", true);
                 CombateState();
                 break;
             case StateBot.peace:
-                animator.SetBool("IsRun", IsAgentMoving(agent));
+                animator.SetBool("IsMoving", IsAgentMoving(agent));
                 PeaceState();
                 break;
             case StateBot.patrol:
-                animator.SetBool("IsRun", true);
+                animator.SetBool("IsMoving", true);
                 PatrolState();
                 break; 
             case StateBot.checkNoise:
@@ -287,7 +286,7 @@ public class BotController : MonoBehaviour
             yield return null;
         }
 
-        animator.SetBool("IsRun", true);
+        animator.SetBool("IsMoving", true);
         agent.SetDestination(noiseTransform.position);
 
         while (agent == null || agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
@@ -295,11 +294,11 @@ public class BotController : MonoBehaviour
             yield return null;
         }
 
-        animator.SetBool("IsRun", false);
+        animator.SetBool("IsMoving", false);
 
         yield return new WaitForSeconds(timeAwaiting);
         
-        animator.SetBool("IsRun", true);
+        animator.SetBool("IsMoving", true);
         InitToStartState();
     }
 

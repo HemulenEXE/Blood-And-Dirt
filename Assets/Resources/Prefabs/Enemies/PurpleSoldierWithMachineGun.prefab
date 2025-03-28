@@ -420,7 +420,7 @@ Transform:
   m_GameObject: {fileID: 4280715035612955868}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.511, y: -0.055, z: 0}
+  m_LocalPosition: {x: 1.04, y: -0.035, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -467,7 +467,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 2523227975203843127, guid: 06e9014218c9f4b44882f6d33aaa7aeb, type: 3}
+  m_Sprite: {fileID: -6033463388659760365, guid: 4c9d53aef87233b48b1e99d459ff0392, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -488,7 +488,7 @@ Animator:
   m_GameObject: {fileID: 4280715035612955868}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 751e44381972dd74f81eb26c35b8e720, type: 2}
+  m_Controller: {fileID: 9100000, guid: 50956ee3cf2f0754aa309c7caeacb8e3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -515,7 +515,7 @@ GameObject:
   - component: {fileID: 6532914847995470812}
   - component: {fileID: 3828984879713643637}
   m_Layer: 6
-  m_Name: machine gunner
+  m_Name: PurpleSoldierWithMachineGun
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -530,8 +530,8 @@ Transform:
   m_GameObject: {fileID: 8080232951600587331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.39, y: -5.98, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8909172151905069083}

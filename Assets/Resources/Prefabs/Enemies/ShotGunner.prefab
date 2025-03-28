@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 52289187910518915}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: SpawnerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -10.43, y: -1.37, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1940348008045369638}
@@ -447,7 +447,7 @@ GameObject:
   - component: {fileID: 7157973909701997318}
   - component: {fileID: 2994775627741083706}
   - component: {fileID: 3770069618172774037}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: ShotGun
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -463,7 +463,7 @@ Transform:
   m_GameObject: {fileID: 7984570884006783020}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.333, y: -0.364, z: 0}
+  m_LocalPosition: {x: 0.295, y: -0.27, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -630,19 +630,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2870e0e9f555bf04485b663f86e8b6e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _delayShot: 0.5
-  _ammoTotal: 100
-  _ammoCapacity: 5
-  _ammoTotalCurrent: 5
-  _timeRecharging: 2
   noiseIntensity: 5
   _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
   _countPerShotProjectile: 6
-  _speedProjectile: 50
   _spreadAngle: 15
+  _audioControl: {fileID: 0}
   _audioFire: {fileID: 8300000, guid: d7b5e1ec6a3a400419d87e47b88ab374, type: 3}
   _audioRecharge: {fileID: 8300000, guid: cfdded6289e9b6645899379c13139bd4, type: 3}
   _audioPlatoon: {fileID: 8300000, guid: 595f9f079b2c7be49ab74e193472a2d3, type: 3}
+  <Damage>k__BackingField: 5
+  <ShotDelay>k__BackingField: 0.5
+  <AmmoTotal>k__BackingField: 100
+  <AmmoCapacity>k__BackingField: 5
+  <AmmoTotalCurrent>k__BackingField: 0
+  <RechargingTime>k__BackingField: 2
 --- !u!58 &3770069618172774037
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -705,8 +706,8 @@ Transform:
   m_GameObject: {fileID: 8791992227568323215}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalPosition: {x: 0.699, y: 0.189, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8131447860137616551}
@@ -752,7 +753,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 1007715279, guid: 91c74407ec8805245bd407b96f15fa1a, type: 3}
+  m_Sprite: {fileID: -5126156050982854369, guid: c8e2ba24a26230b4d95edbd824ebaa76, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -773,7 +774,7 @@ Animator:
   m_GameObject: {fileID: 8791992227568323215}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d052e378f5df4a240bf87a7abeb8ba7b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2aaaef15a965ba64ca5d691203ad4505, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
