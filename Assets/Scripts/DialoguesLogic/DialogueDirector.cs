@@ -66,7 +66,10 @@ public class ShowDialogueDubl : MonoBehaviour
                 else if (_dialogue.GetCurentNode().answers == null)
                 {
                     _dialogue.ToNextNode();
-                    GoToReplic(); }
+                    if (_dialogue.GetCurentNode().npcText != null)
+                        GoToReplic();
+                    else GoToAnswers();
+                }
                 else GoToAnswers();
             }
             else

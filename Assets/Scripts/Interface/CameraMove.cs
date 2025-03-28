@@ -35,6 +35,7 @@ namespace CameraLogic.CameraMotion
         {
             if (_transformPlayer.activeSelf)
                 Move();
+            else _transformPlayer = GameObject.FindGameObjectWithTag("Player");
         }
         /// <summary>
         /// Плавное перемещение камеры.
