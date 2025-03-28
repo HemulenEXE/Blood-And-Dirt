@@ -2399,6 +2399,7 @@ GameObject:
   - component: {fileID: 1357599488}
   - component: {fileID: 1357599487}
   - component: {fileID: 1357599486}
+  - component: {fileID: 1357599492}
   m_Layer: 0
   m_Name: Gector
   m_TagString: Untagged
@@ -2498,7 +2499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85cfdbe917001b843870857d30cf85a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FileName: {fileID: 4900000, guid: 88036dfb47678a2448d7e717692d63f5, type: 3}
+  FileName: {fileID: 4900000, guid: 99e413cd2534a3b4aaf413aa98864807, type: 3}
   DialogueWindow: {fileID: 1634544874}
   TimeBetweenLetters: 0.01
 --- !u!114 &1357599489
@@ -2580,6 +2581,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 37.431}
+--- !u!114 &1357599492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357599485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b4dc9292addf34ebbc533032962ec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SwitchOn: 0
+  Name: 
+  Index: -1
+  FileName: {fileID: 4900000, guid: 99e413cd2534a3b4aaf413aa98864807, type: 3}
 --- !u!1 &1439125191
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,15 +8,14 @@ using UnityEngine.Playables;
 //Отвечает за активацию/деактивацию нужных скриптов при каждом новом попадании на эту сцену
 public class FanaticsBaseController : MonoBehaviour
 {
-    public int LoadingNumber = 0; //Фиксирует число заходов на эту сцену, т.к. каждый раз на ней происходят разные действия
-    private static FanaticsBaseController instance;
-    public static FanaticsBaseController Instance() { 
-        if (instance == null)
-            instance = new FanaticsBaseController();
-        return instance;
-    }
+    private int LoadingNumber; //Фиксирует число заходов на эту сцену, т.к. каждый раз на ней происходят разные действия
+
     private void Start()
     {
+        Debug.Log("Scene is loaded!");
+        Debug.Log($"{PlayerPrefs.HasKey("LoadingNumber")} <-> {PlayerPrefs.GetInt("LoadingNumber")}");
+        LoadingNumber = PlayerPrefs.GetInt("LoadingNumber", 1);
+        Debug.Log(LoadingNumber);
         switch (LoadingNumber)
         {
             case 1: 
@@ -25,6 +24,7 @@ public class FanaticsBaseController : MonoBehaviour
                 }
             case 2: 
                 {
+                    Debug.Log(LoadingNumber);
                     GameObject.Find("Player1").SetActive(false);
                     GameObject.Find("DoorOpenRight").transform.GetChild(1).gameObject.SetActive(false); //Отключили триггер на двери тюрьмы
                     PlayableDirector catScene = GameObject.Find("CatScene2").GetComponent<PlayableDirector>();
@@ -32,6 +32,7 @@ public class FanaticsBaseController : MonoBehaviour
                     catScene.stopped += DialoguePreparing;
                     break;
                 }
+            default: Debug.Log($"OTHER LODING NUMBER = {LoadingNumber}"); break;
         
         }
     }
@@ -47,4 +48,5 @@ public class FanaticsBaseController : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         player.GetComponent<PlayerMotion>().enabled = true;
     }
+
 }

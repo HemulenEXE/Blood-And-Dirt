@@ -13,7 +13,7 @@ public class SwitchScene : MonoBehaviour
     public string Name = null; //Если перемещение по имени     
     public int Index = -1; //Если перемещение по индексу
 
-    protected void Switch()
+    public void Switch()
     {
         switch (SwitchOn)
         {
