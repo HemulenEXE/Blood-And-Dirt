@@ -7,6 +7,7 @@ public class SwitchOnEnter : SwitchScene
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Switch();
+        if (collision.tag == "Player")
+            Switch();
     }
 }

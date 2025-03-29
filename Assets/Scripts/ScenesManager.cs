@@ -46,7 +46,7 @@ public class ScenesManager : MonoBehaviour
 
         Fader.Instance.FadeIn(() => _isfade = true);
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
         if (!(_isfade && asyncLoad.isDone))
             yield return null;
 
@@ -84,10 +84,9 @@ public class ScenesManager : MonoBehaviour
         Time.timeScale = 1;
         PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы перешли на указанный уровень 
         PlayerPrefs.Save();
-
         Fader.Instance.FadeIn(() => _isfade = true);
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index, LoadSceneMode.Single);
         if (!(_isfade && asyncLoad.isDone))
             yield return null;
 

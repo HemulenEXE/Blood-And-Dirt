@@ -33,7 +33,7 @@ namespace CameraLogic.CameraEffects
             {
                 if (_instance == null)
                 {
-                    var prefab = Resources.Load<Fader>("Prefabs/Interface/Fader");
+                    var prefab = Resources.Load<Fader>("Prefabs/Interfaces/Fader");
                     _instance = Instantiate(prefab);
                     DontDestroyOnLoad(_instance.gameObject);
                 }

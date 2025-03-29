@@ -13,13 +13,13 @@ public class SwitchScene : MonoBehaviour
     public string Name = null; //Если перемещение по имени     
     public int Index = -1; //Если перемещение по индексу
 
-    protected void Switch()
+    public void Switch()
     {
         switch (SwitchOn)
         {
             case States.Next: ScenesManager.Instance.OnNextScene(); break;
             case States.Previous: ScenesManager.Instance.OnPreviousScene(); break;
-            case States.Current: ScenesManager.Instance.OnSelectedScene("currentScene"); break;
+            case States.Current: ScenesManager.Instance.OnSelectedScene(SceneManager.GetActiveScene().buildIndex); break;
             case States.ByName: ScenesManager.Instance.OnSelectedScene(Name); break;
             case States.ByIndex: ScenesManager.Instance.OnSelectedScene(Index); break;
             case States.ByDialogue: ScenesManager.Instance.OnSelectedScene(PlayerPrefs.GetInt("nextScene")); break;

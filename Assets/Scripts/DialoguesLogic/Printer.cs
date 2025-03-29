@@ -241,6 +241,7 @@ public class Printer : MonoBehaviour
         _rInd--;
         Debug.Log($"_replicInd = {_replicInd}");
     }
+ 
     /// <summary>
     /// Печатает поданный текст на панеле
     /// </summary>

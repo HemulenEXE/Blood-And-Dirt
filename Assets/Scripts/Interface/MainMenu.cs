@@ -51,7 +51,16 @@ public class MainMenu : MonoBehaviour
     private void OnCompaniClick()
     { 
         Debug.Log("Company");
-        ScenesManager.Instance.OnSelectedScene(2);
+        if (PlayerPrefs.GetInt("currentScene", 0) == 0)
+        {
+            PlayerPrefs.DeleteAll();
+            ScenesManager.Instance.OnSelectedScene(2);
+        }
+        else
+        {
+            ScenesManager.Instance.OnSelectedScene(PlayerPrefs.GetInt("currentScene"));
+           // PlayerPrefs.DeleteAll(); //Строчка добавлена для проверки, потом удалить!
+        }
     }
     /// <summary>
     /// Нажатие на кнопку арена
