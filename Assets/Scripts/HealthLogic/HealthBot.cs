@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using Grenades;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class HealthBot : AbstractHealth
 {
@@ -11,6 +12,8 @@ public class HealthBot : AbstractHealth
     public static event Action<BotController> death;
     private GameObject _body;
     private AudioClip _audio;
+    private GameObject[] _bodyPrefabs;
+    private AudioClip _deathSound;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -76,20 +79,43 @@ public class HealthBot : AbstractHealth
 
     public override void Death()
     {
-        death?.Invoke(transform.root.GetComponent<BotController>());
-        // this.GetComponent<AudioSource>()?.PlayOneShot(_audio);
-        GameObject.Instantiate(_body, this.transform.position, Quaternion.identity);
-        Destroy(transform.root.gameObject);
+        DisableBotComponents(this.transform.parent.gameObject);
 
+        death?.Invoke(transform.root.GetComponent<BotController>());
+
+        this.transform.parent.GetComponent<AudioSource>()?.PlayOneShot(_deathSound);
+
+        GameObject.Instantiate(_bodyPrefabs[UnityEngine.Random.Range(0, _bodyPrefabs.Length)], this.transform.position, Quaternion.identity);
+
+        var animator = this.transform.parent.GetComponentInChildren<Animator>();
+        string deathTrigger = UnityEngine.Random.Range(0, 2) == 0 ? "Death1" : "Death2";
+        animator.SetTrigger(deathTrigger);
+
+        Destroy(transform.root.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
     }
+    private void DisableBotComponents(GameObject start)
+    {
+        Collider2D[] colliders = start.GetComponentsInChildren<Collider2D>();
+        foreach (var x in colliders) x.enabled = false;
+
+        var components = start.GetComponents<MonoBehaviour>();
+        foreach (var x in components) if (x.GetType() != typeof(AudioSource)) x.enabled = false;
+
+        var navMeshAgent = start.GetComponent<NavMeshAgent>();
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.isStopped = true;
+        }
+    }
+
     private void Awake()
     {
         side = GetComponentInParent<Side>().side;
-    }
-    void Start()
-    {
-        _body = Resources.Load<GameObject>("Prefabs/Enemies/Body");
-        _audio = _audio = Resources.Load<AudioClip>("Audios/death_sound");
+        string type = transform.parent.name;
+        if (type.Contains("GreenSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/GreenSoldierBodies");
+        if (type.Contains("PurpleSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/PurpleSoldierBodies");
+
+        _deathSound = Resources.Load<AudioClip>("Audios/Enemies/DeathSound");
         currentHealth = maxHealth;
     }
 }

@@ -68,11 +68,11 @@ public class ControllerScene : MonoBehaviour
         {
             foreach (var _enemy in _enemies)
             {
-                if (_enemy.transform.position == enemy.transform.position)
+                if (_enemy != null && _enemy.transform.position == enemy.transform.position)
                 {
                     continue;
                 }
-                if (Vector3.Distance(enemy.position, _enemy.transform.position) <= alarmDistance)
+                if (_enemy != null && Vector3.Distance(enemy.position, _enemy.transform.position) <= alarmDistance)
                 {
                     _enemy.NotifiedOfEnemy(player);
                 }
@@ -87,7 +87,7 @@ public class ControllerScene : MonoBehaviour
         {
             foreach (var _enemy in _enemies)
             {
-                if (Vector2.Distance(_enemy.transform.position, transform.position) <= radiusNoise)
+                if (_enemy != null && Vector2.Distance(_enemy.transform.position, transform.position) <= radiusNoise)
                 {
                     _enemy.ReactToNoise(transform);
                 }

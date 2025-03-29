@@ -1,9 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System;
-using GunLogic;
 
 public class BotController : MonoBehaviour
 {
@@ -32,7 +31,7 @@ public class BotController : MonoBehaviour
     private Transform sourceNoise;
     private bool hasCollidedWithPlayer;
 
-    public static event  Action<Transform, Transform> DetectedEnemy;
+    public static event Action<Transform, Transform> DetectedEnemy;
 
     private void Awake()
     {
@@ -115,7 +114,7 @@ public class BotController : MonoBehaviour
 
     private void OnPlayerDetected(Transform playerTransform)
     {
-        if(stateBot != StateBot.combat)
+        if (stateBot != StateBot.combat)
         {
             audioSource.Play();
         }
@@ -138,22 +137,22 @@ public class BotController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        switch (stateBot) 
+        switch (stateBot)
         {
             case StateBot.combat:
-                //animator.SetBool("IsRun", true);
+                animator.SetBool("IsMoving", true);
                 CombateState();
                 break;
             case StateBot.peace:
-                //animator.SetBool("IsRun", Helper.IsAgentMoving(agent));
+                animator.SetBool("IsMoving", IsAgentMoving(agent));
                 PeaceState();
                 break;
             case StateBot.patrol:
-                //animator.SetBool("IsRun", true);
+                animator.SetBool("IsMoving", true);
                 PatrolState();
-                break; 
+                break;
             case StateBot.checkNoise:
-                
+
                 //LookToDirection(sourceNoise);
                 break;
 
@@ -168,7 +167,7 @@ public class BotController : MonoBehaviour
         {
             ChasePlayer();
             UpdateChaseTimer();
-            if(IsPlayerVisible() && _nextAttackTime <= 0)
+            if (IsPlayerVisible() && _nextAttackTime <= 0)
             {
                 gun.Shoot(sideBot.CreateSideBullet());
             }
@@ -182,7 +181,7 @@ public class BotController : MonoBehaviour
             //gun.IsShooting = false;
             StopChase();
         }
-        
+
     }
 
     private void PeaceState()
@@ -227,7 +226,6 @@ public class BotController : MonoBehaviour
         }
 
         LookToDirection(targetPlayer);
-
     }
 
     private void UpdateChaseTimer()
@@ -292,8 +290,8 @@ public class BotController : MonoBehaviour
 
     public void ReactToNoise(Transform noiseTransform)
     {
-       
-        if(stateBot != StateBot.combat) 
+
+        if (stateBot != StateBot.combat)
         {
             stateBot = StateBot.checkNoise;
             StartCoroutine(CheckNoiseState(noiseTransform));
@@ -321,10 +319,9 @@ public class BotController : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
-
         if (noiseTransform == null) yield break; // Проверяем снова перед перемещением
 
-        animator.SetBool("IsRun", true);
+        animator.SetBool("IsMoving", true);
         agent.SetDestination(noiseTransform.position);
 
         while (agent != null && !agent.pathPending && agent.remainingDistance > agent.stoppingDistance)
@@ -332,13 +329,12 @@ public class BotController : MonoBehaviour
             if (noiseTransform == null) yield break; // Если объект пропал, прерываем корутину
             yield return null;
         }
-
-        animator.SetBool("IsRun", false);
+        animator.SetBool("IsMoving", false);
         yield return new WaitForSeconds(timeAwaiting);
 
         if (noiseTransform == null) yield break; // Еще одна финальная проверка
 
-        animator.SetBool("IsRun", true);
+        animator.SetBool("IsMoving", true);
         InitToStartState();
     }
 

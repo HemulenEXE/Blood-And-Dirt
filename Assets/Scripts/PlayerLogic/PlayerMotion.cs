@@ -18,7 +18,7 @@ public class PlayerMotion : MonoBehaviour
     private void AnimationControl()
     {
         _animator.SetBool("IsMoving", PlayerData.IsWalking || PlayerData.IsRunning || PlayerData.IsStealing);
-        var currentItem = _inventoryAndConsumableCounterUI.GetItem();
+        var currentItem = _inventoryAndConsumableCounterUI?.GetItem();
         if (currentItem?.GetComponent<ShotGun>() != null)
         {
             _animator.SetBool("ShotGun", true);
@@ -98,7 +98,7 @@ public class PlayerMotion : MonoBehaviour
 
         if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
         if (_animator == null) throw new ArgumentNullException("PlayerMotion: _animator is null");
-        if (_inventoryAndConsumableCounterUI == null) throw new ArgumentNullException("PlayerMotion: _inventoryAndConsumableCounterUI is null");
+        //if (_inventoryAndConsumableCounterUI == null) throw new ArgumentNullException("PlayerMotion: _inventoryAndConsumableCounterUI is null");
     }
     private void Update()
     {
