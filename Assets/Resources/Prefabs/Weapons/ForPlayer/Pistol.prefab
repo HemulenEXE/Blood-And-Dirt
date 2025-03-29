@@ -239,7 +239,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1005829937692749068}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6135961ef7cc92a4da727f1af5a7f2c4, type: 3}
+  m_Script: {fileID: 11500000, guid: fe74912cb2dffbc43af2b0bc65c67e26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Icon: {fileID: -642848129507076058, guid: 1a3032229f77763499a4e9b9d4ecda43, type: 3}
@@ -255,12 +255,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6643af50fa30cf84d8676a36d38762e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
   noiseIntensity: 5
+  _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
   _audioControl: {fileID: 0}
   _audioFire: {fileID: 8300000, guid: f6aa75816b9bc394d81a68a878fe7f5e, type: 3}
   _audioRecharge: {fileID: 8300000, guid: 4fa7a62340ff47041831d1911bf4ff97, type: 3}
-  attackRange: 40
   _audioPlatoon: {fileID: 0}
   <Damage>k__BackingField: 2
   <ShotDelay>k__BackingField: 0.2
@@ -268,6 +267,7 @@ MonoBehaviour:
   <AmmoCapacity>k__BackingField: 10
   <AmmoTotalCurrent>k__BackingField: 0
   <RechargingTime>k__BackingField: 1
+  <AttackRange>k__BackingField: 10
 --- !u!1 &8161390117245776335
 GameObject:
   m_ObjectHideFlags: 0
