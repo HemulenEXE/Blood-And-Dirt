@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,7 +13,7 @@ public class ShowDialogueDubl : MonoBehaviour
     [SerializeField] public Transform DialogueWindow; //Canvas
     [SerializeField] public const int MaxReplicLength = 350; //Максимальное число символов реплики на экране
     [SerializeField] public float TimeBetweenLetters = 0.01f;
-    
+
     private Dialogue _dialogue;
     private Transform _panelForText;
     private Transform _panelForButtons;
@@ -30,9 +29,9 @@ public class ShowDialogueDubl : MonoBehaviour
 
     public Dialogue GetDialogue() { return _dialogue; }
     private void Awake()
-    {   
+    {
         _dialogue = Dialogue.Load(FileName);
-        
+
         _npcName = DialogueWindow.GetChild(1).GetComponent<TextMeshProUGUI>();
         _panelForText = DialogueWindow.GetChild(2).GetComponent<Transform>();
         _panelForButtons = DialogueWindow.GetChild(3).GetComponent<Transform>();
@@ -40,9 +39,9 @@ public class ShowDialogueDubl : MonoBehaviour
         _audio = DialogueWindow.GetComponent<AudioSource>();
         _continue.onClick.RemoveAllListeners();
         _continue.onClick.AddListener(Continue);
-        
+
         IsTrigger = false;
-        _prefab = Resources.Load<Button>("Prefabs/Interface/DialogueButton");
+        _prefab = Resources.Load<Button>("Prefabs/Interfaces/DialogueButton");
         printer = this.GetComponent<Printer>();
         _replicParts = new Queue<string>();
     }
@@ -66,6 +65,7 @@ public class ShowDialogueDubl : MonoBehaviour
                 else if (_dialogue.GetCurentNode().answers == null)
                 {
                     _dialogue.ToNextNode();
+
                     if (_dialogue.GetCurentNode().npcText != null)
                         GoToReplic();
                     else GoToAnswers();
@@ -152,7 +152,7 @@ public class ShowDialogueDubl : MonoBehaviour
                 }
                 if (locAnsw.exit == "True")
                     EndDialogue();
-                else 
+                else
                 {
                     _dialogue.ToNodeWithInd(locAnsw.toNode);
                     if (_dialogue.GetCurentNode().npcText != null)

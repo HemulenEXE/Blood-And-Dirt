@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-
-//Счётчик игровых очков
-public class Counter : MonoBehaviour
+﻿//Счётчик игровых очков
+public class Counter
 {
     private int points;
     private static Counter instance;
-    public static Counter Instance() 
+    public static Counter Instance()
     {
         if (instance == null)
             instance = new Counter();
@@ -15,11 +13,11 @@ public class Counter : MonoBehaviour
     //Добавление очков
     public void AddPoints(int count) { points += count; }
     //Вычитание очков
-    public void RemovePoints(int count) 
+    public void RemovePoints(int count)
     {
         if (points - count == 0)
-            points = 0; 
-        else 
-            points -= count; 
-    } 
+            points = 0;
+        else
+            points -= count;
+    }
 }
