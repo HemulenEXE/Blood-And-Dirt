@@ -75,12 +75,14 @@ public static class SettingData
     {
         if (File.Exists(_savedPath))
         {
+            Debug.Log("Exists");
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(_savedPath);
 
             XmlNode root = xmlDoc.SelectSingleNode("Settings");
             if (root != null)
             {
+                Debug.Log("Not null");
                 Volume = float.TryParse(root["Volume"]?.InnerText, out float volume) ? volume : 0.5f;
                 string temp = root["Resolution"]?.InnerText;
                 string[] parts = temp.Split(new[] { 'x', '@' });
@@ -92,6 +94,7 @@ public static class SettingData
         }
         else
         {
+            Debug.Log("Else");
             Resolutions = Screen.resolutions;
             // Значения по умолчанию
             Volume = 0.5f;
