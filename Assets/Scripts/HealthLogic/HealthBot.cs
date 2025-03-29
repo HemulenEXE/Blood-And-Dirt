@@ -50,11 +50,18 @@ public class HealthBot : AbstractHealth
     public override void Death()
     {
         DisableBotComponents(this.transform.parent.gameObject);
-        death?.Invoke(transform.root.GetComponent<BotController>());
-        this.transform.parent.GetComponent<AudioSource>()?.PlayOneShot(_deathSound);
-        GameObject.Instantiate(_bodyPrefabs[UnityEngine.Random.Range(0, _bodyPrefabs.Length)], this.transform.position, Quaternion.identity);
-        Destroy(transform.root.gameObject, _deathSound.length);
 
+        death?.Invoke(transform.root.GetComponent<BotController>());
+
+        this.transform.parent.GetComponent<AudioSource>()?.PlayOneShot(_deathSound);
+
+        GameObject.Instantiate(_bodyPrefabs[UnityEngine.Random.Range(0, _bodyPrefabs.Length)], this.transform.position, Quaternion.identity);
+
+        var animator = this.transform.parent.GetComponentInChildren<Animator>();
+        string deathTrigger = UnityEngine.Random.Range(0, 2) == 0 ? "Death1" : "Death2";
+        animator.SetTrigger(deathTrigger);
+
+        Destroy(transform.root.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
     }
     private void DisableBotComponents(GameObject start)
     {
@@ -63,12 +70,6 @@ public class HealthBot : AbstractHealth
 
         var components = start.GetComponents<MonoBehaviour>();
         foreach (var x in components) if (x.GetType() != typeof(AudioSource)) x.enabled = false;
-
-        Renderer[] renderers = start.GetComponentsInChildren<Renderer>();
-        foreach (var x in renderers)
-        {
-            x.enabled = false;
-        }
 
         var navMeshAgent = start.GetComponent<NavMeshAgent>();
         if (navMeshAgent != null)

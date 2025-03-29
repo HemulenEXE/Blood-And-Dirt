@@ -1,9 +1,6 @@
 using System;
 using UnityEngine;
 
-/// <summary>
-/// Класс, реализующий "управление взаимодействия игрока с интерактивными объектами".
-/// </summary>
 public class PlayerInteract : MonoBehaviour
 {
     public float _interactionDistance = 1f;

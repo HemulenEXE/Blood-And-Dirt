@@ -2,21 +2,9 @@ using System;
 using TMPro;
 using UnityEngine;
 
-/// <summary>
-/// Класс, реализующий "интерактивный интерфейс"
-/// </summary>
 public class InteractiveUI : MonoBehaviour
 {
-    /// <summary>
-    /// Интерактивный текст<br/>
-    /// Содержится на канвасе<br/>
-    /// Не может равняться null
-    /// </summary>
     public TextMeshProUGUI _interactiveText;
-    /// <summary>
-    /// Вертикальное смещение интерактивного текста<br/>
-    /// Может принимать отрицательные значения
-    /// </summary>
     [SerializeField] private float _offSet = 0.5f;
 
     public void TurnOnText(GameObject item)
