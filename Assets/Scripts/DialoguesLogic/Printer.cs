@@ -32,7 +32,7 @@ public class Printer : MonoBehaviour
     public void Init(Transform panel, float time, AudioSource audio) 
     {
         Debug.Log("PRINTER создан!");
-        _prefab = Resources.Load<TextMeshProUGUI>("Prefabs/Interface/Letter");
+        _prefab = Resources.Load<TextMeshProUGUI>("Prefabs/Interfaces/Letter");
         _panel = panel;
         TimeBetweenLetters = time;
         _audio = audio;
@@ -241,6 +241,7 @@ public class Printer : MonoBehaviour
         _rInd--;
         Debug.Log($"_replicInd = {_replicInd}");
     }
+ 
     /// <summary>
     /// Печатает поданный текст на панеле
     /// </summary>

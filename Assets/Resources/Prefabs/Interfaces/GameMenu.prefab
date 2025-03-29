@@ -1596,7 +1596,7 @@ GameObject:
   - component: {fileID: 4731180391377971698}
   - component: {fileID: 6990433319701473770}
   - component: {fileID: 4308399142547522435}
-  - component: {fileID: 238151318902980582}
+  - component: {fileID: 4551795026259649760}
   m_Layer: 5
   m_Name: GameMenu
   m_TagString: Untagged
@@ -1711,7 +1711,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &238151318902980582
+--- !u!114 &4551795026259649760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2048,11 +2048,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 127327004181574060, guid: 3de9430c0173dac4bb89845d56f21f39, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 13.4497
+      value: 13.449707
       objectReference: {fileID: 0}
     - target: {fileID: 127327004181574060, guid: 3de9430c0173dac4bb89845d56f21f39, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -36.433502
+      value: -36.433533
       objectReference: {fileID: 0}
     - target: {fileID: 276781974214353252, guid: 3de9430c0173dac4bb89845d56f21f39, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2435,6 +2435,14 @@ PrefabInstance:
     - target: {fileID: 2783848502848247366, guid: b69419cab80876a45b55e537387280f0, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4342667682791181976, guid: b69419cab80876a45b55e537387280f0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 5.6000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 4342667682791181976, guid: b69419cab80876a45b55e537387280f0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 5.6000004
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

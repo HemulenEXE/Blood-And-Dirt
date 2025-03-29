@@ -41,17 +41,16 @@ public class ShowDialogueDubl : MonoBehaviour
         _continue.onClick.AddListener(Continue);
 
         IsTrigger = false;
-        _prefab = Resources.Load<Button>("Prefabs/Interface/DialogueButton");
-        printer = GetComponent<Printer>();
+        _prefab = Resources.Load<Button>("Prefabs/Interfaces/DialogueButton");
+        printer = this.GetComponent<Printer>();
         _replicParts = new Queue<string>();
     }
     /// <summary>
     /// Переход к выбору ответов/пропуск анимации печати/окончание диалога по нажатию кнопки _continue
     /// </summary>
-    private void Continue()
+    public void Continue()
     {
         _replicInd = printer._rInd;
-        Debug.Log($"_replicInd = {_replicInd}, Length = {_replicParts.Peek().Length}");
         printer.StopAllCoroutines();
         if (_replicInd < _replicParts.Peek().Length - 1)
             printer.PrintReplicEntirely(_replicInd, _replicParts.Peek());
@@ -66,7 +65,10 @@ public class ShowDialogueDubl : MonoBehaviour
                 else if (_dialogue.GetCurentNode().answers == null)
                 {
                     _dialogue.ToNextNode();
-                    GoToReplic();
+
+                    if (_dialogue.GetCurentNode().npcText != null)
+                        GoToReplic();
+                    else GoToAnswers();
                 }
                 else GoToAnswers();
             }
@@ -100,10 +102,14 @@ public class ShowDialogueDubl : MonoBehaviour
     /// <summary>
     /// Запускает диалог
     /// </summary>
-    private void StartDialogue()
+    public void StartDialogue()
     {
         DialogueWindow.gameObject.SetActive(true);
         printer.Init(_panelForText, TimeBetweenLetters, _audio);
+
+        _dialogue.ToNodeWithInd(0);
+        _replicParts.Clear();
+        _replicInd = 0;
 
         if (_dialogue.GetCurentNode().npcText != null)
             GoToReplic();
@@ -213,9 +219,10 @@ public class ShowDialogueDubl : MonoBehaviour
         //Запуск побуквенной печати
         printer.PrintReplicGradually(_replicInd, _replicParts.Peek());
     }
-    private void EndDialogue()
+    public void EndDialogue()
     {
         if (DialogueWindow.gameObject.activeSelf)
             DialogueWindow.gameObject.SetActive(false);
+
     }
 }
