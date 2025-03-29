@@ -58,8 +58,8 @@ Transform:
   m_GameObject: {fileID: 3531110469218045212}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalPosition: {x: 1.504, y: 0.36, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7086636088839060460}
@@ -105,7 +105,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 1007715279, guid: 91c74407ec8805245bd407b96f15fa1a, type: 3}
+  m_Sprite: {fileID: 4912251762649549471, guid: 2a12827a0c255d04ea7e7413d3b302a6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -126,7 +126,7 @@ Animator:
   m_GameObject: {fileID: 3531110469218045212}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d052e378f5df4a240bf87a7abeb8ba7b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4e5ce7454a560604bbd3a3548ddeb993, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 7994736592976569980}
   - component: {fileID: 4905201263935484985}
   m_Layer: 6
-  m_Name: Pistoller
+  m_Name: GreenSoldierWithPistol
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,7 +169,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2188895320178270587}

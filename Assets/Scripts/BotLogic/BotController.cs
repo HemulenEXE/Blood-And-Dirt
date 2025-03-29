@@ -1,9 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System;
-using GunLogic;
 
 public class BotController : MonoBehaviour
 {
@@ -30,7 +29,7 @@ public class BotController : MonoBehaviour
     private Transform sourceNoise;
     private bool hasCollidedWithPlayer;
 
-    public static event  Action<Transform, Transform> DetectedEnemy;
+    public static event Action<Transform, Transform> DetectedEnemy;
 
     private void Awake()
     {
@@ -104,7 +103,7 @@ public class BotController : MonoBehaviour
 
     private void OnPlayerDetected(Transform playerTransform)
     {
-        if(stateBot != StateBot.combat)
+        if (stateBot != StateBot.combat)
         {
             audioSource.Play();
         }
@@ -127,7 +126,7 @@ public class BotController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        switch (stateBot) 
+        switch (stateBot)
         {
             case StateBot.combat:
                 animator.SetBool("IsMoving", true);
@@ -140,9 +139,9 @@ public class BotController : MonoBehaviour
             case StateBot.patrol:
                 animator.SetBool("IsMoving", true);
                 PatrolState();
-                break; 
+                break;
             case StateBot.checkNoise:
-                
+
                 //LookToDirection(sourceNoise);
                 break;
 
@@ -156,7 +155,7 @@ public class BotController : MonoBehaviour
         {
             ChasePlayer();
             UpdateChaseTimer();
-            if(IsPlayerVisible() && _nextAttackTime <= 0)
+            if (IsPlayerVisible() && _nextAttackTime <= 0)
             {
                 gun.Shoot(LayerMask.NameToLayer("EnemyProjectile"));
                 _nextAttackTime = gun.ShotDelay;
@@ -167,7 +166,7 @@ public class BotController : MonoBehaviour
             //gun.IsShooting = false;
             StopChase();
         }
-        
+
     }
 
     private void PeaceState()
@@ -201,7 +200,6 @@ public class BotController : MonoBehaviour
     {
         agent.SetDestination(targetPlayer.position);
         LookToDirection(targetPlayer);
-
     }
 
     private void UpdateChaseTimer()
@@ -261,8 +259,8 @@ public class BotController : MonoBehaviour
 
     public void ReactToNoise(Transform noiseTransform)
     {
-       
-        if(stateBot != StateBot.combat) 
+
+        if (stateBot != StateBot.combat)
         {
             stateBot = StateBot.checkNoise;
             StartCoroutine(CheckNoiseState(noiseTransform));
@@ -274,7 +272,7 @@ public class BotController : MonoBehaviour
         sourceNoise = noiseTransform;
         stateBot = StateBot.checkNoise;
 
-        
+
 
         //Vector3 direction = (noiseTransform.position - transform.position).normalized;
 
@@ -297,7 +295,7 @@ public class BotController : MonoBehaviour
         animator.SetBool("IsMoving", false);
 
         yield return new WaitForSeconds(timeAwaiting);
-        
+
         animator.SetBool("IsMoving", true);
         InitToStartState();
     }

@@ -1,6 +1,7 @@
 using GunLogic;
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class HealthBot : AbstractHealth
 {
@@ -48,22 +49,31 @@ public class HealthBot : AbstractHealth
 
     public override void Death()
     {
-        SetLayerRecursively(transform.parent.gameObject, LayerMask.NameToLayer("Invisible"));
+        DisableBotComponents(this.transform.parent.gameObject);
         death?.Invoke(transform.root.GetComponent<BotController>());
         this.transform.parent.GetComponent<AudioSource>()?.PlayOneShot(_deathSound);
         GameObject.Instantiate(_bodyPrefabs[UnityEngine.Random.Range(0, _bodyPrefabs.Length)], this.transform.position, Quaternion.identity);
         Destroy(transform.root.gameObject, _deathSound.length);
 
     }
-    private void SetLayerRecursively(GameObject obj, int newLayer)
+    private void DisableBotComponents(GameObject start)
     {
-        obj.layer = newLayer;
+        Collider2D[] colliders = start.GetComponentsInChildren<Collider2D>();
+        foreach (var x in colliders) x.enabled = false;
 
-        foreach (Transform child in obj.transform)
+        var components = start.GetComponents<MonoBehaviour>();
+        foreach (var x in components) if (x.GetType() != typeof(AudioSource)) x.enabled = false;
+
+        Renderer[] renderers = start.GetComponentsInChildren<Renderer>();
+        foreach (var x in renderers)
         {
-            SetLayerRecursively(child.gameObject, newLayer);
-            Destroy(child.GetComponent<Collider2D>());
-            Destroy(child.GetComponent<Rigidbody2D>());
+            x.enabled = false;
+        }
+
+        var navMeshAgent = start.GetComponent<NavMeshAgent>();
+        if (navMeshAgent != null)
+        {
+            navMeshAgent.isStopped = true;
         }
     }
 
