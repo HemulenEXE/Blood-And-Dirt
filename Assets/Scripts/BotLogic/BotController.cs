@@ -144,7 +144,7 @@ public class BotController : MonoBehaviour
                 CombateState();
                 break;
             case StateBot.peace:
-                animator.SetBool("IsMoving", IsAgentMoving(agent));
+                animator.SetBool("IsMoving", Helper.IsAgentMoving(agent));
                 PeaceState();
                 break;
             case StateBot.patrol:

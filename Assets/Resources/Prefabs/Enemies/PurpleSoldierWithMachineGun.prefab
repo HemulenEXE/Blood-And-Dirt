@@ -162,7 +162,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1584149762902731267}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -249,7 +249,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1584149762902731267}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -355,6 +355,7 @@ MonoBehaviour:
   _audioFire: {fileID: 8300000, guid: 087dc73cae54ede448a7ee2263c4cbb9, type: 3}
   _audioRecharge: {fileID: 8300000, guid: f579a69586a6b284ca9f6dd5fb3c5d4b, type: 3}
   _audioPlatoon: {fileID: 0}
+  attackRange: 0
   <Damage>k__BackingField: 6.5
   <ShotDelay>k__BackingField: 0.1
   <AmmoTotal>k__BackingField: 100
@@ -466,7 +467,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: -6033463388659760365, guid: 4c9d53aef87233b48b1e99d459ff0392, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -514,6 +515,7 @@ GameObject:
   - component: {fileID: 3679168518769529899}
   - component: {fileID: 6532914847995470812}
   - component: {fileID: 3828984879713643637}
+  - component: {fileID: 6098650877598164882}
   m_Layer: 6
   m_Name: PurpleSoldierWithMachineGun
   m_TagString: Enemy
@@ -531,7 +533,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8909172151905069083}
@@ -638,6 +640,8 @@ MonoBehaviour:
   rotationAngle: 15
   rotationSpeed: 1
   stoppingDistance: 5
+  stateSide: 1
+  stateBot: 0
 --- !u!50 &3679168518769529899
 Rigidbody2D:
   serializedVersion: 4
@@ -694,7 +698,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8080232951600587331}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a4fde9c7ae2792d43a66b5b5b04298c1, type: 3}
@@ -783,3 +787,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6098650877598164882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8080232951600587331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c80cc3b1726ab0c4cb07dc32b551d6a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  side: 1

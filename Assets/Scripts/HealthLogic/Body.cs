@@ -11,7 +11,7 @@ public class Body : ClickedObject
     [SerializeField]
     private AudioClip _eatingFinish;
     [SerializeField]
-    private float _timeSecondsLife; // Время жизни тела (нужно, чтобы не перегружать сцены трупами)
+    private float _timeSecondsLife = 10; // Время жизни тела (нужно, чтобы не перегружать сцены трупами)
     // Эти поля настроены у префаба
 
     public override void Interact()

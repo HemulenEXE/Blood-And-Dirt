@@ -1,5 +1,6 @@
 ﻿using GunLogic;
 using System;
+using UnityEditorInternal;
 
 /// <summary>
 /// Скрипт, реализующий "оружие, которое игрок может взять в свой инвентарь".

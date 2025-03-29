@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1288544944565396572}
   - component: {fileID: 7725894821161141727}
+  - component: {fileID: 588412288459841867}
   m_Layer: 0
   m_Name: PurpleSoldierBody1
   m_TagString: Untagged
@@ -84,3 +85,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &588412288459841867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3211873228534926389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f4a4c6a9778a5a49b5bb56d8d83f282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _eating: {fileID: 8300000, guid: b5a7d1d17a02b1747b8da62f046a95fc, type: 3}
+  _eatingFinish: {fileID: 8300000, guid: 4ad2d9fc0c35de54f8697ac3152b26a9, type: 3}
+  _timeSecondsLife: 10

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6198326981389611981}
   - component: {fileID: 8366633650229225833}
+  - component: {fileID: -4283977053132263529}
   m_Layer: 0
   m_Name: GreenSoldierBody1
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,3 +85,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-4283977053132263529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858809570009528013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f4a4c6a9778a5a49b5bb56d8d83f282, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _eating: {fileID: 8300000, guid: b5a7d1d17a02b1747b8da62f046a95fc, type: 3}
+  _eatingFinish: {fileID: 8300000, guid: 4ad2d9fc0c35de54f8697ac3152b26a9, type: 3}
+  _timeSecondsLife: 10
