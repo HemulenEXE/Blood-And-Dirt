@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CameraLogic.CameraEffects;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using CameraLogic.CameraEffects;
 
 /// <summary>
 /// Скрипт управления переходами между сценами + сохранением состояния сцен. Методы вызываются в других скриптах
@@ -43,7 +43,7 @@ public class ScenesManager : MonoBehaviour
 
         Fader.Instance.FadeIn(() => _isfade = true);
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
         if (!(_isfade && asyncLoad.isDone))
             yield return null;
 
@@ -60,7 +60,7 @@ public class ScenesManager : MonoBehaviour
     /// <summary>
     /// Переход на предыдущую сцену
     /// </summary>
-    public void OnPreviousScene() 
+    public void OnPreviousScene()
     {
         int curentInd = SceneManager.GetActiveScene().buildIndex;
         OnSelectedScene(curentInd - 1);
@@ -70,21 +70,20 @@ public class ScenesManager : MonoBehaviour
     /// </summary>
     /// <param name="index"></param>
     public void OnSelectedScene(int index)
-    { 
-       _instance.StartCoroutine(_instance._OnSelectedScene(index)); 
+    {
+        _instance.StartCoroutine(_instance._OnSelectedScene(index));
     }
     private IEnumerator _OnSelectedScene(int index)
     {
 
-        if (index < 0) throw new ArgumentOutOfRangeException("index can't be < 0!");
-        
+        if (index < 0) throw new ArgumentOutOfRangeException("index can't be < 0!"); //Добавить проверку, что индекс не больше, чем есть индексы у сцен
+
         Time.timeScale = 1;
         PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы перешли на указанный уровень 
         PlayerPrefs.Save();
-
         Fader.Instance.FadeIn(() => _isfade = true);
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index, LoadSceneMode.Single);
         if (!(_isfade && asyncLoad.isDone))
             yield return null;
 
@@ -95,8 +94,12 @@ public class ScenesManager : MonoBehaviour
     /// </summary>
     public void OnSelectedScene(string name)
     {
-        Scene scene = SceneManager.GetSceneByName(name);
-        if (!scene.IsValid()) throw new ArgumentNullException($"Scene with name '{name}' doesn't exist!");
-        OnSelectedScene(scene.buildIndex); 
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        {
+            var scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+            if (scenePath.EndsWith(name + ".unity"))
+                OnSelectedScene(i);
+        }
+        throw new ArgumentNullException($"Scene with name '{name}' doesn't exist!"); //Уточнить правильно ли осуществляется проверка!
     }
 }

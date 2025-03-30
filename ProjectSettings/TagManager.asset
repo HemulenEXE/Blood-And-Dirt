@@ -12,6 +12,9 @@ TagManager:
   - SimpleGrenade
   - firstAidKit
   - bandage
+  - EnemyFalcons
+  - EnemyBelievers
+  - Particle
   layers:
   - Default
   - TransparentFX
@@ -19,14 +22,14 @@ TagManager:
   - Invisible
   - Water
   - UI
-  - Enemy
+  - EnemyBelievers
   - PlayerProjectile
   - EnemyProjectile
-  - Gun
+  - Gun&Grenade
   - Player
-  - 
-  - 
-  - 
+  - EnemyFalcons
+  - FalconsProjectile
+  - BelieverProjectile
   - 
   - 
   - 

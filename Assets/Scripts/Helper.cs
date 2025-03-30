@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEditor.Rendering.Universal;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Helper
 { 
@@ -33,5 +36,35 @@ public class Helper
         result.transform.localScale = transform.localScale;
 
         return result;
+    }
+
+    public static int SetMask(string[] add, string ignore)
+    {
+        return LayerMask.GetMask(add) & ~LayerMask.GetMask(ignore);
+    }
+
+    public static int SetMask(string[] add, string[] ignore)
+    {
+        return LayerMask.GetMask(add) & ~LayerMask.GetMask(ignore);
+    }
+
+    public static bool IsAgentMoving(NavMeshAgent agent)
+    {
+        return agent.hasPath && !agent.pathPending && agent.remainingDistance > agent.stoppingDistance && agent.velocity.sqrMagnitude > 0;
+    }
+
+
+    public static void SetLayerRecursive(GameObject gameObject, int layer)
+    {
+        if (gameObject == null) 
+        {
+            return;
+        }
+        gameObject.layer = layer;
+
+        foreach (Transform child in gameObject.transform)
+        {
+            SetLayerRecursive(child.gameObject, layer);
+        }
     }
 }
