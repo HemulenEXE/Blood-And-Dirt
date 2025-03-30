@@ -1,5 +1,4 @@
-﻿using GunLogic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class PlayerShooting : MonoBehaviour
             if (Input.GetKey(KeyCode.Mouse0) && _nextAttackTime <= 0)
             {
                 _nextAttackTime = _gun.ShotDelay;
-                _gun.Shoot(_sideplayer, IsPlayerShoot:true);
+                _gun.Shoot(_sideplayer, IsPlayerShoot: true);
             }
             if (Input.GetKey(KeyCode.R)) _gun.Recharge();
         }

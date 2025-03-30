@@ -1,4 +1,3 @@
-using GunLogic;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -39,6 +38,7 @@ public class GrenadeLauncher : MonoBehaviour, IGun
                 IsShooting = true;
 
                 var spawnerProjectile = this.transform.Find("SpawnerProjectile");
+
                 GameObject currentBullet = Instantiate(_prefabProjectile, spawnerProjectile.position, spawnerProjectile.rotation); // Вылет снаряда
                 currentBullet.layer = LayerMask.NameToLayer(sideBull.GetOwnLayer());
                 AmmoTotalCurrent--;

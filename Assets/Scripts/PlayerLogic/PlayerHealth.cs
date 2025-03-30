@@ -1,19 +1,18 @@
-﻿using System;
+﻿using CameraLogic.CameraEffects;
+using GunLogic;
+using System;
 using System.Collections;
 using UnityEngine;
-using Grenades;
-using GunLogic;
-using CameraLogic.CameraEffects;
 /// <summary>
 /// Класс здоровья игрока. Скрипт навешивается на игрока
 /// </summary>
 public class PlayerHealth : AbstractHealth
 {
-    
+
     private float _frameDuration = 0.5f; // Сколько длится кадр, во время которого игрок не получает урон
 
     private BloodEffect bloodController;
-    protected override void GetDamage(int value)
+    public override void GetDamage(int value)
     {
         if (PlayerData.IsGod) return;
 
@@ -37,10 +36,6 @@ public class PlayerHealth : AbstractHealth
     }
 
 
-    public override void GetDamage(SimpleGrenade grenade)
-    {
-        GetDamage((int)grenade.DamageExplosion);
-    }
     public override void GetDamage(ShrapnelGrenade granade)
     {
         GetDamage((int)granade.damageExplosion);

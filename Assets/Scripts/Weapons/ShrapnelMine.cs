@@ -19,10 +19,7 @@ public class ShrapnelMine : MonoBehaviour
         _animator.SetTrigger("Explosion");
 
         Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
-        foreach (var x in enemies)
-        {
-            //x.GetComponent<AbstractHealth>()?.GetDamage(damage);
-        }
+        foreach (var x in enemies) x.GetComponent<AbstractHealth>()?.GetDamage((int)damage);
 
         Destroy(this.gameObject, GetAnimationLength("ShrapnelMineExplosion"));
     }

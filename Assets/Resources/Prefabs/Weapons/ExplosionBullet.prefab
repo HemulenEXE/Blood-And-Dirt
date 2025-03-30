@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 8647256870770235449}
   - component: {fileID: 4557034780440582968}
   - component: {fileID: -6566398857247714944}
-  - component: {fileID: 96678988988849568}
+  - component: {fileID: 7293455954321556867}
   m_Layer: 0
   m_Name: ExplosionBullet
   m_TagString: Projectile
@@ -266,7 +266,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &96678988988849568
+--- !u!114 &7293455954321556867
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -275,6 +275,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8185501928067670845}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6a0a8382a884b742864a8699ddfdef1, type: 3}
+  m_Script: {fileID: 11500000, guid: 12c35f9530bd0c043bd9a1cdf99bc7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

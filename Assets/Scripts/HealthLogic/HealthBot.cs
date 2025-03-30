@@ -1,7 +1,5 @@
 using GunLogic;
 using System;
-using System.Drawing;
-using Grenades;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,18 +20,18 @@ public class HealthBot : AbstractHealth
         {
             if (collision.gameObject.tag == "Projectile" && collision.gameObject.layer != LayerMask.NameToLayer(Bullet.sideBullet.GetOwnLayer()))
             {
-                if(Bullet.sideBullet.IsEnemyMask(this.gameObject.layer))
+                if (Bullet.sideBullet.IsEnemyMask(this.gameObject.layer))
                 {
                     Debug.Log("Col");
                     GetDamage(Bullet);
                 }
-                
+
             }
         }
-        
+
     }
 
-    protected override void GetDamage(int value)
+    public override void GetDamage(int value)
     {
         if (!isInvulnerable)
         {
@@ -71,10 +69,6 @@ public class HealthBot : AbstractHealth
         GetDamage((int)knife.Damage);
     }
 
-    public override void GetDamage(SimpleGrenade granade)
-    {
-        GetDamage((int)granade.DamageExplosion);
-    }
     public override void GetDamage(ShrapnelGrenade granade)
     {
         GetDamage((int)granade.damageExplosion);
