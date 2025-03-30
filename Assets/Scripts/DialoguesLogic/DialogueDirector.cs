@@ -97,6 +97,7 @@ public class ShowDialogueDubl : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if(_dialogue.GetCurentNode().answers != null)
         if (collision.gameObject.tag == "Player" && !IsTrigger &&(_dialogue.GetCurentNode().exit == "True" || _dialogue.GetCurentNode().answers.Any(x => x.exit == "True")))
             IsTrigger = true;
     }

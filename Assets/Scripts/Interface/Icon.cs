@@ -57,10 +57,10 @@ public class Icon : MonoBehaviour
 
         if (PlayerData.SkillsStorage.ContainsKey(skillName))
             skill = PlayerData.SkillsStorage[skillName];
-        else throw new ArgumentNullException("Skill with such name don't exists!");
+        else skill = null; //throw new ArgumentNullException("Skill with such name don't exists!"); //Раскоментировать, когда все навыки будут подвязаны
 
-        //Раскоментировать, когда будет добавлено поле со стоимостью!!!!
-        //price = skill._price; 
+        if (skill != null)
+            price = skill.Cost; 
 
         //Включает окно с описанием способности (выключает, еcли уже включено)
         this.GetComponent<Button>().onClick.AddListener(() =>
@@ -86,15 +86,21 @@ public class Icon : MonoBehaviour
     }
     private void AddSkill(Skill skill)
     {
-        skill.IsUnlocked = true;
-        PlayerData.AddSkill(skill);
-        Debug.Log($"{skill.Name} is added!");
+        if (skill != null)
+        {
+            skill.IsUnlocked = true;
+            PlayerData.AddSkill(skill);
+            Debug.Log($"{skill.Name} is added!");
+        }
     }
     private void ActivateSkill(Skill skill)
     {
-        PlayerData.AddSkill(skill);
-        skill.Execute(_player);
-        Debug.Log($"{skill.Name} is used!");
+        if (skill != null)
+        {
+            PlayerData.AddSkill(skill);
+            skill.Execute(_player);
+            Debug.Log($"{skill.Name} is used!");
+        }
     }
 
 }
