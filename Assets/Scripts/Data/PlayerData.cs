@@ -25,49 +25,49 @@ public static class PlayerData
 
     public static HashSet<Skill> Skills = new HashSet<Skill>();
 
-    public static int MaxHealth { get; set; }
-    public static int CurrentHealth { get; set; }
-    public static bool IsGod { get; set; } // Неузвимость
-    public static int ResurrectionCount { get; set; } // Количество воскрешений
+    public static int MaxHealth { get; set; } = 100;
+    public static int CurrentHealth { get; set; } = 100;
+    public static bool IsGod { get; set; } = false; // Неузвимость
+    public static int ResurrectionCount { get; set; } = 0; // Количество воскрешений
     public static int CurrentResurrectionCount { get; set; }
     public static int HitsToSurvive { get; set; } // Количество пропускаемых ударов
     public static int CurrentHitsToSurvive { get; set; }
 
-    public static bool IsStealing { get; set; }
-    public static bool IsWalking { get; set; }
-    public static bool IsRunning { get; set; }
+    public static bool IsStealing { get; set; } = false;
+    public static bool IsWalking { get; set; } = false;
+    public static bool IsRunning { get; set; } = false;
 
-    public static float StealSpeed { get; set; }
-    public static float WalkSpeed { get; set; }
-    public static float RunSpeed { get; set; }
+    public static float StealSpeed { get; set; } = 2;
+    public static float WalkSpeed { get; set; } = 4;
+    public static float RunSpeed { get; set; } = 6;
 
-    public static float StealNoise { get; set; }
-    public static float WalkNoise { get; set; }
-    public static float RunNoise { get; set; }
+    public static float StealNoise { get; set; } = 0.3f;
+    public static float WalkNoise { get; set; } = 2f;
+    public static float RunNoise { get; set; } = 5f;
 
-    public static int BleedingDamage { get; set; }
-    public static bool IsBleeding { get; set; }
+    public static int BleedingDamage { get; set; } = 5;
+    public static bool IsBleeding { get; set; } = false;
 
-    public static int BandageCount { get; set; }
-    public static int MaxBandageCount { get; set; }
+    public static int BandageCount { get; set; } = 0;
+    public static int MaxBandageCount { get; set; } = 5;
 
-    public static int FirstAidKitCount { get; set; }
-    public static int MaxFirstAidKitCount { get; set; }
+    public static int FirstAidKitCount { get; set; } = 0;
+    public static int MaxFirstAidKitCount { get; set; } = 5;
 
-    public static int SimpleGrenadeCount { get; set; }
-    public static int MaxSimpleGrenadeCount { get; set; }
+    public static int SimpleGrenadeCount { get; set; } = 0;
+    public static int MaxSimpleGrenadeCount { get; set; } = 5;
 
-    public static int SmokeGrenadeCount { get; set; }
-    public static int MaxSmokeGrenadeCount { get; set; }
+    public static int SmokeGrenadeCount { get; set; } = 0;
+    public static int MaxSmokeGrenadeCount { get; set; } = 5;
 
-    public static int BandageHealth { get; set; } // Сколько бинт восстанавливает здоровья
-    public static int FirstAidKitHealth { get; set; } // Сколько аптечка восстанавливает здоровья
+    public static int BandageHealth { get; set; } = 15; // Сколько бинт восстанавливает здоровья
+    public static int FirstAidKitHealth { get; set; } = 30; // Сколько аптечка восстанавливает здоровья
 
-    public static int Score { get; set; } // Количество очков для прокачки
+    public static int Score { get; set; } = 10_000; // Количество очков для прокачки
 
     public static int CountArmor;
 
-    public static int InventoryCapacity { get; set; } // Число слотов
+    public static int InventoryCapacity { get; set; } = 3; // Число слотов
 
     public static void LoadData()
     {
@@ -77,46 +77,46 @@ public static class PlayerData
             xmlDoc.Load(_savedPath);
             XmlNode root = xmlDoc.DocumentElement;
 
-            MaxHealth = int.Parse(root.SelectSingleNode("MaxHealth").InnerText);
-            CurrentHealth = int.Parse(root.SelectSingleNode("CurrentHealth").InnerText);
-            HitsToSurvive = int.Parse(root.SelectSingleNode("HitsToSurvive").InnerText);
-            IsGod = bool.Parse(root.SelectSingleNode("IsGod").InnerText);
-            ResurrectionCount = int.Parse(root.SelectSingleNode("ResurrectionCount").InnerText);
+            //MaxHealth = int.Parse(root.SelectSingleNode("MaxHealth").InnerText);
+            //CurrentHealth = int.Parse(root.SelectSingleNode("CurrentHealth").InnerText);
+            //HitsToSurvive = int.Parse(root.SelectSingleNode("HitsToSurvive").InnerText);
+            //IsGod = bool.Parse(root.SelectSingleNode("IsGod").InnerText);
+            //ResurrectionCount = int.Parse(root.SelectSingleNode("ResurrectionCount").InnerText);
 
-            StealSpeed = float.Parse(root.SelectSingleNode("StealSpeed").InnerText);
-            WalkSpeed = float.Parse(root.SelectSingleNode("WalkSpeed").InnerText);
-            RunSpeed = float.Parse(root.SelectSingleNode("RunSpeed").InnerText);
+            //StealSpeed = float.Parse(root.SelectSingleNode("StealSpeed").InnerText);
+            //WalkSpeed = float.Parse(root.SelectSingleNode("WalkSpeed").InnerText);
+            //RunSpeed = float.Parse(root.SelectSingleNode("RunSpeed").InnerText);
 
-            StealNoise = float.Parse(root.SelectSingleNode("StealNoise").InnerText);
-            WalkNoise = float.Parse(root.SelectSingleNode("WalkNoise").InnerText);
-            RunNoise = float.Parse(root.SelectSingleNode("RunNoise").InnerText);
+            //StealNoise = float.Parse(root.SelectSingleNode("StealNoise").InnerText);
+            //WalkNoise = float.Parse(root.SelectSingleNode("WalkNoise").InnerText);
+            //RunNoise = float.Parse(root.SelectSingleNode("RunNoise").InnerText);
 
-            BleedingDamage = int.Parse(root.SelectSingleNode("BleedingDamage").InnerText);
-            IsBleeding = bool.Parse(root.SelectSingleNode("IsBleeding").InnerText);
+            //BleedingDamage = int.Parse(root.SelectSingleNode("BleedingDamage").InnerText);
+            //IsBleeding = bool.Parse(root.SelectSingleNode("IsBleeding").InnerText);
 
-            CountArmor = int.Parse(root.SelectSingleNode("CountArmor").InnerText);
+            //CountArmor = int.Parse(root.SelectSingleNode("CountArmor").InnerText);
 
-            BandageHealth = int.Parse(root.SelectSingleNode("BandageHealth").InnerText);
-            FirstAidKitHealth = int.Parse(root.SelectSingleNode("FirstAidKitHealth").InnerText);
-            HitsToSurvive = int.Parse(root.SelectSingleNode("HitsToSurvive").InnerText);
-            IsGod = bool.Parse(root.SelectSingleNode("IsGod").InnerText);
+            //BandageHealth = int.Parse(root.SelectSingleNode("BandageHealth").InnerText);
+            //FirstAidKitHealth = int.Parse(root.SelectSingleNode("FirstAidKitHealth").InnerText);
+            //HitsToSurvive = int.Parse(root.SelectSingleNode("HitsToSurvive").InnerText);
+            //IsGod = bool.Parse(root.SelectSingleNode("IsGod").InnerText);
 
-            BandageCount = int.Parse(root.SelectSingleNode("BandageCount").InnerText);
-            FirstAidKitCount = int.Parse(root.SelectSingleNode("FirstAidKitCount").InnerText);
-            SimpleGrenadeCount = int.Parse(root.SelectSingleNode("SimpleGrenadeCount").InnerText);
-            SmokeGrenadeCount = int.Parse(root.SelectSingleNode("SmokeGrenadeCount").InnerText);
+            //BandageCount = int.Parse(root.SelectSingleNode("BandageCount").InnerText);
+            //FirstAidKitCount = int.Parse(root.SelectSingleNode("FirstAidKitCount").InnerText);
+            //SimpleGrenadeCount = int.Parse(root.SelectSingleNode("SimpleGrenadeCount").InnerText);
+            //SmokeGrenadeCount = int.Parse(root.SelectSingleNode("SmokeGrenadeCount").InnerText);
 
-            MaxBandageCount = int.Parse(root.SelectSingleNode("MaxBandageCount").InnerText);
-            MaxFirstAidKitCount = int.Parse(root.SelectSingleNode("MaxFirstAidKitCount").InnerText);
-            MaxSmokeGrenadeCount = int.Parse(root.SelectSingleNode("MaxSmokeGrenadeCount").InnerText);
-            MaxSimpleGrenadeCount = int.Parse(root.SelectSingleNode("MaxSimpleGrenadeCount").InnerText);
+            //MaxBandageCount = int.Parse(root.SelectSingleNode("MaxBandageCount").InnerText);
+            //MaxFirstAidKitCount = int.Parse(root.SelectSingleNode("MaxFirstAidKitCount").InnerText);
+            //MaxSmokeGrenadeCount = int.Parse(root.SelectSingleNode("MaxSmokeGrenadeCount").InnerText);
+            //MaxSimpleGrenadeCount = int.Parse(root.SelectSingleNode("MaxSimpleGrenadeCount").InnerText);
 
-            CurrentHitsToSurvive = int.Parse(root.SelectSingleNode("CurrentHitsToSurvive").InnerText);
-            CurrentResurrectionCount = int.Parse(root.SelectSingleNode("CurrentResurrectionCount").InnerText);
+            //CurrentHitsToSurvive = int.Parse(root.SelectSingleNode("CurrentHitsToSurvive").InnerText);
+            //CurrentResurrectionCount = int.Parse(root.SelectSingleNode("CurrentResurrectionCount").InnerText);
 
-            Score = int.Parse(root.SelectSingleNode("Score").InnerText);
+            //Score = int.Parse(root.SelectSingleNode("Score").InnerText);
 
-            InventoryCapacity = int.Parse(root.SelectSingleNode("InventoryCapacity").InnerText);
+            //InventoryCapacity = int.Parse(root.SelectSingleNode("InventoryCapacity").InnerText);
 
             Skills.Clear();
 
@@ -137,46 +137,46 @@ public static class PlayerData
 
             Skills.Clear();
 
-            MaxHealth = 100;
-            CurrentHealth = MaxHealth;
-            HitsToSurvive = 0;
-            IsGod = false;
-            ResurrectionCount = 0;
+            //MaxHealth = 100;
+            //CurrentHealth = MaxHealth;
+            //HitsToSurvive = 0;
+            //IsGod = false;
+            //ResurrectionCount = 0;
 
-            StealSpeed = 2f;
-            WalkSpeed = 4f;
-            RunSpeed = 6f;
+            //StealSpeed = 2f;
+            //WalkSpeed = 4f;
+            //RunSpeed = 6f;
 
-            StealNoise = 0.3f;
-            WalkNoise = 2f;
-            RunNoise = 5f;
+            //StealNoise = 0.3f;
+            //WalkNoise = 2f;
+            //RunNoise = 5f;
 
-            BleedingDamage = 5;
-            IsBleeding = false;
+            //BleedingDamage = 5;
+            //IsBleeding = false;
 
-            CountArmor = 0;
+            //CountArmor = 0;
 
-            BandageHealth = 15;
-            FirstAidKitHealth = 30;
+            //BandageHealth = 15;
+            //FirstAidKitHealth = 30;
 
-            BandageCount = 0;
-            MaxBandageCount = 5;
+            //BandageCount = 0;
+            //MaxBandageCount = 5;
 
-            FirstAidKitCount = 0;
-            MaxFirstAidKitCount = 5;
+            //FirstAidKitCount = 0;
+            //MaxFirstAidKitCount = 5;
 
-            SmokeGrenadeCount = 0;
-            MaxSmokeGrenadeCount = 5;
+            //SmokeGrenadeCount = 0;
+            //MaxSmokeGrenadeCount = 5;
 
-            SimpleGrenadeCount = 0;
-            MaxSimpleGrenadeCount = 5;
+            //SimpleGrenadeCount = 0;
+            //MaxSimpleGrenadeCount = 5;
 
-            CurrentResurrectionCount = ResurrectionCount;
-            CurrentHitsToSurvive = HitsToSurvive;
+            //CurrentResurrectionCount = ResurrectionCount;
+            //CurrentHitsToSurvive = HitsToSurvive;
 
-            Score = 0;
+            //Score = 0;
 
-            InventoryCapacity = 3;
+            //InventoryCapacity = 3;
         }
     }
     public static void SaveData()
@@ -185,44 +185,44 @@ public static class PlayerData
         XmlElement root = xmlDoc.CreateElement("PlayerData");
         xmlDoc.AppendChild(root);
 
-        root.AppendChild(CreateElement(xmlDoc, "MaxHealth", MaxHealth));
-        root.AppendChild(CreateElement(xmlDoc, "CurrentHealth", CurrentHealth));
-        root.AppendChild(CreateElement(xmlDoc, "HitsToSurvive", HitsToSurvive));
-        root.AppendChild(CreateElement(xmlDoc, "IsGod", IsGod));
-        root.AppendChild(CreateElement(xmlDoc, "ResurrectionCount", ResurrectionCount));
+        //root.AppendChild(CreateElement(xmlDoc, "MaxHealth", MaxHealth));
+        //root.AppendChild(CreateElement(xmlDoc, "CurrentHealth", CurrentHealth));
+        //root.AppendChild(CreateElement(xmlDoc, "HitsToSurvive", HitsToSurvive));
+        //root.AppendChild(CreateElement(xmlDoc, "IsGod", IsGod));
+        //root.AppendChild(CreateElement(xmlDoc, "ResurrectionCount", ResurrectionCount));
 
-        root.AppendChild(CreateElement(xmlDoc, "StealSpeed", StealSpeed));
-        root.AppendChild(CreateElement(xmlDoc, "WalkSpeed", WalkSpeed));
-        root.AppendChild(CreateElement(xmlDoc, "RunSpeed", RunSpeed));
+        //root.AppendChild(CreateElement(xmlDoc, "StealSpeed", StealSpeed));
+        //root.AppendChild(CreateElement(xmlDoc, "WalkSpeed", WalkSpeed));
+        //root.AppendChild(CreateElement(xmlDoc, "RunSpeed", RunSpeed));
 
-        root.AppendChild(CreateElement(xmlDoc, "StealNoise", StealNoise));
-        root.AppendChild(CreateElement(xmlDoc, "WalkNoise", WalkNoise));
-        root.AppendChild(CreateElement(xmlDoc, "RunNoise", RunNoise));
+        //root.AppendChild(CreateElement(xmlDoc, "StealNoise", StealNoise));
+        //root.AppendChild(CreateElement(xmlDoc, "WalkNoise", WalkNoise));
+        //root.AppendChild(CreateElement(xmlDoc, "RunNoise", RunNoise));
 
-        root.AppendChild(CreateElement(xmlDoc, "BleedingDamage", BleedingDamage));
-        root.AppendChild(CreateElement(xmlDoc, "IsBleeding", IsBleeding));
+        //root.AppendChild(CreateElement(xmlDoc, "BleedingDamage", BleedingDamage));
+        //root.AppendChild(CreateElement(xmlDoc, "IsBleeding", IsBleeding));
 
-        root.AppendChild(CreateElement(xmlDoc, "CountArmor", CountArmor));
+        //root.AppendChild(CreateElement(xmlDoc, "CountArmor", CountArmor));
 
-        root.AppendChild(CreateElement(xmlDoc, "BandageCount", BandageCount));
-        root.AppendChild(CreateElement(xmlDoc, "FirstAidKitCount", FirstAidKitCount));
-        root.AppendChild(CreateElement(xmlDoc, "SimpleGrenadeCount", SimpleGrenadeCount));
-        root.AppendChild(CreateElement(xmlDoc, "SmokeGrenadeCount", SmokeGrenadeCount));
+        //root.AppendChild(CreateElement(xmlDoc, "BandageCount", BandageCount));
+        //root.AppendChild(CreateElement(xmlDoc, "FirstAidKitCount", FirstAidKitCount));
+        //root.AppendChild(CreateElement(xmlDoc, "SimpleGrenadeCount", SimpleGrenadeCount));
+        //root.AppendChild(CreateElement(xmlDoc, "SmokeGrenadeCount", SmokeGrenadeCount));
 
-        root.AppendChild(CreateElement(xmlDoc, "BandageHealth", BandageHealth));
-        root.AppendChild(CreateElement(xmlDoc, "FirstAidKitHealth", FirstAidKitHealth));
+        //root.AppendChild(CreateElement(xmlDoc, "BandageHealth", BandageHealth));
+        //root.AppendChild(CreateElement(xmlDoc, "FirstAidKitHealth", FirstAidKitHealth));
 
-        root.AppendChild(CreateElement(xmlDoc, "MaxBandageCount", MaxBandageCount));
-        root.AppendChild(CreateElement(xmlDoc, "MaxFirstAidKitCount", MaxFirstAidKitCount));
-        root.AppendChild(CreateElement(xmlDoc, "MaxSmokeGrenadeCount", MaxSmokeGrenadeCount));
-        root.AppendChild(CreateElement(xmlDoc, "MaxSimpleGrenadeCount", MaxSimpleGrenadeCount));
+        //root.AppendChild(CreateElement(xmlDoc, "MaxBandageCount", MaxBandageCount));
+        //root.AppendChild(CreateElement(xmlDoc, "MaxFirstAidKitCount", MaxFirstAidKitCount));
+        //root.AppendChild(CreateElement(xmlDoc, "MaxSmokeGrenadeCount", MaxSmokeGrenadeCount));
+        //root.AppendChild(CreateElement(xmlDoc, "MaxSimpleGrenadeCount", MaxSimpleGrenadeCount));
 
-        root.AppendChild(CreateElement(xmlDoc, "CurrentResurrectionCount", CurrentResurrectionCount));
-        root.AppendChild(CreateElement(xmlDoc, "CurrentHitsToSurvive", CurrentHitsToSurvive));
+        //root.AppendChild(CreateElement(xmlDoc, "CurrentResurrectionCount", CurrentResurrectionCount));
+        //root.AppendChild(CreateElement(xmlDoc, "CurrentHitsToSurvive", CurrentHitsToSurvive));
 
-        root.AppendChild(CreateElement(xmlDoc, "Score", Score));
+        //root.AppendChild(CreateElement(xmlDoc, "Score", Score));
 
-        root.AppendChild(CreateElement(xmlDoc, "InventoryCapacity", InventoryCapacity));
+        //root.AppendChild(CreateElement(xmlDoc, "InventoryCapacity", InventoryCapacity));
 
         XmlElement skillsElement = xmlDoc.CreateElement("Skills");
         foreach (var skill in Skills)
