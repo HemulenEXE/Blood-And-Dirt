@@ -4,10 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using UnityEngine;
+using System;
+
 
 public static class PlayerData
 {
-    private static string _savedPath = "C:\\Users\\Amethyst\\Desktop\\Downloads\\PlayerData.xml";
+    private static string _savedPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "PlayerData.xml");
+
     public static Dictionary<string, Skill> SkillsStorage { get; } = new Dictionary<string, Skill>{ // Загатовки навыков
         { "AnyPrice", new AnyPrice() },
         { "BlindRange", new BlindRange() },
