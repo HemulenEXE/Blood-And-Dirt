@@ -42,8 +42,8 @@ public static class PlayerData
     public static bool IsRunning { get; set; } = false;
 
     public static float StealSpeed { get; set; } = 2;
-    public static float WalkSpeed { get; set; } = 4;
-    public static float RunSpeed { get; set; } = 6;
+    public static float WalkSpeed { get; set; } = 3;
+    public static float RunSpeed { get; set; } = 5;
 
     public static float StealNoise { get; set; } = 0.3f;
     public static float WalkNoise { get; set; } = 2f;
