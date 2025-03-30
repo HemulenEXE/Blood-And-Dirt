@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Body : ClickedObject
 {
-    private int _maxHealth = 3;
-    private int _currentHealth = 3;
-    private int _healthBoost = 10;
+    public int _maxHealth = 3;
+    public int _currentHealth = 3;
+    public int _healthBoost = 10;
 
     [SerializeField]
     private AudioClip _eating;

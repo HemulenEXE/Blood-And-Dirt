@@ -16,7 +16,11 @@ public class IncreasedMetabolism : Skill
 
     public override void Execute(GameObject point)
     {
-        if (!PlayerData.HasSkill<DropByDrop>()) { /* Внедрение дебафа */ }
+        if (!PlayerData.HasSkill<DropByDrop>())
+        {
+            PlayerData.MaxHealth -= 20;
+            PlayerData.CurrentHealth -= 20;
+        }
         if (PlayerData.IsBleeding && !_isStartedTimer)
         {
             _isStartedTimer = true;

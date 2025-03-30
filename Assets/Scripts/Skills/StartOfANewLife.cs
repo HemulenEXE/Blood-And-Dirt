@@ -14,6 +14,7 @@ public class StartOfANewLife : Skill
 
     public override void Execute(GameObject point)
     {
+        PlayerData.CurrentHealth += (_newFullHealth - PlayerData.MaxHealth);
         PlayerData.MaxHealth = _newFullHealth;
         PlayerData.BleedingDamage = _newDamageBleeding;
     }

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 namespace SkillLogic
 {
@@ -21,13 +18,9 @@ namespace SkillLogic
         {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(point.transform.position, _distance);
 
-            foreach (var collider in colliders)
+            foreach (var x in colliders)
             {
-                if (collider.gameObject.CompareTag("Enemy"))
-                {
-                    Debug.Log("Loop");
-                    SpawnLight(collider.transform.position);
-                }
+                if (x.gameObject.CompareTag("Enemy") || x.gameObject.CompareTag("EnemyBelievers") || x.gameObject.CompareTag("EnemyFalcons")) SpawnLight(x.transform.position);
             }
         }
 
@@ -35,7 +28,7 @@ namespace SkillLogic
         {
             Debug.Log("SpawnLight!");
             GameObject lightObject = GameObject.Instantiate(_light, position, Quaternion.identity);
-            GameObject.Destroy(lightObject, 0.5f);
+            GameObject.Destroy(lightObject, 0.2f);
         }
 
     }

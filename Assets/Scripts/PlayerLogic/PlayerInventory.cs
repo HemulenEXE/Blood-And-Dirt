@@ -7,6 +7,12 @@ public class PlayerInventory : MonoBehaviour
 
     private void Start()
     {
+        var skill1 = PlayerData.GetSkill<Spin>();
+        if (skill1 != null) skill1.Execute(this.gameObject);
+
+        var skill2 = PlayerData.GetSkill<SledGrenade>();
+        if (skill2 != null) skill2.Execute(this.gameObject);
+
         inventoryAndConsumableCounterUI = GameObject.FindAnyObjectByType<InventoryAndConsumableCounterUI>();
 
         if (inventoryAndConsumableCounterUI == null) throw new ArgumentNullException("PlayerInventory: inventoryAndConsumableCounterUI is null");

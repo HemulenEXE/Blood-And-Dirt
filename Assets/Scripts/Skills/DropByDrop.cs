@@ -14,6 +14,10 @@ public class DropByDrop : Skill
     public override void Execute(GameObject point) // Вызывается один раз при активации навыка
     {
         PlayerData.BleedingDamage = _newBleedingDamage;
-        if (PlayerData.HasSkill<IncreasedMetabolism>()) { /* Отмена дебафа */ }
+        if (PlayerData.HasSkill<IncreasedMetabolism>())
+        {
+            PlayerData.MaxHealth += 20;
+            PlayerData.CurrentHealth += 20;
+        }
     }
 }

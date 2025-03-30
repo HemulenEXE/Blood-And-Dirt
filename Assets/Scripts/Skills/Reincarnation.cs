@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using SkillLogic;
 
 public class Reincarnation : Skill
 {
@@ -11,7 +10,7 @@ public class Reincarnation : Skill
     {
         Name = "Reincarnation";
         IsUnlocked = false;
-        _body = Resources.Load<GameObject>("Prefabs/Enemies/Body");
+        _body = Resources.Load<GameObject>("Prefabs/PlayerBody");
         _audio = Resources.Load<AudioClip>("Audios/Reincarnation");
         Type = SkillType.Activated;
     }
