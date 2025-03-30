@@ -76,11 +76,12 @@ public class BotController : MonoBehaviour
         //agent.stoppingDistance = stoppingDistance;
     }
 
-    private void OnTriggerStay2D(Collider2D collider)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
+        Debug.Log(collider.layerOverridePriority);
         if (sideBot.IsEnemyMask(collider.gameObject.layer) && stateBot != StateBot.combat)
         {
-            Debug.Log("Objection!");
+            //Debug.Log("Objection!");
             TryDetectPlayer(collider.transform);
         }
     }
@@ -157,7 +158,7 @@ public class BotController : MonoBehaviour
                 break;
 
         }
-        animator.SetBool("IsRun", Helper.IsAgentMoving(agent)); 
+        animator.SetBool("IsMoving", Helper.IsAgentMoving(agent)); 
 
     }
 

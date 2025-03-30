@@ -24,6 +24,7 @@ public class InevitableDeath : Skill
 
             foreach (var x in enemies)
             {
+                Debug.Log("x");
                 if (x.CompareTag("Enemy")) x.GetComponent<HealthBot>().Death();
             }
             point.GetComponent<AudioSource>().PlayOneShot(_audio);

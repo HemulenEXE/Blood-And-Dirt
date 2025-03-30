@@ -13,13 +13,16 @@ public class InteractiveUI : MonoBehaviour
         if (temp == null) return;
 
         _interactiveText.gameObject.SetActive(true);
-        // Корректировка интерактивного текста
         _interactiveText.text = temp.Description.ToString();
-        Vector3 positionItem = item.transform.position;
-        positionItem.y = item.GetComponent<Renderer>().bounds.max.y + _offSet; // Получение верхней границы визуального представления объекта
-        positionItem.x = (item.GetComponent<Renderer>().bounds.max.x + item.GetComponent<Renderer>().bounds.min.x) / 2;
-        Vector3 positionInWorld = RectTransformUtility.WorldToScreenPoint(Camera.main, positionItem);
-        _interactiveText.transform.position = positionInWorld;
+        Renderer itemRenderer = item.GetComponentInChildren<Renderer>();
+        if (itemRenderer != null)
+        {
+            Vector2 positionItem = item.transform.position;
+            positionItem.y = itemRenderer.bounds.max.y + _offSet; // Получение верхней границы визуального представления объекта
+            positionItem.x = (itemRenderer.bounds.max.x + itemRenderer.bounds.min.x) / 2;
+            Vector2 positionInWorld = RectTransformUtility.WorldToScreenPoint(Camera.main, positionItem);
+            _interactiveText.transform.position = positionInWorld;
+        }
     }
     public void TurnOffText()
     {

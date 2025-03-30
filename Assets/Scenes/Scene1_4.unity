@@ -2209,6 +2209,7 @@ GameObject:
   - component: {fileID: 1357599487}
   - component: {fileID: 1357599486}
   - component: {fileID: 1357599492}
+  - component: {fileID: 1357599493}
   m_Layer: 0
   m_Name: Gector
   m_TagString: Untagged
@@ -2406,6 +2407,18 @@ MonoBehaviour:
   Name: 
   Index: -1
   FileName: {fileID: 4900000, guid: 99e413cd2534a3b4aaf413aa98864807, type: 3}
+--- !u!114 &1357599493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357599485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0d00d07d93425c4db23a1ae0413b9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1361169676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2466,28 +2479,8 @@ PrefabInstance:
     - {fileID: -3305018509639675972, guid: 4eff152320452ad4bbb340adda24e965, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7686392455674397021, guid: 4eff152320452ad4bbb340adda24e965, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1361169678}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4eff152320452ad4bbb340adda24e965, type: 3}
---- !u!1 &1361169677 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7686392455674397021, guid: 4eff152320452ad4bbb340adda24e965, type: 3}
-  m_PrefabInstance: {fileID: 1361169676}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1361169678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1361169677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5febdb96e92e13640b5541669aeb97b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1439125191
 GameObject:
   m_ObjectHideFlags: 0

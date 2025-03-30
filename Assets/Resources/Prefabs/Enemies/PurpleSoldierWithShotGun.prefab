@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 52289187910518915}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: SpawnerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 7948249702333600302}
   - component: {fileID: 3411964320399575326}
   - component: {fileID: 7698032928253551406}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: ColliderCollision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 5519988664084937071}
   - component: {fileID: 3836942728927331220}
   - component: {fileID: 9168490269859746549}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: PurpleSoldierWithShotGun
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -286,12 +286,12 @@ MonoBehaviour:
   visionRange: 10
   loseSightTime: 3
   patrolPoints: []
-  addStartPositionToPatrol: 1
+  addStartPositionToPatrol: 0
   rotationAngle: 15
   rotationSpeed: 1
   stoppingDistance: 5
   stateSide: 1
-  stateBot: 0
+  stateBot: 2
 --- !u!50 &672257775031539312
 Rigidbody2D:
   serializedVersion: 4
@@ -463,7 +463,7 @@ GameObject:
   - component: {fileID: 7157973909701997318}
   - component: {fileID: 2994775627741083706}
   - component: {fileID: 3770069618172774037}
-  m_Layer: 3
+  m_Layer: 11
   m_Name: ShotGun
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -707,7 +707,7 @@ GameObject:
   - component: {fileID: 1153748405144082086}
   - component: {fileID: 5264622999721115234}
   - component: {fileID: 3405365215313302506}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -24,6 +24,7 @@ public class HealthBot : AbstractHealth
             {
                 if(Bullet.sideBullet.IsEnemyMask(this.gameObject.layer))
                 {
+                    Debug.Log("Col");
                     GetDamage(Bullet);
                 }
                 
@@ -40,6 +41,7 @@ public class HealthBot : AbstractHealth
 
             if (currentHealth <= 0)
             {
+                Debug.Log(value);
                 Death();
                 return;
             }
@@ -53,6 +55,7 @@ public class HealthBot : AbstractHealth
 
             if (currentHealth <= 0)
             {
+                Debug.Log(bullet);
                 Death();
                 return;
             }
