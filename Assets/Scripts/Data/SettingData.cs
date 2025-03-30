@@ -124,7 +124,6 @@ public static class SettingData
     {
         FullScreen = value;
     }
-
     public static void SetUpButton(KeyCode value)
     {
         Up = value;

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Playables;
 
 //Отвечает за активацию/деактивацию нужных скриптов при каждом новом попадании на эту сцену
@@ -18,11 +15,11 @@ public class FanaticsBaseController : MonoBehaviour
         //Запускает действия, которые должны происходить при каждом заходе на сцену по его номеру
         switch (LoadingNumber)
         {
-            case 1: 
+            case 1:
                 {
                     break;
                 }
-            case 2: 
+            case 2:
                 {
                     InActive(2);
                     Camera.main.transform.position = new Vector3(-48.23f, -10.1f, -10f);
@@ -38,7 +35,7 @@ public class FanaticsBaseController : MonoBehaviour
                     InActive(3);
                     break;
                 }
-        
+
         }
     }
     //Отключает ненужные объекты из сцены по номеру захода на сцену

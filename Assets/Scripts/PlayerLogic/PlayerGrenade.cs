@@ -35,7 +35,7 @@ public class PlayerGrenade : MonoBehaviour
             float x = Mathf.Lerp(startPoint.x, endPoint.x, t);
             //float y = amplitude * Mathf.Sin(angle) + Mathf.Min(startPoint.y, endPoint.y); ; // По y передвигаемся по синусоиде (Минимальная координа по y для корректировки движения)
             float y = Mathf.Lerp(startPoint.y, endPoint.y, t);
-            if (current_grenade != null)
+            if (current_grenade != null && !current_grenade.IsActivated)
                 current_grenade.transform.position = new Vector3(x, y, 0);
             else StopCoroutine(CoroutineThrowGranade(grenade));
 

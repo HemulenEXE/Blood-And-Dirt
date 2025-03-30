@@ -76,7 +76,6 @@ public class ShrapnelGrenade : MonoBehaviour
     {
         if (other != null && !other.gameObject.CompareTag("Player")) // Взрыв при соприкосновении с любым объектом, за исключением игрока
         {
-            Debug.Log(other.gameObject.name);
             Explode();
             Crash();
         }

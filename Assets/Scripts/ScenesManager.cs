@@ -1,11 +1,8 @@
-﻿using System;
+﻿using CameraLogic.CameraEffects;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using CameraLogic.CameraEffects;
-using UnityEditor.Rendering.Universal;
-using UnityEditor;
-using UnityEditor.Build.Content;
 
 /// <summary>
 /// Скрипт управления переходами между сценами + сохранением состояния сцен. Методы вызываются в других скриптах
@@ -63,7 +60,7 @@ public class ScenesManager : MonoBehaviour
     /// <summary>
     /// Переход на предыдущую сцену
     /// </summary>
-    public void OnPreviousScene() 
+    public void OnPreviousScene()
     {
         int curentInd = SceneManager.GetActiveScene().buildIndex;
         OnSelectedScene(curentInd - 1);
@@ -73,14 +70,14 @@ public class ScenesManager : MonoBehaviour
     /// </summary>
     /// <param name="index"></param>
     public void OnSelectedScene(int index)
-    { 
-       _instance.StartCoroutine(_instance._OnSelectedScene(index)); 
+    {
+        _instance.StartCoroutine(_instance._OnSelectedScene(index));
     }
     private IEnumerator _OnSelectedScene(int index)
     {
 
         if (index < 0) throw new ArgumentOutOfRangeException("index can't be < 0!"); //Добавить проверку, что индекс не больше, чем есть индексы у сцен
-        
+
         Time.timeScale = 1;
         PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы перешли на указанный уровень 
         PlayerPrefs.Save();
