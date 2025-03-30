@@ -13,6 +13,7 @@ public class ShowDialogueDubl : MonoBehaviour
     [SerializeField] public Transform DialogueWindow; //Canvas
     [SerializeField] public const int MaxReplicLength = 350; //Максимальное число символов реплики на экране
     [SerializeField] public float TimeBetweenLetters = 0.01f;
+    public bool WithEnd = true;
 
     private Dialogue _dialogue;
     private Transform _panelForText;
@@ -225,7 +226,7 @@ public class ShowDialogueDubl : MonoBehaviour
     }
     public void EndDialogue()
     {
-        if (DialogueWindow.gameObject.activeSelf)
+        if (DialogueWindow.gameObject.activeSelf && WithEnd)
             DialogueWindow.gameObject.SetActive(false);
 
     }
