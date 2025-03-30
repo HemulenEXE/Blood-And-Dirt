@@ -108,7 +108,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 52651533ed55d9946896f504d4127de7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseIntensity: 5
   _prefabProjectile: {fileID: 8185501928067670845, guid: a947aed24b1dd7f45b64125d485ae841, type: 3}
-  <Damage>k__BackingField: 2
+  <Damage>k__BackingField: 3
   <ShotDelay>k__BackingField: 0.2
   <AmmoTotal>k__BackingField: 100
   <AmmoCapacity>k__BackingField: 10

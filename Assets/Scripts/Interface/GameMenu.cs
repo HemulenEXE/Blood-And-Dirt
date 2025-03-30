@@ -82,7 +82,8 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private void InMainMenu()
     {
-        transform.GetChild(4).gameObject.SetActive(true);
+
+        transform.Find("PopUpNotice").gameObject.SetActive(true);
     }
     /// <summary>
     /// Установка громокости звука.
@@ -110,7 +111,7 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private void RestartScene()
     {
-        GameObject notice = transform.GetChild(4).gameObject;
+        GameObject notice = transform.Find("PopUpNotice").gameObject;
         notice.SetActive(true);
         //Указание на какую сцену перейти.
         notice.GetComponent<PopUpNotice>().SceneIndex = SceneManager.GetActiveScene().buildIndex;

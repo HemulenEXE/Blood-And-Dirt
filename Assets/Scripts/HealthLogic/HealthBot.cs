@@ -94,7 +94,7 @@ public class HealthBot : AbstractHealth
         string deathTrigger = UnityEngine.Random.Range(0, 2) == 0 ? "Death1" : "Death2";
         animator.SetTrigger(deathTrigger);
 
-        Destroy(transform.root.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
+        Destroy(transform.parent.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
     }
     private void DisableBotComponents(GameObject start)
     {
