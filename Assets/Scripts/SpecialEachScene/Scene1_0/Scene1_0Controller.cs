@@ -18,7 +18,7 @@ public class Scene1_0Controller : SwitchScene
         _director = GetComponent<ShowDialogueDubl>();
         _dialogue = _director.GetDialogue();
         DialogueWindow = _director.DialogueWindow.gameObject;
-        GameObject.Find("Pistol").GetComponent<GunPickUp>().enabled = false;
+        GameObject.Find("Pistol").GetComponent<BoxCollider2D>().enabled = false;
     }
     void Update()
     {
@@ -29,7 +29,7 @@ public class Scene1_0Controller : SwitchScene
             DialogueWindow.transform.Find("Continue").gameObject.SetActive(false);
             _director.WithEnd = false;
 
-            GameObject.Find("Pistol").GetComponent<GunPickUp>().enabled = false;
+            GameObject.Find("Pistol").GetComponent<BoxCollider2D>().enabled = true;
             flag = false;
         }
         if (_dialogue.GetCurentNodeIndex() == 2 && _animator.GetBool("IsShooting") == true)

@@ -79,9 +79,14 @@ public class BotEventMediator : MonoBehaviour
         {
             foreach (var _enemy in allBot)
             {
+                if(_enemy == null)
+                {
+                    allBot.Remove(_enemy);
+                    continue;
+                }
                 if (Vector2.Distance(_enemy.transform.position, transform.position) <= radiusNoise)
                 {
-                    _enemy.ReactToNoise(transform);
+                    _enemy?.ReactToNoise(transform);
                 }
             }
         }

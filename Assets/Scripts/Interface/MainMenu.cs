@@ -49,18 +49,20 @@ public class MainMenu : MonoBehaviour
     /// Нажатие на кнопку компания
     /// </summary>
     private void OnCompaniClick()
-    { 
-        Debug.Log("Company");
-        if (PlayerPrefs.GetInt("currentScene", 0) == 0)
-        {
-            PlayerPrefs.DeleteAll();
-            ScenesManager.Instance.OnSelectedScene(2);
-        }
-        else
-        {
-            ScenesManager.Instance.OnSelectedScene(PlayerPrefs.GetInt("currentScene"));
-           // PlayerPrefs.DeleteAll(); //Строчка добавлена для проверки, потом удалить!
-        }
+    {
+        ScenesManager.Instance.OnSelectedScene(2);
+        //Debug.Log("Company");
+        //Debug.Log(PlayerPrefs.GetInt("currentScene", 0));
+        //if (PlayerPrefs.GetInt("currentScene", 0) == 0)
+        //{
+        //    PlayerPrefs.DeleteAll();
+        //    ScenesManager.Instance.OnSelectedScene(2);
+        //}
+        //else
+        //{
+        //    ScenesManager.Instance.OnSelectedScene(PlayerPrefs.GetInt("currentScene"));
+        //    //PlayerPrefs.DeleteAll(); //Строчка добавлена для проверки, потом удалить!
+        //}
     }
     /// <summary>
     /// Нажатие на кнопку арена
@@ -86,5 +88,13 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Exit");
         PlayerPrefs.Save();
         Application.Quit();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.Escape)) 
+        {
+            _settingsMenu.gameObject.SetActive(false);
+        }
     }
 }

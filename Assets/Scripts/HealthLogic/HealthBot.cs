@@ -78,7 +78,7 @@ public class HealthBot : AbstractHealth
     {
         DisableBotComponents(this.transform.parent.gameObject);
 
-        death?.Invoke(transform.root.GetComponent<BotController>());
+        death?.Invoke(transform.parent.GetComponent<BotController>());
 
         this.transform.parent.GetComponent<AudioSource>()?.PlayOneShot(_deathSound);
 
