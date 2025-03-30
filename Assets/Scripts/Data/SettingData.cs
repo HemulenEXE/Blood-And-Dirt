@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class SettingData
 {
-    private static string _savedPath = "C:\\Users\\Amethyst\\Desktop\\Downloads\\Settings.xml";
+    private static string _savedPath; // Значение присваивается в методе Initialize()
 
     public static Resolution Resolution {  get; private set; }
     public static float Volume { get; private set; }
@@ -29,7 +29,11 @@ public static class SettingData
     public static KeyCode SimpleGrenade { get; private set; } = KeyCode.Alpha2;
     public static KeyCode SmokeGrenade { get; private set; } = KeyCode.Alpha1;
 
-
+    public static void Initialize()
+    {
+        _savedPath = Path.Combine(Application.persistentDataPath, "Settings.xml");
+        LoadData();
+    }
     public static void SaveData()
     {
         XmlDocument xmlDoc = new XmlDocument();

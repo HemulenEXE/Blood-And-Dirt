@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class PlayerData
 {
-    private static string _savedPath = "C:\\Users\\Amethyst\\Desktop\\Downloads\\PlayerData.xml";
+    private static string _savedPath; // Значение присваивается в методе Initialize()
     public static Dictionary<string, Skill> SkillsStorage { get; } = new Dictionary<string, Skill>{ // Загатовки навыков
         { "AnyPrice", new AnyPrice() },
         { "BlindRange", new BlindRange() },
@@ -70,6 +70,11 @@ public static class PlayerData
 
     public static int InventoryCapacity { get; set; } = 3; // Число слотов
 
+    public static void Initialize()
+    {
+        _savedPath = Path.Combine(Application.persistentDataPath, "Settings.xml");
+        LoadData();
+    }
     public static void LoadData()
     {
         string directoryPath = Path.GetDirectoryName(_savedPath);

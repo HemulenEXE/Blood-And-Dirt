@@ -7,7 +7,7 @@ public class DataManager : MonoBehaviour
 {
     private void Start()
     {
-        SettingData.LoadData();
-        PlayerData.LoadData();
+        SettingData.Initialize();
+        PlayerData.Initialize();
     }
 }
