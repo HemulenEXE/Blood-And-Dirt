@@ -84,9 +84,9 @@ namespace GunLogic
             {
                 foreach (var x in GetColliders2DSector())
                 {
-                    //Логика получения урона сущностями.
                     if (x.gameObject != this.gameObject)
                     {
+                        Debug.Log("Knife Heat");
                         var healthBot = x.GetComponent<HealthBot>();
                         healthBot?.GetDamage(this);
                     }

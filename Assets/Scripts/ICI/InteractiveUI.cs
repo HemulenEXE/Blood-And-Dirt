@@ -14,7 +14,7 @@ public class InteractiveUI : MonoBehaviour
 
         _interactiveText.gameObject.SetActive(true);
         // Корректировка интерактивного текста
-        _interactiveText.text = SettingData.Interact.ToString();
+        _interactiveText.text = temp.Description.ToString();
         Vector3 positionItem = item.transform.position;
         positionItem.y = item.GetComponent<Renderer>().bounds.max.y + _offSet; // Получение верхней границы визуального представления объекта
         positionItem.x = (item.GetComponent<Renderer>().bounds.max.x + item.GetComponent<Renderer>().bounds.min.x) / 2;

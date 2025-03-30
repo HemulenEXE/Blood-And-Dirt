@@ -24,9 +24,16 @@ public class PlayerInteract : MonoBehaviour
         if (hit.collider != null) _interactiveUI.TurnOnText(hit.transform.gameObject);
         else _interactiveUI.TurnOffText();
 
-        if (Input.GetKeyDown(SettingData.Interact))
+        var temp = hit.collider?.gameObject?.GetComponent<IInteractable>();
+
+        if (temp is Talker t && Input.GetKeyDown(SettingData.Dialogue))
         {
-            hit.collider?.gameObject?.GetComponent<IInteractable>()?.Interact();
+            t.Interact();
+        }
+
+        else if (!(temp is Talker) && temp != null && Input.GetKeyDown(SettingData.Interact))
+        {
+            temp.Interact();
         }
     }
 }

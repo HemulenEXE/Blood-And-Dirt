@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class SettingData
 {
-    private static string _savedPath = "C:\\Users\\Amethyst\\Desktop\\Downloads\\Settings.xml";
+    private static string _savedPath = "Settings.xml";
 
     public static Resolution Resolution {  get; private set; }
     public static float Volume { get; private set; }
@@ -15,14 +15,15 @@ public static class SettingData
 
     public static Resolution[] Resolutions { get; private set; }
 
-    public static KeyCode Up { get; private set; }
-    public static KeyCode Down { get; private set; }
-    public static KeyCode Left { get; private set; }
-    public static KeyCode Right { get; private set; }
+    public static KeyCode Up { get; private set; } = KeyCode.W;
+    public static KeyCode Down { get; private set; } = KeyCode.S;
+    public static KeyCode Left { get; private set; } = KeyCode.A;
+    public static KeyCode Right { get; private set; } = KeyCode.D;
 
-    public static KeyCode Run { get; private set; }
-    public static KeyCode Steal { get; private set; }
+    public static KeyCode Run { get; private set; } = KeyCode.LeftShift;
+    public static KeyCode Steal { get; private set; } = KeyCode.LeftControl;
     public static KeyCode Interact { get; private set; } = KeyCode.E;
+    public static KeyCode Dialogue { get; private set; } = KeyCode.T;
 
     public static KeyCode FirstAidKit { get; private set; } = KeyCode.Alpha3;
     public static KeyCode Bandage { get; private set; } = KeyCode.Alpha4;
@@ -52,22 +53,6 @@ public static class SettingData
         sensitivityElement.InnerText = Sensitivity.ToString();
         root.AppendChild(sensitivityElement);
 
-        XmlElement upElement = xmlDoc.CreateElement("Up");
-        upElement.InnerText = Up.ToString();
-        root.AppendChild(upElement);
-
-        XmlElement downElement = xmlDoc.CreateElement("Down");
-        downElement.InnerText = Down.ToString();
-        root.AppendChild(downElement);
-
-        XmlElement leftElement = xmlDoc.CreateElement("Left");
-        leftElement.InnerText = Left.ToString();
-        root.AppendChild(leftElement);
-
-        XmlElement rightElement = xmlDoc.CreateElement("Right");
-        rightElement.InnerText = Right.ToString();
-        root.AppendChild(rightElement);
-
         xmlDoc.Save(_savedPath);
         LoadData();
     }
@@ -94,17 +79,12 @@ public static class SettingData
         }
         else
         {
-            Debug.Log("Else");
             Resolutions = Screen.resolutions;
             // Значения по умолчанию
             Volume = 0.5f;
             Resolution = Resolutions.Last();
             FullScreen = true;
             Sensitivity = 1.0f;
-            Up = KeyCode.W;
-            Down = KeyCode.S;
-            Left = KeyCode.A;
-            Right = KeyCode.D;
         }
         ApplySettings();
     }
