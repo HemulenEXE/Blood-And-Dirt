@@ -33,6 +33,7 @@ namespace CameraLogic.CameraMotion
         }
         private void Update()
         {
+            if (_transformPlayer == null) return;
             if (_transformPlayer.activeSelf)
                 Move();
             else _transformPlayer = GameObject.FindGameObjectWithTag("Player");
