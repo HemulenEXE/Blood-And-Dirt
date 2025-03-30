@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using UnityEngine;
 
 public static class PlayerData
 {
-    private static string _savedPath = "PlayerData.xml";
+    private static string _savedPath = "C:\\Users\\Amethyst\\Desktop\\Downloads\\PlayerData.xml";
     public static Dictionary<string, Skill> SkillsStorage { get; } = new Dictionary<string, Skill>{ // Загатовки навыков
         { "AnyPrice", new AnyPrice() },
         { "BlindRange", new BlindRange() },
@@ -29,9 +30,9 @@ public static class PlayerData
     public static int CurrentHealth { get; set; } = 100;
     public static bool IsGod { get; set; } = false; // Неузвимость
     public static int ResurrectionCount { get; set; } = 0; // Количество воскрешений
-    public static int CurrentResurrectionCount { get; set; }
-    public static int HitsToSurvive { get; set; } // Количество пропускаемых ударов
-    public static int CurrentHitsToSurvive { get; set; }
+    public static int CurrentResurrectionCount { get; set; } = 0;
+    public static int HitsToSurvive { get; set; } = 0; // Количество пропускаемых ударов
+    public static int CurrentHitsToSurvive { get; set; } = 0;
 
     public static bool IsStealing { get; set; } = false;
     public static bool IsWalking { get; set; } = false;
@@ -71,6 +72,9 @@ public static class PlayerData
 
     public static void LoadData()
     {
+        string directoryPath = Path.GetDirectoryName(_savedPath);
+        if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+
         if (File.Exists(_savedPath))
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -181,6 +185,9 @@ public static class PlayerData
     }
     public static void SaveData()
     {
+        string directoryPath = Path.GetDirectoryName(_savedPath);
+        if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+
         XmlDocument xmlDoc = new XmlDocument();
         XmlElement root = xmlDoc.CreateElement("PlayerData");
         xmlDoc.AppendChild(root);
@@ -234,6 +241,56 @@ public static class PlayerData
         root.AppendChild(skillsElement);
 
         xmlDoc.Save(_savedPath);
+    }
+    public static void Reboot()
+    {
+        MaxHealth = 100;
+        CurrentHealth = 100;
+        IsGod = false;
+        ResurrectionCount = 0;
+        HitsToSurvive = 0;
+        CurrentHitsToSurvive = 0;
+        CurrentResurrectionCount = 0;
+
+        IsStealing = false;
+        IsWalking = false;
+        IsRunning = false;
+
+        StealSpeed = 2;
+        WalkSpeed = 4;
+        RunSpeed = 6;
+
+        StealNoise = 0.3f;
+        WalkNoise = 2f;
+        RunNoise = 5f;
+
+        BleedingDamage = 5;
+        IsBleeding = false;
+
+        BandageCount = 0;
+        MaxBandageCount = 5;
+
+        FirstAidKitCount = 0;
+        MaxFirstAidKitCount = 5;
+
+        SimpleGrenadeCount = 0;
+        MaxSimpleGrenadeCount = 5;
+
+        SmokeGrenadeCount = 0;
+        MaxSmokeGrenadeCount = 5;
+
+        BandageHealth = 15;
+        FirstAidKitHealth = 30;
+
+        Score = 10_000;
+
+        InventoryCapacity = 3;
+        Skills.Clear();
+
+        if (File.Exists(_savedPath))
+        {
+            File.Delete(_savedPath);
+        }
     }
     public static bool HasSkill<T>() where T : Skill
     {

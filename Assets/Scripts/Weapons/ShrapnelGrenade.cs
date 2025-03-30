@@ -43,13 +43,6 @@ public class ShrapnelGrenade : MonoBehaviour
         else _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.08f);
         // Что за магические числа?
     }
-    private void StopGrenade()
-    {
-        var rg = this.GetComponent<Rigidbody2D>();
-        rg.velocity = Vector2.zero;
-        rg.isKinematic = true;
-        timeToExplosion = 0;
-    }
 
     protected virtual void Awake()
     {
@@ -78,7 +71,6 @@ public class ShrapnelGrenade : MonoBehaviour
     {
         if (other != null && !other.gameObject.CompareTag("Player")) // Взрыв при соприкосновении с любым объектом, за исключением игрока
         {
-            StopGrenade();
             Explode();
             Crash();
         }
