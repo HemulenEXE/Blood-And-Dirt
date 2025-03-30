@@ -106,7 +106,7 @@ public class PlayerHealth : AbstractHealth
     private void FixedUpdate()
     {
         bloodController.SetBloodEffect(CalculateStateDamaged());
-        Debug.Log(PlayerData.CurrentHealth);
+        //Debug.Log(PlayerData.CurrentHealth);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

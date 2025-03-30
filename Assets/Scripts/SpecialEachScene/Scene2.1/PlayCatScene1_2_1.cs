@@ -1,9 +1,9 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-//Запускает стартовую кат-сцену после диалога с Гектором в сцене 2.1 средней линии. Навешивается на Гектора
+//Р—Р°РїСѓСЃРєР°РµС‚ СЃС‚Р°СЂС‚РѕРІСѓСЋ РєР°С‚-СЃС†РµРЅСѓ РїРѕСЃР»Рµ РґРёР°Р»РѕРіР° СЃ Р“РµРєС‚РѕСЂРѕРј РІ СЃС†РµРЅРµ 2.1 СЃСЂРµРґРЅРµР№ Р»РёРЅРёРё. РќР°РІРµС€РёРІР°РµС‚СЃСЏ РЅР° Р“РµРєС‚РѕСЂР°
 public class PlayCatScene1_2_1 : MonoBehaviour
 {
     [SerializeField] private TextAsset FileName;
@@ -31,9 +31,9 @@ public class PlayCatScene1_2_1 : MonoBehaviour
             GameObject.Find("CatScene1").GetComponent<PlayableDirector>().Play();
         }
     }
-    //Активирует возможность двигаться после катсцены
+    //РђРєС‚РёРІРёСЂСѓРµС‚ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РґРІРёРіР°С‚СЊСЃСЏ РїРѕСЃР»Рµ РєР°С‚СЃС†РµРЅС‹
     public void ActivMotion()
     {
-        GameObject.FindWithTag("Player").GetComponent<PlayerMotion>().enabled = false;
+        GameObject.FindWithTag("Player").GetComponent<PlayerMotion>().enabled = true;
     }
 }

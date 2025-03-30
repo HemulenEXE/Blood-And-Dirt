@@ -105,12 +105,12 @@ public class ShowDialogueDubl : MonoBehaviour
     public void StartDialogue()
     {
         DialogueWindow.gameObject.SetActive(true);
-        Debug.Log(printer);
+        
         Debug.Log(_panelForText);
         Debug.Log(TimeBetweenLetters);
         Debug.Log(_audio);
         printer.Init(_panelForText, TimeBetweenLetters, _audio);
-
+        Debug.Log(printer);
         _dialogue.ToNodeWithInd(0);
         _replicParts.Clear();
         _replicInd = 0;
