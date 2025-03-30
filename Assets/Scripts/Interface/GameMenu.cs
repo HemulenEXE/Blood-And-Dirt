@@ -38,7 +38,7 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
     private void Awake()
-    {        
+    {
         GameObject menu = GameObject.Find("SettingsMenu");
         if (menu == null) throw new ArgumentNullException("GameMenu: menu is null");
         _save = menu?.transform?.GetChild(2)?.GetComponent<Button>();
@@ -69,11 +69,11 @@ public class GameMenu : MonoBehaviour
             _onSkillTree.GetComponentInChildren<TextMeshProUGUI>().text = "К дереву прокачки";
             skillTree.transform.GetChild(1).localScale = skillTree.GetComponentInChildren<ZoomAndMotion>().StartScale();
             skillTree.transform.GetChild(1).position = skillTree.GetComponentInChildren<ZoomAndMotion>().StartPoint();
-            skillTree.SetActive(false);   
+            skillTree.SetActive(false);
         }
-        else 
+        else
         {
-            skillTree.SetActive(true);   
+            skillTree.SetActive(true);
             _onSkillTree.GetComponentInChildren<TextMeshProUGUI>().text = "Обратно";
         }
     }
@@ -132,3 +132,4 @@ public class GameMenu : MonoBehaviour
         }
     }
 }
+

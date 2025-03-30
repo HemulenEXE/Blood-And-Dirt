@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -88,12 +89,15 @@ public class ShowDialogueDubl : MonoBehaviour
             StartDialogue();
             IsTrigger = false;
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Continue();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
+            IsTrigger = true;
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player" && !IsTrigger &&(_dialogue.GetCurentNode().exit == "True" || _dialogue.GetCurentNode().answers.Any(x => x.exit == "True")))
             IsTrigger = true;
     }
     private void OnTriggerExit2D(Collider2D collision)

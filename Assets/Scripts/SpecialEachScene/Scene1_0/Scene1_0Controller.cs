@@ -22,8 +22,7 @@ public class Scene1_0Controller : SwitchScene
     }
     void Update()
     {
-        if (PlayerPrefs.GetInt("nextScene", 0) == 1)
-            ScenesManager.Instance.OnSelectedScene(SceneManager.GetActiveScene().buildIndex);
+
         if (_dialogue.GetCurentNodeIndex() == 2 && _animator.GetBool("IsShooting") == false && flag)
         {
             Debug.Log(2); Debug.Log(_animator.GetBool("IsShooting"));

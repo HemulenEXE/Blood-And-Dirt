@@ -1596,7 +1596,7 @@ GameObject:
   - component: {fileID: 4731180391377971698}
   - component: {fileID: 6990433319701473770}
   - component: {fileID: 4308399142547522435}
-  - component: {fileID: 4551795026259649760}
+  - component: {fileID: 3120997764008670934}
   m_Layer: 5
   m_Name: GameMenu
   m_TagString: Untagged
@@ -1711,7 +1711,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4551795026259649760
+--- !u!114 &3120997764008670934
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1720,7 +1720,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8215421148533633171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2bc1d2f2832b2744a8a001bd3e4ba51, type: 3}
+  m_Script: {fileID: 11500000, guid: 853c384de39a4f34f9553a32fe89f57c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 4308399142547522435}
