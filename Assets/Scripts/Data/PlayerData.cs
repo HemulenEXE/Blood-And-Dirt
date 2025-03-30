@@ -73,6 +73,11 @@ public static class PlayerData
 
     public static int InventoryCapacity { get; set; } = 3; // Число слотов
 
+    public static void Initialize()
+    {
+        _savedPath = Path.Combine(Application.persistentDataPath, "Settings.xml");
+        LoadData();
+    }
     public static void LoadData()
     {
         string directoryPath = Path.GetDirectoryName(_savedPath);

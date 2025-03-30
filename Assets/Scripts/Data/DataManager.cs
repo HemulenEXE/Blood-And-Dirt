@@ -7,8 +7,7 @@ public class DataManager : MonoBehaviour
 {
     private void Start()
     {
-        Debug.Log("Start");
-        SettingData.LoadData();
-        PlayerData.LoadData();
+        SettingData.Initialize();
+        PlayerData.Initialize();
     }
 }

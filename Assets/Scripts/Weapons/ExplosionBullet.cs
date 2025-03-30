@@ -45,7 +45,7 @@ public class ExplosionBullet : MonoBehaviour, IBullet
             Collider2D[] enemies = Physics2D.OverlapCircleAll(this.transform.position, ExplosionRadius);
             foreach (var x in enemies)
             {
-                // Логика получения урона
+                if (!x.gameObject.CompareTag("Player")) x.GetComponent<AbstractHealth>()?.GetDamage(this);
             }
 
             Destroy(this.gameObject, GetAnimationLength("ExplosionBullet"));

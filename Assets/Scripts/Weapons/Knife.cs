@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
-using Unity.VisualScripting;
 
 namespace GunLogic
 {
@@ -22,7 +20,7 @@ namespace GunLogic
         /// <summary>
         /// Возвращает наносимый урон.
         /// </summary>
-        [field: SerializeField] public float Damage { get; private set; } = 100f;
+        [field: SerializeField] public float Damage { get; private set; } = 10f;
         /// <summary>
         /// Возвращает задержку аттаки.
         /// </summary>
@@ -80,13 +78,12 @@ namespace GunLogic
             Debug.DrawRay(ray.origin, ray.direction * AttackDistance, Color.red); //Рисовка луча.
 
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, AttackDistance, ~_ignoreLayer);
-            if (hit.collider == null)
+            if (hit.collider != null)
             {
                 foreach (var x in GetColliders2DSector())
                 {
                     if (x.gameObject != this.gameObject)
                     {
-                        Debug.Log("Knife Heat");
                         var healthBot = x.GetComponent<HealthBot>();
                         healthBot?.GetDamage(this);
                     }
@@ -106,7 +103,7 @@ namespace GunLogic
                     if (x.gameObject != this.gameObject)
                     {
                         var healthBot = x.GetComponent<HealthBot>();
-                        healthBot?.Death();
+                        healthBot.GetDamage(this);
                     }
                 }
             }
