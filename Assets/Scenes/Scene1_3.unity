@@ -7335,6 +7335,7 @@ GameObject:
   - component: {fileID: 1593104238}
   - component: {fileID: 1593104237}
   - component: {fileID: 1593104236}
+  - component: {fileID: 1593104239}
   m_Layer: 0
   m_Name: Gector
   m_TagString: Untagged
@@ -7471,8 +7472,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.114999995}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: -0.25}
-    oldSize: {x: 0.3, y: 0.16}
+    pivot: {x: 0.5, y: -0.26666665}
+    oldSize: {x: 0.3, y: 0.15}
     newSize: {x: 0.3, y: 0.15}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -7515,7 +7516,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.1}
   serializedVersion: 2
-  m_Radius: 0.2975731
+  m_Radius: 1
 --- !u!95 &1593104235
 Animator:
   serializedVersion: 5
@@ -7590,6 +7591,18 @@ PlayableDirector:
     value: {fileID: 8856985123739597412}
   m_ExposedReferences:
     m_References: []
+--- !u!114 &1593104239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593104227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0d00d07d93425c4db23a1ae0413b9bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1735269492
 PrefabInstance:
   m_ObjectHideFlags: 0
