@@ -15,7 +15,6 @@ public class Door : MonoBehaviour
     private bool isTrigger = false;
     private bool isRunning = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         pos = transform.position;
