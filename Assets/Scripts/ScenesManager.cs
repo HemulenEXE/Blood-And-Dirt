@@ -1,14 +1,17 @@
 ﻿using CameraLogic.CameraEffects;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Скрипт управления переходами между сценами + сохранением состояния сцен. Методы вызываются в других скриптах
 /// </summary>
 public class ScenesManager : MonoBehaviour
-{
+{ 
     /// <summary>
     /// Идёт ли затемнение экрана
     /// </summary>
@@ -25,6 +28,7 @@ public class ScenesManager : MonoBehaviour
             {
                 GameObject obj = new GameObject("ScenesManager");
                 _instance = obj.AddComponent<ScenesManager>();
+                _instance.AddComponent<PlayerInitPosition>();
                 DontDestroyOnLoad(_instance.gameObject);
             }
             return _instance;
@@ -82,12 +86,15 @@ public class ScenesManager : MonoBehaviour
         PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы перешли на указанный уровень 
         PlayerPrefs.Save();
         Fader.Instance.FadeIn(() => _isfade = true);
-
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index, LoadSceneMode.Single);
-        if (!(_isfade && asyncLoad.isDone))
+        while (!(_isfade && asyncLoad.isDone))
             yield return null;
 
+        
         Fader.Instance.FadeOut(() => _isfade = false);
+        //if (_isfade)
+          //  yield return null;
+        InitPosition(index);
     }
     /// <summary>
     /// Переход на заданную сцену по имени сцены
@@ -101,5 +108,19 @@ public class ScenesManager : MonoBehaviour
                 OnSelectedScene(i);
         }
         throw new ArgumentNullException($"Scene with name '{name}' doesn't exist!"); //Уточнить правильно ли осуществляется проверка!
+    }
+    private void InitPosition(int index)
+    {
+        Debug.Log($"Position: {PlayerInitPosition.Instance.position}, onScene: {PlayerInitPosition.Instance.onScene}, current scene: {index}");
+        //Меняем позицию, если есть сохранённая на этой сцене
+        if (PlayerInitPosition.Instance.position != null && index == PlayerInitPosition.Instance.onScene)
+        {
+            Debug.Log($"Появление запланировано в позиции: {PlayerInitPosition.Instance.position}");
+            Transform player = GameObject.FindWithTag("Player").transform;
+            player.position = PlayerInitPosition.Instance.position;
+            player.rotation = PlayerInitPosition.Instance.rotation;
+            Transform camera = GameObject.FindWithTag("MainCamera").transform;
+            camera.position = new Vector3(player.position.x, player.position.y, -10);
+        }
     }
 }

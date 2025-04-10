@@ -13,6 +13,15 @@ public class SwitchScene : MonoBehaviour
     public string Name = null; //Если перемещение по имени     
     public int Index = -1; //Если перемещение по индексу
 
+    public void Awake()
+    {
+        switch (SwitchOn) 
+        {
+            case States.Next: Index = SceneManager.GetActiveScene().buildIndex + 1; break;
+            case States.Previous: Index = SceneManager.GetActiveScene().buildIndex - 1; break;
+            case States.Current: Index = SceneManager.GetActiveScene().buildIndex; break;
+        }
+    }
     public void Switch()
     {
         switch (SwitchOn)

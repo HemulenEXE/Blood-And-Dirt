@@ -13,7 +13,8 @@ public class Door : MonoBehaviour
     private Vector3 pos; //Позиция относительно которой происходит вращение
     private float speed = 40f; //Скорость открытия
     private bool isTrigger = false;
-    private bool isRunning = false;
+    [NonSerialized]
+    public bool isRunning = false; //В процессе открытия/закрытия
 
     void Start()
     {
@@ -67,7 +68,7 @@ public class Door : MonoBehaviour
         if (Side == SideOpen.Left || Side == SideOpen.Down) {
             while (Math.Abs(360 - 90 - transform.rotation.eulerAngles.z) > 1.5)
             {
-                Debug.Log($"{transform.rotation.eulerAngles.z} <-> {transform.rotation.z}");
+                //Debug.Log($"{transform.rotation.eulerAngles.z} <-> {transform.rotation.z}");
                 transform.RotateAround(pos, Vector3.back, speed * Time.deltaTime);
                 yield return null;
             }
