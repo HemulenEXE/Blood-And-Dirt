@@ -7,12 +7,16 @@ using UnityEngine;
 public static class SettingData
 {
     private static string _savedPath; // Значение присваивается в методе Initialize()
+    public static Resolution[] Resolutions { get; private set; }
+
+    // Настройки игры
+
     public static Resolution Resolution { get; private set; }
     public static float Volume { get; private set; }
     public static float Sensitivity { get; private set; }
     public static bool FullScreen { get; private set; }
 
-    public static Resolution[] Resolutions { get; private set; }
+    // Управление
 
     public static KeyCode Up { get; private set; }
     public static KeyCode Down { get; private set; }
@@ -34,6 +38,44 @@ public static class SettingData
         _savedPath = Path.Combine(Application.persistentDataPath, "Settings.xml");
         Resolutions = Screen.resolutions;
         LoadData();
+    }
+    public static void LoadData()
+    {
+        if (File.Exists(_savedPath))
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_savedPath);
+
+            XmlNode root = xmlDoc.DocumentElement;
+            if (root != null)
+            {
+                Volume = float.TryParse(root["Volume"]?.InnerText, out float volume) ? volume : 0.5f;
+                string temp = root["Resolution"]?.InnerText;
+                string[] parts = temp.Split(new[] { 'x', '@' });
+                if (parts.Length == 3 && int.TryParse(parts[0], out int width) && int.TryParse(parts[1], out int height) && int.TryParse(parts[2], out int refreshRate))
+                    Resolution = new Resolution { width = width, height = height, refreshRate = refreshRate };
+                FullScreen = int.TryParse(root["Fullscreen"]?.InnerText, out int fullscreen) && fullscreen == 1;
+                Sensitivity = float.TryParse(root["Sensivity"]?.InnerText, out float sensivity) ? sensivity : 1.0f;
+                Up = LoadKeyElement(root["Up"]);
+                Down = LoadKeyElement(root["Down"]);
+                Left = LoadKeyElement(root["Left"]);
+                Right = LoadKeyElement(root["Right"]);
+                Run = LoadKeyElement(root["Run"]);
+                Steal = LoadKeyElement(root["Steal"]);
+                Interact = LoadKeyElement(root["Interact"]);
+                Dialogue = LoadKeyElement(root["Dialogue"]);
+                FirstAidKit = LoadKeyElement(root["FirstAidKit"]);
+                Bandage = LoadKeyElement(root["Bandage"]);
+                SimpleGrenade = LoadKeyElement(root["SimpleGrenade"]);
+                SmokeGrenade = LoadKeyElement(root["SmokeGrenade"]);
+            }
+        }
+        else
+        {
+            DefaultParameters();
+            SaveData();
+        }
+        ApplySettings();
     }
     public static void SaveData()
     {
@@ -70,49 +112,10 @@ public static class SettingData
         root.AppendChild(CreateKeyElement(xmlDoc, "SimpleGrenade", SimpleGrenade));
         root.AppendChild(CreateKeyElement(xmlDoc, "SmokeGrenade", SmokeGrenade));
 
-
         xmlDoc.Save(_savedPath);
         LoadData();
     }
-    public static void LoadData()
-    {
-        if (File.Exists(_savedPath))
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(_savedPath);
-
-            XmlNode root = xmlDoc.SelectSingleNode("Settings");
-            if (root != null)
-            {
-                Volume = float.TryParse(root["Volume"]?.InnerText, out float volume) ? volume : 0.5f;
-                string temp = root["Resolution"]?.InnerText;
-                string[] parts = temp.Split(new[] { 'x', '@' });
-                if (parts.Length == 3 && int.TryParse(parts[0], out int width) && int.TryParse(parts[1], out int height) && int.TryParse(parts[2], out int refreshRate))
-                    Resolution = new Resolution { width = width, height = height, refreshRate = refreshRate };
-                FullScreen = int.TryParse(root["Fullscreen"]?.InnerText, out int fullscreen) && fullscreen == 1;
-                Sensitivity = float.TryParse(root["Sensivity"]?.InnerText, out float sensivity) ? sensivity : 1.0f;
-                Up = LoadKeyElement(root["Up"]);
-                Down = LoadKeyElement(root["Down"]);
-                Left = LoadKeyElement(root["Left"]);
-                Right = LoadKeyElement(root["Right"]);
-                Run = LoadKeyElement(root["Run"]);
-                Steal = LoadKeyElement(root["Steal"]);
-                Interact = LoadKeyElement(root["Interact"]);
-                Dialogue = LoadKeyElement(root["Dialogue"]);
-                FirstAidKit = LoadKeyElement(root["FirstAidKit"]);
-                Bandage = LoadKeyElement(root["Bandage"]);
-                SimpleGrenade = LoadKeyElement(root["SimpleGrenade"]);
-                SmokeGrenade = LoadKeyElement(root["SmokeGrenade"]);
-            }
-        }
-        else
-        {
-            DefaultParameters();
-            SaveData();
-        }
-        ApplySettings();
-    }
-    public static void DefaultParameters()
+    public static void DefaultParameters() // Определяет данные по умолчанию
     {
         Volume = 0.5f;
         Resolution = Resolutions.Last();
@@ -134,17 +137,17 @@ public static class SettingData
         SimpleGrenade = KeyCode.Alpha2;
         SmokeGrenade = KeyCode.Alpha1;
     }
+    public static void Reboot()
+    {
+        if (File.Exists(SettingData._savedPath)) File.Delete(_savedPath);
+        DefaultParameters();
+    }
     public static void ApplySettings()
     {
         Screen.SetResolution(Resolution.width, Resolution.height, Screen.fullScreen);
         AudioListener.volume = Volume;
         Screen.fullScreen = FullScreen;
         // Нет отдельного компонента Unity, который работает с чувствительностью мыши
-    }
-    public static void RebootSetting()
-    {
-        if (File.Exists(SettingData._savedPath)) File.Delete(_savedPath);
-        DefaultParameters();
     }
 
     public static void SetVolume(float value)

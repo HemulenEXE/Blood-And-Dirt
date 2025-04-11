@@ -56,6 +56,7 @@ public class ScenesManager : MonoBehaviour
     {
         int curentInd = SceneManager.GetActiveScene().buildIndex;
         OnSelectedScene(curentInd + 1);
+        PlayerData.SaveData();
     }
     /// <summary>
     /// Переход на предыдущую сцену
@@ -64,6 +65,7 @@ public class ScenesManager : MonoBehaviour
     {
         int curentInd = SceneManager.GetActiveScene().buildIndex;
         OnSelectedScene(curentInd - 1);
+        PlayerData.SaveData();
     }
     /// <summary>
     /// Переход на заданную сцену по индексу сцены
@@ -72,6 +74,7 @@ public class ScenesManager : MonoBehaviour
     public void OnSelectedScene(int index)
     {
         _instance.StartCoroutine(_instance._OnSelectedScene(index));
+        PlayerData.SaveData();
     }
     private IEnumerator _OnSelectedScene(int index)
     {
@@ -84,8 +87,7 @@ public class ScenesManager : MonoBehaviour
         Fader.Instance.FadeIn(() => _isfade = true);
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index, LoadSceneMode.Single);
-        if (!(_isfade && asyncLoad.isDone))
-            yield return null;
+        if (!(_isfade && asyncLoad.isDone)) yield return null;
 
         Fader.Instance.FadeOut(() => _isfade = false);
     }
@@ -100,6 +102,7 @@ public class ScenesManager : MonoBehaviour
             if (scenePath.EndsWith(name + ".unity"))
                 OnSelectedScene(i);
         }
+        PlayerData.SaveData();
         throw new ArgumentNullException($"Scene with name '{name}' doesn't exist!"); //Уточнить правильно ли осуществляется проверка!
     }
 }

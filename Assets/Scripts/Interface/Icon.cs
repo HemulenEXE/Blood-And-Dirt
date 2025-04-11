@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,7 +44,7 @@ public class Icon : MonoBehaviour
                 else ActivateSkill(skill);
 
                 foreach (Image img in this.transform.parent.GetComponentsInChildren<Image>())
-                    img.color = new Color(167, 255, 255, 255);
+                    img.color = new Color(167, 255, 255, 255); // Что за магические цифры???
             }
         }
     }
@@ -60,7 +59,7 @@ public class Icon : MonoBehaviour
         else skill = null; //throw new ArgumentNullException("Skill with such name don't exists!"); //Раскоментировать, когда все навыки будут подвязаны
 
         if (skill != null)
-            price = skill.Cost; 
+            price = skill.Cost;
 
         //Включает окно с описанием способности (выключает, еcли уже включено)
         this.GetComponent<Button>().onClick.AddListener(() =>
@@ -83,6 +82,20 @@ public class Icon : MonoBehaviour
                 window.SetBool("isOpen", false);
             }
         });
+
+        if (PlayerData.HasSkill(skill))
+        {
+            isActive = true;
+            this.GetComponent<Image>().sprite = active;
+            Counter.Instance().RemovePoints(price);
+
+            if (skill.Type == SkillType.Added)
+                AddSkill(skill);
+            else ActivateSkill(skill);
+
+            foreach (Image img in this.transform.parent.GetComponentsInChildren<Image>())
+                img.color = new Color(167, 255, 255, 255); // Что за магические цифры???
+        }
     }
     private void AddSkill(Skill skill)
     {
