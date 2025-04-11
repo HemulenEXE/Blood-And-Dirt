@@ -7,31 +7,32 @@ using UnityEngine;
 public static class SettingData
 {
     private static string _savedPath; // Значение присваивается в методе Initialize()
-    public static Resolution Resolution {  get; private set; }
+    public static Resolution Resolution { get; private set; }
     public static float Volume { get; private set; }
     public static float Sensitivity { get; private set; }
     public static bool FullScreen { get; private set; }
 
     public static Resolution[] Resolutions { get; private set; }
 
-    public static KeyCode Up { get; private set; } = KeyCode.W;
-    public static KeyCode Down { get; private set; } = KeyCode.S;
-    public static KeyCode Left { get; private set; } = KeyCode.A;
-    public static KeyCode Right { get; private set; } = KeyCode.D;
+    public static KeyCode Up { get; private set; }
+    public static KeyCode Down { get; private set; }
+    public static KeyCode Left { get; private set; }
+    public static KeyCode Right { get; private set; }
 
-    public static KeyCode Run { get; private set; } = KeyCode.LeftShift;
-    public static KeyCode Steal { get; private set; } = KeyCode.LeftControl;
-    public static KeyCode Interact { get; private set; } = KeyCode.E;
-    public static KeyCode Dialogue { get; private set; } = KeyCode.T;
+    public static KeyCode Run { get; private set; }
+    public static KeyCode Steal { get; private set; }
+    public static KeyCode Interact { get; private set; }
+    public static KeyCode Dialogue { get; private set; }
 
-    public static KeyCode FirstAidKit { get; private set; } = KeyCode.Alpha3;
-    public static KeyCode Bandage { get; private set; } = KeyCode.Alpha4;
-    public static KeyCode SimpleGrenade { get; private set; } = KeyCode.Alpha2;
-    public static KeyCode SmokeGrenade { get; private set; } = KeyCode.Alpha1;
+    public static KeyCode FirstAidKit { get; private set; }
+    public static KeyCode Bandage { get; private set; }
+    public static KeyCode SimpleGrenade { get; private set; }
+    public static KeyCode SmokeGrenade { get; private set; }
 
     public static void Initialize()
     {
         _savedPath = Path.Combine(Application.persistentDataPath, "Settings.xml");
+        Resolutions = Screen.resolutions;
         LoadData();
     }
     public static void SaveData()
@@ -40,9 +41,9 @@ public static class SettingData
         XmlElement root = xmlDoc.CreateElement("Settings");
         xmlDoc.AppendChild(root);
 
-        XmlElement resolutionElement = xmlDoc.CreateElement("Resolution");
-        resolutionElement.InnerText = $"{Resolution.width}x{Resolution.height}@{Resolution.refreshRate}";
-        root.AppendChild(resolutionElement);
+        XmlElement temp = xmlDoc.CreateElement("Resolution");
+        temp.InnerText = $"{Resolution.width}x{Resolution.height}@{Resolution.refreshRate}";
+        root.AppendChild(temp);
 
         XmlElement fullscreenElement = xmlDoc.CreateElement("Fullscreen");
         fullscreenElement.InnerText = FullScreen ? "1" : "0";
@@ -56,6 +57,20 @@ public static class SettingData
         sensitivityElement.InnerText = Sensitivity.ToString();
         root.AppendChild(sensitivityElement);
 
+        root.AppendChild(CreateKeyElement(xmlDoc, "Up", Up));
+        root.AppendChild(CreateKeyElement(xmlDoc, "Down", Down));
+        root.AppendChild(CreateKeyElement(xmlDoc, "Left", Left));
+        root.AppendChild(CreateKeyElement(xmlDoc, "Right", Right));
+        root.AppendChild(CreateKeyElement(xmlDoc, "Run", Run));
+        root.AppendChild(CreateKeyElement(xmlDoc, "Steal", Steal));
+        root.AppendChild(CreateKeyElement(xmlDoc, "Interact", Interact));
+        root.AppendChild(CreateKeyElement(xmlDoc, "Dialogue", Dialogue));
+        root.AppendChild(CreateKeyElement(xmlDoc, "FirstAidKit", FirstAidKit));
+        root.AppendChild(CreateKeyElement(xmlDoc, "Bandage", Bandage));
+        root.AppendChild(CreateKeyElement(xmlDoc, "SimpleGrenade", SimpleGrenade));
+        root.AppendChild(CreateKeyElement(xmlDoc, "SmokeGrenade", SmokeGrenade));
+
+
         xmlDoc.Save(_savedPath);
         LoadData();
     }
@@ -63,14 +78,12 @@ public static class SettingData
     {
         if (File.Exists(_savedPath))
         {
-            Debug.Log("Exists");
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(_savedPath);
 
             XmlNode root = xmlDoc.SelectSingleNode("Settings");
             if (root != null)
             {
-                Debug.Log("Not null");
                 Volume = float.TryParse(root["Volume"]?.InnerText, out float volume) ? volume : 0.5f;
                 string temp = root["Resolution"]?.InnerText;
                 string[] parts = temp.Split(new[] { 'x', '@' });
@@ -78,18 +91,48 @@ public static class SettingData
                     Resolution = new Resolution { width = width, height = height, refreshRate = refreshRate };
                 FullScreen = int.TryParse(root["Fullscreen"]?.InnerText, out int fullscreen) && fullscreen == 1;
                 Sensitivity = float.TryParse(root["Sensivity"]?.InnerText, out float sensivity) ? sensivity : 1.0f;
+                Up = LoadKeyElement(root["Up"]);
+                Down = LoadKeyElement(root["Down"]);
+                Left = LoadKeyElement(root["Left"]);
+                Right = LoadKeyElement(root["Right"]);
+                Run = LoadKeyElement(root["Run"]);
+                Steal = LoadKeyElement(root["Steal"]);
+                Interact = LoadKeyElement(root["Interact"]);
+                Dialogue = LoadKeyElement(root["Dialogue"]);
+                FirstAidKit = LoadKeyElement(root["FirstAidKit"]);
+                Bandage = LoadKeyElement(root["Bandage"]);
+                SimpleGrenade = LoadKeyElement(root["SimpleGrenade"]);
+                SmokeGrenade = LoadKeyElement(root["SmokeGrenade"]);
             }
         }
         else
         {
-            Resolutions = Screen.resolutions;
-            // Значения по умолчанию
-            Volume = 0.5f;
-            Resolution = Resolutions.Last();
-            FullScreen = true;
-            Sensitivity = 1.0f;
+            DefaultParameters();
+            SaveData();
         }
         ApplySettings();
+    }
+    public static void DefaultParameters()
+    {
+        Volume = 0.5f;
+        Resolution = Resolutions.Last();
+        FullScreen = true;
+        Sensitivity = 1.0f;
+
+        Up = KeyCode.W;
+        Down = KeyCode.S;
+        Left = KeyCode.A;
+        Right = KeyCode.D;
+
+        Run = KeyCode.LeftShift;
+        Steal = KeyCode.LeftControl;
+        Interact = KeyCode.E;
+        Dialogue = KeyCode.T;
+
+        FirstAidKit = KeyCode.Alpha3;
+        Bandage = KeyCode.Alpha4;
+        SimpleGrenade = KeyCode.Alpha2;
+        SmokeGrenade = KeyCode.Alpha1;
     }
     public static void ApplySettings()
     {
@@ -101,6 +144,7 @@ public static class SettingData
     public static void RebootSetting()
     {
         if (File.Exists(SettingData._savedPath)) File.Delete(_savedPath);
+        DefaultParameters();
     }
 
     public static void SetVolume(float value)
@@ -142,5 +186,16 @@ public static class SettingData
     public static void SetRightButton(KeyCode value)
     {
         Right = value;
+    }
+
+    private static XmlElement CreateKeyElement(XmlDocument xmlDoc, string keyName, KeyCode key)
+    {
+        XmlElement keyElement = xmlDoc.CreateElement(keyName);
+        keyElement.InnerText = key.ToString();
+        return keyElement;
+    }
+    private static KeyCode LoadKeyElement(XmlNode keyNode)
+    {
+        return keyNode != null ? Enum.TryParse(keyNode.InnerText, out KeyCode keyCode) ? keyCode : KeyCode.None : KeyCode.None;
     }
 }

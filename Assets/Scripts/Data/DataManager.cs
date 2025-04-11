@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 public class DataManager : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         SettingData.Initialize();
         PlayerData.Initialize();

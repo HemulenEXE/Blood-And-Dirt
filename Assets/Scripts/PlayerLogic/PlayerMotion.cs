@@ -60,6 +60,8 @@ public class PlayerMotion : MonoBehaviour
         float currentSpeed = PlayerData.IsStealing ? PlayerData.StealSpeed : (PlayerData.IsRunning ? PlayerData.RunSpeed : PlayerData.WalkSpeed);
         Vector3 movement = Vector3.zero;
 
+        Debug.Log(SettingData.Dialogue + "Dialogue");
+
         if (Input.GetKey(SettingData.Left))
             movement += Vector3.left;
         if (Input.GetKey(SettingData.Right))

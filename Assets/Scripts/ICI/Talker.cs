@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class Talker : ClickedObject
 {
-    public override string Description { get; } = SettingData.Dialogue.ToString();
+    private void Start()
+    {
+        Description = SettingData.Dialogue.ToString();
+    }
     public override void Interact()
     {
         // Логика взаимодействия
