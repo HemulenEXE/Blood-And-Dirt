@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
@@ -10,25 +11,29 @@ public class PlayerInitPosition : MonoBehaviour
 {
     public static PlayerInitPosition Instance { get; private set; }
 
-    public Vector3 position; //Сохраняет последнюю позицию игрока на определённой сцене
-    public int onScene; //На какой сцене 
-    public Quaternion rotation; // Сохраняет последнюю позицию поворота игрока на определённой сцене
+    private Queue<Vector3> posStack;//Сохраняет последнюю позицию игрока на определённой сцене
+    private Queue<int> sceneStack;//На какой сцене
+    private Queue<Quaternion> rotStack;// Сохраняет последнюю позицию поворота игрока на определённой сцене
     private void Awake()
     {
-        Debug.Log("Awake происходит");
         if (Instance == null)
         {
-            Debug.Log("Instance - null");
             Instance = this;
-            //DontDestroyOnLoad(gameObject); // Сохраняем объект при загрузке новой сцены
+            posStack = new Queue<Vector3>();
+            sceneStack = new Queue<int>();
+            rotStack = new Queue<Quaternion>();
         }
     }
+    public bool IsEmpty() { Debug.Log(posStack.Count); return posStack.Count == 0; }
+    public Vector3 Position() { sceneStack.Dequeue(); return posStack.Dequeue(); } 
+    public int OnScene() { return sceneStack.Peek(); }
+    public Quaternion Rotate() { return rotStack.Dequeue(); }
     public void SavePosition(int scene, Vector3 pos, Quaternion rot)
     {
         Debug.Log("Новая позиция появления сохранена!");
-        position = pos;
-        onScene = scene;
-        rotation = rot;
-        Debug.Log($"Position: {position}, onScene: {onScene}");
+        posStack.Enqueue(pos);
+        sceneStack.Enqueue(scene);
+        rotStack.Enqueue(rot);
+        Debug.Log($"Position: {pos}, onScene: {scene}, rotate: {rot}");
     }
 }

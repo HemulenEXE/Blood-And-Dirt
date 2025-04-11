@@ -1,39 +1,68 @@
-﻿using UnityEditor.SearchService;
+﻿using System;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 //Переход на новую сцену после прохода в новую комнату
 public class SwitchOnDoorOpening : SwitchScene
 {
-    //В какой позиции игрок должен появиться на следующей сцене
-    [SerializeField]
-    public Vector3 Position;
-    [SerializeField]
-    private Quaternion Rotation;
-
+    private Vector3 position; //Позиция игрока при следующем заходе на эту сцену
+    private Door door; //Дверь, после открытия которой должен происходить переход
+    private Quaternion rotate; //Поворот игрока при следующем заходе на эту сцену
+    private void Start()
+    {
+        door = this.transform.parent.GetComponentInChildren<Door>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Door door = this.transform.parent.GetComponentInChildren<Door>();
-        if (door.isRunning || door.IsOpen)
+        if (collision.tag == "Player")
         {
-            if (PlayerInitPosition.Instance != null)
+            //Установка позиции и повортоа в зависимости от того к какой дери и с какой стороны подошёл игрок
+            Transform player = collision.transform;
+            if (door.Side == Door.SideOpen.Down || door.Side == Door.SideOpen.Up) 
             {
-                Debug.Log($"Name: {Name}");
-                if (SwitchOn == States.ByName)
-                    for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-                    {
-                        var scenePath = SceneUtility.GetScenePathByBuildIndex(i);
-                        if (scenePath.EndsWith(Name + ".unity"))
-                        {
-                            PlayerInitPosition.Instance.SavePosition(i, Position, Rotation);
-                            break;
-                        }
-                    }
-                else PlayerInitPosition.Instance.SavePosition(Index, Position, Rotation);
-
-                Debug.Log($"Position: {Position}, onScene: {Index}, current scene: {SceneManager.GetActiveScene().buildIndex}");
+                if (door.PlayerSide == Door.ApproachSide.Right)
+                {
+                    Vector3 rot = player.eulerAngles;
+                    rot.z = 0;
+                    rotate = Quaternion.Euler(rot);
+                    position = new Vector3(player.position.x + 0.6f, player.position.y, player.position.z);
+                }
+                else
+                {
+                    Vector3 rot = player.eulerAngles;
+                    rot.z = 180;
+                    rotate = Quaternion.Euler(rot);
+                    position = new Vector3(player.position.x - 0.6f, player.position.y, player.position.z);
+                }
             }
-            Switch();
+            else
+            {
+                if (door.PlayerSide == Door.ApproachSide.Up)
+                {
+                    Vector3 rot = player.eulerAngles;
+                    rot.z = 90;
+                    rotate = Quaternion.Euler(rot);
+                    position = new Vector3(player.position.x, player.position.y + 0.6f, player.position.z);
+                }
+                else
+                {
+                    Vector3 rot = player.eulerAngles;
+                    rot.z = 270;
+                    rotate = Quaternion.Euler(rot);
+                    position = new Vector3(player.position.x, player.position.y - 0.6f, player.position.z);
+                }
+            }
+            // Само перемещение и запоминание положение игрока
+            if (door.isRunning || door.IsOpen)
+            {
+                if (PlayerInitPosition.Instance != null)
+                {
+                    PlayerInitPosition.Instance.SavePosition(SceneManager.GetActiveScene().buildIndex, position, rotate);
+                }
+                Switch(); 
+            }
         }
     }
+ 
 }

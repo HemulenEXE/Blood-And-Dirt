@@ -16,6 +16,7 @@ public class ScenesManager : MonoBehaviour
     /// Идёт ли затемнение экрана
     /// </summary>
     private static bool _isfade = false;
+    private bool isLoad = false; //Идёт ли загрузка сцены
     /// <summary>
     /// Объект класса через который идёт обращение к нему
     /// </summary>
@@ -43,15 +44,22 @@ public class ScenesManager : MonoBehaviour
     }
     private IEnumerator _OnMainMenu()
     {
-        Time.timeScale = 1;
+        if (!isLoad)
+        {
+            isLoad = true;
+            Time.timeScale = 1;
 
-        Fader.Instance.FadeIn(() => _isfade = true);
+            Fader.Instance.FadeIn(() => _isfade = true);
+            while (!_isfade)
+                yield return null;
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
-        if (!(_isfade && asyncLoad.isDone))
-            yield return null;
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
+            if (!asyncLoad.isDone)
+                yield return null;
 
-        Fader.Instance.FadeOut(() => _isfade = false);
+            Fader.Instance.FadeOut(() => _isfade = false);
+            isLoad = false;
+        }
     }
     /// <summary>
     /// Переход на следующую сцену
@@ -79,22 +87,29 @@ public class ScenesManager : MonoBehaviour
     }
     private IEnumerator _OnSelectedScene(int index)
     {
+        if (!isLoad)
+        {
+            isLoad = true;
+            if (index < 0) throw new ArgumentOutOfRangeException("index can't be < 0!"); //Добавить проверку, что индекс не больше, чем есть индексы у сцен
 
-        if (index < 0) throw new ArgumentOutOfRangeException("index can't be < 0!"); //Добавить проверку, что индекс не больше, чем есть индексы у сцен
+            Time.timeScale = 1;
+            PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы перешли на указанный уровень 
+            PlayerPrefs.Save();
+            Fader.Instance.FadeIn(() => _isfade = true);
+            while (!_isfade)
+                yield return null;
 
-        Time.timeScale = 1;
-        PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы перешли на указанный уровень 
-        PlayerPrefs.Save();
-        Fader.Instance.FadeIn(() => _isfade = true);
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index, LoadSceneMode.Single);
-        while (!(_isfade && asyncLoad.isDone))
-            yield return null;
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(index, LoadSceneMode.Single);
 
-        
-        Fader.Instance.FadeOut(() => _isfade = false);
-        //if (_isfade)
-          //  yield return null;
-        InitPosition(index);
+            while (!asyncLoad.isDone)
+                yield return null;
+
+            Fader.Instance.FadeOut(() => _isfade = false);
+            //if (_isfade)
+            //  yield return null;
+            InitPosition(index);
+            isLoad = false;
+        }
     }
     /// <summary>
     /// Переход на заданную сцену по имени сцены
@@ -109,16 +124,19 @@ public class ScenesManager : MonoBehaviour
         }
         throw new ArgumentNullException($"Scene with name '{name}' doesn't exist!"); //Уточнить правильно ли осуществляется проверка!
     }
+    //Инициализирует позицию игрока на новой сцене, если есть сохранённая
     private void InitPosition(int index)
     {
-        Debug.Log($"Position: {PlayerInitPosition.Instance.position}, onScene: {PlayerInitPosition.Instance.onScene}, current scene: {index}");
+        Debug.Log(index);
+        if (!PlayerInitPosition.Instance.IsEmpty())
+        Debug.Log($"{!PlayerInitPosition.Instance.IsEmpty() && (index == PlayerInitPosition.Instance.OnScene())} {index} {PlayerInitPosition.Instance.OnScene()}");
         //Меняем позицию, если есть сохранённая на этой сцене
-        if (PlayerInitPosition.Instance.position != null && index == PlayerInitPosition.Instance.onScene)
+        if (!PlayerInitPosition.Instance.IsEmpty() && (index == PlayerInitPosition.Instance.OnScene()))
         {
-            Debug.Log($"Появление запланировано в позиции: {PlayerInitPosition.Instance.position}");
+            Debug.Log($"Метод инициализации позиции запущен!");
             Transform player = GameObject.FindWithTag("Player").transform;
-            player.position = PlayerInitPosition.Instance.position;
-            player.rotation = PlayerInitPosition.Instance.rotation;
+            player.position = PlayerInitPosition.Instance.Position();
+            player.rotation = PlayerInitPosition.Instance.Rotate();
             Transform camera = GameObject.FindWithTag("MainCamera").transform;
             camera.position = new Vector3(player.position.x, player.position.y, -10);
         }

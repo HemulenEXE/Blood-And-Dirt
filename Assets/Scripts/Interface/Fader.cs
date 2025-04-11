@@ -27,6 +27,7 @@ namespace CameraLogic.CameraEffects
         /// <summary>
         /// Возвращает компонент одиночка.
         /// </summary>
+        private bool fading; //идёт ли затемнение/осветление
         public static Fader Instance
         {
             get
@@ -37,6 +38,7 @@ namespace CameraLogic.CameraEffects
                     _instance = Instantiate(prefab);
                     DontDestroyOnLoad(_instance.gameObject);
                 }
+
                 return _instance;
             }
         }
@@ -47,9 +49,13 @@ namespace CameraLogic.CameraEffects
         /// <param name="fadeInCallback"></param>
         public void FadeIn(Action fadeInCallback)
         {
+            if (fading)
+                return;
+
+            fading = true;
             Debug.Log($"FadeIn! - {animator.GetBool("isFaded")}");
             _fadeInCallback = fadeInCallback;
-            animator.SetBool(name: "isFaded", false);
+            animator.SetBool(name: "isFaded", true);
 
         }
         /// <summary>
@@ -58,9 +64,13 @@ namespace CameraLogic.CameraEffects
         /// <param name="fadeOutCallback"></param>
         public void FadeOut(Action fadeOutCallback)
         {
+            if (fading)
+                return;
+
+            fading = true;
             Debug.Log($"FadeOut! - {animator.GetBool("isFaded")}");
             _fadeOutCallback = fadeOutCallback;
-            animator.SetBool(name: "isFaded", true);
+            animator.SetBool(name: "isFaded", false);
         }
         
         /// <summary>
@@ -71,6 +81,7 @@ namespace CameraLogic.CameraEffects
             Debug.Log("FadeInCallback вызван");
             _fadeInCallback?.Invoke();
             _fadeInCallback = null;
+            fading = false;
         }
         /// <summary>
         /// Вызов делегата _fadeOutCallback после осветления экрана.
@@ -80,6 +91,7 @@ namespace CameraLogic.CameraEffects
             Debug.Log("FadeOutCallback вызван");
             _fadeOutCallback?.Invoke();
             _fadeOutCallback = null;
+            fading = false;
         }
     }
 }

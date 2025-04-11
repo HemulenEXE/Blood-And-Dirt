@@ -25,7 +25,7 @@ public class Scene1_0Controller : SwitchScene
 
         if (_dialogue.GetCurentNodeIndex() == 2 && _animator.GetBool("IsShooting") == false && flag)
         {
-            Debug.Log(2); Debug.Log(_animator.GetBool("IsShooting"));
+            //Debug.Log(_animator.GetBool("IsShooting"));
             DialogueWindow.transform.Find("Continue").gameObject.SetActive(false);
             _director.WithEnd = false;
 
@@ -35,11 +35,13 @@ public class Scene1_0Controller : SwitchScene
         if (_dialogue.GetCurentNodeIndex() == 2 && _animator.GetBool("IsShooting") == true)
         {
             DialogueWindow.transform.Find("Continue").gameObject.SetActive(true);
-            Debug.Log(3);
         }
         if (DialogueWindow.activeSelf && (_dialogue.GetCurentNodeIndex() == _dialogue.Nodes.Length - 1))
             _director.WithEnd = true;
-        if (!DialogueWindow.activeSelf && (_dialogue.GetCurentNodeIndex() == _dialogue.Nodes.Length - 1))
+        if (!DialogueWindow.activeSelf && (_dialogue.GetCurentNodeIndex() == _dialogue.Nodes.Length - 1) && !flag)
+        {
+            flag = true;
             Switch();
+        }
     }
 }

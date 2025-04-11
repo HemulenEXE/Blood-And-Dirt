@@ -8748,6 +8748,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.02014229
       objectReference: {fileID: 0}
+    - target: {fileID: 3736570082806045743, guid: d458f26e2ee60284fb3b969c2977ed27, type: 3}
+      propertyPath: PlayerSide
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4750368777793465473, guid: d458f26e2ee60284fb3b969c2977ed27, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.9816107
@@ -8884,6 +8888,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoorOpenUp
       objectReference: {fileID: 0}
+    - target: {fileID: 3678273818438654976, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
+      propertyPath: PlayerSide
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4540870983180539387, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
       propertyPath: SwitchOn
       value: 1
@@ -9017,6 +9025,10 @@ PrefabInstance:
     - target: {fileID: 3541376881430158877, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
       propertyPath: m_Name
       value: DoorsOpenHorizontal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678273818438654976, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
+      propertyPath: PlayerSide
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4540870983180539387, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
       propertyPath: Name

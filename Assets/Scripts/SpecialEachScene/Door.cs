@@ -1,20 +1,22 @@
-using System;
+п»їusing System;
 using System.Collections;
 using UnityEngine;
 
-//Отвечает за анимацию открытия\закрытия двери
+//РћС‚РІРµС‡Р°РµС‚ Р·Р° Р°РЅРёРјР°С†РёСЋ РѕС‚РєСЂС‹С‚РёСЏ\Р·Р°РєСЂС‹С‚РёСЏ РґРІРµСЂРё
 public class Door : MonoBehaviour
 {
     [NonSerialized]
-    public bool IsOpen = false; //Открыта ли 
+    public bool IsOpen = false; //РћС‚РєСЂС‹С‚Р° Р»Рё 
     [SerializeField]
-    public enum SideOpen { Left, Right, Up, Down}; //В какую сторону должна открываться дверь
+    public enum ApproachSide { Up, Down, Left, Right };
+    public ApproachSide PlayerSide; //РЎ РєР°РєРѕР№ СЃС‚РѕСЂРѕРЅС‹ РёРіСЂРѕРє РїРѕРґС…РѕРґРёС‚ Рє РґРІРµСЂРё
+    public enum SideOpen { Left, Right, Up, Down}; //Р’ РєР°РєСѓСЋ СЃС‚РѕСЂРѕРЅСѓ РґРѕР»Р¶РЅР° РѕС‚РєСЂС‹РІР°С‚СЊСЃСЏ РґРІРµСЂСЊ
     public SideOpen Side; 
-    private Vector3 pos; //Позиция относительно которой происходит вращение
-    private float speed = 40f; //Скорость открытия
+    private Vector3 pos; //РџРѕР·РёС†РёСЏ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РєРѕС‚РѕСЂРѕР№ РїСЂРѕРёСЃС…РѕРґРёС‚ РІСЂР°С‰РµРЅРёРµ
+    private float speed = 40f; //РЎРєРѕСЂРѕСЃС‚СЊ РѕС‚РєСЂС‹С‚РёСЏ
     private bool isTrigger = false;
     [NonSerialized]
-    public bool isRunning = false; //В процессе открытия/закрытия
+    public bool isRunning = false; //Р’ РїСЂРѕС†РµСЃСЃРµ РѕС‚РєСЂС‹С‚РёСЏ/Р·Р°РєСЂС‹С‚РёСЏ
 
     void Start()
     {
@@ -57,7 +59,7 @@ public class Door : MonoBehaviour
             else StartCoroutine(Open());
         }
     }
-    //Эти три метода для использования в TimeLine'ах
+    //Р­С‚Рё С‚СЂРё РјРµС‚РѕРґР° РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РІ TimeLine'Р°С…
     public void SetOpenSpeed(int s) { speed = s; }
     public void OpenDoor() { StartCoroutine(Open()); }
     public void CloseDoor() { StartCoroutine(Close()); }
