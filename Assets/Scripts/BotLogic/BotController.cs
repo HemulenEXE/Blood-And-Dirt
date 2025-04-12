@@ -129,6 +129,7 @@ public class BotController : MonoBehaviour
 
     public void NotifiedOfEnemy(Transform playerTransform)
     {
+        
         targetPlayer = playerTransform;
         stateBot = StateBot.combat;
         timeSinceLastSeen = 0;
