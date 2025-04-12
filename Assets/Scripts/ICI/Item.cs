@@ -7,7 +7,7 @@ using UnityEngine;
 public class Item : MonoBehaviour, IInteractable
 {
     public string Name { get; }
-    public string Description { get; } = SettingData.Interact.ToString();
+    public string Description { get; set; }
     public Sprite Icon;
     public LayerMask Layer { get; private set; }
     public GameObject GameObject { get; }
@@ -36,5 +36,9 @@ public class Item : MonoBehaviour, IInteractable
     {
         Layer = this.gameObject.layer;
         if (Icon == null) throw new ArgumentNullException("PickUpItem: Icon is null");
+    }
+    protected virtual void Start()
+    {
+        Description = SettingData.Interact.ToString();
     }
 }

@@ -47,28 +47,25 @@ public static class SettingData
             xmlDoc.Load(_savedPath);
 
             XmlNode root = xmlDoc.DocumentElement;
-            if (root != null)
-            {
-                Volume = float.TryParse(root["Volume"]?.InnerText, out float volume) ? volume : 0.5f;
-                string temp = root["Resolution"]?.InnerText;
-                string[] parts = temp.Split(new[] { 'x', '@' });
-                if (parts.Length == 3 && int.TryParse(parts[0], out int width) && int.TryParse(parts[1], out int height) && int.TryParse(parts[2], out int refreshRate))
-                    Resolution = new Resolution { width = width, height = height, refreshRate = refreshRate };
-                FullScreen = int.TryParse(root["Fullscreen"]?.InnerText, out int fullscreen) && fullscreen == 1;
-                Sensitivity = float.TryParse(root["Sensivity"]?.InnerText, out float sensivity) ? sensivity : 1.0f;
-                Up = LoadKeyElement(root["Up"]);
-                Down = LoadKeyElement(root["Down"]);
-                Left = LoadKeyElement(root["Left"]);
-                Right = LoadKeyElement(root["Right"]);
-                Run = LoadKeyElement(root["Run"]);
-                Steal = LoadKeyElement(root["Steal"]);
-                Interact = LoadKeyElement(root["Interact"]);
-                Dialogue = LoadKeyElement(root["Dialogue"]);
-                FirstAidKit = LoadKeyElement(root["FirstAidKit"]);
-                Bandage = LoadKeyElement(root["Bandage"]);
-                SimpleGrenade = LoadKeyElement(root["SimpleGrenade"]);
-                SmokeGrenade = LoadKeyElement(root["SmokeGrenade"]);
-            }
+            Volume = float.TryParse(root["Volume"]?.InnerText, out float volume) ? volume : 0.5f;
+            string temp = root["Resolution"]?.InnerText;
+            string[] parts = temp.Split(new[] { 'x', '@' });
+            if (parts.Length == 3 && int.TryParse(parts[0], out int width) && int.TryParse(parts[1], out int height) && int.TryParse(parts[2], out int refreshRate))
+                Resolution = new Resolution { width = width, height = height, refreshRate = refreshRate };
+            FullScreen = int.TryParse(root["Fullscreen"]?.InnerText, out int fullscreen) && fullscreen == 1;
+            Sensitivity = float.TryParse(root["Sensivity"]?.InnerText, out float sensivity) ? sensivity : 1.0f;
+            Up = LoadKeyElement(root["Up"]);
+            Down = LoadKeyElement(root["Down"]);
+            Left = LoadKeyElement(root["Left"]);
+            Right = LoadKeyElement(root["Right"]);
+            Run = LoadKeyElement(root["Run"]);
+            Steal = LoadKeyElement(root["Steal"]);
+            Interact = LoadKeyElement(root["Interact"]);
+            Dialogue = LoadKeyElement(root["Dialogue"]);
+            FirstAidKit = LoadKeyElement(root["FirstAidKit"]);
+            Bandage = LoadKeyElement(root["Bandage"]);
+            SimpleGrenade = LoadKeyElement(root["SimpleGrenade"]);
+            SmokeGrenade = LoadKeyElement(root["SmokeGrenade"]);
         }
         else
         {
@@ -199,6 +196,6 @@ public static class SettingData
     }
     private static KeyCode LoadKeyElement(XmlNode keyNode)
     {
-        return keyNode != null ? Enum.TryParse(keyNode.InnerText, out KeyCode keyCode) ? keyCode : KeyCode.None : KeyCode.None;
+        return keyNode != null ? Enum.TryParse(keyNode.InnerText, out KeyCode result) ? result : KeyCode.None : KeyCode.None;
     }
 }

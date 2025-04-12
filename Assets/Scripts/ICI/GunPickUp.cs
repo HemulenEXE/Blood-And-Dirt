@@ -1,5 +1,4 @@
-﻿using GunLogic;
-using System;
+﻿using System;
 
 /// <summary>
 /// Скрипт, реализующий "оружие, которое игрок может взять в свой инвентарь".
