@@ -21,7 +21,7 @@ public class PlayerInventory : MonoBehaviour
     private void Update()
     {
         // Перемещение между слотами с помощью пронумерованных клавиш 1 2 3 ...
-        for (int i = 49; i < 49 + inventoryAndConsumableCounterUI.Size; i++)
+        for (int i = 49; i < 49 + inventoryAndConsumableCounterUI.Size; ++i)
         {
             KeyCode key = (KeyCode)i;
             if (Input.GetKey(key))

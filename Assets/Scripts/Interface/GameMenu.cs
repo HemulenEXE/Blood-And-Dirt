@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using TMPro;
+using CameraLogic.CameraEffects;
 
 /// <summary>
 /// Скрипт управления внутриигровым меню. Навешивается на GameMenu
@@ -33,6 +34,14 @@ public class GameMenu : MonoBehaviour
     /// Кнопка включения/выключения дерева прокачики
     /// </summary>
     private Button _onSkillTree;
+    //Открыто ли меню или его вложенные элементы (дерево прокачки)
+    private bool isOpen = false; 
+    //Объеекты, которые нужно отключать, если включено меню
+    [NonSerialized]
+    public Image fader;
+    GameObject interactiveUI;
+    GameObject invantoryUI;
+    GameObject bloodEffect;
     /// <summary>
     /// Проверка и настройка полей.
     /// </summary>
@@ -82,7 +91,6 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private void InMainMenu()
     {
-
         transform.Find("PopUpNotice").gameObject.SetActive(true);
     }
     /// <summary>
@@ -101,8 +109,12 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private void Save()
     {
-        Time.timeScale = 1;
         _animator.SetBool(name: "startOpen", false);
+        if (!transform.GetChild(0).gameObject.activeSelf)
+        {
+            isOpen = false;
+            ChangeWeaponActivity();
+        }
         PlayerPrefs.SetFloat("Volume", _audio.value); //Сохранение громкости.
         PlayerPrefs.Save();
     }
@@ -123,14 +135,52 @@ public class GameMenu : MonoBehaviour
     {
         if (_animator.GetBool(name: "startOpen"))
         {
-            Time.timeScale = 1;
+            if (!transform.GetChild(0).gameObject.activeSelf)
+            {
+                isOpen = false;
+                ChangeWeaponActivity();
+            }
             _animator.SetBool(name: "startOpen", false);
         }
         else
         {
-            Time.timeScale = 0;
+            if (!isOpen)
+                ChangeWeaponActivity();
+            isOpen = true;
             _animator.SetBool(name: "startOpen", true);
         }
     }
+    //Выключает/включает остальные UI элементы и игровое время 
+    private void ChangeWeaponActivity() 
+    {
+        Debug.Log("CHANGE WEAPON ACTIVITY");
+
+        Time.timeScale = Time.timeScale == 1 ? 0 : 1;
+
+        Image fd = GameObject.FindWithTag("Fader")?.GetComponentInChildren<Image>();
+        GameObject interactUI = GameObject.Find("InteractiveUI");
+        GameObject invantUI = GameObject.Find("InventoryAndConsumableCounterUI");
+        GameObject bE = GameObject.Find("BloodEffect");
+
+        //Сохранение ссылок на объекты для их последующего включения
+        if (fd != null && fader == null)
+            fader = fd;
+        if (interactUI != null && interactiveUI == null)
+            interactiveUI = interactUI;
+        if (invantUI != null && invantoryUI == null)
+            invantoryUI = invantUI;
+        if (bE != null && bloodEffect == null)
+            bloodEffect = bE;
+
+        fader?.gameObject.SetActive(!fader.gameObject.activeSelf);
+        interactiveUI?.SetActive(!interactiveUI.activeSelf);
+        invantoryUI?.SetActive(!invantoryUI.activeSelf);
+        bloodEffect?.SetActive(!bloodEffect.activeSelf);
+
+        GameObject player = GameObject.FindWithTag("Player");
+        player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
+        player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
+        player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
+    } 
 }
 

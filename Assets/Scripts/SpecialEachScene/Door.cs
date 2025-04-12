@@ -1,21 +1,23 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using UnityEngine;
 
-//Îòâå÷àåò çà àíèìàöèþ îòêðûòèÿ\çàêðûòèÿ äâåðè
+//ÐžÑ‚Ð²ÐµÑ‡Ð°ÐµÑ‚ Ð·Ð° Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸ÑŽ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ð¸Ñ\Ð·Ð°ÐºÑ€Ñ‹Ñ‚Ð¸Ñ Ð´Ð²ÐµÑ€Ð¸
 public class Door : MonoBehaviour
 {
     [NonSerialized]
-    public bool IsOpen = false; //Îòêðûòà ëè 
+    public bool IsOpen = false; //ÐžÑ‚ÐºÑ€Ñ‹Ñ‚Ð° Ð»Ð¸ 
     [SerializeField]
-    public enum SideOpen { Left, Right, Up, Down}; //Â êàêóþ ñòîðîíó äîëæíà îòêðûâàòüñÿ äâåðü
+    public enum ApproachSide { Up, Down, Left, Right };
+    public ApproachSide PlayerSide; //Ð¡ ÐºÐ°ÐºÐ¾Ð¹ ÑÑ‚Ð¾Ñ€Ð¾Ð½Ñ‹ Ð¸Ð³Ñ€Ð¾Ðº Ð¿Ð¾Ð´Ñ…Ð¾Ð´Ð¸Ñ‚ Ðº Ð´Ð²ÐµÑ€Ð¸
+    public enum SideOpen { Left, Right, Up, Down}; //Ð’ ÐºÐ°ÐºÑƒÑŽ ÑÑ‚Ð¾Ñ€Ð¾Ð½Ñƒ Ð´Ð¾Ð»Ð¶Ð½Ð° Ð¾Ñ‚ÐºÑ€Ñ‹Ð²Ð°Ñ‚ÑŒÑÑ Ð´Ð²ÐµÑ€ÑŒ
     public SideOpen Side; 
-    private Vector3 pos; //Ïîçèöèÿ îòíîñèòåëüíî êîòîðîé ïðîèñõîäèò âðàùåíèå
-    private float speed = 40f; //Ñêîðîñòü îòêðûòèÿ
+    private Vector3 pos; //ÐŸÐ¾Ð·Ð¸Ñ†Ð¸Ñ Ð¾Ñ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¹ Ð¿Ñ€Ð¾Ð¸ÑÑ…Ð¾Ð´Ð¸Ñ‚ Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ðµ
+    private float speed = 40f; //Ð¡ÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ð¸Ñ
     private bool isTrigger = false;
-    private bool isRunning = false;
+    [NonSerialized]
+    public bool isRunning = false; //Ð’ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐµ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ð¸Ñ/Ð·Ð°ÐºÑ€Ñ‹Ñ‚Ð¸Ñ
 
-    // Start is called before the first frame update
     void Start()
     {
         pos = transform.position;
@@ -57,7 +59,7 @@ public class Door : MonoBehaviour
             else StartCoroutine(Open());
         }
     }
-    //Ýòè òðè ìåòîäà äëÿ èñïîëüçîâàíèÿ â TimeLine'àõ
+    //Ð­Ñ‚Ð¸ Ñ‚Ñ€Ð¸ Ð¼ÐµÑ‚Ð¾Ð´Ð° Ð´Ð»Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ Ð² TimeLine'Ð°Ñ…
     public void SetOpenSpeed(int s) { speed = s; }
     public void OpenDoor() { StartCoroutine(Open()); }
     public void CloseDoor() { StartCoroutine(Close()); }
@@ -68,7 +70,7 @@ public class Door : MonoBehaviour
         if (Side == SideOpen.Left || Side == SideOpen.Down) {
             while (Math.Abs(360 - 90 - transform.rotation.eulerAngles.z) > 1.5)
             {
-                Debug.Log($"{transform.rotation.eulerAngles.z} <-> {transform.rotation.z}");
+                //Debug.Log($"{transform.rotation.eulerAngles.z} <-> {transform.rotation.z}");
                 transform.RotateAround(pos, Vector3.back, speed * Time.deltaTime);
                 yield return null;
             }

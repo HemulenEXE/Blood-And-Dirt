@@ -1,4 +1,3 @@
-using GunLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,7 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     public List<GameObject> slots;
     public Sprite emptySlotIcon;
     public Inventory inventory;
-    public TextMeshProUGUI description; // �������� ��� �������� ������ � ���� ���������
+    public TextMeshProUGUI description;
 
     public TextMeshProUGUI smokeGrenade;
     public TextMeshProUGUI simpleGrenade;
