@@ -61,12 +61,14 @@ public class Icon : MonoBehaviour
         if (skill != null)
             price = skill.Cost;
 
+        window.updateMode = AnimatorUpdateMode.UnscaledTime;
+
         //Включает окно с описанием способности (выключает, еcли уже включено)
         this.GetComponent<Button>().onClick.AddListener(() =>
         {
             if (!window.GetBool("isOpen"))
             {
-                Debug.Log($"Открытие, isOpen = {window.GetBool("isOpen")}");
+                Debug.Log($"Открытие, isOpen = {window.GetBool("isOpen")}"); 
                 window.SetBool("isOpen", true);
                 Transform panel = window.transform.GetChild(0);
                 panel.GetChild(0).GetComponent<TextMeshProUGUI>().text = title;
