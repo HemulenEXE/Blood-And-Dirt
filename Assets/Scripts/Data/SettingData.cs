@@ -36,6 +36,7 @@ public static class SettingData
     public static void Initialize()
     {
         _savedPath = Path.Combine(Application.persistentDataPath, "Settings.xml");
+        Debug.Log("saved path: " + _savedPath);
         Resolutions = Screen.resolutions;
         LoadData();
     }

@@ -292,6 +292,7 @@ MonoBehaviour:
   stoppingDistance: 5
   stateSide: 1
   stateBot: 2
+  targetPlayer: {fileID: 0}
 --- !u!50 &672257775031539312
 Rigidbody2D:
   serializedVersion: 4
@@ -656,7 +657,7 @@ MonoBehaviour:
   _audioPlatoon: {fileID: 8300000, guid: 595f9f079b2c7be49ab74e193472a2d3, type: 3}
   <Damage>k__BackingField: 5
   <ShotDelay>k__BackingField: 0.5
-  <AmmoTotal>k__BackingField: 100
+  <AmmoTotal>k__BackingField: 10000
   <AmmoCapacity>k__BackingField: 5
   <AmmoTotalCurrent>k__BackingField: 0
   <RechargingTime>k__BackingField: 2
