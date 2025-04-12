@@ -19,6 +19,7 @@ public class Scene1_0Controller : SwitchScene
         _dialogue = _director.GetDialogue();
         DialogueWindow = _director.DialogueWindow.gameObject;
         GameObject.Find("Pistol").GetComponent<BoxCollider2D>().enabled = false;
+        _director.WithAction = true;
     }
     void Update()
     {
@@ -35,6 +36,8 @@ public class Scene1_0Controller : SwitchScene
         if (_dialogue.GetCurentNodeIndex() == 2 && _animator.GetBool("IsShooting") == true)
         {
             DialogueWindow.transform.Find("Continue").gameObject.SetActive(true);
+            _director.WithAction = false;
+            _director.SetAct();
         }
         if (DialogueWindow.activeSelf && (_dialogue.GetCurentNodeIndex() == _dialogue.Nodes.Length - 1))
             _director.WithEnd = true;
