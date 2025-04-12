@@ -1981,9 +1981,6 @@ PrefabInstance:
       addedObject: {fileID: 475000258}
     - targetCorrespondingSourceObject: {fileID: 5659862659255152017, guid: 8f163a7dde5c17b42aa92e79a653b5a7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 475000265}
-    - targetCorrespondingSourceObject: {fileID: 5659862659255152017, guid: 8f163a7dde5c17b42aa92e79a653b5a7, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 475000271}
     - targetCorrespondingSourceObject: {fileID: 5659862659255152017, guid: 8f163a7dde5c17b42aa92e79a653b5a7, type: 3}
       insertIndex: -1
@@ -2010,6 +2007,7 @@ MonoBehaviour:
   DialogueWindow: {fileID: 1867265826}
   TimeBetweenLetters: 0.05
   WithEnd: 1
+  WithAction: 0
 --- !u!114 &475000258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2022,22 +2020,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e891712a0e6b894b919c2b2168309af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &475000265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 475000250}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7b4dc9292addf34ebbc533032962ec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SwitchOn: 0
-  Name: 
-  Index: 2
-  FileName: {fileID: 4900000, guid: 0376e6af3f653b04db7f70760475d6be, type: 3}
 --- !u!114 &475000271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3990,7 +3972,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6464907481550094213, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
       propertyPath: m_LocalPosition.x
