@@ -29,7 +29,6 @@ public class ScenesManager : MonoBehaviour
             {
                 GameObject obj = new GameObject("ScenesManager");
                 _instance = obj.AddComponent<ScenesManager>();
-                _instance.AddComponent<PlayerInitPosition>();
                 DontDestroyOnLoad(_instance.gameObject);
             }
             return _instance;

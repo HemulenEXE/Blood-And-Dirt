@@ -26,14 +26,14 @@ public class SwitchOnDoorOpening : SwitchScene
                     Vector3 rot = player.eulerAngles;
                     rot.z = 0;
                     rotate = Quaternion.Euler(rot);
-                    position = new Vector3(player.position.x + 0.6f, player.position.y, player.position.z);
+                    position = new Vector3(player.position.x + 0.5f, player.position.y, player.position.z);
                 }
                 else
                 {
                     Vector3 rot = player.eulerAngles;
                     rot.z = 180;
                     rotate = Quaternion.Euler(rot);
-                    position = new Vector3(player.position.x - 0.6f, player.position.y, player.position.z);
+                    position = new Vector3(player.position.x - 0.5f, player.position.y, player.position.z);
                 }
             }
             else
@@ -43,14 +43,14 @@ public class SwitchOnDoorOpening : SwitchScene
                     Vector3 rot = player.eulerAngles;
                     rot.z = 90;
                     rotate = Quaternion.Euler(rot);
-                    position = new Vector3(player.position.x, player.position.y + 0.6f, player.position.z);
+                    position = new Vector3(player.position.x, player.position.y + 0.5f, player.position.z);
                 }
                 else
                 {
                     Vector3 rot = player.eulerAngles;
                     rot.z = 270;
                     rotate = Quaternion.Euler(rot);
-                    position = new Vector3(player.position.x, player.position.y - 0.6f, player.position.z);
+                    position = new Vector3(player.position.x, player.position.y - 0.5f, player.position.z);
                 }
             }
             // Само перемещение и запоминание положение игрока

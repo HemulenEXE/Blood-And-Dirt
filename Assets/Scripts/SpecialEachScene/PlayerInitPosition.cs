@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
@@ -9,19 +11,25 @@ using UnityEngine.SceneManagement;
 //чтобы при переходах туда-сюда он спавнился около двери, а не в стартовой позиции
 public class PlayerInitPosition : MonoBehaviour
 {
-    public static PlayerInitPosition Instance { get; private set; }
+    private static PlayerInitPosition instance;
 
-    private Queue<Vector3> posStack;//Сохраняет последнюю позицию игрока на определённой сцене
-    private Queue<int> sceneStack;//На какой сцене
-    private Queue<Quaternion> rotStack;// Сохраняет последнюю позицию поворота игрока на определённой сцене
-    private void Awake()
+    private static Queue<Vector3> posStack;//Сохраняет последнюю позицию игрока на определённой сцене
+    private static Queue<int> sceneStack;//На какой сцене
+    private static Queue<Quaternion> rotStack;// Сохраняет последнюю позицию поворота игрока на определённой сцене
+    public static PlayerInitPosition Instance
     {
-        if (Instance == null)
+        get 
         {
-            Instance = this;
-            posStack = new Queue<Vector3>();
-            sceneStack = new Queue<int>();
-            rotStack = new Queue<Quaternion>();
+            if (instance == null)
+            {
+                GameObject obj = new GameObject("PlayerInitPosition");
+                instance = obj.AddComponent<PlayerInitPosition>();
+                posStack = new Queue<Vector3>();
+                sceneStack = new Queue<int>();
+                rotStack = new Queue<Quaternion>();
+                DontDestroyOnLoad(instance.gameObject);
+            }
+            return instance; 
         }
     }
     public bool IsEmpty() { Debug.Log(posStack.Count); return posStack.Count == 0; }
