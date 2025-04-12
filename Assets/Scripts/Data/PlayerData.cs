@@ -1,4 +1,5 @@
 using SkillLogic;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -70,6 +71,12 @@ public static class PlayerData
     public static void Initialize()
     {
         _savedPath = Path.Combine(Application.persistentDataPath, "PlayerData.xml");
+        if (!CheckFile())
+        {
+            Debug.Log("The PlayerData.xml is uncorrect or deleted. This file will be (re-)created");
+            File.Delete(_savedPath);
+            LoadData();
+        }
         LoadData();
     }
     public static void LoadData()
@@ -155,6 +162,51 @@ public static class PlayerData
         if (File.Exists(_savedPath)) File.Delete(_savedPath);
         DefaultParameters();
     }
+    public static bool CheckFile()
+    {
+        if (!File.Exists(_savedPath)) return false;
+
+        try
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_savedPath);
+            XmlNode root = xmlDoc.DocumentElement;
+
+            if (root["Skills"] == null ||
+                root["IsGod"] == null ||
+                root["Score"] == null ||
+                root["InventoryCapacity"] == null ||
+                root["BandageCount"] == null ||
+                root["FirstAidKitCount"] == null ||
+                root["SimpleGrenadeCount"] == null ||
+                root["SmokeGrenadeCount"] == null) return false;
+
+            if (!bool.TryParse(root["IsGod"].InnerText, out _) ||
+                !int.TryParse(root["Score"].InnerText, out _) ||
+                !int.TryParse(root["InventoryCapacity"].InnerText, out _) ||
+                !int.TryParse(root["BandageCount"].InnerText, out _) ||
+                !int.TryParse(root["FirstAidKitCount"].InnerText, out _) ||
+                !int.TryParse(root["SimpleGrenadeCount"].InnerText, out _) ||
+                !int.TryParse(root["SmokeGrenadeCount"].InnerText, out _)) return false;
+
+            XmlNode skillsNode = root["Skills"];
+            if (skillsNode != null)
+            {
+                foreach (XmlNode skillNode in skillsNode.ChildNodes)
+                {
+                    string skillName = skillNode.SelectSingleNode("Name")?.InnerText;
+                    if (string.IsNullOrEmpty(skillName) || !SkillsStorage.ContainsKey(skillName)) return false;
+                }
+            }
+
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
     public static bool HasSkill<T>() where T : Skill
     {
         return Skills.OfType<T>().Any();

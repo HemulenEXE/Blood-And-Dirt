@@ -35,9 +35,14 @@ public static class SettingData
 
     public static void Initialize()
     {
-        _savedPath = Path.Combine(Application.persistentDataPath, "Settings.xml");
-        Debug.Log("saved path: " + _savedPath);
+        _savedPath = Path.Combine(Application.persistentDataPath, "SettingData.xml");
         Resolutions = Screen.resolutions;
+        if (!CheckFile())
+        {
+            Debug.Log("The SettingData.xml is uncorrect or deleted. This file will be (re-)created");
+            File.Delete(_savedPath);
+            LoadData();
+        }
         LoadData();
     }
     public static void LoadData()
@@ -48,6 +53,8 @@ public static class SettingData
             xmlDoc.Load(_savedPath);
 
             XmlNode root = xmlDoc.DocumentElement;
+
+
             Volume = float.TryParse(root["Volume"]?.InnerText, out float volume) ? volume : 0.5f;
             string temp = root["Resolution"]?.InnerText;
             string[] parts = temp.Split(new[] { 'x', '@' });
@@ -139,6 +146,57 @@ public static class SettingData
     {
         if (File.Exists(SettingData._savedPath)) File.Delete(_savedPath);
         DefaultParameters();
+    }
+    public static bool CheckFile()
+    {
+        if (!File.Exists(_savedPath)) return false;
+
+        try {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(_savedPath);
+
+            XmlNode root = xmlDoc.DocumentElement;
+
+            if (root["Volume"] == null ||
+                root["Resolution"] == null ||
+                root["Fullscreen"] == null ||
+                root["Sensitivity"] == null ||
+                root["Up"] == null ||
+                root["Down"] == null ||
+                root["Left"] == null ||
+                root["Right"] == null ||
+                root["Run"] == null ||
+                root["Steal"] == null ||
+                root["Interact"] == null ||
+                root["Dialogue"] == null ||
+                root["FirstAidKit"] == null ||
+                root["Bandage"] == null ||
+                root["SimpleGrenade"] == null ||
+                root["SmokeGrenade"] == null) return false;
+
+            if (!float.TryParse(root["Volume"].InnerText, out _) ||
+                !int.TryParse(root["Fullscreen"].InnerText, out _) ||
+                !float.TryParse(root["Sensitivity"].InnerText, out _)) return false;
+
+            string temp = root["Resolution"].InnerText;
+            string[] parts = temp.Split(new[] { 'x', '@' });
+            if (parts.Length != 3 ||
+                !int.TryParse(parts[0], out _) ||
+                !int.TryParse(parts[1], out _) ||
+                !int.TryParse(parts[2], out _)) return false;
+
+            foreach (var keyName in new[] { "Up", "Down", "Left", "Right",
+                "Run", "Steal",
+                "Interact", "Dialogue",
+                "FirstAidKit", "Bandage", "SimpleGrenade", "SmokeGrenade" })
+                if (!Enum.TryParse(root[keyName].InnerText, out KeyCode _)) return false;
+
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
     public static void ApplySettings()
     {
