@@ -111,7 +111,8 @@ public class ShowDialogueDubl : MonoBehaviour
     /// </summary>
     public void StartDialogue()
     {
-        SetAct();
+        if (!WithAction)
+            SetAct();
         DialogueWindow.gameObject.SetActive(true);
         
         Debug.Log(_panelForText);
@@ -237,7 +238,7 @@ public class ShowDialogueDubl : MonoBehaviour
         if ((DialogueWindow.gameObject.activeSelf && WithEnd) || (end && DialogueWindow.gameObject.activeSelf))
         {
             DialogueWindow.gameObject.SetActive(false);
-            if (WithAction == false) //Включаем обратно возможность действовать, если она отключена
+            if (!WithAction) //Включаем обратно возможность действовать, если она отключена
                 SetAct();
         }
     }
@@ -246,18 +247,9 @@ public class ShowDialogueDubl : MonoBehaviour
     {
         GameObject player = GameObject.FindWithTag("Player");
 
-        if (WithAction)
-        {
-            player.GetComponent<PlayerGrenade>().enabled = true;
-            player.GetComponent<PlayerKnife>().enabled = true;
-            player.GetComponent<PlayerShooting>().enabled = true;
-        }
-        else
-        {
-            player.GetComponent<PlayerGrenade>().enabled = false;
-            player.GetComponent<PlayerKnife>().enabled = false;
-            player.GetComponent<PlayerShooting>().enabled = false;
-        }
+        player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
+        player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
+        player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
     }
 
 }

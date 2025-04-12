@@ -20,7 +20,6 @@ public class Scene1_0Controller : SwitchScene
         DialogueWindow = _director.DialogueWindow.gameObject;
         GameObject.Find("Pistol").GetComponent<BoxCollider2D>().enabled = false;
         _director.WithAction = true;
-        _director.SetAct();
     }
     void Update()
     {
