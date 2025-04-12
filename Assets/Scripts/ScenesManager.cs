@@ -1,11 +1,8 @@
 ﻿using CameraLogic.CameraEffects;
 using System;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 /// <summary>
 /// Скрипт управления переходами между сценами + сохранением состояния сцен. Методы вызываются в других скриптах
@@ -40,6 +37,7 @@ public class ScenesManager : MonoBehaviour
     public void OnMainMenu()
     {
         StartCoroutine(_OnMainMenu());
+        PlayerData.SaveData();
     }
     private IEnumerator _OnMainMenu()
     {
@@ -83,6 +81,7 @@ public class ScenesManager : MonoBehaviour
     public void OnSelectedScene(int index)
     {
         _instance.StartCoroutine(_instance._OnSelectedScene(index));
+        PlayerData.SaveData();
     }
     private IEnumerator _OnSelectedScene(int index)
     {
@@ -104,8 +103,7 @@ public class ScenesManager : MonoBehaviour
                 yield return null;
 
             Fader.Instance.FadeOut(() => _isfade = false);
-            //if (_isfade)
-            //  yield return null;
+
             InitPosition(index);
             isLoad = false;
         }
@@ -126,9 +124,9 @@ public class ScenesManager : MonoBehaviour
     //Инициализирует позицию игрока на новой сцене, если есть сохранённая
     private void InitPosition(int index)
     {
-        Debug.Log(index);
-        if (!PlayerInitPosition.Instance.IsEmpty())
-        Debug.Log($"{!PlayerInitPosition.Instance.IsEmpty() && (index == PlayerInitPosition.Instance.OnScene())} {index} {PlayerInitPosition.Instance.OnScene()}");
+        //Debug.Log(index);
+        //if (!PlayerInitPosition.Instance.IsEmpty())
+        //Debug.Log($"{!PlayerInitPosition.Instance.IsEmpty() && (index == PlayerInitPosition.Instance.OnScene())} {index} {PlayerInitPosition.Instance.OnScene()}");
         //Меняем позицию, если есть сохранённая на этой сцене
         if (!PlayerInitPosition.Instance.IsEmpty() && (index == PlayerInitPosition.Instance.OnScene()))
         {

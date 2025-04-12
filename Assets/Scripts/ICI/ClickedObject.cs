@@ -6,7 +6,11 @@
 public class ClickedObject : MonoBehaviour, IInteractable
 {
     public string Name { get; }
-    public virtual string Description { get; } = SettingData.Interact.ToString();
+    public string Description { get; protected set; }
+    private void Start()
+    {
+        Description = SettingData.Interact.ToString();
+    }
 
     public virtual void Interact()
     {
