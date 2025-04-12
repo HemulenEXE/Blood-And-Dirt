@@ -69,9 +69,7 @@ public class PlayerMotion : MonoBehaviour
         if (Input.GetKey(SettingData.Down))
             movement += Vector3.down;
 
-        Debug.Log("Time.fixedDeltaTime: " + Time.fixedDeltaTime);
-        Debug.Log("CurrentSpeed: " + currentSpeed);
-        Debug.Log("Transform.position: " + movement.normalized * currentSpeed * Time.fixedDeltaTime);
+        Debug.Log(SettingData.Interact);
 
         if (movement != Vector3.zero)
         {

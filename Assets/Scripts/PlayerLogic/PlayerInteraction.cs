@@ -31,7 +31,7 @@ public class PlayerInteract : MonoBehaviour
             t.Interact();
         }
 
-        else if (!(temp is Talker) && temp != null && PlayerData.HasSkill<LiveInNotVain>() && Input.GetKeyDown(SettingData.Interact))
+        else if (!(temp is Talker) && temp != null && Input.GetKeyDown(SettingData.Interact))
         {
             temp.Interact();
         }
