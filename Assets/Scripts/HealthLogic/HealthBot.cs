@@ -84,13 +84,15 @@ public class HealthBot : AbstractHealth
 
         this.transform.parent.GetComponent<AudioSource>()?.PlayOneShot(_deathSound);
 
-        GameObject.Instantiate(_bodyPrefabs[UnityEngine.Random.Range(0, _bodyPrefabs.Length)], this.transform.position, Quaternion.identity);
-
         var animator = this.transform.parent.GetComponentInChildren<Animator>();
         string deathTrigger = UnityEngine.Random.Range(0, 2) == 0 ? "Death1" : "Death2";
         animator.SetTrigger(deathTrigger);
 
         Destroy(transform.parent.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
+    }
+    private void OnDestroy()
+    {
+        GameObject.Instantiate(_bodyPrefabs[UnityEngine.Random.Range(0, _bodyPrefabs.Length)], this.transform.position, Quaternion.identity);
     }
     private void DisableBotComponents(GameObject start)
     {
