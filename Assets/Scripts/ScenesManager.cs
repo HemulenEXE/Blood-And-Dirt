@@ -124,11 +124,8 @@ public class ScenesManager : MonoBehaviour
     //Инициализирует позицию игрока на новой сцене, если есть сохранённая
     private void InitPosition(int index)
     {
-        //Debug.Log(index);
-        //if (!PlayerInitPosition.Instance.IsEmpty())
-        //Debug.Log($"{!PlayerInitPosition.Instance.IsEmpty() && (index == PlayerInitPosition.Instance.OnScene())} {index} {PlayerInitPosition.Instance.OnScene()}");
-        //Меняем позицию, если есть сохранённая на этой сцене
 
+        //Меняем позицию, если есть сохранённая на этой сцене
         if (!PlayerInitPosition.Instance.IsEmpty())
         {
             int ind = PlayerInitPosition.Instance.OnScene().FindLastIndex(x => x == index);
