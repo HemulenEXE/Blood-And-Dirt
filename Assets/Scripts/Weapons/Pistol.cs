@@ -1,5 +1,4 @@
-﻿using GunLogic;
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
@@ -13,10 +12,7 @@ public class Pistol : MonoBehaviour, IGun
 
     [SerializeField] protected GameObject _prefabProjectile;
 
-    [SerializeField] private AudioSource _audioControl;
-    [SerializeField] private AudioClip _audioFire;
-    [SerializeField] private AudioClip _audioRecharge;
-    [SerializeField] private AudioClip _audioPlatoon;
+    public static event Action<Transform, string> AudioEvent;
 
     public GunType Type { get; } = GunType.Light;
     public bool IsHeld { get; set; } = true;
@@ -39,7 +35,7 @@ public class Pistol : MonoBehaviour, IGun
         {
             if (AmmoTotalCurrent > 0)
             {
-                _audioControl.PlayOneShot(_audioFire);
+                AudioEvent?.Invoke(this.transform, "fire_pistol_audio");
                 IsShooting = true;
 
                 var spawnerProjectile = this.transform.Find("SpawnerProjectile");
@@ -58,10 +54,7 @@ public class Pistol : MonoBehaviour, IGun
 
                 IsShooting = false;
 
-                //if (IsPlayerShoot)
-                //{
-                    makeNoiseShooting?.Invoke(transform, noiseIntensity);
-                //}
+                makeNoiseShooting?.Invoke(transform, noiseIntensity);
             }
             else Recharge();
         }
@@ -92,7 +85,8 @@ public class Pistol : MonoBehaviour, IGun
         }
 
         int count_need_patrons = AmmoCapacity - AmmoTotalCurrent; //Количество нехватаемых патронов.
-        _audioControl.PlayOneShot(_audioRecharge);
+
+        AudioEvent?.Invoke(this.transform, "recharge_pistol_audio");
         if (AmmoTotal > count_need_patrons)
         {
             AmmoTotalCurrent += count_need_patrons;
@@ -112,8 +106,6 @@ public class Pistol : MonoBehaviour, IGun
     /// <exception cref="ArgumentNullException"></exception>
     protected void Awake()
     {
-        _audioControl = this.GetComponent<AudioSource>();
-
         if (Damage < 0) throw new ArgumentOutOfRangeException("Pistol: Damage < 0");
         if (ShotDelay < 0) throw new ArgumentOutOfRangeException("Pistol: ShotDelay < 0");
         if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("Pistol: AmmoTotal < 0");
@@ -121,9 +113,6 @@ public class Pistol : MonoBehaviour, IGun
         if (RechargingTime < 0) throw new ArgumentOutOfRangeException("Pistol: RechargingTime < 0");
         if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("Pistol: AmmoCapacity < AmmoTotalCurrent");
         if (_prefabProjectile == null) throw new ArgumentNullException("Pistol: _prefabPellet is null");
-        if (_audioControl == null) throw new ArgumentNullException("Pistol: _audioControl is null");
-        if (_audioFire == null) throw new ArgumentNullException("Pistol: _audioFire is null");
-        if (_audioRecharge == null) throw new ArgumentNullException("Pistol: _audioRecharge is null");
     }
     public bool IsInRange(Vector3 targetPosition)
     {

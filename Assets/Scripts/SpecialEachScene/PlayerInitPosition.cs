@@ -13,9 +13,9 @@ public class PlayerInitPosition : MonoBehaviour
 {
     private static PlayerInitPosition instance;
 
-    private static Queue<Vector3> posStack;//Сохраняет последнюю позицию игрока на определённой сцене
-    private static Queue<int> sceneStack;//На какой сцене
-    private static Queue<Quaternion> rotStack;// Сохраняет последнюю позицию поворота игрока на определённой сцене
+    private static List<Vector3> posStack;//Сохраняет последнюю позицию игрока на определённой сцене
+    private static List<int> sceneStack;//На какой сцене
+    private static List<Quaternion> rotStack;// Сохраняет последнюю позицию поворота игрока на определённой сцене
     public static PlayerInitPosition Instance
     {
         get 
@@ -24,24 +24,33 @@ public class PlayerInitPosition : MonoBehaviour
             {
                 GameObject obj = new GameObject("PlayerInitPosition");
                 instance = obj.AddComponent<PlayerInitPosition>();
-                posStack = new Queue<Vector3>();
-                sceneStack = new Queue<int>();
-                rotStack = new Queue<Quaternion>();
+                posStack = new List<Vector3>();
+                sceneStack = new List<int>();
+                rotStack = new List<Quaternion>();
                 DontDestroyOnLoad(instance.gameObject);
             }
             return instance; 
         }
     }
-    public bool IsEmpty() { Debug.Log(posStack.Count); return posStack.Count == 0; }
-    public Vector3 Position() { sceneStack.Dequeue(); return posStack.Dequeue(); } 
-    public int OnScene() { return sceneStack.Peek(); }
-    public Quaternion Rotate() { return rotStack.Dequeue(); }
+    public bool IsEmpty() {return posStack.Count == 0; }
+    public Vector3 Position(int i) { 
+        var res = posStack[i];
+        posStack.RemoveAt(i);
+        sceneStack.RemoveAt(i); //!
+        return res;
+    } 
+    public List<int> OnScene() { return sceneStack; }
+    public Quaternion Rotate(int i) {
+        var res = rotStack[i];
+        rotStack.RemoveAt(i);
+        return res;
+    }
     public void SavePosition(int scene, Vector3 pos, Quaternion rot)
     {
         Debug.Log("Новая позиция появления сохранена!");
-        posStack.Enqueue(pos);
-        sceneStack.Enqueue(scene);
-        rotStack.Enqueue(rot);
+        posStack.Add(pos);
+        sceneStack.Add(scene);
+        rotStack.Add(rot);
         Debug.Log($"Position: {pos}, onScene: {scene}, rotate: {rot}");
     }
 }

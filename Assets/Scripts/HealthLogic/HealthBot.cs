@@ -14,6 +14,8 @@ public class HealthBot : AbstractHealth
     private GameObject[] _bodyPrefabs;
     private AudioClip _deathSound;
 
+    private int deathNum;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         IBullet Bullet = collision.gameObject.GetComponent<IBullet>();
@@ -77,41 +79,44 @@ public class HealthBot : AbstractHealth
 
     public override void Death()
     {
-        var parent = transform.parent;
+        DisableBotComponents(this.transform.parent.gameObject);
 
-        DisableBotComponents(parent.gameObject);
+        death?.Invoke(transform.parent.GetComponent<BotController>());
 
-        death?.Invoke(parent.GetComponent<BotController>());
+        this.transform.parent.GetComponent<AudioSource>()?.PlayOneShot(_deathSound);
 
-        var audioSource = parent.GetComponent<AudioSource>();
-        audioSource?.PlayOneShot(_deathSound);
-
-        var animator = parent.GetComponentInChildren<Animator>();
-        int randDethTrigger = UnityEngine.Random.Range(0, 2);
-        string deathTrigger = randDethTrigger == 0 ? "Death1" : "Death2";
+        var animator = this.transform.parent.GetComponentInChildren<Animator>();
+        deathNum = UnityEngine.Random.Range(0, 2);
+        string deathTrigger =  deathNum == 0 ? "Death1" : "Death2";
         animator.SetTrigger(deathTrigger);
 
-        StartCoroutine(HandleDeathAnimation(parent.gameObject, animator,randDethTrigger ));
+        
+
+        Destroy(transform.parent.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
     }
 
-    private IEnumerator HandleDeathAnimation(GameObject botObject, Animator animator, int prefab)
+    //private IEnumerator HandleDeathAnimation(GameObject botObject, Animator animator, int prefab)
+    //{
+    //    // Ждём один кадр, чтобы анимация начала проигрываться
+    //    yield return null;
+
+    //    // Получаем длительность текущей анимации
+    //    AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+    //    float animationLength = stateInfo.length;
+
+    //    // Ждём окончания анимации (или звука — если он дольше)
+    //    float waitTime = Mathf.Max(animationLength, _deathSound.length);
+    //    yield return new WaitForSeconds(waitTime);
+
+    //    // Спавним тело
+    //    //Instantiate(_bodyPrefabs[prefab], transform.position, Quaternion.identity);
+
+    //    // Удаляем объект
+    //    Destroy(botObject);
+    //}
+    private void OnDestroy()
     {
-        // Ждём один кадр, чтобы анимация начала проигрываться
-        yield return null;
-
-        // Получаем длительность текущей анимации
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        float animationLength = stateInfo.length;
-
-        // Ждём окончания анимации (или звука — если он дольше)
-        float waitTime = Mathf.Max(animationLength, _deathSound.length);
-        yield return new WaitForSeconds(waitTime);
-
-        // Спавним тело
-        //Instantiate(_bodyPrefabs[prefab], transform.position, Quaternion.identity);
-
-        // Удаляем объект
-        Destroy(botObject);
+        GameObject.Instantiate(_bodyPrefabs[deathNum], this.transform.position, Quaternion.identity);
     }
     private void DisableBotComponents(GameObject start)
     {

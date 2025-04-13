@@ -124,18 +124,21 @@ public class ScenesManager : MonoBehaviour
     //Инициализирует позицию игрока на новой сцене, если есть сохранённая
     private void InitPosition(int index)
     {
-        //Debug.Log(index);
-        //if (!PlayerInitPosition.Instance.IsEmpty())
-        //Debug.Log($"{!PlayerInitPosition.Instance.IsEmpty() && (index == PlayerInitPosition.Instance.OnScene())} {index} {PlayerInitPosition.Instance.OnScene()}");
+
         //Меняем позицию, если есть сохранённая на этой сцене
-        if (!PlayerInitPosition.Instance.IsEmpty() && (index == PlayerInitPosition.Instance.OnScene()))
+        if (!PlayerInitPosition.Instance.IsEmpty())
         {
-            Debug.Log($"Метод инициализации позиции запущен!");
-            Transform player = GameObject.FindWithTag("Player").transform;
-            player.position = PlayerInitPosition.Instance.Position();
-            player.rotation = PlayerInitPosition.Instance.Rotate();
-            Transform camera = GameObject.FindWithTag("MainCamera").transform;
-            camera.position = new Vector3(player.position.x, player.position.y, -10);
+            int ind = PlayerInitPosition.Instance.OnScene().FindLastIndex(x => x == index);
+            if (ind != -1)
+            {
+                Debug.Log($"Метод инициализации позиции запущен!");
+
+                Transform player = GameObject.FindWithTag("Player").transform;
+                player.position = PlayerInitPosition.Instance.Position(ind);
+                player.rotation = PlayerInitPosition.Instance.Rotate(ind);
+                Transform camera = GameObject.FindWithTag("MainCamera").transform;
+                camera.position = new Vector3(player.position.x, player.position.y, -10);
+            }
         }
     }
 }

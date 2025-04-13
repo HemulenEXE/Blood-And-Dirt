@@ -1,12 +1,13 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//Отвечает за переход со сцены 1_2 на сцену 1_3
+//РћС‚РІРµС‡Р°РµС‚ Р·Р° РїРµСЂРµС…РѕРґ СЃРѕ СЃС†РµРЅС‹ 1_2 РЅР° СЃС†РµРЅСѓ 1_3
 public class SwitchStairs : SwitchScene
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    private bool saved = false;
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
@@ -16,9 +17,10 @@ public class SwitchStairs : SwitchScene
             Quaternion rotate = Quaternion.Euler(rot);
             Vector3 position = new Vector3(player.position.x + 0.6f, player.position.y, player.position.z);
 
-            if (PlayerInitPosition.Instance != null)
+            if (PlayerInitPosition.Instance != null && !saved)
             {
                 PlayerInitPosition.Instance.SavePosition(SceneManager.GetActiveScene().buildIndex, position, rotate);
+                saved = true;
             }
             Switch();
         }
