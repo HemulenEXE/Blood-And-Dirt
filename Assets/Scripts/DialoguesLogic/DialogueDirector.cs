@@ -104,6 +104,7 @@ public class ShowDialogueDubl : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+        Debug.Log(DialogueWindow);
         EndDialogue(false); 
     }
     /// <summary>

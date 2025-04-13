@@ -9,11 +9,12 @@ public class SwitchOnDoorOpening : SwitchScene
     private Vector3 position; //Позиция игрока при следующем заходе на эту сцену
     private Door door; //Дверь, после открытия которой должен происходить переход
     private Quaternion rotate; //Поворот игрока при следующем заходе на эту сцену
+    private bool saved = false; //Сохранена ли новая позиция
     private void Start()
     {
         door = this.transform.parent.GetComponentInChildren<Door>();
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
@@ -56,9 +57,10 @@ public class SwitchOnDoorOpening : SwitchScene
             // Само перемещение и запоминание положение игрока
             if (door.isRunning || door.IsOpen)
             {
-                if (PlayerInitPosition.Instance != null)
+                if (PlayerInitPosition.Instance != null && !saved)
                 {
                     PlayerInitPosition.Instance.SavePosition(SceneManager.GetActiveScene().buildIndex, position, rotate);
+                    saved = true;
                 }
                 Switch(); 
             }
