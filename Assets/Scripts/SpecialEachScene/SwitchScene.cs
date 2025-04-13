@@ -27,10 +27,28 @@ public class SwitchScene : MonoBehaviour
         switch (SwitchOn)
         {
             case States.Next: ScenesManager.Instance.OnNextScene(); break;
-            case States.Previous: ScenesManager.Instance.OnPreviousScene(); break;
+            case States.Previous:
+                {
+                    if (Index == 0)
+                        ScenesManager.Instance.OnMainMenu();
+                    else ScenesManager.Instance.OnPreviousScene();
+                    break; 
+                }
             case States.Current: ScenesManager.Instance.OnSelectedScene(SceneManager.GetActiveScene().buildIndex); break;
-            case States.ByName: ScenesManager.Instance.OnSelectedScene(Name); break;
-            case States.ByIndex: ScenesManager.Instance.OnSelectedScene(Index); break;
+            case States.ByName:
+                { 
+                    if (Name.StartsWith("MainMenu"))
+                        ScenesManager.Instance.OnMainMenu();
+                    else ScenesManager.Instance.OnSelectedScene(Name); 
+                    break; 
+                }
+            case States.ByIndex:
+                {
+                    if (Index == 0)
+                        ScenesManager.Instance.OnMainMenu();
+                    else ScenesManager.Instance.OnSelectedScene(Index); 
+                    break; 
+                }
             case States.ByDialogue: ScenesManager.Instance.OnSelectedScene(PlayerPrefs.GetInt("nextScene")); break;
         }
     }
