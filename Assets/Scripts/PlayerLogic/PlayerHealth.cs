@@ -14,7 +14,7 @@ public class PlayerHealth : AbstractHealth
     private BloodEffect bloodController;
     public override void GetDamage(int value)
     {
-        if (PlayerData.IsGod) return;
+        if (PlayerData.IsGod|| isInvulnerable) return;
 
         PlayerData.IsBleeding = true;
         PlayerData.CurrentHealth -= value;
@@ -72,7 +72,6 @@ public class PlayerHealth : AbstractHealth
     public void Awake()
     {
         bloodController = GetComponent<BloodEffect>();
-        Debug.Log(bloodController);
         StartCoroutine(BleedDamage());
     }
 

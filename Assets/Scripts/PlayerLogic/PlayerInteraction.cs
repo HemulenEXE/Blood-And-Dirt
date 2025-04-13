@@ -21,7 +21,10 @@ public class PlayerInteract : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * _interactionDistance, Color.red);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, _interactionDistance, ~_ignoreLayer);
 
-        if (hit.collider != null) _interactiveUI.TurnOnText(hit.transform.gameObject);
+        if (hit.collider != null)
+        {
+            _interactiveUI.TurnOnText(hit.transform.gameObject);
+        }
         else _interactiveUI.TurnOffText();
 
         var temp = hit.collider?.gameObject?.GetComponent<IInteractable>();

@@ -55,7 +55,6 @@ public class HealthBot : AbstractHealth
 
             if (currentHealth <= 0)
             {
-                Debug.Log(bullet);
                 Death();
                 return;
             }
@@ -78,19 +77,41 @@ public class HealthBot : AbstractHealth
 
     public override void Death()
     {
-        DisableBotComponents(this.transform.parent.gameObject);
+        var parent = transform.parent;
 
-        death?.Invoke(transform.parent.GetComponent<BotController>());
+        DisableBotComponents(parent.gameObject);
 
-        this.transform.parent.GetComponent<AudioSource>()?.PlayOneShot(_deathSound);
+        death?.Invoke(parent.GetComponent<BotController>());
 
-        GameObject.Instantiate(_bodyPrefabs[UnityEngine.Random.Range(0, _bodyPrefabs.Length)], this.transform.position, Quaternion.identity);
+        var audioSource = parent.GetComponent<AudioSource>();
+        audioSource?.PlayOneShot(_deathSound);
 
-        var animator = this.transform.parent.GetComponentInChildren<Animator>();
-        string deathTrigger = UnityEngine.Random.Range(0, 2) == 0 ? "Death1" : "Death2";
+        var animator = parent.GetComponentInChildren<Animator>();
+        int randDethTrigger = UnityEngine.Random.Range(0, 2);
+        string deathTrigger = randDethTrigger == 0 ? "Death1" : "Death2";
         animator.SetTrigger(deathTrigger);
 
-        Destroy(transform.parent.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
+        StartCoroutine(HandleDeathAnimation(parent.gameObject, animator,randDethTrigger ));
+    }
+
+    private IEnumerator HandleDeathAnimation(GameObject botObject, Animator animator, int prefab)
+    {
+        // Ждём один кадр, чтобы анимация начала проигрываться
+        yield return null;
+
+        // Получаем длительность текущей анимации
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        float animationLength = stateInfo.length;
+
+        // Ждём окончания анимации (или звука — если он дольше)
+        float waitTime = Mathf.Max(animationLength, _deathSound.length);
+        yield return new WaitForSeconds(waitTime);
+
+        // Спавним тело
+        //Instantiate(_bodyPrefabs[prefab], transform.position, Quaternion.identity);
+
+        // Удаляем объект
+        Destroy(botObject);
     }
     private void DisableBotComponents(GameObject start)
     {

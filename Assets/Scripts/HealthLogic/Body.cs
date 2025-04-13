@@ -31,7 +31,10 @@ public class Body : ClickedObject
         else this.gameObject.GetComponent<AudioSource>().PlayOneShot(_eating);
 
     }
-
+    public void Awake()
+    {
+        Description = SettingData.Interact.ToString();
+    }
     public void Start()
     {
         Destroy(gameObject, _timeSecondsLife); 

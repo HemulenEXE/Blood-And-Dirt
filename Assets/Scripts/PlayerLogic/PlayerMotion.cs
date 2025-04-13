@@ -69,7 +69,6 @@ public class PlayerMotion : MonoBehaviour
         if (Input.GetKey(SettingData.Down))
             movement += Vector3.down;
 
-        Debug.Log(SettingData.Dialogue);
 
         if (movement != Vector3.zero)
         {

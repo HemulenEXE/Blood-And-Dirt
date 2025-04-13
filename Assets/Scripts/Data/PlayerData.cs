@@ -38,12 +38,13 @@ public static class PlayerData
     public static int SmokeGrenadeCount { get; set; } = 0;
 
     // Не сохраняются в .xml
+    public static int MaxHealth { get; set; } = 100;
     public static int CurrentHealth { get; set; } = MaxHealth;
     public static int CurrentResurrectionCount { get; set; } = 0;
     public static int CurrentHitsToSurvive { get; set; } = 0;
     public static int HitsToSurvive { get; set; } = 0; // Количество пропускаемых ударов
     public static int ResurrectionCount { get; set; } = 0; // Количество воскрешений
-    public static int MaxHealth { get; set; } = 100;
+    
 
     public static bool IsStealing { get; set; } = false;
     public static bool IsWalking { get; set; } = false;
