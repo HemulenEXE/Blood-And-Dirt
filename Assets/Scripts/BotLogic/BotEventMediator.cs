@@ -55,10 +55,12 @@ public class BotEventMediator : MonoBehaviour
 
     private void RaisingAlarm(Transform solder, Transform detechedEnemy)
     {
+        string tag = solder.tag;
+        var buf = tag == "EnemyFalcons" ? falconsBot : tag == "EnemyBelievers" ? believesBot : allBot;
 
-        if (allBot != null)
+        if (buf != null)
         {
-            foreach (var _enemy in allBot)
+            foreach (var _enemy in buf)
             {
                 if (_enemy.transform.position == solder.transform.position)
                 {

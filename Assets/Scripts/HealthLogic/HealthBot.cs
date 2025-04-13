@@ -1,5 +1,6 @@
 using GunLogic;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,13 +17,14 @@ public class HealthBot : AbstractHealth
     private void OnCollisionEnter2D(Collision2D collision)
     {
         IBullet Bullet = collision.gameObject.GetComponent<IBullet>();
+        
         if (Bullet != null)
         {
             if (collision.gameObject.tag == "Projectile" && collision.gameObject.layer != LayerMask.NameToLayer(Bullet.sideBullet.GetOwnLayer()))
             {
                 if (Bullet.sideBullet.IsEnemyMask(this.gameObject.layer))
                 {
-                    Debug.Log("Col");
+                    //Debug.Log("Col");
                     GetDamage(Bullet);
                 }
 
@@ -114,6 +116,15 @@ public class HealthBot : AbstractHealth
 
         _deathSound = Resources.Load<AudioClip>("Audios/Enemies/DeathSound");
         currentHealth = maxHealth;
+
+        isInvulnerable = true;
+        StartCoroutine(ResetInvulnerability(1));
+    }
+
+    private IEnumerator ResetInvulnerability(float countEnv = 1)
+    {
+        yield return new WaitForSeconds(countEnv);
+        isInvulnerable = false;
     }
 }
 
