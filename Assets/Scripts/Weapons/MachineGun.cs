@@ -5,9 +5,6 @@ using UnityEngine;
 public class MachineGun : MonoBehaviour, IGun
 {
 
-    /// <summary>
-    /// Префаб пули.
-    /// </summary>
     [SerializeField] protected GameObject _prefabProjectile;
     /// <summary>
     /// Сила звука
@@ -44,6 +41,8 @@ public class MachineGun : MonoBehaviour, IGun
     /// <exception cref="ArgumentNullException"></exception>
     public void Shoot(Side sideShooter, bool IsPlayerShoot = false)
     {
+        Debug.Log("IsShooting: " + IsShooting);
+        Debug.Log("IsRecharging: " + IsRecharging);
         if (!IsShooting && !IsRecharging)
         {
             if (AmmoTotalCurrent > 0)
