@@ -170,6 +170,7 @@ public class BotController : MonoBehaviour
             UpdateChaseTimer();
             if (IsPlayerVisible() && _nextAttackTime <= 0)
             {
+                _nextAttackTime = gun.ShotDelay;
                 gun.Shoot(sideBot.CreateSideBullet());
             }
             else if(gun.IsShooting)

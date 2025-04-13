@@ -13,6 +13,8 @@ public class ShrapnelGrenade : MonoBehaviour
     private Camera _camera;
     private GameObject _player;
 
+    public static event Action<Transform, string> AudioEvent;
+
     private float GetAnimationLength(string animationName)
     {
         foreach (var x in _animator.runtimeAnimatorController.animationClips)
@@ -22,9 +24,10 @@ public class ShrapnelGrenade : MonoBehaviour
     }
     public virtual void Explode()
     {
+        AudioEvent?.Invoke(this.transform, "shrapnel_grenade_explosion");
+
         IsActivated = true;
-        this.GetComponent<SpriteRenderer>().sprite = null;
-        // Прячем гранату от пользовательских глаз
+        this.GetComponent<SpriteRenderer>().sprite = null; // Прячем гранату от пользовательских глаз
 
         _animator.SetTrigger("Explosion");
 

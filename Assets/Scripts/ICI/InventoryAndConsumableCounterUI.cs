@@ -20,6 +20,8 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     public int IndexCurrentSlot { get; private set; } = 0;
     public int Size { get { return PlayerData.InventoryCapacity; } }
 
+    public static event Action<Transform, string> AudioEvent;
+
     public void AddSlot()
     {
         ++PlayerData.InventoryCapacity;
@@ -40,6 +42,9 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     }
     public void SelectSlot(int index)
     {
+        if (index == IndexCurrentSlot) return;
+
+        AudioEvent?.Invoke(this.transform, "change_slot");
         var temp = inventory.GetItem(IndexCurrentSlot);
         temp?.Deactive();
         temp?.gameObject?.SetActive(false);
