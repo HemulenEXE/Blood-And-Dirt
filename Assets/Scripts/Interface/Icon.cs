@@ -44,7 +44,7 @@ public class Icon : MonoBehaviour
                 else ActivateSkill(skill);
 
                 foreach (Image img in this.transform.parent.GetComponentsInChildren<Image>())
-                    img.color = new Color(167, 255, 255, 255); // Что за магические цифры???
+                    img.color = new Color(167, 255, 255, 255); // Что за магические цифры???  -Это цвет иконок. Его по другому не задашь, умник
             }
         }
     }
