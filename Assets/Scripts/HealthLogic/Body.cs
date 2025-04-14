@@ -34,7 +34,10 @@ public class Body : ClickedObject
         else AudioEvent?.Invoke(this.transform, "eating_process_sound");
 
     }
-
+    public void Awake()
+    {
+        Description = SettingData.Interact.ToString();
+    }
     public void Start()
     {
         Destroy(gameObject, _timeSecondsLife); 

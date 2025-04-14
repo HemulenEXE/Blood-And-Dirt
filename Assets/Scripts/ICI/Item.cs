@@ -22,7 +22,7 @@ public class Item : MonoBehaviour, IInteractable
     /// </summary>
     public virtual void Active()
     {
-        this.gameObject.SetActive(true);
+        //this.gameObject.SetActive(true);
     }
     /// <summary>
     /// Более безопасный аналог метода SetActive(false).<br/>
@@ -30,7 +30,7 @@ public class Item : MonoBehaviour, IInteractable
     /// </summary>
     public virtual void Deactive()
     {
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
     }
     protected virtual void Awake()
     {
