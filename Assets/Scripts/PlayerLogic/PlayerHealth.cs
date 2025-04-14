@@ -12,9 +12,12 @@ public class PlayerHealth : AbstractHealth
     private float _frameDuration = 0.5f; // Сколько длится кадр, во время которого игрок не получает урон
 
     private BloodEffect bloodController;
+
+    public static event Action<Transform, string> AudioEvent;
+
     public override void GetDamage(int value)
     {
-        if (PlayerData.IsGod) return;
+        if (PlayerData.IsGod|| isInvulnerable) return;
 
         PlayerData.IsBleeding = true;
         PlayerData.CurrentHealth -= value;
@@ -72,7 +75,6 @@ public class PlayerHealth : AbstractHealth
     public void Awake()
     {
         bloodController = GetComponent<BloodEffect>();
-        Debug.Log(bloodController);
         StartCoroutine(BleedDamage());
     }
 
@@ -85,6 +87,7 @@ public class PlayerHealth : AbstractHealth
             else PlayerData.CurrentHealth += PlayerData.FirstAidKitHealth;
 
             --PlayerData.FirstAidKitCount;
+            AudioEvent?.Invoke(this.transform, "fistaidkit");
         }
 
         if (Input.GetKeyDown(SettingData.Bandage) && PlayerData.BandageCount > 0)
@@ -94,6 +97,7 @@ public class PlayerHealth : AbstractHealth
             else PlayerData.CurrentHealth += PlayerData.BandageHealth;
 
             --PlayerData.BandageCount;
+            AudioEvent?.Invoke(this.transform, "bint");
         }
 
         PlayerData.GetSkill<InevitableDeath>()?.Execute(this.gameObject);

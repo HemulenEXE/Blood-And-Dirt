@@ -42,10 +42,9 @@ GameObject:
   - component: {fileID: 1940348008045369638}
   - component: {fileID: 4169788437097195682}
   - component: {fileID: 7702536778127459693}
-  - component: {fileID: 7157973909701997318}
+  - component: {fileID: -3043786388193303055}
   - component: {fileID: 2994775627741083706}
   - component: {fileID: 3429925549949326366}
-  - component: {fileID: -3043786388193303055}
   m_Layer: 9
   m_Name: ShotGun
   m_TagString: Gun
@@ -166,142 +165,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 2}
   m_EdgeRadius: 0
---- !u!82 &7157973909701997318
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7984570884006783020}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!114 &2994775627741083706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7984570884006783020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2870e0e9f555bf04485b663f86e8b6e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noiseIntensity: 5
-  _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
-  _countPerShotProjectile: 6
-  _spreadAngle: 15
-  _audioControl: {fileID: 0}
-  _audioFire: {fileID: 8300000, guid: d7b5e1ec6a3a400419d87e47b88ab374, type: 3}
-  _audioRecharge: {fileID: 8300000, guid: cfdded6289e9b6645899379c13139bd4, type: 3}
-  _audioPlatoon: {fileID: 8300000, guid: 595f9f079b2c7be49ab74e193472a2d3, type: 3}
-  <Damage>k__BackingField: 5
-  <ShotDelay>k__BackingField: 0.5
-  <AmmoTotal>k__BackingField: 100
-  <AmmoCapacity>k__BackingField: 5
-  <AmmoTotalCurrent>k__BackingField: 0
-  <RechargingTime>k__BackingField: 2
-  <AttackRange>k__BackingField: 15
---- !u!114 &3429925549949326366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7984570884006783020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe74912cb2dffbc43af2b0bc65c67e26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: c5899969126ab6346a38421efb824c3c, type: 3}
 --- !u!50 &-3043786388193303055
 Rigidbody2D:
   serializedVersion: 4
@@ -329,3 +192,39 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2994775627741083706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7984570884006783020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2870e0e9f555bf04485b663f86e8b6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noiseIntensity: 5
+  _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
+  _countPerShotProjectile: 6
+  _spreadAngle: 15
+  <Damage>k__BackingField: 5
+  <ShotDelay>k__BackingField: 0.5
+  <AmmoTotal>k__BackingField: 100
+  <AmmoCapacity>k__BackingField: 5
+  <AmmoTotalCurrent>k__BackingField: 0
+  <RechargingTime>k__BackingField: 2
+  <AttackRange>k__BackingField: 15
+--- !u!114 &3429925549949326366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7984570884006783020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe74912cb2dffbc43af2b0bc65c67e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Icon: {fileID: 21300000, guid: c5899969126ab6346a38421efb824c3c, type: 3}

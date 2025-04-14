@@ -14,7 +14,8 @@ public class ShowDialogueDubl : MonoBehaviour
     [SerializeField] public Transform DialogueWindow; //Canvas
     [SerializeField] public const int MaxReplicLength = 350; //Максимальное число символов реплики на экране
     [SerializeField] public float TimeBetweenLetters = 0.01f;
-    public bool WithEnd = true;
+    public bool WithEnd = true; //Должен ли диалог заканчиваться, при выходе игрока из тигерной зоны 
+    public bool WithAction = false; //Должны kи быть доступны другие действия во время диалога (стрельба, расходники и т.д.)
 
     private Dialogue _dialogue;
     private Transform _panelForText;
@@ -103,13 +104,16 @@ public class ShowDialogueDubl : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        EndDialogue();
+        Debug.Log(DialogueWindow);
+        EndDialogue(false); 
     }
     /// <summary>
     /// Запускает диалог
     /// </summary>
     public void StartDialogue()
     {
+        if (!WithAction)
+            SetAct();
         DialogueWindow.gameObject.SetActive(true);
         
         Debug.Log(_panelForText);
@@ -229,10 +233,24 @@ public class ShowDialogueDubl : MonoBehaviour
         //Запуск побуквенной печати
         printer.PrintReplicGradually(_replicInd, _replicParts.Peek());
     }
-    public void EndDialogue()
+    //Булевый параметр отвечает за то, закончился ли диалог или игрок вышел из триггера
+    public void EndDialogue(bool end = true)
     {
-        if (DialogueWindow.gameObject.activeSelf && WithEnd)
+        if ((DialogueWindow.gameObject.activeSelf && WithEnd) || (end && DialogueWindow.gameObject.activeSelf))
+        {
             DialogueWindow.gameObject.SetActive(false);
-
+            if (!WithAction) //Включаем обратно возможность действовать, если она отключена
+                SetAct();
+        }
     }
+    //Включает/отключает возможность что-то делать во время диалога
+    public void SetAct()
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+
+        player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
+        player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
+        player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
+    }
+
 }

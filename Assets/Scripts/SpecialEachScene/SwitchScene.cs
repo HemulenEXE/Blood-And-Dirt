@@ -13,15 +13,42 @@ public class SwitchScene : MonoBehaviour
     public string Name = null; //Если перемещение по имени     
     public int Index = -1; //Если перемещение по индексу
 
+    public void Awake()
+    {
+        switch (SwitchOn) 
+        {
+            case States.Next: Index = SceneManager.GetActiveScene().buildIndex + 1; break;
+            case States.Previous: Index = SceneManager.GetActiveScene().buildIndex - 1; break;
+            case States.Current: Index = SceneManager.GetActiveScene().buildIndex; break;
+        }
+    }
     public void Switch()
     {
         switch (SwitchOn)
         {
             case States.Next: ScenesManager.Instance.OnNextScene(); break;
-            case States.Previous: ScenesManager.Instance.OnPreviousScene(); break;
+            case States.Previous:
+                {
+                    if (Index == 0)
+                        ScenesManager.Instance.OnMainMenu();
+                    else ScenesManager.Instance.OnPreviousScene();
+                    break; 
+                }
             case States.Current: ScenesManager.Instance.OnSelectedScene(SceneManager.GetActiveScene().buildIndex); break;
-            case States.ByName: ScenesManager.Instance.OnSelectedScene(Name); break;
-            case States.ByIndex: ScenesManager.Instance.OnSelectedScene(Index); break;
+            case States.ByName:
+                { 
+                    if (Name.StartsWith("MainMenu"))
+                        ScenesManager.Instance.OnMainMenu();
+                    else ScenesManager.Instance.OnSelectedScene(Name); 
+                    break; 
+                }
+            case States.ByIndex:
+                {
+                    if (Index == 0)
+                        ScenesManager.Instance.OnMainMenu();
+                    else ScenesManager.Instance.OnSelectedScene(Index); 
+                    break; 
+                }
             case States.ByDialogue: ScenesManager.Instance.OnSelectedScene(PlayerPrefs.GetInt("nextScene")); break;
         }
     }

@@ -46,7 +46,7 @@ namespace CameraLogic.CameraEffects
             if (_image == null) throw new ArgumentNullException("BloodEffect: _image is null");
             for (int i = 0; i < _spritesCount; i++)
             {
-                Sprite interim_sprite = Resources.Load<Sprite>("Sprites/Interface/Blood" + i);
+                Sprite interim_sprite = Resources.Load<Sprite>("Prefabs/Sprites/Interface/Blood" + i);
                 if (interim_sprite == null) throw new ArgumentNullException("BloodEffect: interim_sprite is null");
                 _images.Add(interim_sprite);
             }

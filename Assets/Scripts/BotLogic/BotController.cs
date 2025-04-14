@@ -15,6 +15,7 @@ public class BotController : MonoBehaviour
     [SerializeField] private float stoppingDistance = 1f;
     [SerializeField] private EnemySides stateSide;
     [SerializeField] private StateBot stateBot;
+    
     private float _nextAttackTime;
 
 
@@ -25,7 +26,7 @@ public class BotController : MonoBehaviour
     private Quaternion initialRotation;
     private AudioSource audioSource;
     private Transform selfTransform;
-    private Transform targetPlayer;
+    [SerializeField] private Transform targetPlayer;
     private NavMeshAgent agent;
     private float timeSinceLastSeen;
     private Transform sourceNoise;
@@ -78,10 +79,8 @@ public class BotController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log(collider.layerOverridePriority);
         if (sideBot.IsEnemyMask(collider.gameObject.layer) && stateBot != StateBot.combat)
         {
-            //Debug.Log("Objection!");
             TryDetectPlayer(collider.transform);
         }
     }
@@ -130,6 +129,7 @@ public class BotController : MonoBehaviour
 
     public void NotifiedOfEnemy(Transform playerTransform)
     {
+        
         targetPlayer = playerTransform;
         stateBot = StateBot.combat;
         timeSinceLastSeen = 0;
@@ -141,15 +141,15 @@ public class BotController : MonoBehaviour
         switch (stateBot)
         {
             case StateBot.combat:
-                animator.SetBool("IsMoving", true);
+                //animator.SetBool("IsMoving", true);
                 CombateState();
                 break;
             case StateBot.peace:
-                animator.SetBool("IsMoving", Helper.IsAgentMoving(agent));
+                //animator.SetBool("IsMoving", Helper.IsAgentMoving(agent));
                 PeaceState();
                 break;
             case StateBot.patrol:
-                animator.SetBool("IsMoving", true);
+                //nimator.SetBool("IsMoving", true);
                 PatrolState();
                 break;
             case StateBot.checkNoise:
@@ -164,12 +164,13 @@ public class BotController : MonoBehaviour
 
     private void CombateState()
     {
-        if (targetPlayer != null)
+        if (targetPlayer != null && targetPlayer.gameObject.activeInHierarchy)
         {
             ChasePlayer();
             UpdateChaseTimer();
             if (IsPlayerVisible() && _nextAttackTime <= 0)
             {
+                _nextAttackTime = gun.ShotDelay;
                 gun.Shoot(sideBot.CreateSideBullet());
             }
             else if(gun.IsShooting)

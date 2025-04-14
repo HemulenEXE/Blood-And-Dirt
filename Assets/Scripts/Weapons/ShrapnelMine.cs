@@ -9,9 +9,13 @@ public class ShrapnelMine : MonoBehaviour
 
     private Animator _animator;
 
+    public static event Action<Transform, string> AudioEvent;
+
     private void Explode()
     {
         Debug.Log("The ShrapnelMine is exploded");
+        
+        AudioEvent?.Invoke(this.transform, "mine_explosion");
 
         isActivated = true;
         this.GetComponent<SpriteRenderer>().sprite = null;

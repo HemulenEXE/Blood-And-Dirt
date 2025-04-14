@@ -7,7 +7,7 @@ using UnityEngine;
 public class Item : MonoBehaviour, IInteractable
 {
     public string Name { get; }
-    public string Description { get; } = SettingData.Interact.ToString();
+    public string Description { get; set; }
     public Sprite Icon;
     public LayerMask Layer { get; private set; }
     public GameObject GameObject { get; }
@@ -22,7 +22,7 @@ public class Item : MonoBehaviour, IInteractable
     /// </summary>
     public virtual void Active()
     {
-        this.gameObject.SetActive(true);
+        //this.gameObject.SetActive(true);
     }
     /// <summary>
     /// Более безопасный аналог метода SetActive(false).<br/>
@@ -30,11 +30,15 @@ public class Item : MonoBehaviour, IInteractable
     /// </summary>
     public virtual void Deactive()
     {
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
     }
     protected virtual void Awake()
     {
         Layer = this.gameObject.layer;
         if (Icon == null) throw new ArgumentNullException("PickUpItem: Icon is null");
+    }
+    protected virtual void Start()
+    {
+        Description = SettingData.Interact.ToString();
     }
 }

@@ -914,6 +914,10 @@ PlayableDirector:
     value: {fileID: 8856985123739597412}
   - key: {fileID: 0}
     value: {fileID: 2235695025692141810}
+  - key: {fileID: -3814006420417920757, guid: 956d393a920f759409cd1b02c47d5da4, type: 2}
+    value: {fileID: 8856985123739597412}
+  - key: {fileID: 2390576699320262975, guid: 956d393a920f759409cd1b02c47d5da4, type: 2}
+    value: {fileID: 2235695025692141810}
   m_ExposedReferences:
     m_References:
     - 22fdbf6d41c482e458e03a3a75ddd05b: {fileID: 1593104227}
@@ -7363,6 +7367,7 @@ MonoBehaviour:
   DialogueWindow: {fileID: 459053374}
   TimeBetweenLetters: 0.05
   WithEnd: 1
+  WithAction: 0
 --- !u!114 &1593104229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7595,7 +7600,8 @@ PlayableDirector:
   - key: {fileID: 2390576699320262975, guid: 956d393a920f759409cd1b02c47d5da4, type: 2}
     value: {fileID: 8856985123739597412}
   m_ExposedReferences:
-    m_References: []
+    m_References:
+    - 6f4e59eae926074479c77b9a32c9f8ee: {fileID: 2235695025692141809}
 --- !u!114 &1593104239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8748,6 +8754,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.02014229
       objectReference: {fileID: 0}
+    - target: {fileID: 3736570082806045743, guid: d458f26e2ee60284fb3b969c2977ed27, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3736570082806045743, guid: d458f26e2ee60284fb3b969c2977ed27, type: 3}
+      propertyPath: PlayerSide
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4750368777793465473, guid: d458f26e2ee60284fb3b969c2977ed27, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.9816107
@@ -8832,7 +8846,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 2235695025692141806}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2235695025692141809}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 070ea2e5e4654204c83fb183b548ae86, type: 3}
   m_Name: 
@@ -8861,16 +8875,16 @@ MonoBehaviour:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 2235695025692141808}
-          m_TargetAssemblyTypeName: Door, Assembly-CSharp
-          m_MethodName: OpenDoor
-          m_Mode: 1
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
-            m_BoolArgument: 0
+            m_BoolArgument: 1
           m_CallState: 2
 --- !u!1001 &2615355587169298007
 PrefabInstance:
@@ -8883,6 +8897,10 @@ PrefabInstance:
     - target: {fileID: 3541376881430158877, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
       propertyPath: m_Name
       value: DoorOpenUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678273818438654976, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
+      propertyPath: PlayerSide
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4540870983180539387, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
       propertyPath: SwitchOn
@@ -9018,6 +9036,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoorsOpenHorizontal
       objectReference: {fileID: 0}
+    - target: {fileID: 3678273818438654976, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678273818438654976, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
+      propertyPath: PlayerSide
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4540870983180539387, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
       propertyPath: Name
       value: Scene1_4
@@ -9133,7 +9159,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 8856985123739597408}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8856985123739597410}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 070ea2e5e4654204c83fb183b548ae86, type: 3}
   m_Name: 
@@ -9157,16 +9183,16 @@ MonoBehaviour:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 8856985123739597411}
-          m_TargetAssemblyTypeName: Door, Assembly-CSharp
-          m_MethodName: OpenDoor
-          m_Mode: 1
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
-            m_BoolArgument: 0
+            m_BoolArgument: 1
           m_CallState: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

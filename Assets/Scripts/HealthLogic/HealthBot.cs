@@ -1,5 +1,6 @@
 using GunLogic;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,16 +14,21 @@ public class HealthBot : AbstractHealth
     private GameObject[] _bodyPrefabs;
     private AudioClip _deathSound;
 
+    public static event Action<Transform, string> AudioEvent;
+
+    private int deathNum;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         IBullet Bullet = collision.gameObject.GetComponent<IBullet>();
+        
         if (Bullet != null)
         {
             if (collision.gameObject.tag == "Projectile" && collision.gameObject.layer != LayerMask.NameToLayer(Bullet.sideBullet.GetOwnLayer()))
             {
                 if (Bullet.sideBullet.IsEnemyMask(this.gameObject.layer))
                 {
-                    Debug.Log("Col");
+                    //Debug.Log("Col");
                     GetDamage(Bullet);
                 }
 
@@ -53,7 +59,6 @@ public class HealthBot : AbstractHealth
 
             if (currentHealth <= 0)
             {
-                Debug.Log(bullet);
                 Death();
                 return;
             }
@@ -80,15 +85,40 @@ public class HealthBot : AbstractHealth
 
         death?.Invoke(transform.parent.GetComponent<BotController>());
 
-        this.transform.parent.GetComponent<AudioSource>()?.PlayOneShot(_deathSound);
-
-        GameObject.Instantiate(_bodyPrefabs[UnityEngine.Random.Range(0, _bodyPrefabs.Length)], this.transform.position, Quaternion.identity);
+        AudioEvent?.Invoke(this.transform, "death_sound");
 
         var animator = this.transform.parent.GetComponentInChildren<Animator>();
-        string deathTrigger = UnityEngine.Random.Range(0, 2) == 0 ? "Death1" : "Death2";
+        deathNum = UnityEngine.Random.Range(0, 2);
+        string deathTrigger =  deathNum == 0 ? "Death1" : "Death2";
         animator.SetTrigger(deathTrigger);
 
+        
+
         Destroy(transform.parent.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
+    }
+
+    //private IEnumerator HandleDeathAnimation(GameObject botObject, Animator animator, int prefab)
+    //{
+    //    // Ждём один кадр, чтобы анимация начала проигрываться
+    //    yield return null;
+
+    //    // Получаем длительность текущей анимации
+    //    AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+    //    float animationLength = stateInfo.length;
+
+    //    // Ждём окончания анимации (или звука — если он дольше)
+    //    float waitTime = Mathf.Max(animationLength, _deathSound.length);
+    //    yield return new WaitForSeconds(waitTime);
+
+    //    // Спавним тело
+    //    //Instantiate(_bodyPrefabs[prefab], transform.position, Quaternion.identity);
+
+    //    // Удаляем объект
+    //    Destroy(botObject);
+    //}
+    private void OnDestroy()
+    {
+        GameObject.Instantiate(_bodyPrefabs[deathNum], this.transform.position, Quaternion.identity);
     }
     private void DisableBotComponents(GameObject start)
     {
@@ -112,8 +142,17 @@ public class HealthBot : AbstractHealth
         if (type.Contains("GreenSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/GreenSoldierBodies");
         if (type.Contains("PurpleSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/PurpleSoldierBodies");
 
-        _deathSound = Resources.Load<AudioClip>("Audios/Enemies/DeathSound");
+        _deathSound = Resources.Load<AudioClip>("Audios/Enemies/death_sound");
         currentHealth = maxHealth;
+
+        isInvulnerable = true;
+        StartCoroutine(ResetInvulnerability(1));
+    }
+
+    private IEnumerator ResetInvulnerability(float countEnv = 1)
+    {
+        yield return new WaitForSeconds(countEnv);
+        isInvulnerable = false;
     }
 }
 

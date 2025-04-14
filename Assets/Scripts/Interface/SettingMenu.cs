@@ -35,7 +35,7 @@ public class SettingMenu : MonoBehaviour
             SettingData.SaveData();
             ExitSetting();});
         reboot.onClick.AddListener(() => {
-            SettingData.RebootSetting();
+            SettingData.Reboot();
             SettingData.LoadData();
         });
 

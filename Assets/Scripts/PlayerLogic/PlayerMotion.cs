@@ -69,10 +69,12 @@ public class PlayerMotion : MonoBehaviour
         if (Input.GetKey(SettingData.Down))
             movement += Vector3.down;
 
+
         if (movement != Vector3.zero)
         {
             PlayerData.IsWalking = !PlayerData.IsRunning && !PlayerData.IsStealing;
             this.transform.position += movement.normalized * currentSpeed * Time.fixedDeltaTime;
+
             if (PlayerData.IsStealing) makeNoise?.Invoke(this.transform, PlayerData.StealNoise);
             else if (PlayerData.IsRunning) makeNoise?.Invoke(this.transform, PlayerData.RunNoise);
             else if (PlayerData.IsWalking) makeNoise?.Invoke(this.transform, PlayerData.WalkNoise);
@@ -98,6 +100,10 @@ public class PlayerMotion : MonoBehaviour
 
         if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
         if (_animator == null) throw new ArgumentNullException("PlayerMotion: _animator is null");
+        Debug.Log(SettingData.Left);
+        Debug.Log(SettingData.Right);
+        Debug.Log(SettingData.Up);
+        Debug.Log(SettingData.Down);
         //if (_inventoryAndConsumableCounterUI == null) throw new ArgumentNullException("PlayerMotion: _inventoryAndConsumableCounterUI is null");
     }
     private void Update()

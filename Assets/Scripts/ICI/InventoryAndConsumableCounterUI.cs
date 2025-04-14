@@ -1,4 +1,3 @@
-using GunLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,7 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     public List<GameObject> slots;
     public Sprite emptySlotIcon;
     public Inventory inventory;
-    public TextMeshProUGUI description; // �������� ��� �������� ������ � ���� ���������
+    public TextMeshProUGUI description;
 
     public TextMeshProUGUI smokeGrenade;
     public TextMeshProUGUI simpleGrenade;
@@ -20,6 +19,8 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
 
     public int IndexCurrentSlot { get; private set; } = 0;
     public int Size { get { return PlayerData.InventoryCapacity; } }
+
+    public static event Action<Transform, string> AudioEvent;
 
     public void AddSlot()
     {
@@ -41,6 +42,9 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     }
     public void SelectSlot(int index)
     {
+        if (index == IndexCurrentSlot) return;
+
+        AudioEvent?.Invoke(this.transform, "change_slot");
         var temp = inventory.GetItem(IndexCurrentSlot);
         temp?.Deactive();
         temp?.gameObject?.SetActive(false);
@@ -50,8 +54,8 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
 
         slots[IndexCurrentSlot].SetActive(true);
         temp = inventory.GetItem(IndexCurrentSlot);
-        temp?.Active();
         temp?.gameObject?.SetActive(true);
+        temp?.Active();
     }
     public bool AddItem(Item item)
     {

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2830471453241202281}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.367, y: 0.137, z: 0}
+  m_LocalPosition: {x: 0.99, y: 0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 5236627284326932903}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -160,12 +160,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8131447860137616551}
   - component: {fileID: 3811147759073888598}
-  - component: {fileID: 8022727068384619965}
   - component: {fileID: 1973772294845165554}
   - component: {fileID: 672257775031539312}
   - component: {fileID: 5519988664084937071}
   - component: {fileID: 3836942728927331220}
   - component: {fileID: 6860611282809461083}
+  - component: {fileID: 5166395123570952827}
   m_Layer: 6
   m_Name: GreenSoldierWithShotGun
   m_TagString: EnemyBelievers
@@ -226,51 +226,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!61 &8022727068384619965
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5893452345217136748}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 5.5, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 10, y: 4}
-  m_EdgeRadius: 0
 --- !u!114 &1973772294845165554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +247,7 @@ MonoBehaviour:
   stoppingDistance: 5
   stateSide: 0
   stateBot: 0
+  targetPlayer: {fileID: 0}
 --- !u!50 &672257775031539312
 Rigidbody2D:
   serializedVersion: 4
@@ -450,6 +406,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   side: 0
+--- !u!60 &5166395123570952827
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5893452345217136748}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0}
+      - {x: 8, y: 5}
+      - {x: 8, y: -5}
+  m_UseDelaunayMesh: 0
 --- !u!1 &7984570884006783020
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,7 +660,7 @@ MonoBehaviour:
   _audioPlatoon: {fileID: 8300000, guid: 595f9f079b2c7be49ab74e193472a2d3, type: 3}
   <Damage>k__BackingField: 5
   <ShotDelay>k__BackingField: 0.5
-  <AmmoTotal>k__BackingField: 100
+  <AmmoTotal>k__BackingField: 10000
   <AmmoCapacity>k__BackingField: 5
   <AmmoTotalCurrent>k__BackingField: 0
   <RechargingTime>k__BackingField: 2
