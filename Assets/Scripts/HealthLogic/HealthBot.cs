@@ -14,6 +14,8 @@ public class HealthBot : AbstractHealth
     private GameObject[] _bodyPrefabs;
     private AudioClip _deathSound;
 
+    public static event Action<Transform, string> AudioEvent;
+
     private int deathNum;
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -83,7 +85,7 @@ public class HealthBot : AbstractHealth
 
         death?.Invoke(transform.parent.GetComponent<BotController>());
 
-        this.transform.parent.GetComponent<AudioSource>()?.PlayOneShot(_deathSound);
+        AudioEvent?.Invoke(this.transform, "death_sound");
 
         var animator = this.transform.parent.GetComponentInChildren<Animator>();
         deathNum = UnityEngine.Random.Range(0, 2);
@@ -140,7 +142,7 @@ public class HealthBot : AbstractHealth
         if (type.Contains("GreenSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/GreenSoldierBodies");
         if (type.Contains("PurpleSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/PurpleSoldierBodies");
 
-        _deathSound = Resources.Load<AudioClip>("Audios/Enemies/DeathSound");
+        _deathSound = Resources.Load<AudioClip>("Audios/Enemies/death_sound");
         currentHealth = maxHealth;
 
         isInvulnerable = true;
