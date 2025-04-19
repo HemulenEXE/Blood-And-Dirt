@@ -30,6 +30,8 @@ public class TreeVisibility : MonoBehaviour
     {
         if (playerCollider.CompareTag("Player"))
         {
+            StopCoroutine(SetTilemapColor(tilemap, initialColor, durationTime));     
+            tilemap.color = initialColor;
             StartCoroutine(SetTilemapColor(tilemap, SettedColor, durationTime));
         }
     }
@@ -39,6 +41,8 @@ public class TreeVisibility : MonoBehaviour
     {
         if (playerCollider.CompareTag("Player"))
         {
+            StopCoroutine(SetTilemapColor(tilemap, SettedColor, durationTime));     
+            tilemap.color = SettedColor;
             StartCoroutine(SetTilemapColor(tilemap, initialColor, durationTime));
         }
     }
@@ -60,11 +64,12 @@ public class TreeVisibility : MonoBehaviour
 
         Color deltaColor = new Vector4(deltaRed, deltaGreen, deltaBlue, deltaAlpha);
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i <= count; i++)
         {
             tilemap.color += deltaColor;
             yield return new WaitForSeconds(duration/60);
         }
-        StopCoroutine(SetTilemapColor(tilemap, new Color(1, 1, 1, 1), 1f));        
+        tilemap.color = color;
+        StopCoroutine(SetTilemapColor(tilemap, color, duration));        
     }
 }
