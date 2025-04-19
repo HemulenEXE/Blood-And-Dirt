@@ -1417,6 +1417,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreenSoldierWithPistol
       objectReference: {fileID: 0}
+    - target: {fileID: 4103973174957079966, guid: e4ff0276b30488f4b86ce5816188a272, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7086636088839060460, guid: e4ff0276b30488f4b86ce5816188a272, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.30026
@@ -1513,6 +1517,10 @@ PrefabInstance:
     - target: {fileID: 8080232951600587331, guid: 7e19e5b6a692a5d4aab5737ca92dd612, type: 3}
       propertyPath: m_Name
       value: GreenSoldierWithMachineGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 8080232951600587331, guid: 7e19e5b6a692a5d4aab5737ca92dd612, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2306,9 +2314,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1973772294845165554, guid: fd4f35fcb02d0f6418b39264db4ce86c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3811147759073888598, guid: fd4f35fcb02d0f6418b39264db4ce86c, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5893452345217136748, guid: fd4f35fcb02d0f6418b39264db4ce86c, type: 3}
       propertyPath: m_Name
       value: GreenSoldierWithShotGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 7698032928253551406, guid: fd4f35fcb02d0f6418b39264db4ce86c, type: 3}
+      propertyPath: maxHealth
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 8131447860137616551, guid: fd4f35fcb02d0f6418b39264db4ce86c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2428,7 +2448,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1395269546
 Light:
   m_ObjectHideFlags: 0
@@ -3380,7 +3400,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.514151, b: 0.514151, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

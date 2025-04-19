@@ -116,4 +116,9 @@ public class PlayerHealth : AbstractHealth
             GetDamage(dataBullet);
         }
     }
+
+    public override void PlayAnimationHit(Transform sourceDamage)
+    {
+        throw new NotImplementedException();
+    }
 }
