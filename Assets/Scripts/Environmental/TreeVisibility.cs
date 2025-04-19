@@ -6,37 +6,46 @@ using System;
 
 public class TreeVisibility : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //наш тайлмап, видимость которого мы меняем(привязка к скрипту автоматическая)
     Tilemap tilemap;
+
+    //цвет, на который меняется тайлмап, если мы сталкиваемся с его триггером
+    public Color SettedColor;
+
+    //цвет исходный, если мы выходим из триггера
+    Color initialColor;
+    
     public float durationTime;
     void Awake()
     {
         tilemap = GetComponent<Tilemap>();
+
+        //фиксация исходного цвета
+        initialColor = tilemap.color;
     }
 
-    // Update is called once per frame
     
-
+    //входим в триггер
     void OnTriggerEnter2D(Collider2D playerCollider)
     {
         if (playerCollider.CompareTag("Player"))
         {
-            StartCoroutine(SetTilemapColor(tilemap, new Color(1, 1, 1, 0.4f), durationTime));
+            StartCoroutine(SetTilemapColor(tilemap, SettedColor, durationTime));
         }
     }
 
+    //выходим из триггера
     void OnTriggerExit2D(Collider2D playerCollider)
     {
         if (playerCollider.CompareTag("Player"))
         {
-
-            StartCoroutine(SetTilemapColor(tilemap, new Color(1, 1, 1, 1), durationTime));
+            StartCoroutine(SetTilemapColor(tilemap, initialColor, durationTime));
         }
     }
 
     
 /// <summary>
-/// меняет цвет тайловой карты на новый цвет за заданное число секунд
+/// меняет цвет тайловой карты tilemap на новый цвет color за duration секунд
 /// </summary>
 /// <param name="tilemap"></param> 
 /// <param name="color"></param>
@@ -56,9 +65,6 @@ public class TreeVisibility : MonoBehaviour
             tilemap.color += deltaColor;
             yield return new WaitForSeconds(duration/60);
         }
-        StopCoroutine(SetTilemapColor(tilemap, new Color(1, 1, 1, 1), 1f));
-
-
-        
+        StopCoroutine(SetTilemapColor(tilemap, new Color(1, 1, 1, 1), 1f));        
     }
 }
