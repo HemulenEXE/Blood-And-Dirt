@@ -176,8 +176,13 @@ public class HealthBot : AbstractHealth
         // 5. Смещаем немного от поверхности наружу
         exitPoint += localHitDirection * offset;
 
+        float angle = Mathf.Atan2(localHitDirection.y, localHitDirection.x) * Mathf.Rad2Deg;
+
+        // Создаём вращение вокруг Z
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
         // 6. Создаём эффект выхода
-        GameObject effect = Instantiate(prefamHitAnimation, exitPoint, Quaternion.LookRotation(localHitDirection));
+        GameObject effect = Instantiate(prefamHitAnimation, exitPoint, rotation);
 
         // 7. Воспроизводим анимацию (если есть Animator)
         Animator anim = effect.GetComponent<Animator>();
