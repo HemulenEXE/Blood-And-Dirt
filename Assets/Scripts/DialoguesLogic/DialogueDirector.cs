@@ -1,6 +1,6 @@
 ﻿using DG.Tweening;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +14,9 @@ public class ShowDialogueDubl : MonoBehaviour
     [SerializeField] public Transform DialogueWindow; //Canvas
     [SerializeField] public const int MaxReplicLength = 350; //Максимальное число символов реплики на экране
     [SerializeField] public float TimeBetweenLetters = 0.01f;
-    
+    public bool WithEnd = true; //Должен ли диалог заканчиваться, при выходе игрока из тигерной зоны 
+    public bool WithAction = false; //Должны kи быть доступны другие действия во время диалога (стрельба, расходники и т.д.)
+
     private Dialogue _dialogue;
     private Transform _panelForText;
     private Transform _panelForButtons;
@@ -28,10 +30,11 @@ public class ShowDialogueDubl : MonoBehaviour
     private Button _prefab;
     private Printer printer;
 
+    public Dialogue GetDialogue() { return _dialogue; }
     private void Awake()
-    {   
+    {
         _dialogue = Dialogue.Load(FileName);
-        
+
         _npcName = DialogueWindow.GetChild(1).GetComponent<TextMeshProUGUI>();
         _panelForText = DialogueWindow.GetChild(2).GetComponent<Transform>();
         _panelForButtons = DialogueWindow.GetChild(3).GetComponent<Transform>();
@@ -39,19 +42,18 @@ public class ShowDialogueDubl : MonoBehaviour
         _audio = DialogueWindow.GetComponent<AudioSource>();
         _continue.onClick.RemoveAllListeners();
         _continue.onClick.AddListener(Continue);
-        
+
         IsTrigger = false;
-        _prefab = Resources.Load<Button>("Prefabs/Interface/DialogueButton");
-        printer = GetComponent<Printer>();
+        _prefab = Resources.Load<Button>("Prefabs/Interfaces/DialogueButton");
+        printer = this.GetComponent<Printer>();
         _replicParts = new Queue<string>();
     }
     /// <summary>
     /// Переход к выбору ответов/пропуск анимации печати/окончание диалога по нажатию кнопки _continue
     /// </summary>
-    private void Continue()
+    public void Continue()
     {
         _replicInd = printer._rInd;
-        Debug.Log($"_replicInd = {_replicInd}, Length = {_replicParts.Peek().Length}");
         printer.StopAllCoroutines();
         if (_replicInd < _replicParts.Peek().Length - 1)
             printer.PrintReplicEntirely(_replicInd, _replicParts.Peek());
@@ -66,7 +68,11 @@ public class ShowDialogueDubl : MonoBehaviour
                 else if (_dialogue.GetCurentNode().answers == null)
                 {
                     _dialogue.ToNextNode();
-                    GoToReplic(); }
+
+                    if (_dialogue.GetCurentNode().npcText != null)
+                        GoToReplic();
+                    else GoToAnswers();
+                }
                 else GoToAnswers();
             }
             else
@@ -79,30 +85,45 @@ public class ShowDialogueDubl : MonoBehaviour
     }
     private void Update()
     {
-        if (IsTrigger && Input.GetKeyDown(KeyCode.E))
+        if (IsTrigger && Input.GetKeyDown(KeyCode.T)) //Поменялась кнопка!!! 
         {
             StartDialogue();
             IsTrigger = false;
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Continue();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
             IsTrigger = true;
     }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(_dialogue.GetCurentNode().answers != null)
+        if (collision.gameObject.tag == "Player" && !IsTrigger &&(_dialogue.GetCurentNode().exit == "True" || _dialogue.GetCurentNode().answers.Any(x => x.exit == "True")))
+            IsTrigger = true;
+    }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        EndDialogue();
+        Debug.Log(DialogueWindow);
+        EndDialogue(false); 
     }
     /// <summary>
     /// Запускает диалог
     /// </summary>
-    private void StartDialogue()
+    public void StartDialogue()
     {
+        if (!WithAction)
+            SetAct();
         DialogueWindow.gameObject.SetActive(true);
+        
+        Debug.Log(_panelForText);
+        Debug.Log(TimeBetweenLetters);
+        Debug.Log(_audio);
         printer.Init(_panelForText, TimeBetweenLetters, _audio);
+        Debug.Log(printer);
+        _dialogue.ToNodeWithInd(0);
+        _replicParts.Clear();
+        _replicInd = 0;
 
         if (_dialogue.GetCurentNode().npcText != null)
             GoToReplic();
@@ -145,7 +166,7 @@ public class ShowDialogueDubl : MonoBehaviour
                 }
                 if (locAnsw.exit == "True")
                     EndDialogue();
-                else 
+                else
                 {
                     _dialogue.ToNodeWithInd(locAnsw.toNode);
                     if (_dialogue.GetCurentNode().npcText != null)
@@ -212,9 +233,24 @@ public class ShowDialogueDubl : MonoBehaviour
         //Запуск побуквенной печати
         printer.PrintReplicGradually(_replicInd, _replicParts.Peek());
     }
-    private void EndDialogue()
+    //Булевый параметр отвечает за то, закончился ли диалог или игрок вышел из триггера
+    public void EndDialogue(bool end = true)
     {
-        if (DialogueWindow.gameObject.activeSelf)
+        if ((DialogueWindow.gameObject.activeSelf && WithEnd) || (end && DialogueWindow.gameObject.activeSelf))
+        {
             DialogueWindow.gameObject.SetActive(false);
+            if (!WithAction) //Включаем обратно возможность действовать, если она отключена
+                SetAct();
+        }
     }
+    //Включает/отключает возможность что-то делать во время диалога
+    public void SetAct()
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+
+        player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
+        player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
+        player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
+    }
+
 }

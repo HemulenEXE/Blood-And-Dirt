@@ -32,14 +32,14 @@ public class SettingMenu : MonoBehaviour
         exit.onClick.AddListener(ExitSetting);
         save.onClick.AddListener(() =>
         {
-            SettingData.SaveSetting();
+            SettingData.SaveData();
             ExitSetting();});
         reboot.onClick.AddListener(() => {
-            SettingData.RebootSetting();
-            SettingData.LoadSettings();
+            SettingData.Reboot();
+            SettingData.LoadData();
         });
 
-        SettingData.LoadSettings();
+        SettingData.LoadData(); 
 
         resolution.ClearOptions();
 

@@ -52,6 +52,9 @@ public class PopUpNotice : MonoBehaviour
     /// </summary>
     private void OnButtonClick()
     {
+        Image fader = GetComponentInParent<GameMenu>().fader;
+        fader?.gameObject.SetActive(true);
+
         if (SceneIndex == 0)
             ScenesManager.Instance.OnMainMenu();
         else

@@ -1,5 +1,4 @@
 using GunLogic;
-using PlayerLogic;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -56,10 +55,12 @@ public class BotEventMediator : MonoBehaviour
 
     private void RaisingAlarm(Transform solder, Transform detechedEnemy)
     {
+        string tag = solder.tag;
+        var buf = tag == "EnemyFalcons" ? falconsBot : tag == "EnemyBelievers" ? believesBot : allBot;
 
-        if (allBot != null)
+        if (buf != null)
         {
-            foreach (var _enemy in allBot)
+            foreach (var _enemy in buf)
             {
                 if (_enemy.transform.position == solder.transform.position)
                 {
@@ -80,9 +81,14 @@ public class BotEventMediator : MonoBehaviour
         {
             foreach (var _enemy in allBot)
             {
+                if(_enemy == null)
+                {
+                    allBot.Remove(_enemy);
+                    continue;
+                }
                 if (Vector2.Distance(_enemy.transform.position, transform.position) <= radiusNoise)
                 {
-                    _enemy.ReactToNoise(transform);
+                    _enemy?.ReactToNoise(transform);
                 }
             }
         }

@@ -1,9 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System;
-using GunLogic;
 
 public class BotController : MonoBehaviour
 {
@@ -16,6 +15,7 @@ public class BotController : MonoBehaviour
     [SerializeField] private float stoppingDistance = 1f;
     [SerializeField] private EnemySides stateSide;
     [SerializeField] private StateBot stateBot;
+    
     private float _nextAttackTime;
 
 
@@ -26,13 +26,13 @@ public class BotController : MonoBehaviour
     private Quaternion initialRotation;
     private AudioSource audioSource;
     private Transform selfTransform;
-    private Transform targetPlayer;
+    [SerializeField] private Transform targetPlayer;
     private NavMeshAgent agent;
     private float timeSinceLastSeen;
     private Transform sourceNoise;
     private bool hasCollidedWithPlayer;
 
-    public static event  Action<Transform, Transform> DetectedEnemy;
+    public static event Action<Transform, Transform> DetectedEnemy;
 
     private void Awake()
     {
@@ -77,11 +77,10 @@ public class BotController : MonoBehaviour
         //agent.stoppingDistance = stoppingDistance;
     }
 
-    private void OnTriggerStay2D(Collider2D collider)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
         if (sideBot.IsEnemyMask(collider.gameObject.layer) && stateBot != StateBot.combat)
         {
-            Debug.Log("Objection!");
             TryDetectPlayer(collider.transform);
         }
     }
@@ -115,7 +114,7 @@ public class BotController : MonoBehaviour
 
     private void OnPlayerDetected(Transform playerTransform)
     {
-        if(stateBot != StateBot.combat)
+        if (stateBot != StateBot.combat)
         {
             audioSource.Play();
         }
@@ -130,6 +129,7 @@ public class BotController : MonoBehaviour
 
     public void NotifiedOfEnemy(Transform playerTransform)
     {
+        
         targetPlayer = playerTransform;
         stateBot = StateBot.combat;
         timeSinceLastSeen = 0;
@@ -138,38 +138,39 @@ public class BotController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        switch (stateBot) 
+        switch (stateBot)
         {
             case StateBot.combat:
-                //animator.SetBool("IsRun", true);
+                //animator.SetBool("IsMoving", true);
                 CombateState();
                 break;
             case StateBot.peace:
-                //animator.SetBool("IsRun", Helper.IsAgentMoving(agent));
+                //animator.SetBool("IsMoving", Helper.IsAgentMoving(agent));
                 PeaceState();
                 break;
             case StateBot.patrol:
-                //animator.SetBool("IsRun", true);
+                //nimator.SetBool("IsMoving", true);
                 PatrolState();
-                break; 
+                break;
             case StateBot.checkNoise:
-                
+
                 //LookToDirection(sourceNoise);
                 break;
 
         }
-        animator.SetBool("IsRun", Helper.IsAgentMoving(agent)); 
+        animator.SetBool("IsMoving", Helper.IsAgentMoving(agent)); 
 
     }
 
     private void CombateState()
     {
-        if (targetPlayer != null)
+        if (targetPlayer != null && targetPlayer.gameObject.activeInHierarchy)
         {
             ChasePlayer();
             UpdateChaseTimer();
-            if(IsPlayerVisible() && _nextAttackTime <= 0)
+            if (IsPlayerVisible() && _nextAttackTime <= 0)
             {
+                _nextAttackTime = gun.ShotDelay;
                 gun.Shoot(sideBot.CreateSideBullet());
             }
             else if(gun.IsShooting)
@@ -182,7 +183,7 @@ public class BotController : MonoBehaviour
             //gun.IsShooting = false;
             StopChase();
         }
-        
+
     }
 
     private void PeaceState()
@@ -227,7 +228,6 @@ public class BotController : MonoBehaviour
         }
 
         LookToDirection(targetPlayer);
-
     }
 
     private void UpdateChaseTimer()
@@ -292,8 +292,8 @@ public class BotController : MonoBehaviour
 
     public void ReactToNoise(Transform noiseTransform)
     {
-       
-        if(stateBot != StateBot.combat) 
+
+        if (stateBot != StateBot.combat)
         {
             stateBot = StateBot.checkNoise;
             StartCoroutine(CheckNoiseState(noiseTransform));
@@ -302,33 +302,41 @@ public class BotController : MonoBehaviour
 
     private IEnumerator CheckNoiseState(Transform noiseTransform, float timeAwaiting = 5)
     {
+        if (noiseTransform == null)
+        {
+            yield break; // Завершаем корутину, если изначально объект отсутствует
+        }
+
         sourceNoise = noiseTransform;
         stateBot = StateBot.checkNoise;
 
         float timeout = 2f;
         float timer = 0f;
 
-        while (Mathf.Abs(Quaternion.Angle(transform.rotation, Quaternion.Euler(0, 0, SmoothLookToDirection(noiseTransform)))) > 5f)
+        while (noiseTransform != null && Mathf.Abs(Quaternion.Angle(transform.rotation, Quaternion.Euler(0, 0, SmoothLookToDirection(noiseTransform)))) > 5f)
         {
             if (timer > timeout)
-                break; // Выход из бесконечного цикла
+                break; // Выход из цикла, если не успели повернуться за отведённое время
 
             timer += Time.deltaTime;
             yield return null;
         }
+        if (noiseTransform == null) yield break; // Проверяем снова перед перемещением
 
-        animator.SetBool("IsRun", true);
+        animator.SetBool("IsMoving", true);
         agent.SetDestination(noiseTransform.position);
 
-        while (agent == null || agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
+        while (agent != null && !agent.pathPending && agent.remainingDistance > agent.stoppingDistance)
         {
+            if (noiseTransform == null) yield break; // Если объект пропал, прерываем корутину
             yield return null;
         }
-
-        animator.SetBool("IsRun", false);
+        animator.SetBool("IsMoving", false);
         yield return new WaitForSeconds(timeAwaiting);
 
-        animator.SetBool("IsRun", true);
+        if (noiseTransform == null) yield break; // Еще одна финальная проверка
+
+        animator.SetBool("IsMoving", true);
         InitToStartState();
     }
 

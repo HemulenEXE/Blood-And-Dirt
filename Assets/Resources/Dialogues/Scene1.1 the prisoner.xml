@@ -1,0 +1,16 @@
+<dialogue name="Scene1.1 the prisoner">
+  <node id="0" npcName="Заключённый">
+    <answer text="Как вы сюда попали?" toNode="1" />
+    <answer text="Вам нормально? Выглядите бледным." toNode="2" />
+    <answer text="Давно вы здесь находитесь? " toNode="4" />
+  </node>
+  <node id="1" npcText="&lt;b&gt;Не твоё собачье дело, отвали.&lt;/b&gt;" exit="True" npcName="Заключённый" />
+  <node id="2" npcText="&lt;wave&gt;Я голоден.&lt;/wave&gt; У тебя есть что-нибудь для меня? " npcName="Заключённый">
+    <answer text="У меня ничего нет… " toNode="3" />
+  </node>
+  <node id="3" npcText="&lt;b&gt;Прекратить разговоры!&lt;/b&gt;" exit="True" npcName="Охранник" />
+  <node id="4" npcText="Не знаю точно, может месяц, может два. " npcName="Заключённый">
+    <answer text="Не пробовали сбежать?" toNode="5" />
+  </node>
+  <node id="5" npcText="&lt;b&gt;Заткнулись все&lt;/b&gt;!" exit="True" npcName="Охранник" />
+</dialogue>

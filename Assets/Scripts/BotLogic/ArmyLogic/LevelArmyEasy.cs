@@ -7,14 +7,26 @@ using Unity.Mathematics;
 
 public class LevelArmyEasy : MonoBehaviour, ILevelArmy
 {
+    public EnemySides sideArmy;
     private List<Unit> costSolders;
 
     private void Awake()
     {
         costSolders = new List<Unit>();
-        costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemys/Pistoller"), 1));
-        costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemys/machine gunner"), 2));
-        costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemys/ShotGunner"), 2));
+        if (sideArmy == EnemySides.believers)
+        {
+            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/GreenSoldierWithPistol"), 1));
+            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/GreenSoldierWithMachineGun"), 2));
+            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/GreenSoldierWithMachineGun"), 2)); // Поправить говно с префабом дробовика
+        }
+        else if(sideArmy == EnemySides.falcons)
+        {
+            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/PurpleSoldierWithPistol"), 1));
+            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/PurpleSoldierWithMachineGun"), 2));
+            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/PurpleSoldierWithShotGun"), 2));
+        }
+        
+        
 
         foreach(Unit u in costSolders)
         {

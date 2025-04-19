@@ -1,53 +1,33 @@
-﻿using GunLogic;
-using InventoryLogic;
+﻿using System;
 using UnityEngine;
-using System;
-using SkillLogic;
 
-namespace PlayerLogic
+public class PlayerKnife : MonoBehaviour
 {
-    public class PlayerKnife : MonoBehaviour
+    private Knife _knife; // Нож в руке
+    private float _nextAttackTime;
+
+    private InventoryAndConsumableCounterUI _inventoryAndConsumableCounterUI;
+
+    private void Start()
     {
-        /// <summary>
-        /// Взятый нож.
-        /// </summary>
-        private Knife _knife;
-        /// <summary>
-        /// Компонент, управляющий аудио.
-        /// </summary>
-        private AudioSource _audioControl;
-        /// <summary>
-        /// Время следующей аттаки.
-        /// </summary>
-        private float _nextAttackTime;
+        _inventoryAndConsumableCounterUI = GameObject.FindAnyObjectByType<InventoryAndConsumableCounterUI>();
 
-        //Встроенные методы.
+        if (_inventoryAndConsumableCounterUI == null) throw new ArgumentNullException("PlayerKnife: _inventoryAndConsumableCounterUI is null");
 
-        /// <summary>
-        /// Настройка и проверка полейю
-        /// </summary>
-        /// <exception cref="ArgumentNullException"></exception>
-        private void Awake()
+    }
+    private void Update()
+    {
+        _knife = _inventoryAndConsumableCounterUI.GetItem()?.GetComponent<Knife>();
+        if (_knife != null)
         {
-
-            _audioControl = this.GetComponent<AudioSource>();
-            if (_audioControl == null) throw new ArgumentNullException("PlayerKnife: _audioControl is null");
-        }
-        private void Update()
-        {
-            _knife = Inventory.GetInstance.CurrentSlot.StoredItem?.GetComponent<Knife>();
-            if (_knife != null)
+            if (Input.GetKey(KeyCode.Mouse0) && _nextAttackTime <= 0)
             {
-                if (Input.GetKey(KeyCode.Mouse0) && _nextAttackTime <= 0)
-                {
-                    _audioControl.PlayOneShot(_knife.AttackSound);
-                    //if (!PlayerInfo._isFighting && PlayerInfo.HasSkill<AnyPrice>())
-                    //    _knife.InstantKill();
-                    _knife.DealDamage();
-                    _nextAttackTime = _knife.AttackDelay;
-                }
+                //if (!PlayerInfo._isFighting && PlayerInfo.HasSkill<AnyPrice>())
+                //    _knife.InstantKill();
+                _knife.DealDamage();
+                _nextAttackTime = _knife.AttackDelay;
             }
-            _nextAttackTime -= Time.deltaTime;
         }
+        _nextAttackTime -= Time.deltaTime;
     }
 }

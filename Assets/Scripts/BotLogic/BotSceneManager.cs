@@ -1,5 +1,4 @@
 using GunLogic;
-using PlayerLogic;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
