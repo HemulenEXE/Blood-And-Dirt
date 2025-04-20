@@ -23,10 +23,10 @@ public class Door : MonoBehaviour
         pos = transform.position;
         switch (Side)
         {
-            case SideOpen.Left: pos.x = transform.position.x + (GetComponent<Collider2D>().bounds.size.x / 2); break;
-            case SideOpen.Right: pos.x = transform.position.x - (GetComponent<Collider2D>().bounds.size.x / 2); break;
-            case SideOpen.Up: pos.y = transform.position.y + (GetComponent<Collider2D>().bounds.size.y / 2); break;
-            case SideOpen.Down: pos.y = transform.position.y - (GetComponent<Collider2D>().bounds.size.y / 2); break;
+            case SideOpen.Left: pos.x = transform.position.x + (GetComponent<BoxCollider2D>().bounds.size.x / 2); break;
+            case SideOpen.Right: pos.x = transform.position.x - (GetComponent<BoxCollider2D>().bounds.size.x / 2); break;
+            case SideOpen.Up: pos.y = transform.position.y + (GetComponent<BoxCollider2D>().bounds.size.y / 2); break;
+            case SideOpen.Down: pos.y = transform.position.y - (GetComponent<BoxCollider2D>().bounds.size.y / 2); break;
         }
     }
 
