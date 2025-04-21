@@ -3,6 +3,7 @@ using GunLogic;
 using System;
 using System.Collections;
 using UnityEngine;
+
 /// <summary>
 /// Класс здоровья игрока. Скрипт навешивается на игрока
 /// </summary>
@@ -17,7 +18,9 @@ public class PlayerHealth : AbstractHealth
 
     public override void GetDamage(int value)
     {
-        if (PlayerData.IsGod|| isInvulnerable) return;
+        if (PlayerData.IsGod || isInvulnerable) return;
+
+        AudioEvent?.Invoke(this.transform, "taking_damage" + UnityEngine.Random.Range(0, 11));
 
         PlayerData.IsBleeding = true;
         PlayerData.CurrentHealth -= value;
@@ -48,6 +51,7 @@ public class PlayerHealth : AbstractHealth
         var temp = PlayerData.GetSkill<Reincarnation>();
         if (temp != null && PlayerData.CurrentResurrectionCount > 0)
         {
+            AudioEvent?.Invoke(this.transform, "Reincarnation");
             temp.SpawnBody(this.gameObject); // Спавн трупа
             return;
         }
@@ -105,7 +109,6 @@ public class PlayerHealth : AbstractHealth
     private void FixedUpdate()
     {
         bloodController.SetBloodEffect(CalculateStateDamaged());
-        //Debug.Log(PlayerData.CurrentHealth);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -18,7 +18,6 @@ public class BotController : MonoBehaviour
     
     private float _nextAttackTime;
 
-
     private Side sideBot;
     private Animator animator;
     private IGun gun;
