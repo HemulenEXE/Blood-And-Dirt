@@ -10,7 +10,7 @@ public class PlayerShooting : MonoBehaviour
     }
     private void Update()
     {
-        IGun _gun = GameObject.FindAnyObjectByType<InventoryAndConsumableCounterUI>().GetItem()?.gameObject?.GetComponent<IGun>();
+        IGun _gun = GameObject.FindAnyObjectByType<InventoryAndConsumableCounterUI>()?.GetItem()?.gameObject?.GetComponent<IGun>();
         if (_gun != null)
         {
             if (Input.GetKey(KeyCode.Mouse0) && _nextAttackTime <= 0)

@@ -1292,6 +1292,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueWindow
       objectReference: {fileID: 0}
+    - target: {fileID: 7099015086523245142, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2962,7 +2966,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7231977308137092371, guid: 9c69678db78bc434f8ab7fb8adbccea1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -15.749878
+      value: -15.749756
       objectReference: {fileID: 0}
     - target: {fileID: 7756146749607544156, guid: 9c69678db78bc434f8ab7fb8adbccea1, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4810,7 +4814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a948f2868414e504588f6fdfffbf535b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FileName: {fileID: 4900000, guid: 8e91b207ae368bd44b0746f71fab99ef, type: 3}
+  FileName: {fileID: 0}
 --- !u!1 &1929493962
 GameObject:
   m_ObjectHideFlags: 0

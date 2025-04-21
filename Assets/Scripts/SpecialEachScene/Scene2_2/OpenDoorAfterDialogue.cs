@@ -15,16 +15,12 @@ public class OpenDoorAfterDialogue : MonoBehaviour
     {
         _director = GetComponent<ShowDialogueDubl>();
         _director.StartDialogue();
+        DialogueWindow = _director.DialogueWindow.gameObject;
+        _dialogue = _director.GetDialogue();
     }
     void Update()
     {
-        if (_director.FileName == FileName)
-        {
-            DialogueWindow = _director.DialogueWindow.gameObject;
-            _dialogue = _director.GetDialogue();
-        }
-
-        if (!isTriger && !DialogueWindow.activeSelf && (_dialogue.GetCurentNode().answers[0].exit == "True"))
+        if (!isTriger && !DialogueWindow.activeInHierarchy && (_dialogue.GetCurentNode().answers[0].exit == "True"))
         {
             isTriger = true;
             GameObject.Find("door").GetComponent<CircleCollider2D>().enabled = true;
