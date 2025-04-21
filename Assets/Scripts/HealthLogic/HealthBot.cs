@@ -41,6 +41,7 @@ public class HealthBot : AbstractHealth
     {
         if (!isInvulnerable)
         {
+            AudioEvent?.Invoke(this.transform, "taking_damage" + UnityEngine.Random.Range(0, 11));
             currentHealth -= value;
 
             if (currentHealth <= 0)
@@ -55,6 +56,7 @@ public class HealthBot : AbstractHealth
     {
         if (!isInvulnerable)
         {
+            AudioEvent?.Invoke(this.transform, "taking_damage" + UnityEngine.Random.Range(0, 11));
             currentHealth -= (int)bullet.Damage;
 
             if (currentHealth <= 0)
@@ -85,14 +87,12 @@ public class HealthBot : AbstractHealth
 
         death?.Invoke(transform.parent.GetComponent<BotController>());
 
-        AudioEvent?.Invoke(this.transform, "death_sound");
+        AudioEvent?.Invoke(this.transform, "death_sound" + UnityEngine.Random.Range(0, 6));
 
         var animator = this.transform.parent.GetComponentInChildren<Animator>();
         deathNum = UnityEngine.Random.Range(0, 2);
         string deathTrigger =  deathNum == 0 ? "Death1" : "Death2";
         animator.SetTrigger(deathTrigger);
-
-        
 
         Destroy(transform.parent.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
     }
@@ -142,7 +142,7 @@ public class HealthBot : AbstractHealth
         if (type.Contains("GreenSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/GreenSoldierBodies");
         if (type.Contains("PurpleSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/PurpleSoldierBodies");
 
-        _deathSound = Resources.Load<AudioClip>("Audios/Enemies/death_sound");
+        _deathSound = Resources.Load<AudioClip>("Audios/Enemies/DeathAudios/death_sound0");
         currentHealth = maxHealth;
 
         isInvulnerable = true;
