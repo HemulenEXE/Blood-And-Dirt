@@ -6,9 +6,6 @@ public class MachineGun : MonoBehaviour, IGun
 {
 
     [SerializeField] protected GameObject _prefabProjectile;
-    /// <summary>
-    /// Сила звука
-    /// </summary>
     [SerializeField] private float noiseIntensity = 5;
     /// <summary>
     /// Событие отвечающие за передачу источника и силы звука медиатору событий
@@ -41,8 +38,6 @@ public class MachineGun : MonoBehaviour, IGun
     /// <exception cref="ArgumentNullException"></exception>
     public void Shoot(Side sideShooter, bool IsPlayerShoot = false)
     {
-        Debug.Log("IsShooting: " + IsShooting);
-        Debug.Log("IsRecharging: " + IsRecharging);
         if (!IsShooting && !IsRecharging)
         {
             if (AmmoTotalCurrent > 0)
@@ -67,10 +62,7 @@ public class MachineGun : MonoBehaviour, IGun
                 AmmoTotalCurrent--;
                 currentBullet.layer = LayerMask.NameToLayer(sideShooter.GetOwnLayer());
                 IsShooting = false;
-                //if (IsPlayerShoot)
-                //{
                 makeNoiseShooting?.Invoke(transform, noiseIntensity);
-                //}
             }
             else Recharge();
         }
