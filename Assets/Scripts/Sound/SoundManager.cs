@@ -24,6 +24,7 @@ public class SoundManager : MonoBehaviour
         InventoryAndConsumableCounterUI.AudioEvent += PlayAudio;
         PlayerHealth.AudioEvent += PlayAudio;
         HealthBot.AudioEvent += PlayAudio;
+        PlayerMotion.AudioEvent += PlayAudio;
     }
 
     private void PlayAudio(Transform transform, string audio_name)
