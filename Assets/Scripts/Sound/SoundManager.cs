@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class SoundManager : MonoBehaviour
     public static float MinDistance = 1f;
 
     private AudioSource _playerAudioSource;
+
+    public static HashSet<BotController> DetectedBots;
 
     private void Start()
     {
@@ -34,6 +37,10 @@ public class SoundManager : MonoBehaviour
         PlayerMotion.AudioEvent += PlayAudio;
 
         AudioTrigger.AudioEvent += PlayBackgroundAudio;
+        //BotController.AudioEvent += PlayBackgroundAudioOnCurrenctScene;
+
+        PlayBackgroundAudioOnCurrenctScene();
+
     }
     private void SettingAudioSource(AudioSource audioSource, AudioClip audioclip)
     {
@@ -66,9 +73,18 @@ public class SoundManager : MonoBehaviour
     public void PlayBackgroundAudio(string audio_name)
     {
         var sound = AudioClips.First(x => x.name.Equals(audio_name));
-        if (sound != null)
+        StartCoroutine(FadeOutAndPlayNewSound(sound));
+    }
+    public void PlayBackgroundAudioOnCurrenctScene()
+    {
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        switch (sceneIndex)
         {
-            StartCoroutine(FadeOutAndPlayNewSound(sound));
+            /// Логика запуска фоновой музыки в зависимости от индекса сцены
+            default:
+                var sound = AudioClips.First(x => x.name.Equals("quiet"));
+                StartCoroutine(FadeOutAndPlayNewSound(sound));
+                break;
         }
     }
     private IEnumerator FadeOutAndPlayNewSound(AudioClip newClip) // Для плавной смены сопровождающей музыки
