@@ -35,13 +35,15 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private Button _onSkillTree;
     //Открыто ли меню или его вложенные элементы (дерево прокачки)
-    private bool isOpen = false; 
+    private bool isOpen = false;
     //Объеекты, которые нужно отключать, если включено меню
     [NonSerialized]
     public Image fader;
     GameObject interactiveUI;
     GameObject invantoryUI;
     GameObject bloodEffect;
+    GameObject dialogueWnd;
+
     /// <summary>
     /// Проверка и настройка полей.
     /// </summary>
@@ -161,6 +163,7 @@ public class GameMenu : MonoBehaviour
         GameObject interactUI = GameObject.Find("InteractiveUI");
         GameObject invantUI = GameObject.Find("InventoryAndConsumableCounterUI");
         GameObject bE = GameObject.Find("BloodEffect");
+        GameObject dW = GameObject.Find("DialogueWindow");
 
         //Сохранение ссылок на объекты для их последующего включения
         if (fd != null && fader == null)
@@ -171,11 +174,15 @@ public class GameMenu : MonoBehaviour
             invantoryUI = invantUI;
         if (bE != null && bloodEffect == null)
             bloodEffect = bE;
+        if (dW != null && dialogueWnd == null)
+            dialogueWnd = dW;
 
         fader?.gameObject.SetActive(!fader.gameObject.activeSelf);
         interactiveUI?.SetActive(!interactiveUI.activeSelf);
         invantoryUI?.SetActive(!invantoryUI.activeSelf);
         bloodEffect?.SetActive(!bloodEffect.activeSelf);
+        if (dialogueWnd != null && dialogueWnd.GetComponent<DialogueWndState>().currentState == DialogueWndState.WindowState.StartPrint)
+            dialogueWnd.SetActive(!dialogueWnd.activeSelf);
 
         GameObject player = GameObject.FindWithTag("Player");
         player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
