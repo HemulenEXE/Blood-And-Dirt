@@ -365,14 +365,14 @@ public class BotController : MonoBehaviour
         InitToStartState();
     }
 
-    private void OnDestroy()
-    {
-        SoundManager.DetectedBots.Remove(this);
-        if (SoundManager.DetectedBots.Count.Equals(0))
-        {
-            IsPlayerDetected = false;
-            AudioEvent?.Invoke();
-        }
-        // Под вопросом...
-    }
+    //private void OnDestroy()
+    //{
+    //    SoundManager.DetectedBots.Remove(this);
+    //    if (SoundManager.DetectedBots.Count.Equals(0))
+    //    {
+    //        IsPlayerDetected = false;
+    //        AudioEvent?.Invoke();
+    //    }
+    //    // Под вопросом...
+    //}
 }

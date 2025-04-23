@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class HealthBot : AbstractHealth
 {
+    [SerializeField] bool explosionProof = false;
     private EnemySides side;
     private string enemyBullet;
     public static event Action<BotController> death;
@@ -24,6 +25,7 @@ public class HealthBot : AbstractHealth
         
         if (Bullet != null)
         {
+            Debug.Log(Bullet.GetType());
             if (collision.gameObject.tag == "Projectile" && collision.gameObject.layer != LayerMask.NameToLayer(Bullet.sideBullet.GetOwnLayer()))
             {
                 if (Bullet.sideBullet.IsEnemyMask(this.gameObject.layer))
@@ -54,6 +56,10 @@ public class HealthBot : AbstractHealth
     }
     public override void GetDamage(IBullet bullet)
     {
+        if(bullet.GetType() == typeof(ExplosionBullet) && explosionProof)
+        {
+            return;
+        }
         if (!isInvulnerable)
         {
             AudioEvent?.Invoke(this.transform, "taking_damage" + UnityEngine.Random.Range(0, 11));
@@ -73,12 +79,16 @@ public class HealthBot : AbstractHealth
 
     public void GetDamage(Knife knife)
     {
+        PlayAnimationHit(knife.gameObject.transform);
         GetDamage((int)knife.Damage);
     }
 
     public override void GetDamage(ShrapnelGrenade granade)
     {
-        GetDamage((int)granade.damageExplosion);
+        if(!explosionProof)
+        {
+            GetDamage((int)granade.damageExplosion);
+        }
     }
 
     public override void Death()
