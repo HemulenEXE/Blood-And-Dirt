@@ -54,8 +54,8 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
 
         slots[IndexCurrentSlot].SetActive(true);
         temp = inventory.GetItem(IndexCurrentSlot);
-        temp?.Active();
         temp?.gameObject?.SetActive(true);
+        temp?.Active();
     }
     public bool AddItem(Item item)
     {

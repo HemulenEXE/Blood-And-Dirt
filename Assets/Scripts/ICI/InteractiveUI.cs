@@ -11,6 +11,7 @@ public class InteractiveUI : MonoBehaviour
     {
         var temp = item.GetComponent<IInteractable>();
         if (temp == null) return;
+        if (temp is Body && !PlayerData.HasSkill<LiveInNotVain>()) return;
 
         _interactiveText.gameObject.SetActive(true);
         _interactiveText.text = temp.Description.ToString();

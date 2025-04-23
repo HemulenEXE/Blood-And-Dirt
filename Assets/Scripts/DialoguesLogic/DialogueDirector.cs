@@ -239,6 +239,7 @@ public class ShowDialogueDubl : MonoBehaviour
         if ((DialogueWindow.gameObject.activeSelf && WithEnd) || (end && DialogueWindow.gameObject.activeSelf))
         {
             DialogueWindow.gameObject.SetActive(false);
+            DialogueWindow.GetComponent<DialogueWndState>().currentState = DialogueWndState.WindowState.EndPrint;
             if (!WithAction) //Включаем обратно возможность действовать, если она отключена
                 SetAct();
         }

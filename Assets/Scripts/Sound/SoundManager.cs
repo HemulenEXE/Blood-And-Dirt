@@ -5,6 +5,8 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public HashSet<AudioClip> AudioClips;
+    public float MaxDistance = 1f;
+    public float MinDistance = 1f;
 
     private void Start()
     {
@@ -21,6 +23,8 @@ public class SoundManager : MonoBehaviour
         SmokeGrenade.AudioEvent += PlayAudio;
         InventoryAndConsumableCounterUI.AudioEvent += PlayAudio;
         PlayerHealth.AudioEvent += PlayAudio;
+        HealthBot.AudioEvent += PlayAudio;
+        PlayerMotion.AudioEvent += PlayAudio;
     }
 
     private void PlayAudio(Transform transform, string audio_name)
@@ -32,10 +36,28 @@ public class SoundManager : MonoBehaviour
                 var temp = transform.gameObject.GetComponent<AudioSource>();
                 if (temp == null) temp = transform.gameObject.AddComponent<AudioSource>();
                 temp.enabled = true;
-                temp.volume = SettingData.Volume;
+
+                temp.minDistance = MinDistance;
+                temp.maxDistance = MaxDistance;
+
+                temp.spatialBlend = 2.0f;
+
+                temp.volume = SettingData.Volume / GetClipVolume(x);
+
                 temp.PlayOneShot(x);
-                Debug.Log(x.name);
+                break;
             }
         }
+    }
+    private float GetClipVolume(AudioClip clip) // Для нормализации громкости клипа
+    {
+        float[] arr = new float[clip.samples * clip.channels];
+        clip.GetData(arr, 0);
+
+        float sum = 0f;
+        for (int i = 0; i < arr.Length; ++i) sum += Mathf.Abs(arr[i]);
+
+        float result = sum / arr.Length;
+        return result;
     }
 }

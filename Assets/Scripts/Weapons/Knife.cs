@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Класс, реализующий "нож".
-/// </summary>
 public class Knife : MonoBehaviour
 {
     [SerializeField] private LayerMask _ignoreLayer;
