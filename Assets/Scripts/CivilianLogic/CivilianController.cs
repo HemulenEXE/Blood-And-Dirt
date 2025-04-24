@@ -22,7 +22,10 @@ public class CivilianController : MonoBehaviour
 
     private void Awake()
     {
+
         agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
         animator = GetComponentInChildren<Animator>();
         agent.stoppingDistance = stoppingDistance;
         
@@ -53,6 +56,7 @@ public class CivilianController : MonoBehaviour
         }
 
         animator.SetBool("IsMoving", agent.velocity.magnitude > 0.1f);
+        UpdateLookDirection();
     }
 
     private void HandleIdle()
@@ -90,14 +94,34 @@ public class CivilianController : MonoBehaviour
         agent.SetDestination(patrolPoints[currentPatrolIndex].position);
         currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Count;
     }
+    private void UpdateLookDirection()
+    {
+        Vector3 velocity = agent.velocity;
+
+        // Проверим, движется ли агент
+        if (velocity.sqrMagnitude > 0.01f)
+        {
+            Vector2 dir = new Vector2(velocity.x, velocity.y).normalized;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle - 90f);
+
+            // Плавно поворачиваем к нужному углу
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        }
+    }
 
     public void TriggerFlee()
     {
         if (fleeTarget != null)
         {
-            animator.SetBool("IsRun",true);
+            animator.SetBool("IsRun",true); animator.SetBool("IsMoving", true);
             currentState = CivilianState.Flee;
             agent.SetDestination(fleeTarget.position);
         }
+    }
+
+    public bool IsFlee()
+    {
+        return currentState == CivilianState.Flee;
     }
 }

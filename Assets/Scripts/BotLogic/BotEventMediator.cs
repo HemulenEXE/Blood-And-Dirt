@@ -43,6 +43,10 @@ public class BotEventMediator : MonoBehaviour
         Pistol.makeNoiseShooting += CheckNoise;
         MachineGun.makeNoiseShooting += CheckNoise;
         GrenadeLauncher.makeNoiseShooting += CheckNoise;
+        ShotGun.makeNoiseShooting += CivilianUpAlarm;
+        Pistol.makeNoiseShooting += CivilianUpAlarm;
+        MachineGun.makeNoiseShooting += CivilianUpAlarm;
+        GrenadeLauncher.makeNoiseShooting += CivilianUpAlarm;
     }
 
     private void OnDisable()
@@ -55,6 +59,10 @@ public class BotEventMediator : MonoBehaviour
         Pistol.makeNoiseShooting -= CheckNoise;
         MachineGun.makeNoiseShooting -= CheckNoise;
         GrenadeLauncher.makeNoiseShooting += CheckNoise;
+        ShotGun.makeNoiseShooting -= CivilianUpAlarm;
+        Pistol.makeNoiseShooting -= CivilianUpAlarm;
+        MachineGun.makeNoiseShooting -= CivilianUpAlarm;
+        GrenadeLauncher.makeNoiseShooting -= CivilianUpAlarm;
     }
 
     private void CivilianUpAlarm(Transform transform, float radiusNoise)
