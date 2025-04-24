@@ -33,6 +33,10 @@ public class BotController : MonoBehaviour
 
     public static event Action<Transform, Transform> DetectedEnemy;
 
+    public static bool IsPlayerDetected = false;
+
+    public static event Action AudioEvent;
+
     private void Awake()
     {
         InitializeComponents();
@@ -361,5 +365,14 @@ public class BotController : MonoBehaviour
         InitToStartState();
     }
 
-    
+    //private void OnDestroy()
+    //{
+    //    SoundManager.DetectedBots.Remove(this);
+    //    if (SoundManager.DetectedBots.Count.Equals(0))
+    //    {
+    //        IsPlayerDetected = false;
+    //        AudioEvent?.Invoke();
+    //    }
+    //    // Под вопросом...
+    //}
 }

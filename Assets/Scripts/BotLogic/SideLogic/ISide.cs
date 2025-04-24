@@ -38,6 +38,8 @@ public class Side : MonoBehaviour
                 alliesTags.Add("EnemyBelievers");
                 enemyTags.Add("EnemyFalcons");
                 enemyLayers.Add("EnemyFalcons");
+                enemyTags.Add("PeacfullCivilian");
+                enemyLayers.Add("PeacfullCivilian");
                 ownSideLayer = "EnemyBelievers";
                 break;
             case EnemySides.falcons:
@@ -54,6 +56,8 @@ public class Side : MonoBehaviour
                 alliesTags.Add("EnemyFalcons");
                 enemyTags.Add("EnemyBelievers");
                 enemyLayers.Add("EnemyBelievers");
+                enemyTags.Add("PeacfullCivilian");
+                enemyLayers.Add("PeacfullCivilian");
                 ownSideLayer = "EnemyFalcons";
                 break;
             case EnemySides.neutral:
@@ -72,23 +76,31 @@ public class Side : MonoBehaviour
                 enemyLayers.Add("Player");
                 enemyLayers.Add("EnemyFalcons");
                 enemyLayers.Add("EnemyBelievers");
+                enemyTags.Add("PeacfullCivilian");
+                enemyLayers.Add("PeacfullCivilian");
                 ownSideLayer = "Enemy";
                 break;
             case EnemySides.playerNeutral:
                 enemyTags.Add("EnemyFalcons");
                 enemyTags.Add("EnemyBelievers");
+                enemyTags.Add("PeacfullCivilian");
                 enemyLayers.Add("EnemyFalcons");
                 enemyLayers.Add("EnemyBelievers");
+                enemyLayers.Add("PeacfullCivilian");
                 ownSideLayer = "Player";
                 break;
             case EnemySides.playerBeliever:
-                enemyTags.Add("EnemyFalcons");
+                enemyTags.Add("EnemyFalcons"); 
+                enemyTags.Add("PeacfullCivilian");
                 enemyLayers.Add("EnemyFalcons");
+                enemyLayers.Add("PeacfullCivilian");
                 ownSideLayer = "Player";
                 break;
             case EnemySides.playerFalcons:
-                enemyTags.Add("EnemyBelievers");
+                enemyTags.Add("EnemyBelievers"); 
+                enemyTags.Add("PeacfullCivilian");
                 enemyLayers.Add("EnemyBelievers");
+                enemyLayers.Add("PeacfullCivilian");
                 ownSideLayer = "Player";
                 break;
         }
