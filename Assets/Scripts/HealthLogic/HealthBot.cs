@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class HealthBot : AbstractHealth
 {
     [SerializeField] bool explosionProof = false;
+    [SerializeField] int resiestExplosion = 3;
     private EnemySides side;
     private string enemyBullet;
     public static event Action<BotController> death;
@@ -56,14 +57,11 @@ public class HealthBot : AbstractHealth
     }
     public override void GetDamage(IBullet bullet)
     {
-        if(bullet.GetType() == typeof(ExplosionBullet) && explosionProof)
-        {
-            return;
-        }
         if (!isInvulnerable)
         {
             AudioEvent?.Invoke(this.transform, "taking_damage" + UnityEngine.Random.Range(0, 11));
-            currentHealth -= (int)bullet.Damage;
+            int damage = bullet.GetType() == typeof(ExplosionBullet) && explosionProof ? (int)(bullet.Damage / resiestExplosion) : (int)bullet.Damage;
+            currentHealth -= damage;
 
             if (currentHealth <= 0)
             {
@@ -85,9 +83,13 @@ public class HealthBot : AbstractHealth
 
     public override void GetDamage(ShrapnelGrenade granade)
     {
-        if(!explosionProof)
+        if (!explosionProof)
         {
             GetDamage((int)granade.damageExplosion);
+        }
+        else
+        {
+            GetDamage((int)granade.damageExplosion / resiestExplosion);
         }
     }
 
