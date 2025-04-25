@@ -156,7 +156,7 @@ public class PlayerHealth : AbstractHealth
         Animator anim = effect.GetComponent<Animator>();
         if (anim != null)
         {
-            anim.SetTrigger("Play");
+            //anim.SetTrigger("Play");
             // Удалим через длительность клипа, если нужна автоматическая очистка
             Destroy(effect, anim.GetCurrentAnimatorStateInfo(0).length + 0.1f);
         }

@@ -74,6 +74,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
+  explosionProof: 0
+  resiestExplosion: 3
 --- !u!61 &7472827829166072381
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -352,9 +354,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
   noiseIntensity: 5
-  _audioFire: {fileID: 8300000, guid: 087dc73cae54ede448a7ee2263c4cbb9, type: 3}
-  _audioRecharge: {fileID: 8300000, guid: f579a69586a6b284ca9f6dd5fb3c5d4b, type: 3}
-  _audioPlatoon: {fileID: 0}
   attackRange: 0
   <Damage>k__BackingField: 6.5
   <ShotDelay>k__BackingField: 0.1
@@ -548,7 +547,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8080232951600587331}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:

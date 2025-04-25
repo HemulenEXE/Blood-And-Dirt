@@ -55,7 +55,7 @@ public static class PlayerData
     public static float RunSpeed { get; set; } = 4.5f;
 
     public static float StealNoise { get; set; } = 1f;
-    public static float WalkNoise { get; set; } = 3f;
+    public static float WalkNoise { get; set; } = 4f;
     public static float RunNoise { get; set; } = 5f;
 
     public static int BleedingDamage { get; set; } = 5;

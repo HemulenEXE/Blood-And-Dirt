@@ -13,6 +13,8 @@ public class BotSceneManager : MonoBehaviour
     [SerializeField] private uint _countSoldersMin;
     [SerializeField] private bool _needToRestoreSolder;
     [SerializeField] private bool _restoreKilledNonPlayer;
+    [SerializeField] private bool _analogState = false;
+    [SerializeField] private float repeatTime = 30f;
 
     private Barraks barraks;
     private Side sideController;
@@ -23,18 +25,27 @@ public class BotSceneManager : MonoBehaviour
     {
         barraks = GetComponent<Barraks>();
         sideController = new Side(sides, _isPlayerEnemy);
+        if(_analogState)
+        {
+            InvokeRepeating("SummonBots", 30, repeatTime);
+        }
     }
 
     
     // Update is called once per frame
     void Update()
     {
-
-        if (_needToRestoreSolder && _countSoldersMin > BotEventMediator.Instance.CountBotSide(sides))
+        
+        if (!_analogState && _needToRestoreSolder && _countSoldersMin > BotEventMediator.Instance.CountBotSide(sides))
         {
-            var newSolder = barraks.SpawnSolders(sideController);
-            BotEventMediator.Instance.AddBot(sides,newSolder);
+            SummonBots();
         }
+    }
+
+    private void SummonBots()
+    {
+        var newSolder = barraks.SpawnSolders(sideController);
+        BotEventMediator.Instance.AddBot(sides, newSolder);
     }
 
 

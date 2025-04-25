@@ -185,7 +185,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4103973174957079966}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -638,10 +638,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseIntensity: 5
   _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
-  _audioControl: {fileID: 0}
-  _audioFire: {fileID: 8300000, guid: f6aa75816b9bc394d81a68a878fe7f5e, type: 3}
-  _audioRecharge: {fileID: 8300000, guid: 4fa7a62340ff47041831d1911bf4ff97, type: 3}
-  _audioPlatoon: {fileID: 0}
   <Damage>k__BackingField: 2
   <ShotDelay>k__BackingField: 0.2
   <AmmoTotal>k__BackingField: 10000
@@ -768,3 +764,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
+  explosionProof: 0
+  resiestExplosion: 3

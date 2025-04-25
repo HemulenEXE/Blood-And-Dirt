@@ -112,7 +112,7 @@ public class CivilianController : MonoBehaviour
 
     public void TriggerFlee()
     {
-        if (fleeTarget != null)
+        if (fleeTarget != null && gameObject.activeInHierarchy)
         {
             animator.SetBool("IsRun",true); animator.SetBool("IsMoving", true);
             currentState = CivilianState.Flee;
