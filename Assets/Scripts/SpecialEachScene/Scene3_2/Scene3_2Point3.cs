@@ -8,14 +8,15 @@ public class Scene3_2Point3 : MonoBehaviour
     
     void Start()
     {
-        InvokeRepeating("FixedUpdateRepeat1Sec", 0f, 1f);
+        InvokeRepeating("FixedUpdateRepeat1Sec", 2f, 2f);
     }
 
     void FixedUpdateRepeat1Sec()
     {
-        if(scene3_2.BotsRoom3.Length==0)
+        if(scene3_2.AllEnemiesDied(scene3_2.BotsRoom3))
         {
            //завершаем сцену
+            Debug.Log("Контент сцены завершен. Вставьте переход к след. сцене, где комментарий ////завершаем сцену: Assets/scripts/SpecialEachScene/Scene3_2/Scene3_2Point3");
         }
     }
 

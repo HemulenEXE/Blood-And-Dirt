@@ -7,14 +7,14 @@ public class Scene3_2 : MonoBehaviour
 {
     //Набор массивов ботов
     public GameObject[] BotsArena, BotsRoom1, BotsRoom2, BotsRoom3;
+    public GameObject Siren;
     
-    public bool IsPlayerDetected;
 
     //набор массивов открытых дверей
     [SerializeField] GameObject[] DoorsBeforeWave1, DoorsBetweenWave1and2, DoorsBetweenWave2and3;
 
     //Набор слоев с закрытыми дверями
-    [SerializeField] GameObject DoorsLayerBattle, DoorsLayerAfterWave1, DoorsLayerAfterWave2;
+    [SerializeField] GameObject DoorsLayerBattle, DoorsLayerBeforeWave1, DoorsLayerAfterWave1, DoorsLayerAfterWave2;
 
 
     
@@ -24,37 +24,25 @@ public class Scene3_2 : MonoBehaviour
 
     }
 
-    void FixedUpdateRepeat1SecStage2()
-    {
-
-    }
-
+   
     void FixedUpdateRepeat1Sec()
     {
-        foreach (GameObject bot in BotsArena)
+        if (BotsArena.Any(x => x.GetComponent<BotController>().GetIsPlayerDetected()))
         {
-            if (bot.GetComponent<BotController>().GetIsPlayerDetected())
-            {
-               IsPlayerDetected = true;
-               InvokeRepeating("FixedUpdateRepeat1SecStage2", 0f, 1f);
-               CancelInvoke("FixedUpdateRepeat1Sec");
-            }
-       }
+            Siren.SetActive(true);
+            CancelInvoke("FixedUpdateRepeat1Sec");
+        }
     }
 
 
     internal void StartWave1()
     {
-        //проверка: боты нас не обнаружили
-        if (!IsPlayerDetected)
-        {
-            
-        }
-
+        
         BotArenaSwitch(BotsArena, false);
 
         //активация "закрытия" всех дверей
         DoorsLayerBattle.SetActive(true);
+        DoorsLayerBeforeWave1.SetActive(false);
 
         //скрываем открытые двери
         foreach(GameObject door in DoorsBeforeWave1)
@@ -71,6 +59,7 @@ public class Scene3_2 : MonoBehaviour
     {
         //активация "закрытия" всех дверей
         DoorsLayerBattle.SetActive(true);
+        DoorsLayerAfterWave1.SetActive(false);
 
         //скрываем открытые двери
         foreach(GameObject door in DoorsBetweenWave1and2)
@@ -87,6 +76,7 @@ public class Scene3_2 : MonoBehaviour
     {
         //активация "закрытия" всех дверей
         DoorsLayerBattle.SetActive(true);
+        DoorsLayerAfterWave2.SetActive(false);
 
         //скрываем открытые двери
         foreach(GameObject door in DoorsBetweenWave2and3)
@@ -119,6 +109,7 @@ public class Scene3_2 : MonoBehaviour
     {
         //деактивация "закрытия" всех дверей
         DoorsLayerBattle.SetActive(false);
+        DoorsLayerAfterWave1.SetActive(false);
 
         //включаем открытые двери
         foreach(GameObject door in DoorsBetweenWave2and3)
@@ -149,19 +140,6 @@ public class Scene3_2 : MonoBehaviour
 
     public bool AllEnemiesDied(GameObject[] BotArray)
     {
-        bool[] BoolArr = new bool[BotArray.Length];
-        for (int i = 0; i < BotArray.Length; i++) 
-        {
-            if (BotArray[i] == null)
-            {
-                BoolArr[i] = true;
-            }
-            else
-            {
-                BoolArr[i] = false;
-            }
-        }
-        return BoolArr.All(x => x == true);
-    
+        return BotArray.All(x => x == null);
     }
 }

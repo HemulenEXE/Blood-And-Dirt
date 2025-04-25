@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class Scene3_2Point2 : MonoBehaviour
 {
-     public Scene3_2 scene3_2;
+    public Scene3_2 scene3_2;
     
     void Start()
     {
-        InvokeRepeating("FixedUpdateRepeat1Sec", 0f, 1f);
+        InvokeRepeating("FixedUpdateRepeat1Sec", 2f, 2f);
     }
 
     void FixedUpdateRepeat1Sec()
     {
-        if(scene3_2.BotsRoom2.Length==0)
+        if(scene3_2.AllEnemiesDied(scene3_2.BotsRoom2))
         {
+
             scene3_2.AfterWave2();
+            CancelInvoke("FixedUpdateRepeat1Sec");
         }
     }
 

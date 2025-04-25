@@ -8,7 +8,7 @@ public class Scene3_2Point1 : MonoBehaviour
     
     void Start()
     {
-        InvokeRepeating("FixedUpdateRepeat1Sec", 0f, 1f);
+        InvokeRepeating("FixedUpdateRepeat1Sec", 2f, 2f);
     }
 
     void FixedUpdateRepeat1Sec()
@@ -16,6 +16,7 @@ public class Scene3_2Point1 : MonoBehaviour
         if(scene3_2.AllEnemiesDied(scene3_2.BotsRoom1))
         {
             scene3_2.AfterWave1();
+            CancelInvoke("FixedUpdateRepeat1Sec");
         }
     }
 
