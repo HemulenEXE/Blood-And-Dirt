@@ -17,6 +17,7 @@ public class Scene3_2Point3 : MonoBehaviour
         {
            //завершаем сцену
             Debug.Log("Контент сцены завершен. Вставьте переход к след. сцене, где комментарий ////завершаем сцену: Assets/scripts/SpecialEachScene/Scene3_2/Scene3_2Point3");
+            CancelInvoke("FixedUpdateRepeat1Sec");
         }
     }
 
