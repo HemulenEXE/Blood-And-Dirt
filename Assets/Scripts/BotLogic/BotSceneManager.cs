@@ -15,7 +15,7 @@ public class BotSceneManager : MonoBehaviour
     [SerializeField] private bool _restoreKilledNonPlayer;
     [SerializeField] private bool _analogState = false;
     [SerializeField] private float repeatTime = 30f;
-    [SerializeField] private float _stoppingDistance;
+    [SerializeField] private float _stoppingDistance = 0;
 
     private Barraks barraks;
     private Side sideController;
@@ -28,11 +28,15 @@ public class BotSceneManager : MonoBehaviour
         sideController = new Side(sides, _isPlayerEnemy);
         if(_analogState)
         {
-            InvokeRepeating("SummonBots", 30, repeatTime);
+            InvokeRepeating("SummonBots", 60, repeatTime);
         }
     }
+    void OnDisable()
+    {
+        CancelInvoke(); 
+    }
 
-    
+
     // Update is called once per frame
     void Update()
     {

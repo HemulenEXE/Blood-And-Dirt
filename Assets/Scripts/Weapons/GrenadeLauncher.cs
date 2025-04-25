@@ -52,10 +52,9 @@ public class GrenadeLauncher : MonoBehaviour, IGun
 
                 IsShooting = false;
 
-                if (IsPlayerShoot)
-                {
-                    makeNoiseShooting?.Invoke(transform, noiseIntensity);
-                }
+                
+                makeNoiseShooting?.Invoke(transform, noiseIntensity);
+                
             }
             else Recharge();
         }

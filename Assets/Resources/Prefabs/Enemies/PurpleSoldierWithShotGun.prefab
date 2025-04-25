@@ -150,6 +150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  explosionProof: 0
+  resiestExplosion: 3
 --- !u!1 &5893452345217136748
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,6 +167,7 @@ GameObject:
   - component: {fileID: 3836942728927331220}
   - component: {fileID: 9168490269859746549}
   - component: {fileID: 5230649024991440381}
+  - component: {fileID: 3672779318594075726}
   m_Layer: 11
   m_Name: PurpleSoldierWithShotGun
   m_TagString: EnemyFalcons
@@ -253,7 +256,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -418,6 +421,41 @@ PolygonCollider2D:
       - {x: 8, y: 5}
       - {x: 8, y: -5}
   m_UseDelaunayMesh: 0
+--- !u!58 &3672779318594075726
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5893452345217136748}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
 --- !u!1 &7984570884006783020
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,10 +656,6 @@ MonoBehaviour:
   _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
   _countPerShotProjectile: 6
   _spreadAngle: 15
-  _audioControl: {fileID: 0}
-  _audioFire: {fileID: 8300000, guid: d7b5e1ec6a3a400419d87e47b88ab374, type: 3}
-  _audioRecharge: {fileID: 8300000, guid: cfdded6289e9b6645899379c13139bd4, type: 3}
-  _audioPlatoon: {fileID: 8300000, guid: 595f9f079b2c7be49ab74e193472a2d3, type: 3}
   <Damage>k__BackingField: 5
   <ShotDelay>k__BackingField: 0.5
   <AmmoTotal>k__BackingField: 10000
