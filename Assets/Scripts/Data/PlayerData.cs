@@ -66,8 +66,8 @@ public static class PlayerData
     public static int MaxSmokeGrenadeCount { get; set; } = 5;
     public static int MaxSimpleGrenadeCount { get; set; } = 5;
 
-    public static int BandageHealth { get; set; } = 15; // Сколько бинт восстанавливает здоровья
-    public static int FirstAidKitHealth { get; set; } = 30; // Сколько аптечка восстанавливает здоровья
+    public static int BandageHealth { get; set; } = 20; // Сколько бинт восстанавливает здоровья
+    public static int FirstAidKitHealth { get; set; } = 50; // Сколько аптечка восстанавливает здоровья
 
     public static void Initialize()
     {

@@ -15,6 +15,7 @@ public class BotSceneManager : MonoBehaviour
     [SerializeField] private bool _restoreKilledNonPlayer;
     [SerializeField] private bool _analogState = false;
     [SerializeField] private float repeatTime = 30f;
+    [SerializeField] private float _stoppingDistance;
 
     private Barraks barraks;
     private Side sideController;

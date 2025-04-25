@@ -272,6 +272,12 @@ public class BotController : MonoBehaviour
     {
         if (patrolPoints.Count == 1)
         {
+            if (patrolPoints[0] = null)
+            {
+                patrolPoints.Clear();
+                stateBot = StateBot.peace;
+                return;
+            }
             stateBot = StateBot.peace;
             agent.SetDestination(patrolPoints[0].transform.position);
         }
