@@ -371,6 +371,7 @@ GameObject:
   - component: {fileID: 2261963068948621310}
   - component: {fileID: 8073914613005048418}
   - component: {fileID: 1765572255772951973}
+  - component: {fileID: 4454041287365167880}
   m_Layer: 11
   m_Name: PurpleSoldierWithLauncher
   m_TagString: EnemyFalcons
@@ -459,7 +460,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -624,6 +625,41 @@ PolygonCollider2D:
       - {x: 8, y: 5}
       - {x: 8, y: -5}
   m_UseDelaunayMesh: 0
+--- !u!58 &4454041287365167880
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7263710275755564420}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
 --- !u!1 &8170361468979904624
 GameObject:
   m_ObjectHideFlags: 0
