@@ -82,7 +82,7 @@ public class ShrapnelGrenade : MonoBehaviour
     }
     protected virtual void OnCollisionEnter2D(Collision2D other)
     {
-        if (other != null && !other.gameObject.CompareTag("Player")) // Взрыв при соприкосновении с любым объектом, за исключением игрока
+        if (other != null && !other.gameObject.CompareTag("Player") && other.gameObject.layer != LayerMask.NameToLayer("Gun&Grenade") && other.gameObject.layer != LayerMask.NameToLayer("Invisible")) // Взрыв при соприкосновении с любым объектом, за исключением игрока, оружия, расходников и других гранат
         {
             Explode();
             Crash();

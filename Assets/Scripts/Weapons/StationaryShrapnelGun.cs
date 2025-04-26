@@ -1,11 +1,16 @@
+using GunLogic;
 using System;
 using System.Collections;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class StationaryShrapnelGun : ClickedObject
 {
     [field: SerializeField] public int AmmoTotal { get; set; } = 100;
     [field: SerializeField] public float FireDelay { get; set; } = 0.2f;
+    [field: SerializeField] public float Damage { get; set; } = 1f;
+    [field: SerializeField] public float ProjectileSpeed { get; set; } = 20f;
+    public GunType Type { get; } = GunType.Heavy;
 
     public bool IsFiring { get; set; } = false;
     public float BulletSpeed { get; set; } = 10f;
@@ -14,6 +19,11 @@ public class StationaryShrapnelGun : ClickedObject
     private GameObject _player;
     private bool IsInStationaryGun { get; set; } = false;
     private Camera _mainCamera;
+    private Rigidbody2D _rigidBody;
+    public float OffSet = 0.1f;
+
+    public static event Action<Transform, string> AudioEvent;
+    private Side _sideplayer;
 
     private void Awake()
     {
@@ -21,6 +31,11 @@ public class StationaryShrapnelGun : ClickedObject
         _bulletPrefab = Resources.Load<GameObject>("Prefabs/Weapons/ShrapnelBullet");
 
         if (_bulletPrefab == null) throw new ArgumentNullException("StationaryShrapnelGun: _bulletPrefab is null");
+
+        _player = GameObject.FindGameObjectWithTag("Player").gameObject;
+        _sideplayer = _player.GetComponent<Side>();
+
+        _rigidBody = GetComponent<Rigidbody2D>();
     }
     private void Update()
     {
@@ -28,24 +43,39 @@ public class StationaryShrapnelGun : ClickedObject
         {
             StartCoroutine(Fire());
         }
-        if (IsInStationaryGun) Rotate();
         if (IsInStationaryGun && Input.GetKey(KeyCode.Q))
         {
-            IsInStationaryGun = false;
-            _player.SetActive(true);
+            ExitGun();
         }
+        if (IsInStationaryGun) Rotate();
     }
     private bool Shoot()
     {
         if (AmmoTotal > 0)
         {
+            AudioEvent?.Invoke(this.transform, "stationary_choper_fire_audio");
             IsFiring = true;
-            GameObject bullet = Instantiate(_bulletPrefab, this.transform.Find("SpawnerProjectile").position, this.transform.Find("SpawnerProjectile").rotation);
-            bullet.GetComponent<ShrapnelBullet>().Speed = BulletSpeed;
+            var bullet = Instantiate(_bulletPrefab, this.transform.Find("SpawnerProjectile").position, this.transform.Find("SpawnerProjectile").rotation).GetComponent<IBullet>();
+            bullet.Speed = BulletSpeed;
+            bullet.sideBullet = _sideplayer.CreateSideBullet();
+            bullet.Damage = this.Damage;
+            bullet.GunType = this.Type;
+            bullet.Speed = this.ProjectileSpeed;
             --AmmoTotal;
             return true;
         }
         return false;
+    }
+    private void ExitGun()
+    {
+        IsInStationaryGun = false;
+
+        _player.transform.SetParent(null);
+        PlayerData.IsMotionless = false;
+
+        _rigidBody.simulated = true;
+
+        Debug.Log("StationaryShrapnelGun isn't used");
     }
     private IEnumerator Fire()
     {
@@ -57,10 +87,17 @@ public class StationaryShrapnelGun : ClickedObject
     }
     public override void Interact()
     {
-        Debug.Log("S");
         IsInStationaryGun = true;
-        _player = GameObject.FindGameObjectWithTag("Player").gameObject;
-        _player.SetActive(false);
+        _player.transform.SetParent(this.transform);
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Vector2 spriteSize = spriteRenderer.bounds.size;
+
+        _player.transform.localPosition = new Vector3(spriteSize.x / 2 + OffSet, 0, 0);
+        _player.transform.rotation = this.transform.rotation * Quaternion.Euler(0, 0, 180);
+        _rigidBody.simulated = false;
+        PlayerData.IsMotionless = true;
+
+        Debug.Log("StationaryShrapnelGun is used");
     }
     private void Rotate()
     {
@@ -69,6 +106,7 @@ public class StationaryShrapnelGun : ClickedObject
         Vector3 direction = mousePosition - this.transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // ѕреобразование радиан в градусы - равен 360 / (2 * pi)
         float rotationSpeed = 5f * SettingData.Sensitivity;
+        angle += 180;
         Quaternion targetRotation = Quaternion.Euler(Vector3.forward * angle);
         this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }

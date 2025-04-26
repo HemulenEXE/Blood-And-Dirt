@@ -49,6 +49,7 @@ public static class PlayerData
     public static bool IsStealing { get; set; } = false;
     public static bool IsWalking { get; set; } = false;
     public static bool IsRunning { get; set; } = false;
+    public static bool IsMotionless { get; set; } = false; // Определяет, может ли игрок двигаться
 
     public static float StealSpeed { get; set; } = 1f;
     public static float WalkSpeed { get; set; } = 3f;

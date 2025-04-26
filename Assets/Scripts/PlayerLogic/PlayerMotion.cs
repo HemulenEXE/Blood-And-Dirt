@@ -25,7 +25,7 @@ public class PlayerMotion : MonoBehaviour
 
     private void AnimationControl()
     {
-        _animator.SetBool("IsMoving", PlayerData.IsWalking || PlayerData.IsRunning || PlayerData.IsStealing);
+        _animator.SetBool("IsMoving", !PlayerData.IsMotionless && (PlayerData.IsWalking || PlayerData.IsRunning || PlayerData.IsStealing));
         var currentItem = _inventoryAndConsumableCounterUI?.GetItem();
         if (currentItem?.GetComponent<ShotGun>() != null)
         {
@@ -60,6 +60,14 @@ public class PlayerMotion : MonoBehaviour
 
     private void Move()
     {
+        if (PlayerData.IsMotionless)
+        {
+            PlayerData.IsWalking = false;
+            PlayerData.IsRunning = false;
+            PlayerData.IsStealing = false;
+            return;
+        }
+
         PlayerData.IsRunning = Input.GetKey(KeyCode.LeftShift);
         PlayerData.IsStealing = Input.GetKey(KeyCode.LeftControl);
 
@@ -81,6 +89,7 @@ public class PlayerMotion : MonoBehaviour
         if (movement != Vector3.zero)
         {
             PlayerData.IsWalking = !PlayerData.IsRunning && !PlayerData.IsStealing;
+
             this.transform.position += movement.normalized * currentSpeed * Time.fixedDeltaTime;
 
             if (_currentSurface != "None" && _audioCoroutine == null)
@@ -96,6 +105,10 @@ public class PlayerMotion : MonoBehaviour
     }
     private void Rotate()
     {
+        if (PlayerData.IsMotionless)
+        {
+            return;
+        }
         Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
         Vector3 direction = mousePosition - this.transform.position;
