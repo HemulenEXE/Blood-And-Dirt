@@ -15,6 +15,7 @@ public class WaitDialogueEnd : MonoBehaviour
     private bool isDialogueFinished = false;
     private Canvas flashCanvas;
     private Image flashImage;
+    private SummonExplosive summonExplosive;
 
 
     [SerializeField] GameObject[] needToEnable;
@@ -23,6 +24,7 @@ public class WaitDialogueEnd : MonoBehaviour
     private void Start()
     {
         _director = GetComponent<ShowDialogueDubl>();
+        summonExplosive = GetComponent<SummonExplosive>();
 
         if (flashCanvasPrefab != null)
         {
@@ -74,6 +76,7 @@ public class WaitDialogueEnd : MonoBehaviour
         {
             go.SetActive(true);
         }
+        summonExplosive.SummonSound();
         // Пауза на пике белого
         yield return new WaitForSeconds(0.2f);
 
