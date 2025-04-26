@@ -75,9 +75,9 @@ public class ShotGun : MonoBehaviour, IGun
     }
     public void Recharge()
     {
-        if (AmmoTotal > 0 && !IsRecharging && !IsShooting)
+        if (AmmoTotalCurrent != AmmoCapacity && AmmoTotal > 0 && !IsRecharging && !IsShooting)
         {
-            IsRecharging = true; //Начало перезарядки.
+            IsRecharging = true;
             StartCoroutine(RechargeCoroutine());
         }
     }

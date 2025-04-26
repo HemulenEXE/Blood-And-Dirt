@@ -35,6 +35,7 @@ public class SoundManager : MonoBehaviour
         PlayerHealth.AudioEvent += PlayAudio;
         HealthBot.AudioEvent += PlayAudio;
         PlayerMotion.AudioEvent += PlayAudio;
+        StationaryShrapnelGun.AudioEvent += PlayAudio;
 
         AudioTrigger.AudioEvent += PlayBackgroundAudio;
         //BotController.AudioEvent += PlayBackgroundAudioOnCurrenctScene;
