@@ -72,7 +72,7 @@ public class MachineGun : MonoBehaviour, IGun
     /// </summary>
     public void Recharge()
     {
-        if (AmmoTotal > 0 && !IsShooting && !IsRecharging)
+        if (AmmoTotalCurrent != AmmoCapacity && AmmoTotal > 0 && !IsShooting && !IsRecharging)
         {
             IsRecharging = true;
             StartCoroutine(RechargeCoroutine());
