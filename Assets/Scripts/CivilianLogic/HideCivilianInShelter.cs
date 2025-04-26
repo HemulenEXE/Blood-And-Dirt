@@ -8,7 +8,6 @@ public class HideCivillian : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collider)
     {
         CivilianController controller = collider.gameObject.GetComponent<CivilianController>();
-        Debug.Log(controller);
         if(controller != null && controller.IsFlee())
         {
             controller.gameObject.SetActive(false);
