@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour
     public static float MaxDistance = 1f;
     public static float MinDistance = 1f;
 
-    private AudioSource _playerAudioSource;
+    private AudioSource _backgroundAudioSource;
 
     public static HashSet<BotController> DetectedBots;
 
@@ -20,7 +20,7 @@ public class SoundManager : MonoBehaviour
     {
         AudioClips = Resources.LoadAll<AudioClip>("Audios").ToHashSet();
 
-        _playerAudioSource = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<AudioSource>();
+        _backgroundAudioSource = this.GetComponent<AudioSource>();
 
         ShotGun.AudioEvent += PlayAudio;
         Pistol.AudioEvent += PlayAudio;
@@ -37,8 +37,10 @@ public class SoundManager : MonoBehaviour
         PlayerMotion.AudioEvent += PlayAudio;
         StationaryShrapnelGun.AudioEvent += PlayAudio;
         SummonExplosive.Explosive += PlayAudio;
+        PlaceToHide.AudioEvent += PlayAudio;
 
         AudioTrigger.AudioEvent += PlayBackgroundAudio;
+        TitleManager.AudioEvent += PlayBackgroundAudio;
         //BotController.AudioEvent += PlayBackgroundAudioOnCurrenctScene;
 
         PlayBackgroundAudioOnCurrenctScene();
@@ -92,30 +94,30 @@ public class SoundManager : MonoBehaviour
     private IEnumerator FadeOutAndPlayNewSound(AudioClip newClip) // Для плавной смены сопровождающей музыки
     {
         float fadeDuration = 1f;
-        float startVolume = _playerAudioSource.volume;
+        float startVolume = _backgroundAudioSource.volume;
 
         for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
-            _playerAudioSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
+            _backgroundAudioSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
             yield return null;
         }
 
-        _playerAudioSource.Stop();
-        _playerAudioSource.volume = startVolume;
+        _backgroundAudioSource.Stop();
+        _backgroundAudioSource.volume = startVolume;
 
-        SettingAudioSource(_playerAudioSource, newClip);
+        SettingAudioSource(_backgroundAudioSource, newClip);
 
         yield return new WaitForSeconds(0.5f);
 
-        _playerAudioSource.PlayOneShot(newClip);
+        _backgroundAudioSource.PlayOneShot(newClip);
 
         for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
-            _playerAudioSource.volume = Mathf.Lerp(0, startVolume, t / fadeDuration);
+            _backgroundAudioSource.volume = Mathf.Lerp(0, startVolume, t / fadeDuration);
             yield return null;
         }
 
-        _playerAudioSource.volume = startVolume;
+        _backgroundAudioSource.volume = startVolume;
     }
 
     private float GetClipVolume(AudioClip clip) // Для нормализации громкости клипа

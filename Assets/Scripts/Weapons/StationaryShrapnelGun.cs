@@ -1,8 +1,6 @@
-using GunLogic;
 using System;
 using System.Collections;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class StationaryShrapnelGun : ClickedObject
 {
@@ -25,30 +23,7 @@ public class StationaryShrapnelGun : ClickedObject
     public static event Action<Transform, string> AudioEvent;
     private Side _sideplayer;
 
-    private void Awake()
-    {
-        _mainCamera = Camera.main;
-        _bulletPrefab = Resources.Load<GameObject>("Prefabs/Weapons/ShrapnelBullet");
 
-        if (_bulletPrefab == null) throw new ArgumentNullException("StationaryShrapnelGun: _bulletPrefab is null");
-
-        _player = GameObject.FindGameObjectWithTag("Player").gameObject;
-        _sideplayer = _player.GetComponent<Side>();
-
-        _rigidBody = GetComponent<Rigidbody2D>();
-    }
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.Mouse0) && IsInStationaryGun && !IsFiring)
-        {
-            StartCoroutine(Fire());
-        }
-        if (IsInStationaryGun && Input.GetKey(KeyCode.Q))
-        {
-            ExitGun();
-        }
-        if (IsInStationaryGun) Rotate();
-    }
     private bool Shoot()
     {
         if (AmmoTotal > 0)
@@ -66,7 +41,7 @@ public class StationaryShrapnelGun : ClickedObject
         }
         return false;
     }
-    private void ExitGun()
+    private void Exit()
     {
         IsInStationaryGun = false;
 
@@ -109,5 +84,27 @@ public class StationaryShrapnelGun : ClickedObject
         angle += 180;
         Quaternion targetRotation = Quaternion.Euler(Vector3.forward * angle);
         this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+
+
+    private void Awake()
+    {
+        _mainCamera = Camera.main;
+        _bulletPrefab = Resources.Load<GameObject>("Prefabs/Weapons/ShrapnelBullet");
+
+        if (_bulletPrefab == null) throw new ArgumentNullException("StationaryShrapnelGun: _bulletPrefab is null");
+
+        _player = GameObject.FindGameObjectWithTag("Player").gameObject;
+        _sideplayer = _player.GetComponent<Side>();
+
+        _rigidBody = GetComponent<Rigidbody2D>();
+    }
+    private void FixedUpdate()
+    {
+        if (Input.GetKey(KeyCode.Mouse0) && IsInStationaryGun && !IsFiring) StartCoroutine(Fire());
+
+        if (IsInStationaryGun && Input.GetKey(KeyCode.Q)) Exit();
+
+        if (IsInStationaryGun) Rotate();
     }
 }
