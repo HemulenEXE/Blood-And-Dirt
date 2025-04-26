@@ -44,7 +44,7 @@ public class PlayerHealth : AbstractHealth
 
     public override void GetDamage(ShrapnelGrenade granade)
     {
-        GetDamage((int)granade.damageExplosion);
+        GetDamage((int)granade.damageExplosion / 3);
     }
     private void HandleDeath()
     {

@@ -49,15 +49,8 @@ public class WaitDialogueEnd : MonoBehaviour
         {
             isDialogueFinished = true;
             StartCoroutine(FlashScreen());
-            foreach (GameObject go in needToDisable) 
-            {
-                go.SetActive(false);
-            }
-            foreach (GameObject go in needToEnable)
-            {
-                go.SetActive(true);
-            }
-            Destroy(this.gameObject);
+            GetComponent<Printer>().enabled = false;
+            GetComponent<Talker>().enabled = false;
         }
     }
 
@@ -77,7 +70,10 @@ public class WaitDialogueEnd : MonoBehaviour
             flashImage.color = new Color(flashColor.r, flashColor.g, flashColor.b, alpha);
             yield return null;
         }
-
+        foreach (GameObject go in needToEnable)
+        {
+            go.SetActive(true);
+        }
         // Пауза на пике белого
         yield return new WaitForSeconds(0.2f);
 
@@ -92,5 +88,12 @@ public class WaitDialogueEnd : MonoBehaviour
         }
 
         flashCanvas.gameObject.SetActive(false);
+        foreach (GameObject go in needToDisable)
+        {
+            go.SetActive(false);
+        }
+        
+        
+        Destroy(this.gameObject, 3);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CameraLogic.CameraEffects;
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShrapnelGrenade : MonoBehaviour
@@ -45,11 +46,15 @@ public class ShrapnelGrenade : MonoBehaviour
     }
     protected virtual void Crash() // Тряска камеры во время взрыва
     {
-        float distance = Vector3.Distance(_player.transform.position, transform.position); // Тряска тем больше, чем ближе к игроку упала граната
-        if (distance <= 5) _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.6f);
-        else if (distance <= 10) _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.3f);
-        else _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.08f);
-        // Что за магические числа?
+        if(!_player.IsDestroyed())
+        {
+            float distance = Vector3.Distance(_player.transform.position, transform.position); // Тряска тем больше, чем ближе к игроку упала граната
+            if (distance <= 5) _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.6f);
+            else if (distance <= 10) _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.3f);
+            else _camera.GetComponent<ShakeEffect>().ShakeCamera(0.5f, 0.08f);
+            // Что за магические числа?
+        }
+
     }
 
     protected virtual void Awake()
