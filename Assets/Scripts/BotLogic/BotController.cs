@@ -18,7 +18,6 @@ public class BotController : MonoBehaviour
     
     private float _nextAttackTime;
 
-
     private Side sideBot;
     private Animator animator;
     private IGun gun;
@@ -33,6 +32,10 @@ public class BotController : MonoBehaviour
     private bool hasCollidedWithPlayer;
 
     public static event Action<Transform, Transform> DetectedEnemy;
+
+    public static bool IsPlayerDetected = false;
+
+    public static event Action AudioEvent;
 
     private void Awake()
     {
@@ -217,12 +220,12 @@ public class BotController : MonoBehaviour
     {
         if (IsPlayerVisible() && gun.IsInRange(targetPlayer.transform.position))
         {
-            // Если игрок в поле зрения и в радиусе атаки, останавливаемся
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             agent.isStopped = true;
         }
         else
         {
-            // Если игрок не в зоне атаки, продолжаем погоню
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             agent.isStopped = false;
             agent.SetDestination(targetPlayer.position);
         }
@@ -270,6 +273,7 @@ public class BotController : MonoBehaviour
         if (patrolPoints.Count == 1)
         {
             stateBot = StateBot.peace;
+            
             agent.SetDestination(patrolPoints[0].transform.position);
         }
         else if (patrolPoints.Count > 1)
@@ -279,6 +283,7 @@ public class BotController : MonoBehaviour
         else
         {
             stateBot = StateBot.peace;
+           
         }
     }
 
@@ -304,7 +309,7 @@ public class BotController : MonoBehaviour
     {
         if (noiseTransform == null)
         {
-            yield break; // Завершаем корутину, если изначально объект отсутствует
+            yield break; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         }
 
         sourceNoise = noiseTransform;
@@ -316,25 +321,25 @@ public class BotController : MonoBehaviour
         while (noiseTransform != null && Mathf.Abs(Quaternion.Angle(transform.rotation, Quaternion.Euler(0, 0, SmoothLookToDirection(noiseTransform)))) > 5f)
         {
             if (timer > timeout)
-                break; // Выход из цикла, если не успели повернуться за отведённое время
+                break; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 
             timer += Time.deltaTime;
             yield return null;
         }
-        if (noiseTransform == null) yield break; // Проверяем снова перед перемещением
+        if (noiseTransform == null) yield break; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
         animator.SetBool("IsMoving", true);
         agent.SetDestination(noiseTransform.position);
 
         while (agent != null && !agent.pathPending && agent.remainingDistance > agent.stoppingDistance)
         {
-            if (noiseTransform == null) yield break; // Если объект пропал, прерываем корутину
+            if (noiseTransform == null) yield break; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             yield return null;
         }
         animator.SetBool("IsMoving", false);
         yield return new WaitForSeconds(timeAwaiting);
 
-        if (noiseTransform == null) yield break; // Еще одна финальная проверка
+        if (noiseTransform == null) yield break; // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
         animator.SetBool("IsMoving", true);
         InitToStartState();
@@ -343,13 +348,13 @@ public class BotController : MonoBehaviour
 
     private float SmoothLookToDirection(Transform target)
     {
-        // Получаем направление от текущей позиции к цели
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
         Vector3 direction = (target.position - transform.position).normalized;
 
-        // Рассчитываем угол поворота по оси Z (в 2D поворачиваем только по этой оси)
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ Z (пїЅ 2D пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ)
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        // Плавно поворачиваем объект с использованием Lerp
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Lerp
         Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
@@ -362,5 +367,20 @@ public class BotController : MonoBehaviour
         InitToStartState();
     }
 
-    
+    //РџРѕР»СѓС‡РµРЅРёРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ Р±РѕС‚Р°: РІ СЂРµР¶РёРјРµ combat РёР»Рё РЅРµС‚
+    public bool GetIsPlayerDetected()
+    {
+        return stateBot == StateBot.combat;
+    }
+
+    //private void OnDestroy()
+    //{
+    //    SoundManager.DetectedBots.Remove(this);
+    //    if (SoundManager.DetectedBots.Count.Equals(0))
+    //    {
+    //        IsPlayerDetected = false;
+    //        AudioEvent?.Invoke();
+    //    }
+    //    // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ...
+    //}
 }

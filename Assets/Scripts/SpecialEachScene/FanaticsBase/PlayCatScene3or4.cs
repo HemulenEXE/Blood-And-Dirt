@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 
 //Запускает кат-сцену 3 или 4 в зависимости от выбранной реплики
-public class NewBehaviourScript : MonoBehaviour
+public class PlayCatScene3or4 : MonoBehaviour
 {
     [SerializeField] private TextAsset FileName;
     private GameObject DialogueWindow;

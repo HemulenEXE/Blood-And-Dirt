@@ -9,6 +9,7 @@ public class BotEventMediator : MonoBehaviour
     private List<BotController> allBot;
     private List<BotController> believesBot;
     private List<BotController> falconsBot;
+    private List<CivilianController> civilianPeople;
     
     /// <summary>
     /// Как далеко поднимается тревога солдатами
@@ -29,6 +30,7 @@ public class BotEventMediator : MonoBehaviour
         
         believesBot = GameObject.FindGameObjectsWithTag("EnemyBelievers").ToList().ConvertAll(e => e.GetComponent<BotController>());
         falconsBot = GameObject.FindGameObjectsWithTag("EnemyFalcons").ToList().ConvertAll(e => e.GetComponent<BotController>());
+        civilianPeople = GameObject.FindGameObjectsWithTag("CivilianPeople").ToList().ConvertAll(e => e.GetComponent<CivilianController>());
         allBot = believesBot.Union(falconsBot).ToList();
     }
     private void OnEnable()
@@ -40,6 +42,11 @@ public class BotEventMediator : MonoBehaviour
         ShotGun.makeNoiseShooting += CheckNoise;
         Pistol.makeNoiseShooting += CheckNoise;
         MachineGun.makeNoiseShooting += CheckNoise;
+        GrenadeLauncher.makeNoiseShooting += CheckNoise;
+        ShotGun.makeNoiseShooting += CivilianUpAlarm;
+        Pistol.makeNoiseShooting += CivilianUpAlarm;
+        MachineGun.makeNoiseShooting += CivilianUpAlarm;
+        GrenadeLauncher.makeNoiseShooting += CivilianUpAlarm;
     }
 
     private void OnDisable()
@@ -51,6 +58,30 @@ public class BotEventMediator : MonoBehaviour
         ShotGun.makeNoiseShooting -= CheckNoise;
         Pistol.makeNoiseShooting -= CheckNoise;
         MachineGun.makeNoiseShooting -= CheckNoise;
+        GrenadeLauncher.makeNoiseShooting += CheckNoise;
+        ShotGun.makeNoiseShooting -= CivilianUpAlarm;
+        Pistol.makeNoiseShooting -= CivilianUpAlarm;
+        MachineGun.makeNoiseShooting -= CivilianUpAlarm;
+        GrenadeLauncher.makeNoiseShooting -= CivilianUpAlarm;
+    }
+
+    private void CivilianUpAlarm(Transform transform, float radiusNoise)
+    {
+        if (civilianPeople != null)
+        {
+            foreach (var people in civilianPeople)
+            {
+                if (people == null)
+                {
+                    civilianPeople.Remove(people);
+                    continue;
+                }
+                if (Vector2.Distance(people.transform.position, transform.position) <= radiusNoise)
+                {
+                    people?.TriggerFlee();
+                }
+            }
+        }
     }
 
     private void RaisingAlarm(Transform solder, Transform detechedEnemy)

@@ -6,7 +6,6 @@ using UnityEngine.Playables;
 //Запускает диалог и открывает дверь после его окончания. Сцена 2_1. Навешивается на говорящего
 public class OpenDoorAfterDialogue : MonoBehaviour
 {
-    [SerializeField] private TextAsset FileName;
     private GameObject DialogueWindow;
     private Dialogue _dialogue;
     private ShowDialogueDubl _director;
