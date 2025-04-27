@@ -44,6 +44,7 @@ public class SoundManager : MonoBehaviour
         AudioTrigger.AudioEvent += PlayBackgroundAudio;
         TitleManager.AudioEvent += PlayBackgroundAudio;
         GameMenu.AudioEvent += PlayBackgroundAudio;
+        GameOverMenu.AudioEvent += PlayBackgroundAudio;
         //BotController.AudioEvent += PlayBackgroundAudioOnCurrenctScene;
 
         SettingAudioSource(_backgroundAudioSource);
@@ -70,7 +71,6 @@ public class SoundManager : MonoBehaviour
         {
             if (x.name.Equals(audio_name))
             {
-                Debug.Log(x.name);
                 var temp = transform.gameObject.GetComponent<AudioSource>();
                 if (temp == null) temp = transform.gameObject.AddComponent<AudioSource>();
 
@@ -85,11 +85,13 @@ public class SoundManager : MonoBehaviour
     {
         _currentBackGroundAudio = clip;
         if (clip == null) return;
+        StopAllCoroutines();
         StartCoroutine(FadeOutAndPlayNewSound(clip));
     }
     public void PlayBackgroundAudio(string audio_name)
     {
         _currentBackGroundAudio = AudioClips.First(x => x.name.Equals(audio_name));
+        StopAllCoroutines();
         StartCoroutine(FadeOutAndPlayNewSound(_currentBackGroundAudio));
     }
     private IEnumerator FadeOutAndPlayNewSound(AudioClip newClip) // Для плавной смены сопровождающей музыки

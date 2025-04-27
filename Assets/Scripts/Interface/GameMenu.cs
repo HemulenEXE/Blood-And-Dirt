@@ -39,7 +39,7 @@ public class GameMenu : MonoBehaviour
     [NonSerialized]
     public Image fader;
     GameObject interactiveUI;
-    GameObject invantoryUI;
+    GameObject inventoryUI;
     GameObject bloodEffect;
     GameObject dialogueWnd;
 
@@ -63,6 +63,7 @@ public class GameMenu : MonoBehaviour
         if (_inMainMenu == null) throw new ArgumentNullException("GameMenu: _inMainMenu is null");
         if (_restartScene == null) throw new ArgumentNullException("GameMenu: _restartScene is null");
         if (_audio == null) throw new ArgumentNullException("GameMenu: _audio is null");
+
         _save.onClick.AddListener(Save);
         _inMainMenu.onClick.AddListener(InMainMenu);
         _restartScene.onClick.AddListener(RestartScene);
@@ -175,8 +176,8 @@ public class GameMenu : MonoBehaviour
             fader = fd;
         if (interactUI != null && interactiveUI == null)
             interactiveUI = interactUI;
-        if (invantUI != null && invantoryUI == null)
-            invantoryUI = invantUI;
+        if (invantUI != null && inventoryUI == null)
+            inventoryUI = invantUI;
         if (bE != null && bloodEffect == null)
             bloodEffect = bE;
         if (dW != null && dialogueWnd == null)
@@ -184,15 +185,19 @@ public class GameMenu : MonoBehaviour
 
         fader?.gameObject.SetActive(!fader.gameObject.activeSelf);
         interactiveUI?.SetActive(!interactiveUI.activeSelf);
-        invantoryUI?.SetActive(!invantoryUI.activeSelf);
+        inventoryUI?.SetActive(!inventoryUI.activeSelf);
         bloodEffect?.SetActive(!bloodEffect.activeSelf);
         if (dialogueWnd != null && dialogueWnd.GetComponent<DialogueWndState>().currentState == DialogueWndState.WindowState.StartPrint)
             dialogueWnd.SetActive(!dialogueWnd.activeSelf);
 
+
         GameObject player = GameObject.FindWithTag("Player");
-        player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
-        player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
-        player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
+        if (player != null)
+        {
+            player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
+            player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
+            player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
+        }
     }
 }
 
