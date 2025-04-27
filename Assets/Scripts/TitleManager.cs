@@ -25,7 +25,6 @@ public class TitleManager : MonoBehaviour
 
     public void ShowCredits()
     {
-        Time.timeScale = 0;
         StartCoroutine(LoadCredits());
     }
 
@@ -37,7 +36,9 @@ public class TitleManager : MonoBehaviour
         _text.text = credits;
         _panel.SetActive(true);
 
-        yield return new WaitForSeconds(displayTime);
+        Time.timeScale = 0;
+
+        yield return new WaitForSecondsRealtime(displayTime);
 
         isScrolling = true;
         StartCoroutine(ScrollCredits());
@@ -51,7 +52,7 @@ public class TitleManager : MonoBehaviour
         while (isScrolling)
         {
             float currentScrollSpeed = Input.GetKey(KeyCode.Space) ? fastScrollSpeed : normalScrollSpeed;
-            creditsRect.anchoredPosition += new Vector2(0, currentScrollSpeed * Time.deltaTime);
+            creditsRect.anchoredPosition += new Vector2(0, currentScrollSpeed * Time.unscaledDeltaTime);
             yield return null;
         }
     }

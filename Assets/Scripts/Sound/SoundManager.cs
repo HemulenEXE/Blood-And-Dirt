@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -12,9 +11,12 @@ public class SoundManager : MonoBehaviour
     public static float MaxDistance = 1f;
     public static float MinDistance = 1f;
 
-    private AudioSource _backgroundAudioSource;
+    [SerializeField]
+    private AudioClip _startBackGroundAudio;
 
-    public static HashSet<BotController> DetectedBots;
+    public static AudioClip _currentBackGroundAudio;
+
+    private static AudioSource _backgroundAudioSource;
 
     private void Start()
     {
@@ -40,12 +42,16 @@ public class SoundManager : MonoBehaviour
 
         AudioTrigger.AudioEvent += PlayBackgroundAudio;
         TitleManager.AudioEvent += PlayBackgroundAudio;
+        GameMenu.AudioEvent += PlayBackgroundAudio;
         //BotController.AudioEvent += PlayBackgroundAudioOnCurrenctScene;
 
-        PlayBackgroundAudioOnCurrenctScene();
+        SettingAudioSource(_backgroundAudioSource);
+        _backgroundAudioSource.spatialBlend = 0f;
+
+        PlayBackgroundAudio(_startBackGroundAudio);
 
     }
-    private void SettingAudioSource(AudioSource audioSource, AudioClip audioclip)
+    private void SettingAudioSource(AudioSource audioSource)
     {
         audioSource.enabled = true;
 
@@ -54,7 +60,7 @@ public class SoundManager : MonoBehaviour
 
         audioSource.spatialBlend = 2.0f;
 
-        audioSource.volume = SettingData.Volume / GetClipVolume(audioclip);
+        audioSource.volume = SettingData.Volume;
     }
 
     public void PlayAudio(Transform transform, string audio_name)
@@ -63,71 +69,50 @@ public class SoundManager : MonoBehaviour
         {
             if (x.name.Equals(audio_name))
             {
+                Debug.Log(x.name);
                 var temp = transform.gameObject.GetComponent<AudioSource>();
                 if (temp == null) temp = transform.gameObject.AddComponent<AudioSource>();
 
-                SettingAudioSource(temp, x);
+                SettingAudioSource(temp);
 
                 temp.PlayOneShot(x);
                 break;
             }
         }
     }
+    public void PlayBackgroundAudio(AudioClip clip)
+    {
+        _currentBackGroundAudio = clip;
+        if (clip == null) return;
+        StartCoroutine(FadeOutAndPlayNewSound(clip));
+    }
     public void PlayBackgroundAudio(string audio_name)
     {
-        var sound = AudioClips.First(x => x.name.Equals(audio_name));
-        StartCoroutine(FadeOutAndPlayNewSound(sound));
-    }
-    public void PlayBackgroundAudioOnCurrenctScene()
-    {
-        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        switch (sceneIndex)
-        {
-            /// Логика запуска фоновой музыки в зависимости от индекса сцены
-            default:
-                var sound = AudioClips.First(x => x.name.Equals("quiet"));
-                StartCoroutine(FadeOutAndPlayNewSound(sound));
-                break;
-        }
+        _currentBackGroundAudio = AudioClips.First(x => x.name.Equals(audio_name));
+        StartCoroutine(FadeOutAndPlayNewSound(_currentBackGroundAudio));
     }
     private IEnumerator FadeOutAndPlayNewSound(AudioClip newClip) // Для плавной смены сопровождающей музыки
     {
         float fadeDuration = 1f;
-        float startVolume = _backgroundAudioSource.volume;
 
-        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        for (float t = 0; t < fadeDuration; t += Time.unscaledDeltaTime)
         {
-            _backgroundAudioSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
+            _backgroundAudioSource.volume = Mathf.Lerp(SettingData.Volume, 0, t / fadeDuration);
             yield return null;
         }
 
+        _backgroundAudioSource.volume = SettingData.Volume;
         _backgroundAudioSource.Stop();
-        _backgroundAudioSource.volume = startVolume;
 
-        SettingAudioSource(_backgroundAudioSource, newClip);
-
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         _backgroundAudioSource.PlayOneShot(newClip);
 
-        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        for (float t = 0; t < fadeDuration; t += Time.unscaledDeltaTime)
         {
-            _backgroundAudioSource.volume = Mathf.Lerp(0, startVolume, t / fadeDuration);
+            _backgroundAudioSource.volume = Mathf.Lerp(0, SettingData.Volume, t / fadeDuration);
             yield return null;
         }
-
-        _backgroundAudioSource.volume = startVolume;
-    }
-
-    private float GetClipVolume(AudioClip clip) // Для нормализации громкости клипа
-    {
-        float[] arr = new float[clip.samples * clip.channels];
-        clip.GetData(arr, 0);
-
-        float sum = 0f;
-        for (int i = 0; i < arr.Length; ++i) sum += Mathf.Abs(arr[i]);
-
-        float result = sum / arr.Length;
-        return result;
+        _backgroundAudioSource.volume = SettingData.Volume;
     }
 }

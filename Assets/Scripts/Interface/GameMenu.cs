@@ -1,9 +1,8 @@
-﻿using UnityEngine.UI;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
-using TMPro;
-using CameraLogic.CameraEffects;
+using UnityEngine.UI;
 
 /// <summary>
 /// Скрипт управления внутриигровым меню. Навешивается на GameMenu
@@ -44,11 +43,14 @@ public class GameMenu : MonoBehaviour
     GameObject bloodEffect;
     GameObject dialogueWnd;
 
+    private AudioClip _oldBackGroundAudio;
+    public static event Action<string> AudioEvent;
+
     /// <summary>
     /// Проверка и настройка полей.
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
-    private void Awake()
+    private void Start()
     {
         GameObject menu = GameObject.Find("SettingsMenu");
         if (menu == null) throw new ArgumentNullException("GameMenu: menu is null");
@@ -65,12 +67,13 @@ public class GameMenu : MonoBehaviour
         _inMainMenu.onClick.AddListener(InMainMenu);
         _restartScene.onClick.AddListener(RestartScene);
         _audio.onValueChanged.AddListener(SetVolume);
-        if (PlayerPrefs.HasKey("Volume")) _audio.value = PlayerPrefs.GetFloat("Volume");
+        _audio.value = SettingData.Volume;
         _onSkillTree.onClick.AddListener(OnSkillTree);
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) ControllMenu();
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ControllMenu();
     }
     private void OnSkillTree()
     {
@@ -102,9 +105,8 @@ public class GameMenu : MonoBehaviour
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void SetVolume(float volume)
     {
-        if (volume < 0) throw new ArgumentOutOfRangeException("GameMenu: volume < 0");
-        if (volume > 1) throw new ArgumentOutOfRangeException("GameMenu: volume > 1");
-        AudioListener.volume = volume;
+        SettingData.SetVolume(volume);
+        SettingData.ApplySettings();
     }
     /// <summary>
     /// Закрытие меню с сохранением настроек
@@ -115,10 +117,10 @@ public class GameMenu : MonoBehaviour
         if (!transform.GetChild(0).gameObject.activeSelf)
         {
             isOpen = false;
+            AudioEvent?.Invoke(_oldBackGroundAudio.name);
             ChangeWeaponActivity();
         }
-        PlayerPrefs.SetFloat("Volume", _audio.value); //Сохранение громкости.
-        PlayerPrefs.Save();
+        SettingData.SaveData();
     }
     /// <summary>
     /// Запускает заново сцену
@@ -140,6 +142,7 @@ public class GameMenu : MonoBehaviour
             if (!transform.GetChild(0).gameObject.activeSelf)
             {
                 isOpen = false;
+                AudioEvent?.Invoke(_oldBackGroundAudio.name);
                 ChangeWeaponActivity();
             }
             _animator.SetBool(name: "startOpen", false);
@@ -149,11 +152,13 @@ public class GameMenu : MonoBehaviour
             if (!isOpen)
                 ChangeWeaponActivity();
             isOpen = true;
+            _oldBackGroundAudio = SoundManager._currentBackGroundAudio;
+            AudioEvent?.Invoke("pause_audio");
             _animator.SetBool(name: "startOpen", true);
         }
     }
     //Выключает/включает остальные UI элементы и игровое время 
-    private void ChangeWeaponActivity() 
+    private void ChangeWeaponActivity()
     {
         Debug.Log("CHANGE WEAPON ACTIVITY");
 
@@ -188,6 +193,6 @@ public class GameMenu : MonoBehaviour
         player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
         player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
         player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
-    } 
+    }
 }
 
