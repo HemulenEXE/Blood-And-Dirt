@@ -61,8 +61,8 @@ public class Door : MonoBehaviour
     }
     //Эти три метода для использования в TimeLine'ах
     public void SetOpenSpeed(int s) { speed = s; }
-    public void OpenDoor() { StartCoroutine(Open()); }
-    public void CloseDoor() { StartCoroutine(Close()); }
+    public void OpenDoor() { if (IsOpen == false && isRunning == false) StartCoroutine(Open()); }
+    public void CloseDoor() { Debug.Log(IsOpen); if (IsOpen == true) StartCoroutine(Close()); }
     private IEnumerator Open() 
     {
         isRunning = true;

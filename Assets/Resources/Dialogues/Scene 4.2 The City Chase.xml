@@ -1,7 +1,9 @@
 <dialogue name="Scene 4.2 The City Chase">
   <node id="0" npcName="Гектор">
-    <answer text="Спокойно предложить им сдаться." toNode="1" />
-    <answer text="Насмехаться над их неудачным побегом и снисходительно предложить сдаться. " toNode="1" />
+    <answer text="Вам некуда бежать, сдавайтесь!" toNode="1" />
+    <answer text="И к чему привели ваши догонялки? Снова к нам." toNode="1" />
   </node>
-  <node id="1" npcText="Черта с два я так просто &lt;color=red&gt;сдамся!&lt;/color&gt; &lt;b&gt;Получите, уроды!&lt;/b&gt;" exit="True" npcName="Гектор" />
+  <node id="1" npcText="Черта с два я так просто &lt;color=red&gt;сдамся!&lt;/color&gt; &lt;b&gt;Получите, уроды!&lt;/b&gt;"  npcName="Гектор" />
+	<node id="2" npcText="Стой, Гектор. Полагаю, в нашем положении дел, мы вероятней выживем  в переговорах"  npcName="Мюллер" />
+	<node id="3" npcText="Тройка Доктора Мюллера захвачена, доставить их к пророку!" exit ="True" npcName="Солдат" />
 </dialogue>

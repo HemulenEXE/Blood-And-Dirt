@@ -1,9 +1,7 @@
 <dialogue name="Scene 4.2 The City">
   <node id="0" npcText="&lt;b&gt;Скорее, Томас,&lt;/b&gt; чего ты капаешься?!" npcName="Гектор">
-    <answer text="" toNode="1" />
   </node>
   <node id="1" npcText="&lt;b&gt;Никак не поддаётся!&lt;/b&gt;" npcName="Томас">
-    <answer text="" toNode="2" />
   </node>
   <node id="2" npcText="Я больше не могу тебя прикрывать, &lt;b&gt;уходим!&lt;/b&gt;" exit="True" npcName="Гектор" />
 </dialogue>
