@@ -257,7 +257,7 @@ MonoBehaviour:
   <ShotDelay>k__BackingField: 0.2
   <AmmoTotal>k__BackingField: 10000
   <AmmoCapacity>k__BackingField: 10
-  <AmmoTotalCurrent>k__BackingField: 0
+  <AmmoTotalCurrent>k__BackingField: 10
   <RechargingTime>k__BackingField: 1
   <AttackRange>k__BackingField: 25
 --- !u!82 &2297701403217381414
@@ -416,6 +416,7 @@ MonoBehaviour:
   rotationAngle: 15
   rotationSpeed: 1
   stoppingDistance: 5
+  IsPlayerEnemy: 1
   stateSide: 1
   stateBot: 2
   targetPlayer: {fileID: 0}
