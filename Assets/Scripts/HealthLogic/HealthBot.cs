@@ -151,17 +151,14 @@ public class HealthBot : AbstractHealth
     {
         side = GetComponentInParent<Side>().side;
         
-            string type = transform.parent.name;
-            if (type.Contains("GreenSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/GreenSoldierBodies");
-            if (type.Contains("PurpleSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/PurpleSoldierBodies");
+        string type = transform.parent.name;
+        if (type.Contains("GreenSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/GreenSoldierBodies");
+        if (type.Contains("PurpleSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/PurpleSoldierBodies");
+        _deathSound = Resources.Load<AudioClip>("Audios/Enemies/DeathAudios/death_sound0");
+        currentHealth = maxHealth;
 
-            _deathSound = Resources.Load<AudioClip>("Audios/Enemies/DeathAudios/death_sound0");
-            currentHealth = maxHealth;
-
-            isInvulnerable = true;
-            StartCoroutine(ResetInvulnerability(1));
-        
-        
+        isInvulnerable = true;
+        StartCoroutine(ResetInvulnerability(1)); 
     }
 
     private IEnumerator ResetInvulnerability(float countEnv = 1)

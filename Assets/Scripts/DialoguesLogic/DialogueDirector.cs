@@ -96,15 +96,15 @@ public class ShowDialogueDubl : MonoBehaviour
         if (collision.gameObject.tag == "Player")
             IsTrigger = true;
     }
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision) 
     {
-        if(_dialogue.GetCurentNode().answers != null)
-        if (collision.gameObject.tag == "Player" && !IsTrigger &&(_dialogue.GetCurentNode().exit == "True" || _dialogue.GetCurentNode().answers.Any(x => x.exit == "True")))
-            IsTrigger = true;
+        if (collision.gameObject.tag == "Player" && !DialogueWindow.gameObject.active && Input.GetKeyDown(KeyCode.T))
+            StartDialogue();
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log(DialogueWindow);
+        IsTrigger = false;
         EndDialogue(false); 
     }
     /// <summary>
@@ -239,6 +239,7 @@ public class ShowDialogueDubl : MonoBehaviour
         if ((DialogueWindow.gameObject.activeSelf && WithEnd) || (end && DialogueWindow.gameObject.activeSelf))
         {
             DialogueWindow.gameObject.SetActive(false);
+            IsTrigger = false;
             DialogueWindow.GetComponent<DialogueWndState>().currentState = DialogueWndState.WindowState.EndPrint;
             if (!WithAction) //Включаем обратно возможность действовать, если она отключена
                 SetAct();
