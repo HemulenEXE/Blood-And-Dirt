@@ -68,12 +68,8 @@ public class PlayerMotion : MonoBehaviour
             return;
         }
 
-        PlayerData.IsRunning = Input.GetKey(KeyCode.LeftShift);
-        PlayerData.IsStealing = Input.GetKey(KeyCode.LeftControl);
-
         PlayerData.GetSkill<Hatred>()?.Execute(this.gameObject); // ~ PlayerData.IsRunning = PlayerData.IsBleeding ? true : PlayerData.IsRunning
 
-        float currentSpeed = PlayerData.IsStealing ? PlayerData.StealSpeed : (PlayerData.IsRunning ? PlayerData.RunSpeed : PlayerData.WalkSpeed);
         Vector3 movement = Vector3.zero;
 
         if (Input.GetKey(SettingData.Left))
@@ -88,7 +84,12 @@ public class PlayerMotion : MonoBehaviour
 
         if (movement != Vector3.zero)
         {
+
+            PlayerData.IsRunning = Input.GetKey(KeyCode.LeftShift);
+            PlayerData.IsStealing = Input.GetKey(KeyCode.LeftControl);
             PlayerData.IsWalking = !PlayerData.IsRunning && !PlayerData.IsStealing;
+
+            float currentSpeed = PlayerData.IsStealing ? PlayerData.StealSpeed : (PlayerData.IsRunning ? PlayerData.RunSpeed : PlayerData.WalkSpeed);
 
             this.transform.position += movement.normalized * currentSpeed * Time.fixedDeltaTime;
 
@@ -148,7 +149,6 @@ public class PlayerMotion : MonoBehaviour
 
         if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
         if (_animator == null) throw new ArgumentNullException("PlayerMotion: _animator is null");
-        //if (_inventoryAndConsumableCounterUI == null) throw new ArgumentNullException("PlayerMotion: _inventoryAndConsumableCounterUI is null");
     }
     private void Update()
     {
