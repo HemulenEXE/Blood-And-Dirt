@@ -1774,6 +1774,7 @@ GameObject:
   - component: {fileID: 146070270}
   - component: {fileID: 146070269}
   - component: {fileID: 146070272}
+  - component: {fileID: 146070273}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1869,6 +1870,193 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 4
   _offset: {x: 0, y: 0, z: -10}
+--- !u!114 &146070273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146070268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f79b5a9d4d032b4a8a3c968d110d604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FileName: Scene5_1
+  Nodes:
+  - npcName: "\u0412\u0435\u0440\u0445\u043E\u0432\u043D\u044B\u0439 \u041F\u0440\u043E\u0440\u043E\u043A"
+    npcText: "\u0411\u0440\u0430\u0442\u044C\u044F \u043C\u043E\u0438, \u043C\u043D\u0435
+      \u043D\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u0442\u044C \u0441\u043B\u043E\u0432\u0430\u043C\u0438,
+      \u043A\u0430\u043A \u044F \u043F\u0440\u0438\u0437\u043D\u0430\u0442\u0435\u043B\u0435\u043D
+      \u0432\u0430\u043C \u0437\u0430 \u043F\u043E\u0438\u043C\u043A\u0443 \u044D\u0442\u0438\u0445
+      \u043E\u0442\u0431\u0440\u043E\u0441\u043E\u0432, \u043A\u043E\u0442\u043E\u0440\u044B\u0435 
+      \u0438\u043C\u0435\u043B\u0438 \u043D\u0430\u0433\u043B\u043E\u0441\u0442\u044C
+      \u043F\u043E\u0434\u0432\u0435\u0440\u0433\u043D\u0443\u0442\u044C \u0441\u043E\u043C\u043D\u0435\u043D\u0438\u044E
+      \u043D\u0430\u0448\u0443 \u0432\u0435\u0440\u0443. \u041C\u043E\u0436\u0435\u0442\u0435
+      \u043D\u0435 \u0441\u043E\u043C\u043D\u0435\u0432\u0430\u0442\u044C\u0441\u044F,
+      \u0432\u0430\u0448\u0430 \u0437\u0430\u0441\u043B\u0443\u0433\u0430 \u043F\u0435\u0440\u0435\u0434 
+      \u0413\u043E\u0441\u043F\u043E\u0434\u043E\u043C \u0431\u0443\u0434\u0435\u0442
+      \u043E\u0446\u0435\u043D\u0435\u043D\u0430 \u043F\u043E \u0434\u043E\u0441\u0442\u043E\u0438\u043D\u0441\u0442\u0432\u0443!
+      \u042D\u0442\u043E \u043E\u043F\u0440\u0435\u0434\u0435\u043B\u0435\u043D\u043D\u043E
+      \u043D\u0435 \u0441\u043E\u0432\u043F\u0430\u0434\u0435\u043D\u0438\u0435,
+      \u0447\u0442\u043E \u0438\u043C\u0435\u043D\u043D\u043E \u0432\u044B \u0441\u043C\u043E\u0433\u043B\u0438 
+      \u043F\u043E\u0439\u043C\u0430\u0442\u044C \u0438\u0445. \u041F\u043E\u0434\u0443\u043C\u0430\u0439\u0442\u0435
+      \u0442\u043E\u043B\u044C\u043A\u043E! \u0411\u043E\u043B\u044C\u0448\u0435
+      \u0433\u043E\u0434\u0430 \u043D\u0430\u0448\u0438 \u043B\u0443\u0447\u0448\u0438\u0435
+      \u0432\u043E\u0439\u0441\u043A\u0430 \u043D\u0435 \u043C\u043E\u0433\u0438
+      \u0432\u044B\u0441\u043B\u0435\u0434\u0438\u0442\u044C \u0422\u0440\u043E\u0438\u0446\u0443 
+      \u0414\u043E\u043A\u0442\u043E\u0440\u0430, \u0430 \u0432\u044B \u043D\u0430\u0448\u043B\u0438
+      \u0438\u0445 \u0441\u043E\u0432\u0435\u0440\u0448\u0435\u043D\u043D\u043E \u0441\u043B\u0443\u0447\u0430\u0439\u043D\u043E.
+      \u042D\u0442\u0443 \u043C\u0438\u0441\u0441\u0438\u044E \u0432\u0430\u043C
+      \u043F\u043E\u0441\u043B\u0430\u043B\u0438 \u0441\u0432\u044B\u0448\u0435,
+      \u0438 \u0432\u044B \u0441\u043F\u0440\u0430\u0432\u0438\u043B\u0438\u0441\u044C
+      \u0441  \u043D\u0435\u0439 \u043F\u0440\u0435\u0432\u043E\u0441\u0445\u043E\u0434\u043D\u043E.
+      \u0422\u0435\u043F\u0435\u0440\u044C, \u043A\u043E\u0433\u0434\u0430 \u0442\u0435\u0440\u0440\u043E\u0440\u0438\u0441\u0442\u044B
+      \u043F\u043E\u043B\u0443\u0447\u0438\u043B\u0438 \u043F\u043E \u0437\u0430\u0441\u043B\u0443\u0433\u0430\u043C,
+      \u043F\u0440\u0438\u0448\u043B\u043E \u0432\u0440\u0435\u043C\u044F \u0440\u0430\u0437\u0434\u0430\u0442\u044C
+      \u0432\u0441\u0435\u043C  \u0433\u0435\u0440\u043E\u044F\u043C \u043F\u043E\u043B\u043E\u0436\u0435\u043D\u043D\u044B\u0435
+      \u043B\u0430\u0432\u0440\u044B. \u041D\u043E \u043F\u0435\u0440\u0435\u0434
+      \u044D\u0442\u0438\u043C \u044F \u0445\u043E\u0442\u0435\u043B \u0431\u044B
+      \u0437\u0430\u0434\u0430\u0442\u044C \u0432\u0430\u043C \u043E\u0434\u0438\u043D
+      \u0432\u043E\u043F\u0440\u043E\u0441\u2026 \u0412\u044B \u0432\u0435\u0434\u044C
+      \u0441\u043B\u044B\u0448\u0430\u043B\u0438  \u043D\u0430\u0448 \u0441 \u0414\u043E\u043A\u0442\u043E\u0440\u043E\u043C
+      \u041C\u044E\u043B\u043B\u0435\u0440\u043E\u043C \u0440\u0430\u0437\u0433\u043E\u0432\u043E\u0440.
+      \u0412\u0430\u043C \u0434\u0430\u0436\u0435 \u043C\u043E\u0433\u043B\u043E
+      \u043F\u043E\u043A\u0430\u0437\u0430\u0442\u044C\u0441\u044F, \u0447\u0442\u043E
+      \u043E\u043D \u0433\u043E\u0432\u043E\u0440\u0438\u0442 \u043F\u0440\u0430\u0432\u0434\u0443.
+      \u042F  \u043F\u043E\u043D\u0438\u043C\u0430\u044E \u044D\u0442\u043E. \u0414\u044C\u044F\u0432\u043E\u043B
+      \u043C\u043E\u0436\u0435\u0442 \u0431\u044B\u0442\u044C \u043A\u043E\u0432\u0430\u0440\u0435\u043D
+      \u0438 \u043D\u0435 \u0432\u0441\u0435\u0433\u0434\u0430 \u043F\u043E\u043D\u044F\u0442\u043D\u043E,
+      \u0447\u0442\u043E \u0438\u0437 \u0435\u0433\u043E \u0441\u043B\u043E\u0432
+      \u044F\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u043B\u043E\u0436\u044C\u044E.
+      \u042F  \u043D\u0435 \u043E\u0441\u0443\u0436\u0443 \u0432\u0430\u0441 \u0437\u0430
+      \u0441\u043E\u043C\u043D\u0435\u043D\u0438\u044F. \u0411\u0443\u0434\u044C\u0442\u0435
+      \u0447\u0435\u0441\u0442\u043D\u044B \u0441 \u0441\u043E\u0431\u043E\u0439
+      \u0438 \u0441\u043A\u0430\u0436\u0438\u0442\u0435, \u0432\u0430\u0448\u0430
+      \u0432\u0435\u0440\u0430 \u0432 \u043D\u0430\u0448\u0435 \u0443\u0447\u0435\u043D\u0438\u0435
+      \u0432\u0441\u0451 \u0442\u0430\u043A \u0436\u0435  \u0441\u0438\u043B\u044C\u043D\u0430? "
+    exit: 0
+    playerAnswer: []
+  - npcName: " \u0414\u0440\u0443\u0433\u0438\u0435 \u0441\u043E\u043B\u0434\u0430\u0442\u044B
+      \u0445\u043E\u0440\u043E\u043C"
+    npcText: "<color=red>\u041D\u0430\u0448\u0430 \u0432\u0435\u0440\u0430 \u043D\u0435\u043F\u043E\u043A\u043E\u043B\u0435\u0431\u0438\u043C\u0430!</color> "
+    exit: 0
+    playerAnswer:
+    - text: "\u042F \u043D\u0435 \u0443\u0432\u0435\u0440\u0435\u043D\u2026"
+      toNode: 2
+      toScene: 0
+      exit: 0
+    - text: "\u041C\u043E\u044F \u0432\u0435\u0440\u0430 \u043D\u0438\u0447\u0443\u0442\u044C
+        \u043D\u0435 \u043E\u0441\u043B\u0430\u0431\u043B\u0430!"
+      toNode: 3
+      toScene: 0
+      exit: 0
+    - text: " \u0414\u043E\u043A\u0442\u043E\u0440 \u043F\u043E\u043A\u0430\u0437\u0430\u043B\u0441\u044F
+        \u043C\u043D\u0435 \u0447\u0435\u0441\u0442\u043D\u044B\u043C  \u0447\u0435\u043B\u043E\u0432\u0435\u043A\u043E\u043C\u2026"
+      toNode: 2
+      toScene: 0
+      exit: 0
+  - npcName: "\u0412\u0435\u0440\u0445\u043E\u0432\u043D\u044B\u0439 \u041F\u0440\u043E\u0440\u043E\u043A"
+    npcText: " - \u0425\u043C, \u0432\u043E\u0442 \u043A\u0430\u043A\u2026 \u0412\u0438\u0434\u0438\u043C\u043E,
+      \u0432\u0430\u0448\u0435 \u0441 \u0414\u043E\u043A\u0442\u043E\u0440\u043E\u043C
+      \u043F\u0440\u043E\u0448\u043B\u043E\u0435 \u0437\u043D\u0430\u043A\u043E\u043C\u0441\u0442\u0432\u043E
+      \u043E\u0442\u043F\u0435\u0447\u0430\u0442\u0430\u043B\u043E\u0441\u044C \u043D\u0430
+      \u0442\u0435\u0431\u0435 \u0431\u043E\u043B\u044C\u0448\u0435,  \u0447\u0435\u043C
+      \u043C\u043D\u0435 \u043A\u0430\u0437\u0430\u043B\u043E\u0441\u044C. \u041D\u043E
+      \u044D\u0442\u043E \u043D\u0435 \u0441\u0442\u0440\u0430\u0448\u043D\u043E,
+      \u0417\u0430\u0440\u0430\u0442 \u043C\u0438\u043B\u043E\u0441\u0442\u0438\u0432
+      \u0438 \u0431\u043B\u0430\u0433\u043E\u0447\u0435\u0441\u0442\u0438\u0432.
+      \u041E\u043D \u043F\u0440\u043E\u0441\u0442\u0438\u0442 \u0442\u0432\u043E\u0438 
+      \u043F\u0440\u0435\u0433\u0440\u0435\u0448\u0435\u043D\u0438\u044F, \u0435\u0441\u043B\u0438
+      \u0442\u044B \u043F\u043E\u043A\u0430\u0436\u0435\u0448\u044C \u0438\u0441\u043A\u0440\u0435\u043D\u043D\u043E\u0441\u0442\u044C
+      \u0441\u0432\u043E\u0438\u0445 \u043D\u0430\u043C\u0435\u0440\u0435\u043D\u0438\u0439.
+      \u041F\u043E\u0434\u043D\u043E\u0448\u0435\u043D\u0438\u0435 \u0441\u0435\u0431\u044F
+      \u0431\u0443\u0434\u0435\u0442  \u0434\u043E\u0441\u0442\u0430\u0442\u043E\u0447\u043D\u044B\u043C
+      \u0434\u043E\u043A\u0430\u0437\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u043E\u043C.
+      \u0422\u043E\u043B\u044C\u043A\u043E \u0441\u043C\u0435\u0440\u0442\u044C \u043C\u043E\u0436\u0435\u0442
+      \u043E\u0441\u0432\u043E\u0431\u043E\u0434\u0438\u0442\u044C \u043C\u044B\u0441\u043B\u0438
+      \u043E\u0442 \u0441\u043A\u0432\u0435\u0440\u043D\u044B, \u0430 \u0434\u0443\u0448\u0443
+      \u043E\u0442  \u0443\u0431\u043E\u0433\u043E\u0433\u043E \u0442\u0435\u043B\u0430.
+      \u0422\u0430\u043A \u0432\u043E\u0437\u043D\u0435\u0441\u0438\u0442\u0435\u0441\u044C
+      \u0436\u0435, \u043A \u0417\u0430\u0440\u0430\u0442\u0443! \u041E\u043A\u0440\u043E\u043F\u0438\u0442\u0435
+      \u043F\u043E\u043B \u043A\u0440\u043E\u0432\u044C\u044E, \u0431\u0435\u0437
+      \u0441\u0442\u0440\u0430\u0445\u0430 \u0438 \u0441\u043E\u043C\u043D\u0435\u043D\u0438\u0439
+      \u0438  \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u0435 \u0438\u0441\u0442\u0438\u043D\u043D\u043E\u0435
+      \u0431\u0435\u0441\u0441\u043C\u0435\u0440\u0442\u0438\u0435!"
+    exit: 0
+    playerAnswer:
+    - text: "<color=green>\u041F\u0440\u0438\u043D\u044F\u0442\u044C \u0431\u0435\u0441\u0441\u043C\u0435\u0440\u0442\u0438\u0435.</color>"
+      toNode: 0
+      toScene: 0
+      exit: 1
+    - text: "<color=red>\u042F \u0434\u043E\u043B\u0436\u0435\u043D \u0443\u0431\u0438\u0442\u044C
+        \u0441\u0435\u0431\u044F?... \u041D\u0435\u0442, \u044F \u043D\u0435 \u0445\u043E\u0447\u0443.
+        \u041D\u0415\u0422!</color>"
+      toNode: 4
+      toScene: 0
+      exit: 0
+  - npcName: "\u0412\u0435\u0440\u0445\u043E\u0432\u043D\u044B\u0439 \u041F\u0440\u043E\u0440\u043E\u043A"
+    npcText: "\u0425\u043C, \u0432\u043E\u0442 \u043A\u0430\u043A\u2026 \u042D\u0442\u043E
+      \u0445\u043E\u0440\u043E\u0448\u043E. \u042F \u0437\u043D\u0430\u043B, \u0447\u0442\u043E
+      \u0432\u044B \u043C\u0435\u043D\u044F \u043D\u0435 \u0440\u0430\u0437\u043E\u0447\u0430\u0440\u0443\u0435\u0442\u0435.
+      \u0412\u044B \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u043E
+      \u0441\u0430\u043C\u044B\u0435  \u043F\u0440\u0435\u0434\u0430\u043D\u043D\u044B\u0435
+      \u043F\u043E\u0441\u043B\u0435\u0434\u043E\u0432\u0430\u0442\u0435\u043B\u0438
+      \u0417\u0430\u0440\u0430\u0442\u0430. \u0412\u0430\u0448\u0430 \u0412\u0435\u0440\u0430
+      \u0442\u0430\u043A \u0447\u0438\u0441\u0442\u0430, \u0447\u0442\u043E \u0437\u0430\u0441\u043B\u0443\u0436\u0438\u0432\u0430\u0435\u0442
+      \u043D\u0430\u0438\u0432\u044B\u0441\u0448\u0435\u0439 \u043D\u0430\u0433\u0440\u0430\u0434\u044B
+      \u2013  \u0431\u0435\u0441\u0441\u043C\u0435\u0440\u0442\u0438\u044F! \u0417\u0430\u0440\u0430\u0442
+      \u043F\u0440\u0438\u043C\u0435\u0442 \u0432\u0430\u0441 \u0432 \u0441\u0432\u043E\u0438
+      \u0440\u0430\u0441\u043F\u0440\u043E\u0441\u0442\u0451\u0440\u0442\u044B\u0435
+      \u043E\u0431\u044A\u044F\u0442\u0438\u044F, \u0438 \u0432\u044B \u0441\u0442\u0430\u043D\u0435\u0442\u0435
+      \u0441 \u043D\u0438\u043C \u043E\u0434\u043D\u0438\u043C \u0446\u0435\u043B\u044B\u043C
+      \u2013  \u0441\u0438\u043B\u043E\u0439 \u0432\u043D\u0435 \u0432\u0440\u0435\u043C\u0435\u043D\u0438,
+      \u0432\u043D\u0435 \u043F\u0440\u043E\u0441\u0442\u0440\u0430\u043D\u0441\u0442\u0432\u0430,
+      \u0432\u043D\u0435 \u0437\u043B\u043E\u0431\u044B. \u041E\u0441\u0442\u0430\u043B\u043E\u0441\u044C
+      \u0442\u043E\u043B\u044C\u043A\u043E \u0438\u0437\u0431\u0430\u0432\u0438\u0442\u044C\u0441\u044F
+      \u043E\u0442 \u0441\u0432\u043E\u0435\u0433\u043E  \u043C\u0430\u0442\u0435\u0440\u0438\u0430\u043B\u044C\u043D\u043E\u0433\u043E
+      \u0442\u0435\u043B\u0430! \u0411\u0435\u0437 \u0441\u0442\u0440\u0430\u0445\u0430
+      \u0438 \u0441\u043E\u043C\u043D\u0435\u043D\u0438\u0439 \u043E\u043A\u0440\u043E\u043F\u0438\u0442\u0435
+      \u043F\u043E\u043B \u043A\u0440\u043E\u0432\u044C\u044E \u2013 \u0432\u043E\u0437\u043D\u0435\u0441\u0438\u0442\u0435\u0441\u044C
+      \u043A \u0417\u0430\u0440\u0430\u0442\u0443! "
+    exit: 0
+    playerAnswer:
+    - text: "<color=green>\u041F\u0440\u0438\u043D\u044F\u0442\u044C \u0431\u0435\u0441\u0441\u043C\u0435\u0440\u0442\u0438\u0435.</color>"
+      toNode: 0
+      toScene: 0
+      exit: 1
+    - text: "<color=red>\u042F \u0434\u043E\u043B\u0436\u0435\u043D \u0443\u0431\u0438\u0442\u044C
+        \u0441\u0435\u0431\u044F?... \u041D\u0435\u0442, \u044F \u043D\u0435 \u0445\u043E\u0447\u0443.
+        \u041D\u0415\u0422!</color>"
+      toNode: 4
+      toScene: 0
+      exit: 0
+  - npcName: "\u0412\u0435\u0440\u0445\u043E\u0432\u043D\u044B\u0439 \u041F\u0440\u043E\u0440\u043E\u043A"
+    npcText: "\u0425\u0430\u0445, \u043A\u0430\u043A\u0430\u044F \u0436\u0430\u043B\u043E\u0441\u0442\u044C.
+      \u0410 \u0432\u0435\u0434\u044C \u044F \u0434\u0430\u043B \u0442\u0435\u0431\u0435
+      \u0448\u0430\u043D\u0441, \u0437\u0430\u043A\u043E\u043D\u0447\u0438\u0442\u044C
+      \u0432\u0441\u0451 \u043F\u043E-\u0445\u043E\u0440\u043E\u0448\u0435\u043C\u0443.
+      \u0418\u0441\u043F\u0443\u0433\u0430\u043B\u0441\u044F \u043D\u0430\u043B\u043E\u0436\u0438\u0442\u044C 
+      \u043D\u0430 \u0441\u0435\u0431\u044F \u0440\u0443\u043A\u0438? \u0418\u043B\u0438
+      \u0440\u0435\u0448\u0438\u043B \u043F\u043E\u0431\u044B\u0442\u044C \u043E\u0441\u043E\u0431\u0435\u043D\u043D\u044B\u043C,
+      \u043F\u043E\u0439\u0442\u0438 \u043F\u0440\u043E\u0442\u0438\u0432 \u0441\u0438\u0441\u0442\u0435\u043C\u044B?!
+      \u0414\u0443\u043C\u0430\u0435\u0448\u044C, \u0442\u0435\u0431\u0435 \u044D\u0442\u043E
+      \u043F\u043E  \u043F\u043B\u0435\u0447\u0443? \u0414\u0443\u043C\u0430\u0435\u0448\u044C,
+      \u0441\u043C\u043E\u0436\u0435\u0448\u044C \u0432\u044B\u0441\u0442\u0443\u043F\u0438\u0442\u044C
+      \u043F\u0440\u043E\u0442\u0438\u0432 \u043C\u0435\u043D\u044F?! \u0425\u0430-\u0445\u0430-\u0445\u0430-\u0445\u0430,
+      \u0434\u0430 \u0442\u044B \u043D\u0438\u043A\u0442\u043E \u0432 \u0441\u0440\u0430\u0432\u043D\u0435\u043D\u0438\u0438
+      \u0441\u043E \u043C\u043D\u043E\u0439!  \u0416\u0430\u043B\u043A\u043E\u0435
+      \u0431\u0435\u043B\u044C\u043C\u043E \u043D\u0430 \u0433\u043B\u0430\u0437\u0443.
+      \u042F \u0422\u0423\u0422 \u0421\u0418\u041B\u0410. \u042F \u0412\u041B\u0410\u0421\u0422\u042C.
+      \u042F \u0411\u041E\u0413! \u0422\u044B \u043F\u043E\u043D\u044F\u043B!? \u042F
+      \u0437\u0430\u0441\u0442\u0430\u0432\u043B\u044E \u0442\u0435\u0431\u044F \u043F\u043E\u0436\u0430\u043B\u0435\u0442\u044C
+      \u043E  \u043F\u0440\u0438\u043D\u044F\u0442\u043E\u043C \u0440\u0435\u0448\u0435\u043D\u0438\u0438!
+      \u0422\u044B \u0441\u0430\u043C \u0432\u044B\u043D\u0443\u0434\u0438\u043B
+      \u043C\u0435\u043D\u044F \u043D\u0430 \u044D\u0442\u043E, \u0441\u043E\u043F\u043B\u044F\u043A,
+      \u0442\u0430\u043A \u0447\u0442\u043E \u043D\u0435 \u043E\u0431\u0435\u0441\u0441\u0443\u0434\u044C.
+      \u0412\u0440\u0435\u043C\u044F \u0443\u043C\u0438\u0440\u0430\u0442\u044C.   "
+    exit: 1
+    playerAnswer: []
 --- !u!1 &173560658
 GameObject:
   m_ObjectHideFlags: 0
@@ -2057,6 +2245,74 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &284542690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 284542691}
+  - component: {fileID: 284542693}
+  - component: {fileID: 284542692}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &284542691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284542690}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1749969694}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &284542692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284542690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &284542693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284542690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!1 &379324565
 GameObject:
   m_ObjectHideFlags: 0
@@ -19301,7 +19557,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.01, y: -1.12, z: 0.052436225}
-  m_LocalScale: {x: 3.4, y: 3.4, z: 1}
+  m_LocalScale: {x: 3.6, y: 3.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1404954936}
@@ -20530,6 +20786,7 @@ GameObject:
   - component: {fileID: 1404954936}
   - component: {fileID: 1404954935}
   - component: {fileID: 1404954934}
+  - component: {fileID: 1404954937}
   m_Layer: 0
   m_Name: Budda
   m_TagString: Untagged
@@ -20561,7 +20818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85cfdbe917001b843870857d30cf85a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FileName: {fileID: 0}
+  FileName: {fileID: 4900000, guid: b465c581a1b67fa43961d351efe8c228, type: 3}
   DialogueWindow: {fileID: 1152923370}
   TimeBetweenLetters: 0.01
   WithEnd: 0
@@ -20582,6 +20839,19 @@ Transform:
   - {fileID: 900474704}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1404954937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404954933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef1cdf6c1af24e34394e1c24cded9178, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DialogueWindow: {fileID: 1610685046}
 --- !u!1 &1417689936
 GameObject:
   m_ObjectHideFlags: 0
@@ -25496,6 +25766,17 @@ Transform:
   - {fileID: 1417689937}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1610685046 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8604870890741310074, guid: dfc0bc5314e3bb74791894126b1b8f65, type: 3}
+  m_PrefabInstance: {fileID: 1152923369}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec85c8238d31f4c44a6ebf9f4247fa7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1628684104
 GameObject:
   m_ObjectHideFlags: 0
@@ -131285,10 +131566,12 @@ Transform:
   m_Children:
   - {fileID: 1976723365}
   - {fileID: 1152923370}
+  - {fileID: 2060615100}
   - {fileID: 619964279}
   - {fileID: 1984087008}
   - {fileID: 909071677}
   - {fileID: 77371120}
+  - {fileID: 284542691}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1769444298
@@ -132954,6 +133237,68 @@ PrefabInstance:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5075495010612605256, guid: 0f5af4b278fe4f248bf88173265d828d, type: 3}
   m_PrefabInstance: {fileID: 1984087007}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1998581311
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1749969694}
+    m_Modifications:
+    - target: {fileID: 6464907481550094213, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+      propertyPath: m_Name
+      value: DataCommandBlock
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+--- !u!4 &2060615100 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7243762984656076034, guid: a13730a4f04b7794c95a60e1d9909efb, type: 3}
+  m_PrefabInstance: {fileID: 1998581311}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2118727874
 GameObject:
