@@ -18,13 +18,9 @@ public class DialogueController3_1 : MonoBehaviour
         _director = GetComponent<ShowDialogueDubl>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    public void StartDialogue()
     {
-        if (collision.CompareTag("Player"))
-        {
-            _director.StartDialogue();
-            gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        }
+        _director.StartDialogue();
     }
-    
 }
