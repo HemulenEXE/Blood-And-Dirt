@@ -55,7 +55,11 @@ public class PlayerHealth : AbstractHealth
             temp.SpawnBody(this.gameObject); // Спавн трупа
             return;
         }
-        else Death();
+        else
+        {
+            Death();
+            GameOverMenu.Instance.ShowGameOver();
+        }
     }
 
     private IEnumerator BleedDamage()

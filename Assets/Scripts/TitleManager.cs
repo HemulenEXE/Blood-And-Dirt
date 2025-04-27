@@ -1,7 +1,9 @@
+using CameraLogic.CameraEffects;
 using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TitleManager : MonoBehaviour
 {
@@ -16,16 +18,24 @@ public class TitleManager : MonoBehaviour
     public string _credits = "Игра закончена\n\n\n\n\nСоздатели\n\nKасеев Артём\nОбезьяна с плёткой\n\nKорчагина Мария\n-\n\nИгнатьев Михаил\nЗастрелите меня\n\nСентюрина Дарья\n-\n\nЕвтухов Дмитрий\n-\n\nАлешкин Никита\nЧеремша\n\nДьяков Владимир\nА где...?";
     public static event Action<string> AudioEvent;
 
-    private void Awake()
-    {
-        _panel = transform.Find("Panel").gameObject;
-        _text = this.GetComponentInChildren<TextMeshProUGUI>();
-        _panel.SetActive(false);
-    }
-
     public void ShowCredits()
     {
-        Time.timeScale = 0;
+        Image fd = GameObject.FindWithTag("Fader")?.GetComponentInChildren<Image>();
+        GameObject interactUI = GameObject.Find("InteractiveUI");
+        GameObject inventUI = GameObject.Find("InventoryAndConsumableCounterUI");
+        GameObject bE = GameObject.Find("BloodEffect");
+        GameObject dW = GameObject.Find("DialogueWindow");
+        GameObject gm = GameObject.Find("GameMenu");
+
+
+        fd?.gameObject.SetActive(false);
+        interactUI?.SetActive(false);
+        inventUI?.SetActive(false);
+        bE?.SetActive(false);
+        if (dW != null && dW.GetComponent<DialogueWndState>().currentState == DialogueWndState.WindowState.StartPrint)
+            dW.SetActive(false);
+        gm?.SetActive(false);
+
         StartCoroutine(LoadCredits());
     }
 
@@ -37,7 +47,9 @@ public class TitleManager : MonoBehaviour
         _text.text = credits;
         _panel.SetActive(true);
 
-        yield return new WaitForSeconds(displayTime);
+        Time.timeScale = 0;
+
+        yield return new WaitForSecondsRealtime(displayTime);
 
         isScrolling = true;
         StartCoroutine(ScrollCredits());
@@ -51,7 +63,7 @@ public class TitleManager : MonoBehaviour
         while (isScrolling)
         {
             float currentScrollSpeed = Input.GetKey(KeyCode.Space) ? fastScrollSpeed : normalScrollSpeed;
-            creditsRect.anchoredPosition += new Vector2(0, currentScrollSpeed * Time.deltaTime);
+            creditsRect.anchoredPosition += new Vector2(0, currentScrollSpeed * Time.unscaledDeltaTime);
             yield return null;
         }
     }
@@ -60,7 +72,13 @@ public class TitleManager : MonoBehaviour
     {
         isScrolling = false;
         _panel.SetActive(false);
-        // SceneManager.LoadScene("MainMenu");
+        ScenesManager.Instance.OnMainMenu();
     }
 
+    private void Awake()
+    {
+        _panel = this.transform.Find("Panel").gameObject;
+        _text = this.GetComponentInChildren<TextMeshProUGUI>();
+        _panel.SetActive(false);
+    }
 }
