@@ -1,8 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
+//Контроллер для сцены 4_5. Всё взаимодействие с ним через tmeline
 public class Controller : MonoBehaviour
 {
     [SerializeField] PlayableDirector CatScene1;
@@ -22,9 +23,9 @@ public class Controller : MonoBehaviour
     private void Awake()
     {
         player = GameObject.FindWithTag("Player").transform;
-        muller = GameObject.Find("������  ��������").transform;
-        gector = GameObject.Find("������ ��������").transform;
-        tomas = GameObject.Find("����� �������� 1").transform;
+        muller = GameObject.Find("Мюллер  анимация").transform;
+        gector = GameObject.Find("гектор анимация").transform;
+        tomas = GameObject.Find("томас анимация 1").transform;
         soldier1 = GameObject.Find("GreenSoldier1").transform;
         soldier2 = GameObject.Find("GreenSoldier1 (1)").transform;
 
