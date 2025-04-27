@@ -7,27 +7,22 @@ using UnityEngine.Playables;
 public class Controller : MonoBehaviour
 {
     [SerializeField] PlayableDirector CatScene1;
-    [SerializeField] PlayableDirector CatScene2;
     [SerializeField] DialogueWndState DialogueWnd;
     [SerializeField] DialogueWndState DialogueWnd1;
     [SerializeField] GameObject Budda;
-    private Transform player;
-    private Transform muller;
-    private Transform gector;
-    private Transform tomas;
-    private Transform soldier1;
-    private Transform soldier2;
-    private List<Transform> people = new List<Transform>();
-    private List<Vector3> positions = new List<Vector3>();
-    private List<Quaternion> rotations = new List<Quaternion>();
+    private List<Transform> people = new List<Transform>(6);
+    private List<Vector3> positions = new List<Vector3> (6);
+    private List<Quaternion> rotations = new List<Quaternion>(6);
+    private ShowDialogueDubl director;
+    private Dialogue dialogue; 
     private void Awake()
     {
-        player = GameObject.FindWithTag("Player").transform;
-        muller = GameObject.Find("Мюллер  анимация").transform;
-        gector = GameObject.Find("гектор анимация").transform;
-        tomas = GameObject.Find("томас анимация 1").transform;
-        soldier1 = GameObject.Find("GreenSoldier1").transform;
-        soldier2 = GameObject.Find("GreenSoldier1 (1)").transform;
+        Transform player = GameObject.FindWithTag("Player").transform;
+        Transform muller = GameObject.Find("Мюллер  анимация").transform;
+        Transform gector = GameObject.Find("гектор анимация").transform;
+        Transform tomas = GameObject.Find("томас анимация 1").transform;
+        Transform soldier1 = GameObject.Find("GreenSoldier1").transform;
+        Transform soldier2 = GameObject.Find("GreenSoldier1 (1)").transform;
 
         people.Add(player);
         people.Add(muller);
@@ -35,6 +30,10 @@ public class Controller : MonoBehaviour
         people.Add(tomas);
         people.Add(soldier1);
         people.Add(soldier2);
+        foreach (Transform p in people)
+        {
+            Debug.Log(p);
+        }
     }
     public void SavePositions()
     {
@@ -45,8 +44,9 @@ public class Controller : MonoBehaviour
             {
                 animator.enabled = false;
             }
-            positions[i] = people[i].position;
-            rotations[i] = people[i].rotation;
+            positions.Add(people[i].position);
+            rotations.Add(people[i].rotation);
+            //Debug.Log($"[{i}]: {people[i].position} {people[i].rotation}");
         }
     }
     public void RestorePositions()
@@ -55,8 +55,10 @@ public class Controller : MonoBehaviour
         {
             people[i].position = positions[i];
             people[i].rotation = rotations[i];
-            Debug.Log($"[i]: {people[i].position} {people[i].rotation}");
+            //Debug.Log($"[{i}]: {people[i].position} {people[i].rotation}");
         }
+        positions.Clear();
+        rotations.Clear();
     }
     private void EnableAnimators()
     {
@@ -76,6 +78,7 @@ public class Controller : MonoBehaviour
     private IEnumerator _CheckDialogue()
     {
         SavePositions();
+        SetAct();
         CatScene1.Pause();
         RestorePositions();
 
@@ -84,7 +87,7 @@ public class Controller : MonoBehaviour
             yield return new WaitForFixedUpdate();
 
         EnableAnimators();
-        CatScene1.Play();    
+        CatScene1.Play();
     }
 
     public void StartNextScene()
@@ -94,8 +97,8 @@ public class Controller : MonoBehaviour
 
         people[0].GetComponent<PlayerMotion>().enabled = false;
         
-        ShowDialogueDubl director = Budda.GetComponent<ShowDialogueDubl>();
-        Dialogue dialogue = director.GetDialogue();
+        director = Budda.GetComponent<ShowDialogueDubl>();
+        dialogue = director.GetDialogue();
 
         director.WithEnd = false;
         director.StartDialogue();
@@ -104,8 +107,37 @@ public class Controller : MonoBehaviour
     }
     private IEnumerator _EndDialogue()
     {
+        bool flag = true;
+        bool flag1 = true;
+
         while (DialogueWnd1.currentState != DialogueWndState.WindowState.EndPrint)
+        {
+            if (flag && dialogue.GetCurentNodeIndex() == 13)
+            {
+                //director.WithAction = true;
+                //director.SetAct();
+                SetAct();
+
+                DialogueWnd1.gameObject.transform.GetChild(4).gameObject.SetActive(false);
+                flag = false;
+            }
+            if (flag1 && false) //Заменить на отслеживание выполнения анимации
+            {
+                DialogueWnd1.gameObject.transform.GetChild(4).gameObject.SetActive(true);
+                flag1 = false;
+            }
+
             yield return new WaitForFixedUpdate();
+        }
         ScenesManager.Instance.OnNextScene();
+    }
+    public void SetAct()
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+
+        player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
+        player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
+        player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
+        player.GetComponent<PlayerMotion>().enabled = !player.GetComponent<PlayerMotion>().enabled;
     }
 }
