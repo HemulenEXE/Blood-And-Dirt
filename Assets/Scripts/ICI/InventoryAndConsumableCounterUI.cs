@@ -59,11 +59,15 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     }
     public bool AddItem(Item item)
     {
-        if (inventory.AddItem(item, IndexCurrentSlot))
+        for(int i = 0; i < slots.Count; ++i)
         {
-            slots[IndexCurrentSlot].GetComponent<Image>().sprite = item.Icon;
-            item.Active();
-            return true;
+            if (inventory.AddItem(item, i))
+            {
+                slots[i].GetComponent<Image>().sprite = item.Icon;
+                item.Active();
+                item.gameObject.layer = LayerMask.NameToLayer("Invisible");
+                return true;
+            }
         }
         return false;
     }
