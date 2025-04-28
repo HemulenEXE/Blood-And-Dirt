@@ -3,28 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 
 
 public class DialogueController3_1 : MonoBehaviour
 {
-    [SerializeField] TextAsset FileName;
-    private GameObject DialogueWindow;
-    private Dialogue _dialogue;
     private ShowDialogueDubl _director;
-    private bool flag = false;
-
-    [SerializeField] GameObject CutScene2, MainCamera, CutsceneCamera;
+    [SerializeField] DialogueWndState DialogueWnd;
+    [SerializeField] PlayableDirector CutScene2;
+    [SerializeField] GameObject CutsceneCamera;
 
     
 
     private void Start()
     {
-         flag = true;
         _director = GetComponent<ShowDialogueDubl>();
         InvokeRepeating("FixedUpdateEvery1Sec", 0f, 1f);
     }
 
-
+    //метод запуска диалога для флажка TimeLine
     public void StartDialogue()
     {
         _director.StartDialogue();
@@ -32,7 +29,7 @@ public class DialogueController3_1 : MonoBehaviour
 
     void FixedUpdateEvery1Sec()
     {
-        if (flag && !DialogueWindow.activeSelf && _dialogue.GetCurentNode().exit == "True") 
+        if (DialogueWnd.currentState == DialogueWndState.WindowState.EndPrint) 
         {
             StartCutscene2();
             CancelInvoke("FixedUpdateEvery1Sec");
@@ -41,8 +38,7 @@ public class DialogueController3_1 : MonoBehaviour
 
     void StartCutscene2()
     {
-        CutScene2.SetActive(true);  
-        MainCamera.SetActive(true);
+        CutScene2.Play();  
         CutsceneCamera.SetActive(false); 
     }
 
