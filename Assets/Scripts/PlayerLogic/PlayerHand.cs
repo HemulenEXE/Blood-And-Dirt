@@ -16,10 +16,10 @@ public class PlayerHand : MonoBehaviour
         var temp = inventoryAndConsumableCounterUI.GetItem();
         if (temp != null)
         {
-            Transform item_transform = temp.transform;
-            item_transform.position = this.transform.position - transform.up / 2;
-            item_transform.rotation = this.transform.rotation;
+            temp.transform.position = this.transform.position - transform.up / 2;
+            temp.transform.rotation = this.transform.rotation;
             temp.gameObject.layer = LayerMask.NameToLayer("Invisible");
         }
+        if (temp?.GetComponent<GrenadeLauncher>() != null) temp.transform.position = this.transform.position + transform.up / 2;
     }
 }

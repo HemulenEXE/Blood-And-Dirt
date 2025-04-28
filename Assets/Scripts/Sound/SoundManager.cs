@@ -24,6 +24,14 @@ public class SoundManager : MonoBehaviour
 
         _backgroundAudioSource = this.GetComponent<AudioSource>();
 
+        SettingAudioSource(_backgroundAudioSource);
+        _backgroundAudioSource.spatialBlend = 0f;
+
+        PlayBackgroundAudio(_startBackGroundAudio);
+
+    }
+    private void OnEnable()
+    {
         ShotGun.AudioEvent += PlayAudio;
         Pistol.AudioEvent += PlayAudio;
         MachineGun.AudioEvent += PlayAudio;
@@ -45,13 +53,30 @@ public class SoundManager : MonoBehaviour
         TitleManager.AudioEvent += PlayBackgroundAudio;
         GameMenu.AudioEvent += PlayBackgroundAudio;
         GameOverMenu.AudioEvent += PlayBackgroundAudio;
-        //BotController.AudioEvent += PlayBackgroundAudioOnCurrenctScene;
+    }
+    private void OnDisable()
+    {
+        ShotGun.AudioEvent -= PlayAudio;
+        Pistol.AudioEvent -= PlayAudio;
+        MachineGun.AudioEvent -= PlayAudio;
+        GrenadeLauncher.AudioEvent -= PlayAudio;
+        Knife.AudioEvent -= PlayAudio;
+        ShrapnelMine.AudioEvent -= PlayAudio;
+        Body.AudioEvent -= PlayAudio;
+        ShrapnelGrenade.AudioEvent -= PlayAudio;
+        SmokeGrenade.AudioEvent -= PlayAudio;
+        InventoryAndConsumableCounterUI.AudioEvent -= PlayAudio;
+        PlayerHealth.AudioEvent -= PlayAudio;
+        HealthBot.AudioEvent -= PlayAudio;
+        PlayerMotion.AudioEvent -= PlayAudio;
+        StationaryShrapnelGun.AudioEvent -= PlayAudio;
+        SummonExplosive.Explosive -= PlayAudio;
+        PlaceToHide.AudioEvent -= PlayAudio;
 
-        SettingAudioSource(_backgroundAudioSource);
-        _backgroundAudioSource.spatialBlend = 0f;
-
-        PlayBackgroundAudio(_startBackGroundAudio);
-
+        AudioTrigger.AudioEvent -= PlayBackgroundAudio;
+        TitleManager.AudioEvent -= PlayBackgroundAudio;
+        GameMenu.AudioEvent -= PlayBackgroundAudio;
+        GameOverMenu.AudioEvent -= PlayBackgroundAudio;
     }
     private void SettingAudioSource(AudioSource audioSource)
     {

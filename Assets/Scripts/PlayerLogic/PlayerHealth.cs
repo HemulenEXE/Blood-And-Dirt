@@ -170,4 +170,8 @@ public class PlayerHealth : AbstractHealth
             Destroy(effect, 2f);
         }
     }
+    private void Start()
+    {
+        Debug.Log(PlayerData.CurrentHealth.ToString());
+    }
 }
