@@ -47,6 +47,11 @@ public class PlayerMotion : MonoBehaviour
             _animator.SetBool("Knife", true);
         }
         else _animator.SetBool("Knife", false);
+        if (currentItem?.GetComponent<GrenadeLauncher>() != null)
+        {
+            _animator.SetBool("GrenadeLauncher", true);
+        }
+        else _animator.SetBool("GrenadeLauncher", false);
     }
 
     public void EnterInStationaryGun()
@@ -81,13 +86,12 @@ public class PlayerMotion : MonoBehaviour
         if (Input.GetKey(SettingData.Down))
             movement += Vector3.down;
 
+        PlayerData.IsRunning = Input.GetKey(KeyCode.LeftShift);
+        PlayerData.IsStealing = Input.GetKey(KeyCode.LeftControl);
+        PlayerData.IsWalking = !PlayerData.IsRunning && !PlayerData.IsStealing;
 
         if (movement != Vector3.zero)
         {
-
-            PlayerData.IsRunning = Input.GetKey(KeyCode.LeftShift);
-            PlayerData.IsStealing = Input.GetKey(KeyCode.LeftControl);
-            PlayerData.IsWalking = !PlayerData.IsRunning && !PlayerData.IsStealing;
 
             float currentSpeed = PlayerData.IsStealing ? PlayerData.StealSpeed : (PlayerData.IsRunning ? PlayerData.RunSpeed : PlayerData.WalkSpeed);
 
