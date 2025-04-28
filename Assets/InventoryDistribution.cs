@@ -43,7 +43,7 @@ public class InventoryDistribution : MonoBehaviour
             throw new ArgumentOutOfRangeException("FirstAidKitStartCount < 0 || FirstAidKitStartCount > PlayerData.MaxFirstAidKitCount");
         if (ShrapnelGrenadeStartCount < 0 || ShrapnelGrenadeStartCount > PlayerData.MaxSimpleGrenadeCount)
             throw new ArgumentOutOfRangeException("ShrapnelGrenadeStartCount < 0 || ShrapnelGrenadeStartCount > PlayerData.MaxSimpleGrenadeCount");
-        if (SmokeGrenadeStartCount < 0 || SmokeGrenadeStartCount > PlayerData.SmokeGrenadeCount)
+        if (SmokeGrenadeStartCount < 0 || SmokeGrenadeStartCount > PlayerData.MaxSmokeGrenadeCount)
             throw new ArgumentOutOfRangeException("SmokeGrenadeStartCount < 0 || SmokeGrenadeStartCount > PlayerData.SmokeGrenadeCount");
 
         PlayerData.BandageCount = BandageStartCount;

@@ -118,4 +118,8 @@ public class SoundManager : MonoBehaviour
         }
         _backgroundAudioSource.volume = SettingData.Volume;
     }
+    private void OnDestroy()
+    {
+        Debug.Log("SoundManager was destroyed");
+    }
 }
