@@ -39,7 +39,7 @@ public static class PlayerData
 
     // Не сохраняются в .xml
     public static int MaxHealth { get; set; } = 100;
-    public static int CurrentHealth { get; set; } = MaxHealth;
+    public static int CurrentHealth { get; set; } = 100;
     public static int CurrentResurrectionCount { get; set; } = 0;
     public static int CurrentHitsToSurvive { get; set; } = 0;
     public static int HitsToSurvive { get; set; } = 0; // Количество пропускаемых ударов
@@ -80,6 +80,8 @@ public static class PlayerData
             LoadData();
         }
         LoadData();
+
+        CurrentHealth = MaxHealth;
     }
     public static void LoadData()
     {

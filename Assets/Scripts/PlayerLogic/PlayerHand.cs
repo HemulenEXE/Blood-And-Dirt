@@ -20,6 +20,6 @@ public class PlayerHand : MonoBehaviour
             temp.transform.rotation = this.transform.rotation;
             temp.gameObject.layer = LayerMask.NameToLayer("Invisible");
         }
-        if (temp.GetComponent<GrenadeLauncher>() != null) temp.transform.position = this.transform.position + transform.up / 2;
+        if (temp?.GetComponent<GrenadeLauncher>() != null) temp.transform.position = this.transform.position + transform.up / 2;
     }
 }

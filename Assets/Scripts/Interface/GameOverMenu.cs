@@ -54,7 +54,6 @@ public class GameOverMenu : MonoBehaviour
 
     private void RestartLevel()
     {
-        Debug.Log("Restart");
         ScenesManager.Instance.OnSelectedScene(SceneManager.GetActiveScene().buildIndex);
     }
 
