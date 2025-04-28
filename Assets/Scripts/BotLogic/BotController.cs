@@ -27,7 +27,7 @@ public class BotController : MonoBehaviour
     private Quaternion initialRotation;
     private AudioSource audioSource;
     private Transform selfTransform;
-    [SerializeField] private Transform targetPlayer;
+    [SerializeField] protected Transform targetPlayer;
     private NavMeshAgent agent;
     private float timeSinceLastSeen;
     private Transform sourceNoise;
@@ -39,13 +39,13 @@ public class BotController : MonoBehaviour
 
     public static event Action AudioEvent;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         InitializeComponents();
         ConfigureAgent();
         InitEnemy(stateSide, IsPlayerEnemy);
     }
-    private void Update()
+    protected virtual void Update()
     {
         _nextAttackTime -= Time.deltaTime;
     }
@@ -141,7 +141,7 @@ public class BotController : MonoBehaviour
         hasCollidedWithPlayer = true;
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         switch (stateBot)
         {
