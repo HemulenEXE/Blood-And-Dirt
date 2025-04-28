@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +14,7 @@ public class BotController : MonoBehaviour
     [SerializeField] private float rotationAngle = 15f;
     [SerializeField] private float rotationSpeed = 1;
     [SerializeField] private float stoppingDistance = 1f;
+    [SerializeField] private bool IsPlayerEnemy = true;
     [SerializeField] private EnemySides stateSide;
     [SerializeField] private StateBot stateBot;
     
@@ -41,7 +43,7 @@ public class BotController : MonoBehaviour
     {
         InitializeComponents();
         ConfigureAgent();
-        InitEnemy(stateSide,true);
+        InitEnemy(stateSide, IsPlayerEnemy);
     }
     private void Update()
     {
@@ -272,6 +274,12 @@ public class BotController : MonoBehaviour
     {
         if (patrolPoints.Count == 1)
         {
+            if (patrolPoints[0].IsDestroyed())
+            {
+                patrolPoints.Clear();
+                stateBot = StateBot.peace;
+                return;
+            }
             stateBot = StateBot.peace;
             
             agent.SetDestination(patrolPoints[0].transform.position);

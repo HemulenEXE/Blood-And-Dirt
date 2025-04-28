@@ -21,7 +21,7 @@ public class LevelArmyMedium : MonoBehaviour, ILevelArmy
         {
             costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/PurpleSoldierWithMachineGun"), 1));
             costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/PurpleSoldierWithShotGun"), 1));
-            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/PurpleSoldierWithShotGun"), 2));
+            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/PurpleSoldierWithLauncher"), 2));
         }
 
 

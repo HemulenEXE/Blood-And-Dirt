@@ -49,13 +49,14 @@ public static class PlayerData
     public static bool IsStealing { get; set; } = false;
     public static bool IsWalking { get; set; } = false;
     public static bool IsRunning { get; set; } = false;
+    public static bool IsMotionless { get; set; } = false; // Определяет, может ли игрок двигаться
 
     public static float StealSpeed { get; set; } = 1f;
     public static float WalkSpeed { get; set; } = 3f;
     public static float RunSpeed { get; set; } = 4.5f;
 
     public static float StealNoise { get; set; } = 1f;
-    public static float WalkNoise { get; set; } = 3f;
+    public static float WalkNoise { get; set; } = 4f;
     public static float RunNoise { get; set; } = 5f;
 
     public static int BleedingDamage { get; set; } = 5;
@@ -66,8 +67,8 @@ public static class PlayerData
     public static int MaxSmokeGrenadeCount { get; set; } = 5;
     public static int MaxSimpleGrenadeCount { get; set; } = 5;
 
-    public static int BandageHealth { get; set; } = 15; // Сколько бинт восстанавливает здоровья
-    public static int FirstAidKitHealth { get; set; } = 30; // Сколько аптечка восстанавливает здоровья
+    public static int BandageHealth { get; set; } = 20; // Сколько бинт восстанавливает здоровья
+    public static int FirstAidKitHealth { get; set; } = 50; // Сколько аптечка восстанавливает здоровья
 
     public static void Initialize()
     {

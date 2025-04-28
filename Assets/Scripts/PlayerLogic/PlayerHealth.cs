@@ -44,7 +44,7 @@ public class PlayerHealth : AbstractHealth
 
     public override void GetDamage(ShrapnelGrenade granade)
     {
-        GetDamage((int)granade.damageExplosion);
+        GetDamage((int)granade.damageExplosion / 3);
     }
     private void HandleDeath()
     {
@@ -55,7 +55,11 @@ public class PlayerHealth : AbstractHealth
             temp.SpawnBody(this.gameObject); // Спавн трупа
             return;
         }
-        else Death();
+        else
+        {
+            Death();
+            GameOverMenu.Instance.ShowGameOver();
+        }
     }
 
     private IEnumerator BleedDamage()
@@ -156,7 +160,7 @@ public class PlayerHealth : AbstractHealth
         Animator anim = effect.GetComponent<Animator>();
         if (anim != null)
         {
-            anim.SetTrigger("Play");
+            //anim.SetTrigger("Play");
             // Удалим через длительность клипа, если нужна автоматическая очистка
             Destroy(effect, anim.GetCurrentAnimatorStateInfo(0).length + 0.1f);
         }

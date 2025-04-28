@@ -35,7 +35,7 @@ public class Item : MonoBehaviour, IInteractable
     protected virtual void Awake()
     {
         Layer = this.gameObject.layer;
-        if (Icon == null) throw new ArgumentNullException("PickUpItem: Icon is null");
+        //if (Icon == null) throw new ArgumentNullException("Item: Icon is null");
     }
     protected virtual void Start()
     {

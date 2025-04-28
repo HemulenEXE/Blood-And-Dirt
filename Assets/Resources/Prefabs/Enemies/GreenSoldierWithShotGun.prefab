@@ -150,6 +150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  explosionProof: 0
+  resiestExplosion: 3
 --- !u!1 &5893452345217136748
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +291,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -654,10 +656,6 @@ MonoBehaviour:
   _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
   _countPerShotProjectile: 6
   _spreadAngle: 15
-  _audioControl: {fileID: 0}
-  _audioFire: {fileID: 8300000, guid: d7b5e1ec6a3a400419d87e47b88ab374, type: 3}
-  _audioRecharge: {fileID: 8300000, guid: cfdded6289e9b6645899379c13139bd4, type: 3}
-  _audioPlatoon: {fileID: 8300000, guid: 595f9f079b2c7be49ab74e193472a2d3, type: 3}
   <Damage>k__BackingField: 5
   <ShotDelay>k__BackingField: 0.5
   <AmmoTotal>k__BackingField: 10000

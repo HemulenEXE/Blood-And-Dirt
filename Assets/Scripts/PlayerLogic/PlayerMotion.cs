@@ -25,7 +25,7 @@ public class PlayerMotion : MonoBehaviour
 
     private void AnimationControl()
     {
-        _animator.SetBool("IsMoving", PlayerData.IsWalking || PlayerData.IsRunning || PlayerData.IsStealing);
+        _animator.SetBool("IsMoving", !PlayerData.IsMotionless && (PlayerData.IsWalking || PlayerData.IsRunning || PlayerData.IsStealing));
         var currentItem = _inventoryAndConsumableCounterUI?.GetItem();
         if (currentItem?.GetComponent<ShotGun>() != null)
         {
@@ -60,12 +60,16 @@ public class PlayerMotion : MonoBehaviour
 
     private void Move()
     {
-        PlayerData.IsRunning = Input.GetKey(KeyCode.LeftShift);
-        PlayerData.IsStealing = Input.GetKey(KeyCode.LeftControl);
+        if (PlayerData.IsMotionless)
+        {
+            PlayerData.IsWalking = false;
+            PlayerData.IsRunning = false;
+            PlayerData.IsStealing = false;
+            return;
+        }
 
         PlayerData.GetSkill<Hatred>()?.Execute(this.gameObject); // ~ PlayerData.IsRunning = PlayerData.IsBleeding ? true : PlayerData.IsRunning
 
-        float currentSpeed = PlayerData.IsStealing ? PlayerData.StealSpeed : (PlayerData.IsRunning ? PlayerData.RunSpeed : PlayerData.WalkSpeed);
         Vector3 movement = Vector3.zero;
 
         if (Input.GetKey(SettingData.Left))
@@ -80,7 +84,13 @@ public class PlayerMotion : MonoBehaviour
 
         if (movement != Vector3.zero)
         {
+
+            PlayerData.IsRunning = Input.GetKey(KeyCode.LeftShift);
+            PlayerData.IsStealing = Input.GetKey(KeyCode.LeftControl);
             PlayerData.IsWalking = !PlayerData.IsRunning && !PlayerData.IsStealing;
+
+            float currentSpeed = PlayerData.IsStealing ? PlayerData.StealSpeed : (PlayerData.IsRunning ? PlayerData.RunSpeed : PlayerData.WalkSpeed);
+
             this.transform.position += movement.normalized * currentSpeed * Time.fixedDeltaTime;
 
             if (_currentSurface != "None" && _audioCoroutine == null)
@@ -96,6 +106,10 @@ public class PlayerMotion : MonoBehaviour
     }
     private void Rotate()
     {
+        if (PlayerData.IsMotionless)
+        {
+            return;
+        }
         Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
         Vector3 direction = mousePosition - this.transform.position;
@@ -135,11 +149,6 @@ public class PlayerMotion : MonoBehaviour
 
         if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
         if (_animator == null) throw new ArgumentNullException("PlayerMotion: _animator is null");
-        Debug.Log(SettingData.Left);
-        Debug.Log(SettingData.Right);
-        Debug.Log(SettingData.Up);
-        Debug.Log(SettingData.Down);
-        //if (_inventoryAndConsumableCounterUI == null) throw new ArgumentNullException("PlayerMotion: _inventoryAndConsumableCounterUI is null");
     }
     private void Update()
     {

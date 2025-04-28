@@ -209,13 +209,11 @@ public static class SettingData
     public static void SetVolume(float value)
     {
         if (value < 0) throw new ArgumentOutOfRangeException("SettingData: value < 0");
-        if (value > 1) throw new ArgumentOutOfRangeException("SettingData: value > 1");
         Volume = value;
     }
     public static void SetSensitivity(float value)
     {
         if (value < 0) throw new ArgumentOutOfRangeException("SettingData: value < 0");
-        if (value > 1) throw new ArgumentOutOfRangeException("SettingData: value > 1");
         Sensitivity = value;
     }
     public static void SetResolution(Resolution value)
