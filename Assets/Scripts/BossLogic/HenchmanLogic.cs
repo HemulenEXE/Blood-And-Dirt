@@ -14,7 +14,8 @@ public class HenchmanLogic : MonoBehaviour
 
     private NavMeshAgent navMeshAgent;
     private GameObject player;
-    
+    private float updateThreshold = 0.5f;
+    private Vector3 lastTargetPosition;
 
     void Start()
     {
@@ -24,7 +25,11 @@ public class HenchmanLogic : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
         {
-            navMeshAgent.SetDestination(player.transform.position);
+            if (Vector3.Distance(player.transform.position, lastTargetPosition) > updateThreshold)
+            {
+                lastTargetPosition = player.transform.position;
+                navMeshAgent.SetDestination(lastTargetPosition);
+            }
         }
     }
 

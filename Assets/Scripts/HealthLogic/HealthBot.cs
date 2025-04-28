@@ -23,14 +23,17 @@ public class HealthBot : AbstractHealth
     private void OnCollisionEnter2D(Collision2D collision)
     {
         IBullet Bullet = collision.gameObject.GetComponent<IBullet>();
-        
+        Debug.Log("Init");
         if (Bullet != null)
         {
+            Debug.Log("Reg bullet");
             Debug.Log(Bullet.GetType());
             if (collision.gameObject.tag == "Projectile" && collision.gameObject.layer != LayerMask.NameToLayer(Bullet.sideBullet.GetOwnLayer()))
             {
+                Debug.Log("Enemy?");
                 if (Bullet.sideBullet.IsEnemyMask(this.gameObject.layer))
                 {
+                    Debug.Log("Hit");
                     GetDamage(Bullet);
                     PlayAnimationHit(collision.gameObject.transform);
                 }
@@ -130,7 +133,15 @@ public class HealthBot : AbstractHealth
     //}
     private void OnDestroy()
     {
-        GameObject.Instantiate(_bodyPrefabs[deathNum], this.transform.position, Quaternion.identity);
+        if(_bodyPrefabs != null && _bodyPrefabs.Length > 0)
+        {
+            GameObject.Instantiate(_bodyPrefabs[deathNum], this.transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.Log("Префабов трупа нет");
+        }
+        
     }
     private void DisableBotComponents(GameObject start)
     {
@@ -211,6 +222,11 @@ public class HealthBot : AbstractHealth
             // Удалим через фиксированное время, если Animator не найден
             Destroy(effect, 2f);
         }
+    }
+
+    public int GetHealth()
+    {
+        return currentHealth;
     }
 }
 

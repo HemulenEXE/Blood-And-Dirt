@@ -20,15 +20,15 @@ public class BotController : MonoBehaviour
     
     private float _nextAttackTime;
 
-    private Side sideBot;
+    protected Side sideBot;
     private Animator animator;
-    private IGun gun;
+    protected IGun gun;
     private GameObject lastPatrolPoint;
     private Quaternion initialRotation;
     private AudioSource audioSource;
     private Transform selfTransform;
     [SerializeField] protected Transform targetPlayer;
-    private NavMeshAgent agent;
+    protected NavMeshAgent agent;
     private float timeSinceLastSeen;
     private Transform sourceNoise;
     private bool hasCollidedWithPlayer;
