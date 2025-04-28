@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3736570082806045743}
   - component: {fileID: 3092645555960610295}
   - component: {fileID: 519005082779378802}
+  - component: {fileID: 6739086736179566298}
   m_Layer: 0
   m_Name: door
   m_TagString: Untagged
@@ -99,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070ea2e5e4654204c83fb183b548ae86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerSide: 0
   Side: 3
 --- !u!58 &3092645555960610295
 CircleCollider2D:
@@ -180,6 +182,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.20518208, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &6739086736179566298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137906878227607633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9f4af1b091a0e742a04cb8906895e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6927543783644629397
 GameObject:
   m_ObjectHideFlags: 0
