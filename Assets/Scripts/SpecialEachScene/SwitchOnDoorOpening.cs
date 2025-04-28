@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEditor.SearchService;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 //Переход на новую сцену после прохода в новую комнату
@@ -20,7 +18,7 @@ public class SwitchOnDoorOpening : SwitchScene
         {
             //Установка позиции и повортоа в зависимости от того к какой дери и с какой стороны подошёл игрок
             Transform player = collision.transform;
-            if (door.Side == Door.SideOpen.Down || door.Side == Door.SideOpen.Up) 
+            if (door.Side == Door.SideOpen.Down || door.Side == Door.SideOpen.Up)
             {
                 if (door.PlayerSide == Door.ApproachSide.Right)
                 {
@@ -62,9 +60,9 @@ public class SwitchOnDoorOpening : SwitchScene
                     PlayerInitPosition.Instance.SavePosition(SceneManager.GetActiveScene().buildIndex, position, rotate);
                     saved = true;
                 }
-                Switch(); 
+                Switch();
             }
         }
     }
- 
+
 }

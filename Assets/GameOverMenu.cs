@@ -54,14 +54,15 @@ public class GameOverMenu : MonoBehaviour
 
     private void RestartLevel()
     {
+        Debug.Log("Restart");
         ScenesManager.Instance.OnSelectedScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void Awake()
     {
         _gameOverText = this.GetComponentInChildren<TextMeshProUGUI>();
-        _mainMenuButton = this.GetComponentInChildren<Button>();
-        _restartButton = this.GetComponentInChildren<Button>();
+        _mainMenuButton = this.transform.Find("Panel/MainMenuButton").GetComponentInChildren<Button>();
+        _restartButton = this.transform.Find("Panel/RestartButton").GetComponentInChildren<Button>();
         _gameOverPanel = this.transform.Find("Panel").gameObject;
 
         _gameOverPanel.SetActive(false);
