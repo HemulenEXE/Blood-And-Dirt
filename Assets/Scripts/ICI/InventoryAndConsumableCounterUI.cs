@@ -18,14 +18,13 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     public TextMeshProUGUI bandage;
 
     public int IndexCurrentSlot { get; private set; } = 0;
-    public int Size { get { return PlayerData.InventoryCapacity; } }
+    public int Size { get { return slots.Count; } }
 
     public static event Action<Transform, string> AudioEvent;
 
     public void AddSlot()
     {
-        ++PlayerData.InventoryCapacity;
-        GameObject new_slot = new GameObject($"Slot {PlayerData.InventoryCapacity}");
+        GameObject new_slot = new GameObject($"Slot {Size}");
         new_slot.transform.position = slots.Last().transform.position;
         new_slot.gameObject.GetComponent<Image>().sprite = emptySlotIcon;
         slots.Add(new_slot);
@@ -34,7 +33,7 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     }
     public void SelectNextSlot()
     {
-        int nextIndex = (IndexCurrentSlot + 1) % PlayerData.InventoryCapacity;
+        int nextIndex = (IndexCurrentSlot + 1) % Size;
         while (nextIndex != IndexCurrentSlot)
         {
             if (inventory.GetItem(nextIndex) != null)
@@ -42,12 +41,12 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
                 SelectSlot(nextIndex);
                 return;
             }
-            nextIndex = (nextIndex + 1) % PlayerData.InventoryCapacity;
+            nextIndex = (nextIndex + 1) % Size;
         }
     }
     public void SelectPreviousSlot()
     {
-        int prevIndex = (IndexCurrentSlot - 1 + PlayerData.InventoryCapacity) % PlayerData.InventoryCapacity;
+        int prevIndex = (IndexCurrentSlot - 1 + Size) % Size;
         while (prevIndex != IndexCurrentSlot)
         {
             if (inventory.GetItem(prevIndex) != null)
@@ -55,7 +54,7 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
                 SelectSlot(prevIndex);
                 return;
             }
-            prevIndex = (prevIndex - 1 + PlayerData.InventoryCapacity) % PlayerData.InventoryCapacity;
+            prevIndex = (prevIndex - 1 + Size) % Size;
         }
     }
     public void SelectSlot(int index)
@@ -98,7 +97,7 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
             temp.gameObject.layer = temp.Layer;
             inventory.RemoveItem(IndexCurrentSlot);
             slots[IndexCurrentSlot].GetComponent<Image>().sprite = emptySlotIcon;
-            int nextIndex = (IndexCurrentSlot + 1) % PlayerData.InventoryCapacity;
+            int nextIndex = (IndexCurrentSlot + 1) % Size;
 
             while (nextIndex != IndexCurrentSlot)
             {
@@ -107,7 +106,7 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
                     SelectSlot(nextIndex);
                     return;
                 }
-                nextIndex = (nextIndex + 1) % PlayerData.InventoryCapacity;
+                nextIndex = (nextIndex + 1) % Size;
             }
 
         }
