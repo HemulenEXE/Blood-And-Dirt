@@ -31,7 +31,6 @@ public static class PlayerData
     public static HashSet<Skill> Skills = new HashSet<Skill>();
     public static bool IsGod { get; set; } // Неузвимость
     public static int Score { get; set; } // Количество очков для прокачки
-    public static int InventoryCapacity { get; set; } = 3; // Число слотов
     public static int BandageCount { get; set; } = 0;
     public static int FirstAidKitCount { get; set; } = 0;
     public static int SimpleGrenadeCount { get; set; } = 0;
@@ -107,8 +106,6 @@ public static class PlayerData
 
             Score = int.Parse(root.SelectSingleNode("Score").InnerText);
 
-            InventoryCapacity = int.Parse(root.SelectSingleNode("InventoryCapacity").InnerText);
-
             BandageCount = int.Parse(root.SelectSingleNode("BandageCount").InnerText);
             FirstAidKitCount = int.Parse(root.SelectSingleNode("FirstAidKitCount").InnerText);
             SmokeGrenadeCount = int.Parse(root.SelectSingleNode("SmokeGrenadeCount").InnerText);
@@ -140,8 +137,6 @@ public static class PlayerData
 
         root.AppendChild(CreateElement(xmlDoc, "Score", Score));
 
-        root.AppendChild(CreateElement(xmlDoc, "InventoryCapacity", InventoryCapacity));
-
         root.AppendChild(CreateElement(xmlDoc, "BandageCount", BandageCount));
         root.AppendChild(CreateElement(xmlDoc, "FirstAidKitCount", FirstAidKitCount));
         root.AppendChild(CreateElement(xmlDoc, "SimpleGrenadeCount", SimpleGrenadeCount));
@@ -155,7 +150,6 @@ public static class PlayerData
         Skills.Clear();
         IsGod = false;
         Score = 0;
-        InventoryCapacity = 3;
 
         CurrentHealth = MaxHealth;
         CurrentResurrectionCount = 0;
@@ -179,7 +173,6 @@ public static class PlayerData
             if (root["Skills"] == null ||
                 root["IsGod"] == null ||
                 root["Score"] == null ||
-                root["InventoryCapacity"] == null ||
                 root["BandageCount"] == null ||
                 root["FirstAidKitCount"] == null ||
                 root["SimpleGrenadeCount"] == null ||
@@ -187,7 +180,6 @@ public static class PlayerData
 
             if (!bool.TryParse(root["IsGod"].InnerText, out _) ||
                 !int.TryParse(root["Score"].InnerText, out _) ||
-                !int.TryParse(root["InventoryCapacity"].InnerText, out _) ||
                 !int.TryParse(root["BandageCount"].InnerText, out _) ||
                 !int.TryParse(root["FirstAidKitCount"].InnerText, out _) ||
                 !int.TryParse(root["SimpleGrenadeCount"].InnerText, out _) ||

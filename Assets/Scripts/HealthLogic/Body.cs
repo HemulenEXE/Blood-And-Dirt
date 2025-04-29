@@ -29,7 +29,7 @@ public class Body : ClickedObject
         {
             Destroy(this.gameObject.GetComponent<Collider2D>()); // Чтобы с трупом нельзя было дальше взаимодействовать
             AudioEvent?.Invoke(this.transform, "eating_finish_sound");
-            Destroy(gameObject, _eatingFinish.length);
+            Destroy(this.gameObject, _eatingFinish.length);
         }
         else AudioEvent?.Invoke(this.transform, "eating_process_sound");
 
@@ -40,6 +40,7 @@ public class Body : ClickedObject
     }
     public void Start()
     {
+        _eatingFinish = Resources.Load<AudioClip>("Audios/Enemies/eating_finish_sound");
         Destroy(gameObject, _timeSecondsLife); 
     }
 }

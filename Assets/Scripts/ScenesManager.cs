@@ -81,6 +81,7 @@ public class ScenesManager : MonoBehaviour
     public void OnSelectedScene(int index)
     {
         _instance.StartCoroutine(_instance._OnSelectedScene(index));
+        if (SceneManager.GetActiveScene().buildIndex != index)
         PlayerData.SaveData();
     }
     private IEnumerator _OnSelectedScene(int index)

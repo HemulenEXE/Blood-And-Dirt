@@ -28,8 +28,8 @@ public class SoundManager : MonoBehaviour
         _backgroundAudioSource.spatialBlend = 0f;
 
         PlayBackgroundAudio(_startBackGroundAudio);
-
     }
+
     private void OnEnable()
     {
         ShotGun.AudioEvent += PlayAudio;

@@ -1,6 +1,7 @@
 using GunLogic;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -95,10 +96,11 @@ public class HealthBot : AbstractHealth
             GetDamage((int)granade.damageExplosion / resiestExplosion);
         }
     }
-
     public override void Death()
     {
         DisableBotComponents(this.transform.parent.gameObject);
+        var temp = this.transform.parent.AddComponent<BoxCollider2D>();
+        this.transform.parent.AddComponent<Body>();
 
         death?.Invoke(transform.parent.GetComponent<BotController>());
 
@@ -106,7 +108,7 @@ public class HealthBot : AbstractHealth
 
         var animator = this.transform.parent.GetComponentInChildren<Animator>();
         deathNum = UnityEngine.Random.Range(0, 2);
-        string deathTrigger =  deathNum == 0 ? "Death1" : "Death2";
+        string deathTrigger = deathNum == 0 ? "Death1" : "Death2";
         animator.SetTrigger(deathTrigger);
 
         Destroy(transform.parent.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
@@ -131,37 +133,25 @@ public class HealthBot : AbstractHealth
     //    // Удаляем объект
     //    Destroy(botObject);
     //}
-    private void OnDestroy()
-    {
-        if(_bodyPrefabs != null && _bodyPrefabs.Length > 0)
-        {
-            GameObject.Instantiate(_bodyPrefabs[deathNum], this.transform.position, Quaternion.identity);
-        }
-        else
-        {
-            Debug.Log("Префабов трупа нет");
-        }
-        
-    }
     private void DisableBotComponents(GameObject start)
     {
         Collider2D[] colliders = start.GetComponentsInChildren<Collider2D>();
-        foreach (var x in colliders) x.enabled = false;
+        foreach (var x in colliders) Destroy(x);
+
+        Rigidbody2D[] rigidbodies = start.GetComponentsInChildren<Rigidbody2D>();
+        foreach (var x in rigidbodies) Destroy(x);
 
         var components = start.GetComponents<MonoBehaviour>();
         foreach (var x in components) if (x.GetType() != typeof(AudioSource)) x.enabled = false;
 
         var navMeshAgent = start.GetComponent<NavMeshAgent>();
-        if (navMeshAgent != null)
-        {
-            navMeshAgent.isStopped = true;
-        }
+        if (navMeshAgent != null) navMeshAgent.isStopped = true;
     }
 
     private void Awake()
     {
         side = GetComponentInParent<Side>().side;
-        
+
         string type = transform.parent.name;
         if (type.Contains("GreenSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/GreenSoldierBodies");
         if (type.Contains("PurpleSoldier")) _bodyPrefabs = Resources.LoadAll<GameObject>("Prefabs/Enemies/PurpleSoldierBodies");
@@ -169,7 +159,7 @@ public class HealthBot : AbstractHealth
         currentHealth = maxHealth;
 
         isInvulnerable = true;
-        StartCoroutine(ResetInvulnerability(1)); 
+        StartCoroutine(ResetInvulnerability(1));
     }
 
     private IEnumerator ResetInvulnerability(float countEnv = 1)
