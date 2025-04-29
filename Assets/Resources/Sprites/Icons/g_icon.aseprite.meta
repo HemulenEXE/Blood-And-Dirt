@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 63c3521254baaa54f9c6c4cceb98d364
+guid: 1142d5ccb9c6c224c8b3f4ba23396f6a
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -121,7 +121,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: NetheriteSword
+  - name: g_icon
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -130,9 +130,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 160
-      height: 160
-    spriteID: 94ab4ec436eebc34983bfee83c023491
+      width: 17
+      height: 17
+    spriteID: a4be90a7827c2e54a9e2adb6599c9c62
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,21 +144,21 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1766570131
-    name: NetheriteSword
+    guid: 1944553675
+    name: g_icon
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: NetheriteSword_icon
+    - name: g_icon
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 0
         y: 0
-        width: 160
-        height: 160
-      spriteId: 94ab4ec436eebc34983bfee83c023491
+        width: 17
+        height: 17
+      spriteId: a4be90a7827c2e54a9e2adb6599c9c62
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -177,4 +177,4 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 160, y: 160}
+  canvasSize: {x: 17, y: 17}
