@@ -34,17 +34,34 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     }
     public void SelectNextSlot()
     {
-        SelectSlot((IndexCurrentSlot + 1) % PlayerData.InventoryCapacity);
+        int nextIndex = (IndexCurrentSlot + 1) % PlayerData.InventoryCapacity;
+        while (nextIndex != IndexCurrentSlot)
+        {
+            if (inventory.GetItem(nextIndex) != null)
+            {
+                SelectSlot(nextIndex);
+                return;
+            }
+            nextIndex = (nextIndex + 1) % PlayerData.InventoryCapacity;
+        }
     }
     public void SelectPreviousSlot()
     {
-        SelectSlot((IndexCurrentSlot - 1 + PlayerData.InventoryCapacity) % PlayerData.InventoryCapacity);
+        int prevIndex = (IndexCurrentSlot - 1 + PlayerData.InventoryCapacity) % PlayerData.InventoryCapacity;
+        while (prevIndex != IndexCurrentSlot)
+        {
+            if (inventory.GetItem(prevIndex) != null)
+            {
+                SelectSlot(prevIndex);
+                return;
+            }
+            prevIndex = (prevIndex - 1 + PlayerData.InventoryCapacity) % PlayerData.InventoryCapacity;
+        }
     }
     public void SelectSlot(int index)
     {
         if (index == IndexCurrentSlot) return;
 
-        AudioEvent?.Invoke(this.transform, "change_slot");
         var temp = inventory.GetItem(IndexCurrentSlot);
         temp?.Deactive();
         temp?.gameObject?.SetActive(false);
@@ -66,6 +83,7 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
                 slots[i].GetComponent<Image>().sprite = item.Icon;
                 item.Active();
                 item.gameObject.layer = LayerMask.NameToLayer("Invisible");
+                SelectSlot(i);
                 return true;
             }
         }
@@ -78,9 +96,21 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
         {
             temp.Deactive();
             temp.gameObject.layer = temp.Layer;
+            inventory.RemoveItem(IndexCurrentSlot);
+            slots[IndexCurrentSlot].GetComponent<Image>().sprite = emptySlotIcon;
+            int nextIndex = (IndexCurrentSlot + 1) % PlayerData.InventoryCapacity;
+
+            while (nextIndex != IndexCurrentSlot)
+            {
+                if (inventory.GetItem(nextIndex) != null)
+                {
+                    SelectSlot(nextIndex);
+                    return;
+                }
+                nextIndex = (nextIndex + 1) % PlayerData.InventoryCapacity;
+            }
+
         }
-        inventory.RemoveItem(IndexCurrentSlot);
-        slots[IndexCurrentSlot].GetComponent<Image>().sprite = emptySlotIcon;
     }
     public Item GetItem()
     {
