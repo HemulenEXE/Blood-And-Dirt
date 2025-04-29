@@ -162,7 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8131447860137616551}
   - component: {fileID: 3811147759073888598}
-  - component: {fileID: 1973772294845165554}
+  - component: {fileID: 6550019063125318869}
   - component: {fileID: 672257775031539312}
   - component: {fileID: 5519988664084937071}
   - component: {fileID: 3836942728927331220}
@@ -228,7 +228,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!114 &1973772294845165554
+--- !u!114 &6550019063125318869
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,6 +247,7 @@ MonoBehaviour:
   rotationAngle: 15
   rotationSpeed: 1
   stoppingDistance: 5
+  IsPlayerEnemy: 1
   stateSide: 0
   stateBot: 0
   targetPlayer: {fileID: 0}
