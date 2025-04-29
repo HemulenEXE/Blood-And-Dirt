@@ -58,7 +58,7 @@ public class BotEventMediator : MonoBehaviour
         ShotGun.makeNoiseShooting -= CheckNoise;
         Pistol.makeNoiseShooting -= CheckNoise;
         MachineGun.makeNoiseShooting -= CheckNoise;
-        GrenadeLauncher.makeNoiseShooting += CheckNoise;
+        GrenadeLauncher.makeNoiseShooting -= CheckNoise;
         ShotGun.makeNoiseShooting -= CivilianUpAlarm;
         Pistol.makeNoiseShooting -= CivilianUpAlarm;
         MachineGun.makeNoiseShooting -= CivilianUpAlarm;
