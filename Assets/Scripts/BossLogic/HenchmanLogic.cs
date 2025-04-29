@@ -41,6 +41,14 @@ public class HenchmanLogic : MonoBehaviour
             Explode();
         }
         UpdateLookDirection();
+        if (player != null && navMeshAgent.enabled)
+        {
+            if (Vector3.Distance(player.transform.position, lastTargetPosition) > updateThreshold)
+            {
+                lastTargetPosition = player.transform.position;
+                navMeshAgent.SetDestination(lastTargetPosition);
+            }
+        }
     }
 
     private void Explode()
@@ -62,7 +70,7 @@ public class HenchmanLogic : MonoBehaviour
                 playerHealth.GetDamage(damageExplosive);
             }
         }
-
+        navMeshAgent.enabled = false;
         Destroy(gameObject);
     }
 
