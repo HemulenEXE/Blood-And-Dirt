@@ -13,5 +13,10 @@ public class EndScene3_1Fanatic : MonoBehaviour
             ScenesManager.Instance.OnNextScene();
         }
     }
+
+    void EndScene()
+    {
+        ScenesManager.Instance.OnNextScene();
+    }
     
 }

@@ -1,0 +1,41 @@
+<dialogue name="Arena Seller">
+  <node id="0" npcText="..." npcName="Мутный тип">
+    <answer text="Кто ты такой?" toNode="1" />
+    <answer text="Зачем тебе мне помогать?" toNode="2" />
+    <answer text="Я готов начинать отбиваться!" toNode="3" />
+    <answer text="Я хочу купить оружие." toNode="4" />
+    <answer text="Я хочу купить расходники." toNode="5" />
+    <answer text="Мне нужна помощь твоих ребят" toNode="6" />
+    <answer text="Сколько у меня очков?" toNode="6" exit="True" />
+    <answer text="Я пошел" toNode="6" exit="True" />
+  </node>
+  <node id="1" npcText="Заинтересованное лицо." npcName="Мутный тип">
+    <answer text="Понятно.." />
+  </node>
+  <node id="2" npcText="Ты хочешь защитить свой дом, я могу тебе в этом помочь. Не за бесплатно. Это все, что тебе нужно знать." npcName="Мутный тип">
+    <answer text="Думаю мы найдем общий язык" />
+  </node>
+  <node id="3" npcText="Солдаты скоро придут за тобой. Если уже не вышли." npcName="Мутный тип" />
+  <node id="4" npcText="Какое оружие тебе нужно?" npcName="Мутный тип">
+    <answer text="Пистолет" />
+    <answer text="Дробовик" />
+    <answer text="Автомат" />
+    <answer text="Гранатомет" />
+    <answer text="Стационарный пулемет перед моим домом" />
+  </node>
+  <node id="5" npcText="Какие расходники тебе нужны?" npcName="Мутный тип">
+    <answer text="Граната" />
+    <answer text="Аптечка" />
+    <answer text="Бинты" />
+  </node>
+  <node id="6" npcText="Что тебе от нас нужно?" npcName="Мутный тип">
+    <answer text="Мне нужно побольше помощников (Увеличить спавн союзных ботов на 10 очков)" />
+    <answer text="Они должны быть лучше вооружены (убирает из спавна солдат с пистолетом, добавляет возможность спавна гранатометчика)" />
+  </node>
+  <node id="7" npcText="Очков маловато будет для таких затрат" npcName="Мутный тип">
+    <answer text="Мне нужно побольше помощников (Увеличить спавн союзных ботов на 10 очков)" />
+  </node>
+  <node id="8" npcText="Готово. Вот твое оружие" exit="True" npcName="Мутный тип" />
+  <node id="9" npcText="Готово. Вот твой расходник" exit="True" npcName="Мутный тип" />
+  <node id="10" npcText="Передам своим. Со следующей волны увидишь изменения" exit="True" npcName="Мутный тип" />
+</dialogue>

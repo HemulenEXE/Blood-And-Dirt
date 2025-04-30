@@ -44,12 +44,14 @@ public class TitleManager : MonoBehaviour
         AudioEvent?.Invoke("title");
         string credits = _credits;
 
+        yield return new WaitForSecondsRealtime(displayTime);
+
         _text.text = credits;
         _panel.SetActive(true);
 
         Time.timeScale = 0;
 
-        yield return new WaitForSecondsRealtime(displayTime);
+        
 
         isScrolling = true;
         StartCoroutine(ScrollCredits());

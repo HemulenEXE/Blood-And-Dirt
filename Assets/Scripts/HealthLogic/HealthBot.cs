@@ -98,6 +98,11 @@ public class HealthBot : AbstractHealth
     }
     public override void Death()
     {
+        if(transform.parent.name == "HenchMan")
+        {
+            Destroy(transform.parent);
+            return;
+        }
         DisableBotComponents(this.transform.parent.gameObject);
         var temp = this.transform.parent.AddComponent<BoxCollider2D>();
         this.transform.parent.AddComponent<Body>();

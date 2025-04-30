@@ -10,6 +10,9 @@ public class DialogueController : MonoBehaviour
     private ShowDialogueDubl director;
     private Dialogue dialogue;
     [SerializeField] DialogueWndState DialogueWindow;
+    [SerializeField] GameObject title;
+    [SerializeField] GameObject equip;
+    [SerializeField] GameObject suicide;
     private bool trigger = true;
     private bool trigger1 = true;
     private GameObject player;
@@ -56,6 +59,9 @@ public class DialogueController : MonoBehaviour
         else if (dialogue.GetCurentNodeIndex() == 4 && DialogueWindow.currentState == DialogueWndState.WindowState.EndPrint)
         {
             player.GetComponent<PlayerMotion>().enabled = true;
+            GetComponent<BossController>().enabled = true;
+            equip.GetComponent<InventoryDistribution>().enabled = true;
+            Destroy(suicide);
         }
     }
     //Ждёт конца анимации и включает титры
@@ -65,7 +71,7 @@ public class DialogueController : MonoBehaviour
 
         if (anim.IsName("суицид ГГ_Clip"))
             yield return new WaitForSeconds(anim.length + 0.5f);
-        
-        GameObject.Find("Title").GetComponent<TitleManager>().ShowCredits();
+
+        title.GetComponent<TitleManager>().ShowCredits();
     }
 }

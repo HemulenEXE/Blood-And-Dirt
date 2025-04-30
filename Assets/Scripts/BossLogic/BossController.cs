@@ -23,10 +23,11 @@ public class BossController : BotController
     [SerializeField] private int extraMinionsPhase2 = 5; // Сколько миньонов дополнительно спавнить
     [SerializeField] private float secondPhaseAttackSpeedMultiplier = 1.5f;
     private bool isSecondPhase = false;
+    private bool isSpawningToxic = false;
 
     private float _nextMinionSpawnTime;
     private float _nextToxicPoolTime;
-    private Animator animator;
+    private Animator anim;
     private BossHealth healthBot;
 
     protected override void Awake()
@@ -37,8 +38,8 @@ public class BossController : BotController
 
     private void Start()
     {
-        animator = GetComponentInChildren<Animator>();
-        animator.SetBool("WithGun", true);
+        anim = GetComponentInChildren<Animator>();
+        anim.SetBool("WithGun", true);
         healthBot = GetComponentInChildren<BossHealth>();
     }
 
@@ -78,6 +79,7 @@ public class BossController : BotController
 
         if (_nextToxicPoolTime <= 0f)
         {
+            gun.Recharge();
             SpawnToxicPool();
             _nextToxicPoolTime = toxicPoolCooldown;
         }
@@ -105,24 +107,44 @@ public class BossController : BotController
 
     private void SpawnToxicPool()
     {
-        if (toxicPoolPrefab == null) return;
-
-        Vector3 playerPos = targetPlayer.position;
-
-        int modificator = 360 / countToxicPool;
-
-        // Определяем три направления под углами: 0°, 120°, 240°
-        for (int i = 0; i < countToxicPool; i++)
+        if (!isSpawningToxic)
         {
-            float angleDeg = modificator * i; // 0, 120, 240 градусов
-            float angleRad = angleDeg * Mathf.Deg2Rad;
+            StartCoroutine(SpawnToxicPoolCoroutine());
+        }
+    }
 
-            Vector3 offset = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0) * 2.5f; // Радиус окружности = 2 юнита
-            Vector3 spawnPosition = playerPos + offset;
+    private IEnumerator SpawnToxicPoolCoroutine()
+    {
+        isSpawningToxic = true;
 
-            Instantiate(toxicPoolPrefab, spawnPosition, Quaternion.identity);
+        // Запускаем анимацию атаки
+        anim.SetTrigger("Attack");
+
+        
+        yield return new WaitForSeconds(2.2f); // замените на длительность вашей анимации
+
+        if (toxicPoolPrefab != null && targetPlayer != null)
+        {
+            Vector3 playerPos = targetPlayer.position;
+            int modificator = 360 / countToxicPool;
+
+            for (int i = 0; i < countToxicPool; i++)
+            {
+                float angleDeg = modificator * i;
+                float angleRad = angleDeg * Mathf.Deg2Rad;
+
+                Vector3 offset = new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad), 0) * 2.5f;
+                Vector3 spawnPosition = playerPos + offset;
+
+                Instantiate(toxicPoolPrefab, spawnPosition, Quaternion.identity);
+            }
         }
 
+        
+
+
+
+        isSpawningToxic = false;
     }
 
     private IEnumerator TransitionToSecondPhase()
@@ -138,7 +160,7 @@ public class BossController : BotController
         // Делаем босса невидимым и неуязвимым на время перехода
         gameObject.GetComponentInChildren<BossHealth>().enabled = false;
         transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
-        animator.SetBool("IsMoving", false);
+        anim.SetBool("IsMoving", false);
 
         // Ждем немного для эффекта исчезновения
         yield return new WaitForSeconds(2f);
@@ -158,6 +180,6 @@ public class BossController : BotController
         minionSpawnCooldown /= secondPhaseAttackSpeedMultiplier;
         toxicPoolCooldown /= secondPhaseAttackSpeedMultiplier;
 
-        animator.SetBool("IsMoving", true);
+        anim.SetBool("IsMoving", true);
     }
 }
