@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.Playables;
+using CameraLogic.CameraMotion;
 
 //Управляет диалогами и катсценами на сцене 3_5. Навешивается на триггерный коллайдер около храма
 public class Scene3_5Controller : MonoBehaviour
@@ -46,6 +48,12 @@ public class Scene3_5Controller : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            Vector3 churchman = GameObject.Find("Churchman").transform.position;
+            player.GetComponent<PlayerMotion>().enabled = false;
+            Camera.main.GetComponent<CameraMove>().enabled = false;
+            Vector3 newPos = new Vector3(churchman.x, churchman.y, -10);
+            Camera.main.transform.DOMove(newPos, 1f);
+            Camera.main.DOOrthoSize(6f, 1f);
             Director1.StartDialogue();
             StartCoroutine(ActionDuringDialogue());
         }
@@ -56,6 +64,7 @@ public class Scene3_5Controller : MonoBehaviour
         while (dialogue.GetCurentNodeIndex() < 5)
             yield return new WaitForFixedUpdate();
 
+        Debug.Log("Start set Animations");
         foreach (Animator anim in BurningPeoples)
             anim.SetBool("burn", true);
 
