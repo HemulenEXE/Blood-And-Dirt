@@ -18,14 +18,13 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     public TextMeshProUGUI bandage;
 
     public int IndexCurrentSlot { get; private set; } = 0;
-    public int Size { get { return PlayerData.InventoryCapacity; } }
+    public int Size { get { return slots.Count; } }
 
     public static event Action<Transform, string> AudioEvent;
 
     public void AddSlot()
     {
-        ++PlayerData.InventoryCapacity;
-        GameObject new_slot = new GameObject($"Slot {PlayerData.InventoryCapacity}");
+        GameObject new_slot = new GameObject($"Slot {Size}");
         new_slot.transform.position = slots.Last().transform.position;
         new_slot.gameObject.GetComponent<Image>().sprite = emptySlotIcon;
         slots.Add(new_slot);
@@ -34,17 +33,34 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
     }
     public void SelectNextSlot()
     {
-        SelectSlot((IndexCurrentSlot + 1) % PlayerData.InventoryCapacity);
+        int nextIndex = (IndexCurrentSlot + 1) % Size;
+        while (nextIndex != IndexCurrentSlot)
+        {
+            if (inventory.GetItem(nextIndex) != null)
+            {
+                SelectSlot(nextIndex);
+                return;
+            }
+            nextIndex = (nextIndex + 1) % Size;
+        }
     }
     public void SelectPreviousSlot()
     {
-        SelectSlot((IndexCurrentSlot - 1 + PlayerData.InventoryCapacity) % PlayerData.InventoryCapacity);
+        int prevIndex = (IndexCurrentSlot - 1 + Size) % Size;
+        while (prevIndex != IndexCurrentSlot)
+        {
+            if (inventory.GetItem(prevIndex) != null)
+            {
+                SelectSlot(prevIndex);
+                return;
+            }
+            prevIndex = (prevIndex - 1 + Size) % Size;
+        }
     }
     public void SelectSlot(int index)
     {
         if (index == IndexCurrentSlot) return;
 
-        AudioEvent?.Invoke(this.transform, "change_slot");
         var temp = inventory.GetItem(IndexCurrentSlot);
         temp?.Deactive();
         temp?.gameObject?.SetActive(false);
@@ -66,6 +82,7 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
                 slots[i].GetComponent<Image>().sprite = item.Icon;
                 item.Active();
                 item.gameObject.layer = LayerMask.NameToLayer("Invisible");
+                SelectSlot(i);
                 return true;
             }
         }
@@ -78,9 +95,21 @@ public class InventoryAndConsumableCounterUI : MonoBehaviour
         {
             temp.Deactive();
             temp.gameObject.layer = temp.Layer;
+            inventory.RemoveItem(IndexCurrentSlot);
+            slots[IndexCurrentSlot].GetComponent<Image>().sprite = emptySlotIcon;
+            int nextIndex = (IndexCurrentSlot + 1) % Size;
+
+            while (nextIndex != IndexCurrentSlot)
+            {
+                if (inventory.GetItem(nextIndex) != null)
+                {
+                    SelectSlot(nextIndex);
+                    return;
+                }
+                nextIndex = (nextIndex + 1) % Size;
+            }
+
         }
-        inventory.RemoveItem(IndexCurrentSlot);
-        slots[IndexCurrentSlot].GetComponent<Image>().sprite = emptySlotIcon;
     }
     public Item GetItem()
     {

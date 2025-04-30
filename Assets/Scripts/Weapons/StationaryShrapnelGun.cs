@@ -50,6 +50,11 @@ public class StationaryShrapnelGun : ClickedObject
 
         _rigidBody.simulated = true;
 
+        GameObject interactUI = GameObject.Find("InteractiveUI");
+        GameObject inventUI = GameObject.Find("InventoryAndConsumableCounterUI");
+        interactUI?.SetActive(true);
+        inventUI?.SetActive(true);
+
         Debug.Log("StationaryShrapnelGun isn't used");
     }
     private IEnumerator Fire()
@@ -71,6 +76,14 @@ public class StationaryShrapnelGun : ClickedObject
         _player.transform.rotation = this.transform.rotation * Quaternion.Euler(0, 0, 180);
         _rigidBody.simulated = false;
         PlayerData.IsMotionless = true;
+
+        GameObject interactUI = GameObject.Find("InteractiveUI");
+        GameObject inventUI = GameObject.Find("InventoryAndConsumableCounterUI");
+        GameObject dW = GameObject.Find("DialogueWindow");
+        interactUI?.SetActive(false);
+        inventUI?.SetActive(false);
+        if (dW != null && dW.GetComponent<DialogueWndState>().currentState == DialogueWndState.WindowState.StartPrint)
+            dW.SetActive(false);
 
         Debug.Log("StationaryShrapnelGun is used");
     }
@@ -105,6 +118,9 @@ public class StationaryShrapnelGun : ClickedObject
 
         if (IsInStationaryGun && Input.GetKey(KeyCode.Q)) Exit();
 
-        if (IsInStationaryGun) Rotate();
+        if (IsInStationaryGun)
+        {
+            Rotate();
+        }
     }
 }

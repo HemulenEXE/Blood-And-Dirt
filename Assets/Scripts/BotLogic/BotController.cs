@@ -20,15 +20,15 @@ public class BotController : MonoBehaviour
     
     private float _nextAttackTime;
 
-    private Side sideBot;
+    protected Side sideBot;
     private Animator animator;
-    private IGun gun;
+    protected IGun gun;
     private GameObject lastPatrolPoint;
     private Quaternion initialRotation;
     private AudioSource audioSource;
     private Transform selfTransform;
-    [SerializeField] private Transform targetPlayer;
-    private NavMeshAgent agent;
+    [SerializeField] protected Transform targetPlayer;
+    protected NavMeshAgent agent;
     private float timeSinceLastSeen;
     private Transform sourceNoise;
     private bool hasCollidedWithPlayer;
@@ -39,13 +39,13 @@ public class BotController : MonoBehaviour
 
     public static event Action AudioEvent;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         InitializeComponents();
         ConfigureAgent();
         InitEnemy(stateSide, IsPlayerEnemy);
     }
-    private void Update()
+    protected virtual void Update()
     {
         _nextAttackTime -= Time.deltaTime;
     }
@@ -141,7 +141,7 @@ public class BotController : MonoBehaviour
         hasCollidedWithPlayer = true;
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         switch (stateBot)
         {

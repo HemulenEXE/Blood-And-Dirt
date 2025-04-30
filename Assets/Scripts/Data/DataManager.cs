@@ -7,6 +7,7 @@ public class DataManager : MonoBehaviour
 {
     private void Awake()
     {
+        Debug.Log("DataManager is awaked");
         SettingData.Initialize();
         PlayerData.Initialize();
 

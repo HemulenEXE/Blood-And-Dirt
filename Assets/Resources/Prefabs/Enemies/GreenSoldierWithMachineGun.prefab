@@ -359,7 +359,7 @@ MonoBehaviour:
   <ShotDelay>k__BackingField: 0.1
   <AmmoTotal>k__BackingField: 10000
   <AmmoCapacity>k__BackingField: 30
-  <AmmoTotalCurrent>k__BackingField: 0
+  <AmmoTotalCurrent>k__BackingField: 30
   <RechargingTime>k__BackingField: 1
   <SpeedProjectile>k__BackingField: 50
 --- !u!1 &1876948657834700729
@@ -594,6 +594,7 @@ MonoBehaviour:
   rotationAngle: 15
   rotationSpeed: 1
   stoppingDistance: 5
+  IsPlayerEnemy: 1
   stateSide: 0
   stateBot: 0
   targetPlayer: {fileID: 0}

@@ -114,14 +114,13 @@ public class Controller : MonoBehaviour
         {
             if (flag && dialogue.GetCurentNodeIndex() == 13)
             {
-                //director.WithAction = true;
-                //director.SetAct();
                 SetAct();
-
+                people[1].GetChild(0).gameObject.SetActive(true);
+                Debug.Log(people[1]);
                 DialogueWnd1.gameObject.transform.GetChild(4).gameObject.SetActive(false);
                 flag = false;
             }
-            if (flag1 && false) //Заменить на отслеживание выполнения анимации
+            if (flag1 && people[1].GetComponentInChildren<CutToughtAnim>() != null && people[1].GetComponentInChildren<CutToughtAnim>().EndAnim) //Заменить на отслеживание выполнения анимации
             {
                 DialogueWnd1.gameObject.transform.GetChild(4).gameObject.SetActive(true);
                 flag1 = false;

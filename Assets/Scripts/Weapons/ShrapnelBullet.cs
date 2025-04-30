@@ -13,7 +13,6 @@ public class ShrapnelBullet : MonoBehaviour, IBullet
     public float Speed { get; set; } = 5f;
 
     private float _lifeTime = 5.5f;
-
     private void Start()
     {
         Destroy(this.gameObject, _lifeTime);
@@ -22,14 +21,12 @@ public class ShrapnelBullet : MonoBehaviour, IBullet
     {
         if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("Gun"))
         {
-            Speed = 0; // Остановка снаряда
-            this.GetComponent<SpriteRenderer>().sprite = null;
-
+            Debug.Log("DESTROYED");
             Destroy(this.gameObject);
         }
     }
-    private void Update()
+    private void FixedUpdate()
     {
-        this.transform.Translate(Vector2.right * Speed * Time.deltaTime);
+        this.transform.position += this.transform.right * Speed * Time.fixedDeltaTime;
     }
 }
