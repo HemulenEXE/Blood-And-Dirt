@@ -51,7 +51,7 @@ public class HenchmanLogic : MonoBehaviour
         }
     }
 
-    private void Explode()
+    public void Explode()
     {
         if (prefabExplosive != null)
         {
