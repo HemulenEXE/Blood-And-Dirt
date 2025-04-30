@@ -10,8 +10,8 @@
   <node id="4" npcText="&lt;i&gt;Во имя Зарата! Во имя Победы!&lt;/i&gt;" npcName="Толпа">
   </node>
   <node id="5" npcText="&lt;b&gt;Да, прославиться Зарат наш единый и всевластный, да разойдётся весть о нём по всем уголкам света. И да возрадуется грешник, и скажет: «Верую», и да простятся ему все грехи его и вознесётся душа. И примет &lt;color=red&gt;Бог&lt;/color&gt; его в объятья, как брата своего и пригласит на пир вечный, из плоти и крови неверных. И будет прах их вместо еды и кровь вместо питья. И да будут прощены они на смертном одре, но не спасёт их это и станут они силой питательной для тех, кто кроток и праведен.&lt;color=red&gt; Ешьте, ешьте,&lt;/color&gt; сыны &lt;color=red&gt;Божьи!&lt;/color&gt;&lt;/b&gt;" npcName="Служитель">
-    <answer text="&lt;color=red&gt;Съесть прах.&lt;/color&gt;"/>
-    <answer text="&lt;b&gt;&lt;color=red&gt;СЪЕСТЬ ПРАХ.&lt;/color&gt;&lt;/b&gt;"/>
+    <answer text="&lt;color=red&gt;Съесть прах.&lt;/color&gt;" toNode="6"/>
+    <answer text="&lt;b&gt;&lt;color=red&gt;СЪЕСТЬ ПРАХ.&lt;/color&gt;&lt;/b&gt;" toNode="6"/>
   </node>
 	<node id ="6" npcText ="&lt;wave&gt;Я должен съесть прах... Должен съесть&lt;/wave&gt;" npcName="" exit="True"> </node>
 </dialogue>

@@ -26,6 +26,7 @@ public class Scene3_5Controller : MonoBehaviour
     private PlayableDirector catScene1;
     private PlayableDirector catScene2;
     private GameObject player;
+    private bool triger = true;
     private void Awake()
     {
         catScene1 = GameObject.Find("CatScene1").GetComponent<PlayableDirector>();
@@ -46,7 +47,7 @@ public class Scene3_5Controller : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == "Player" && triger)
         {
             Vector3 churchman = GameObject.Find("Churchman").transform.position;
             player.GetComponent<PlayerMotion>().enabled = false;
@@ -56,6 +57,7 @@ public class Scene3_5Controller : MonoBehaviour
             Camera.main.DOOrthoSize(6f, 1f);
             Director1.StartDialogue();
             StartCoroutine(ActionDuringDialogue());
+            triger = false;
         }
     }
     private IEnumerator ActionDuringDialogue()
@@ -65,16 +67,27 @@ public class Scene3_5Controller : MonoBehaviour
             yield return new WaitForFixedUpdate();
 
         Debug.Log("Start set Animations");
+        GameObject dust = GameObject.Find("Dust");
         foreach (Animator anim in BurningPeoples)
+        {
+            Vector3 pos = anim.gameObject.transform.position;
             anim.SetBool("burn", true);
+            anim.gameObject.transform.position = new Vector3(pos.x + 0.2f, pos.y + 0.4f, pos.z);
+        }
+       
+        for (int i = 0; i < dust.transform.childCount; i++)
+            dust.transform.GetChild(i).GetComponent<SpriteRenderer>().DOColor(new Color(1, 1, 1, 1), 5f);
 
+        while (DialogueWnd1.gameObject.transform.GetChild(4).gameObject.activeSelf)
+            yield return new WaitForFixedUpdate();
+        
+        catScene2.Play();
 
         while (dialogue.GetCurentNodeIndex() != 6)
             yield return new WaitForFixedUpdate();
 
         DialogueWnd1.gameObject.transform.GetChild(4).gameObject.SetActive(false);
-        catScene2.Play();
-
+        player.GetComponent<PlayerMotion>().enabled = true;
     }
     public void CatScene1End()
     {
