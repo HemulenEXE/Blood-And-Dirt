@@ -250,9 +250,9 @@ public class ShowDialogueDubl : MonoBehaviour
     {
         GameObject player = GameObject.FindWithTag("Player");
 
-        player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
-        player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
-        player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
+        if(player.GetComponent<PlayerGrenade>() != null) player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
+        if (player.GetComponent<PlayerKnife>() != null) player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
+        if (player.GetComponent<PlayerShooting>() != null)  player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
     }
 
 }
