@@ -25,7 +25,7 @@ public class End1_2 : MonoBehaviour
             _dialogue = _director.GetDialogue();
         }
         //Если завершились и анимация и диалог
-        if (!DialogueWindow.activeSelf && (_dialogue.GetCurentNodeIndex() == _dialogue.Nodes.Length - 1) && catSceneOver && !played) 
+        if (!DialogueWindow.activeSelf && (DialogueWindow.GetComponent<DialogueWndState>().currentState == DialogueWndState.WindowState.EndPrint) && catSceneOver && !played) 
         {
             PlayerPrefs.SetInt("LoadingNumber", 3);
             PlayerPrefs.Save();

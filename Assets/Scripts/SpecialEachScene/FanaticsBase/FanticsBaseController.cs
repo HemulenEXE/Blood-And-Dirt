@@ -47,6 +47,7 @@ public class FanaticsBaseController : MonoBehaviour
             case 2:
                 {
                     GameObject.Find("Player1").SetActive(false);
+                    GameObject.Find("GameMenu (2)").SetActive(false);
                     GameObject.Find("DoorOpenRight").transform.GetChild(1).gameObject.SetActive(false); //Отключили триггер на двери тюрьмы
                     break;
                 }
