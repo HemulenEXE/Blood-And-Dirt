@@ -307,6 +307,7 @@ public class Printer : MonoBehaviour
     /// <returns></returns>
     private List<string> SplitForSimbols(string text)
     {
+        
         List<string> res = new List<string>();
         Match m = Regex.Match(text, @"(<[^>]+>)(.*?)(<\/[^>]+>)");
         Debug.Log(m.Groups[2].Value);
@@ -317,5 +318,13 @@ public class Printer : MonoBehaviour
             foreach (char c in text)
                 res.Add(c.ToString());
         return res;
+    }
+
+
+
+
+    void OnDestroy()
+    {
+        DOTween.KillAll();
     }
 }

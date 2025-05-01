@@ -14,8 +14,9 @@ public class TitleManager : MonoBehaviour
     public float fastScrollSpeed = 150f;
     public float displayTime = 3f;
     private bool isScrolling = false;
-
-    public string _credits = "Игра закончена\n\n\n\n\nСоздатели\n\nKасеев Артём\nОбезьяна с плёткой\n\nKорчагина Мария\n-\n\nИгнатьев Михаил\nЗастрелите меня\n\nСентюрина Дарья\n-\n\nЕвтухов Дмитрий\n-\n\nАлешкин Никита\nЧеремша\n\nДьяков Владимир\nА где...?";
+    [SerializeField]
+    [TextArea(10, 50)]
+    public string _credits = "Игра закончена\n\n\n\n\nСоздатели\n\nKасеев Артём\nХозяин подвала\n\nKорчагина Мария\nА может бросить все и уйти\nв психионеврологический диспансер?\n\nИгнатьев Михаил\nЗастрелите меня\n\nСентюрина Дарья\nГлавное в творчестве не работать с наркоманами\n\nЕвтухов Дмитрий\nПочему я черный?\n\nАлешкин Никита\nЧеремша\n\nДьяков Владимир\nА где...?";
     public static event Action<string> AudioEvent;
 
     public void ShowCredits()
@@ -64,6 +65,11 @@ public class TitleManager : MonoBehaviour
 
         while (isScrolling)
         {
+            if(Input.GetKey(KeyCode.Escape)) 
+            {
+                StopCredits();
+                yield break;
+            }
             float currentScrollSpeed = Input.GetKey(KeyCode.Space) ? fastScrollSpeed : normalScrollSpeed;
             creditsRect.anchoredPosition += new Vector2(0, currentScrollSpeed * Time.unscaledDeltaTime);
             yield return null;
