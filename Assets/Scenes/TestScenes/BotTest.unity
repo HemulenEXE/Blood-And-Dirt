@@ -3963,6 +3963,9 @@ MonoBehaviour:
   _countSoldersMin: 0
   _needToRestoreSolder: 0
   _restoreKilledNonPlayer: 0
+  _analogState: 0
+  repeatTime: 30
+  _stoppingDistance: 0
 --- !u!4 &2141055733
 Transform:
   m_ObjectHideFlags: 0
