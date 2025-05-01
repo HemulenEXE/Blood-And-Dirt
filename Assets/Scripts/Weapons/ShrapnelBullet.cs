@@ -13,6 +13,8 @@ public class ShrapnelBullet : MonoBehaviour, IBullet
     public float Speed { get; set; } = 5f;
 
     private float _lifeTime = 5.5f;
+
+    private Vector3 _previousPosition;
     private void Start()
     {
         Destroy(this.gameObject, _lifeTime);
@@ -28,5 +30,10 @@ public class ShrapnelBullet : MonoBehaviour, IBullet
     private void FixedUpdate()
     {
         this.transform.position += this.transform.right * Speed * Time.fixedDeltaTime;
+
+        Debug.DrawLine(_previousPosition, transform.position, Color.red);
+
+        _previousPosition = transform.position;
+
     }
 }
