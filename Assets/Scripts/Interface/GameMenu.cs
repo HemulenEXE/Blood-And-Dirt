@@ -165,6 +165,13 @@ public class GameMenu : MonoBehaviour
             AudioEvent?.Invoke("pause_audio");
             _animator.SetBool(name: "startOpen", true);
         }
+
+        _audio.enabled = isOpen;
+        _save.enabled = isOpen;
+        _onSkillTree.enabled = isOpen;
+        _inMainMenu.enabled = isOpen;
+        _restartScene.enabled = isOpen;
+
     }
     //Выключает/включает остальные UI элементы и игровое время 
     private void ChangeWeaponActivity()
