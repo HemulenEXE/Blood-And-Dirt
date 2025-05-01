@@ -28,7 +28,7 @@ namespace SkillLogic
         {
             Debug.Log("SpawnLight!");
             GameObject lightObject = GameObject.Instantiate(_light, position, Quaternion.identity);
-            GameObject.Destroy(lightObject, 0.2f);
+            GameObject.Destroy(lightObject, 1f);
         }
 
     }
