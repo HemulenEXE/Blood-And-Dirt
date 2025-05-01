@@ -122,7 +122,7 @@ public class GameMenu : MonoBehaviour
         if (!transform.GetChild(0).gameObject.activeSelf)
         {
             isOpen = false;
-            AudioEvent?.Invoke(_oldBackGroundAudio?.name);
+            AudioEvent?.Invoke(_oldBackGroundAudio != null ? _oldBackGroundAudio.name : "");
             ChangeWeaponActivity();
         }
         SettingData.SaveData();
@@ -150,7 +150,7 @@ public class GameMenu : MonoBehaviour
             if (!transform.GetChild(0).gameObject.activeSelf)
             {
                 isOpen = false;
-                AudioEvent?.Invoke(_oldBackGroundAudio?.name);
+                AudioEvent?.Invoke(_oldBackGroundAudio != null ? _oldBackGroundAudio.name : "");
                 ChangeWeaponActivity();
             }
             _animator.SetBool(name: "startOpen", false);
