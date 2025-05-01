@@ -1,0 +1,6 @@
+<dialogue name="A soldier lying on a mattress">
+  <node id="0" npcName="Солдат, лежащий на матрасе">
+    <answer text="С тобой всё хорошо?" toNode="1" />
+  </node>
+  <node id="1" npcText="Да я полон сил! Мы разобьем этих Соколов!" exit="True" npcName="Солдат, лежащий на матрасе" />
+</dialogue>

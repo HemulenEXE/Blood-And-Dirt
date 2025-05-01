@@ -1,0 +1,9 @@
+<dialogue name="The soldier at the weapon box">
+  <node id="0" npcName="Солдат у ящиков с оружием">
+    <answer text="Я могу взять себе оружие?" toNode="1" />
+  </node>
+  <node id="1" npcText="А приказ командира есть? Документы есть?" npcName="Солдат у ящиков с оружием">
+    <answer text="Нет." toNode="2" />
+  </node>
+  <node id="2" npcText="Тогда проваливай. Кому попало оружие не выдаем." exit="True" npcName="Солдат у ящиков с оружием" />
+</dialogue>

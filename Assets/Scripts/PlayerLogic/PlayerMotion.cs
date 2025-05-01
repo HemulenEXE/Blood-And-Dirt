@@ -147,7 +147,9 @@ public class PlayerMotion : MonoBehaviour
     private void Start()
     {
         _mainCamera = Camera.main;
-        _animator = this.GetComponentInChildren<Animator>();
+        
+        //_animator = this.GetComponentInChildren<Animator>();
+        _animator = transform.GetChild(0).GetComponent<Animator>();
         _inventoryAndConsumableCounterUI = GameObject.FindAnyObjectByType<InventoryAndConsumableCounterUI>();
         _tilemaps = GameObject.FindObjectsOfType<Tilemap>();
 
