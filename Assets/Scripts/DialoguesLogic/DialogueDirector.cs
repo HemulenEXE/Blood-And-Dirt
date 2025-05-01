@@ -236,13 +236,16 @@ public class ShowDialogueDubl : MonoBehaviour
     //Булевый параметр отвечает за то, закончился ли диалог или игрок вышел из триггера
     public void EndDialogue(bool end = true)
     {
-        if ((DialogueWindow.gameObject.activeSelf && WithEnd) || (end && DialogueWindow.gameObject.activeSelf))
+        if (DialogueWindow != null)
         {
-            DialogueWindow.gameObject.SetActive(false);
-            IsTrigger = false;
-            DialogueWindow.GetComponent<DialogueWndState>().currentState = DialogueWndState.WindowState.EndPrint;
-            if (!WithAction) //Включаем обратно возможность действовать, если она отключена
-                SetAct();
+            if ((DialogueWindow.gameObject.activeSelf && WithEnd) || (end && DialogueWindow.gameObject.activeSelf))
+            {
+                DialogueWindow.gameObject.SetActive(false);
+                IsTrigger = false;
+                DialogueWindow.GetComponent<DialogueWndState>().currentState = DialogueWndState.WindowState.EndPrint;
+                if (!WithAction) //Включаем обратно возможность действовать, если она отключена
+                    SetAct();
+            }
         }
     }
     //Включает/отключает возможность что-то делать во время диалога

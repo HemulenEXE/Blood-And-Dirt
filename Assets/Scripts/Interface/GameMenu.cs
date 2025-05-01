@@ -79,6 +79,7 @@ public class GameMenu : MonoBehaviour
     }
     private void OnSkillTree()
     {
+        Debug.Log("ON SKILL TREE");
         GameObject skillTree = this.transform.GetChild(0).gameObject;
         if (skillTree.activeSelf)
         {
