@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 3177281123442811333}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.24, y: -0.11, z: 0}
+  m_LocalPosition: {x: 2.28, y: 0.02, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42,9 +42,9 @@ GameObject:
   - component: {fileID: 6664999207523929749}
   - component: {fileID: 7598518375870546717}
   - component: {fileID: 8067481467887965483}
-  - component: {fileID: 2766091239544720553}
   - component: {fileID: 8200546812686375423}
   - component: {fileID: 717444332291267842}
+  - component: {fileID: -5535661116673216692}
   m_Layer: 9
   m_Name: GrenadeLauncher
   m_TagString: Gun
@@ -109,7 +109,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 52651533ed55d9946896f504d4127de7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c250c9aea2c88ca488081b5eebd19c8d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -165,7 +165,41 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 2}
   m_EdgeRadius: 0
---- !u!82 &2766091239544720553
+--- !u!114 &8200546812686375423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9037748059272894288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe74912cb2dffbc43af2b0bc65c67e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Icon: {fileID: -3344321957462788073, guid: 1142d5ccb9c6c224c8b3f4ba23396f6a, type: 3}
+--- !u!114 &717444332291267842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9037748059272894288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3e93da71b8de64bb9d8d2534243018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noiseIntensity: 5
+  _prefabProjectile: {fileID: 8185501928067670845, guid: a947aed24b1dd7f45b64125d485ae841, type: 3}
+  <Damage>k__BackingField: 3
+  <ShotDelay>k__BackingField: 0.2
+  <AmmoTotal>k__BackingField: 100
+  <AmmoCapacity>k__BackingField: 10
+  <AmmoTotalCurrent>k__BackingField: 0
+  <RechargingTime>k__BackingField: 1
+  <AttackRange>k__BackingField: 25
+--- !u!82 &-5535661116673216692
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261,37 +295,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8200546812686375423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9037748059272894288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe74912cb2dffbc43af2b0bc65c67e26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 52651533ed55d9946896f504d4127de7, type: 3}
---- !u!114 &717444332291267842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9037748059272894288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a3e93da71b8de64bb9d8d2534243018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noiseIntensity: 5
-  _prefabProjectile: {fileID: 8185501928067670845, guid: a947aed24b1dd7f45b64125d485ae841, type: 3}
-  <Damage>k__BackingField: 3
-  <ShotDelay>k__BackingField: 0.2
-  <AmmoTotal>k__BackingField: 100
-  <AmmoCapacity>k__BackingField: 10
-  <AmmoTotalCurrent>k__BackingField: 0
-  <RechargingTime>k__BackingField: 1
-  <AttackRange>k__BackingField: 25

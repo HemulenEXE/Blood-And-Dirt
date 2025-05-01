@@ -1,0 +1,20 @@
+тестовая сцена Scene1_4TestMusic
+скрипты и префаб по пути: Assets/Music/MusicScripts
+как пользоваться: 
+1) навешиваем на любой (желательно со слушателем(Audio Listener)) 
+объект префаб MusicSelectorPrefab. Заполнять его лучше во вкладке project.
+2) Создаем поле для класса MusicSelector в скрипте, где будет происходить вызов смены 
+состояния MusicSelectorPrefab
+3) привязываем созданное поле для класса MusicSelector и объект MusicSelectorPrefab.
+Готово! Теперь мы можем вызывать методы класса MusicSelector:
+Пример приведен для случая, когда имя поля для класса MusicSelector--musicSelector
+
+	musicSelector.MusicModeSelector(MusicSelector.MusicMode.ComfortInside);  //вызов спокойной музыки для помещений
+    
+        musicSelector.MusicModeSelector(MusicSelector.MusicMode.ComfortOutside);  //вызов спокойной музыки для улицы
+    
+        musicSelector.MusicModeSelector(MusicSelector.MusicMode.Stress);  //вызов напряженной музыки
+    
+        musicSelector.MusicModeSelector(MusicSelector.MusicMode.Battle);  //вызов музыки для баттлов
+
+Вы также можете посмотреть рабочий пример в скрипте ExampleScript: Assets/Music/MusicScripts

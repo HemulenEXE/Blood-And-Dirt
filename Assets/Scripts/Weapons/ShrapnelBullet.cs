@@ -14,22 +14,31 @@ public class ShrapnelBullet : MonoBehaviour, IBullet
 
     private float _lifeTime = 5.5f;
 
+    private Vector3 _previousPosition;
     private void Start()
     {
         Destroy(this.gameObject, _lifeTime);
+        _previousPosition = transform.position;
     }
-    protected void OnCollisionEnter2D(Collision2D other)
+    private void FixedUpdate()
     {
-        if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("Gun"))
-        {
-            Speed = 0; // Остановка снаряда
-            this.GetComponent<SpriteRenderer>().sprite = null;
+        Vector3 newPosition = transform.position + transform.right * Speed * Time.fixedDeltaTime;
 
+        // Проверяем наличие препятствий
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, Speed * Time.fixedDeltaTime);
+        if (hit.collider != null && !hit.collider.gameObject.CompareTag("Projectile") && !hit.collider.gameObject.CompareTag("Gun"))
+        {
+            Debug.Log("DESTROYED");
             Destroy(this.gameObject);
         }
-    }
-    private void Update()
-    {
-        this.transform.Translate(Vector2.right * Speed * Time.deltaTime);
+        else
+        {
+            transform.position = newPosition;
+        }
+
+        Debug.DrawLine(_previousPosition, transform.position, Color.red);
+
+        Debug.Log(hit.collider?.gameObject);
+
     }
 }

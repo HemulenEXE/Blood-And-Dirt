@@ -147,15 +147,15 @@ GameObject:
   m_Component:
   - component: {fileID: 7086636088839060460}
   - component: {fileID: 9094131199926516465}
-  - component: {fileID: 7231008609120787256}
   - component: {fileID: 7080364131180216866}
   - component: {fileID: 6825892838485166059}
   - component: {fileID: 7994736592976569980}
   - component: {fileID: 4905201263935484985}
   - component: {fileID: 6978428935053106168}
+  - component: {fileID: 3284087583492495284}
   m_Layer: 11
   m_Name: PurpleSoldierWithPistol
-  m_TagString: Enemy
+  m_TagString: EnemyFalcons
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -213,51 +213,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!61 &7231008609120787256
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4103973174957079966}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 5.5, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 10, y: 4}
-  m_EdgeRadius: 0
 --- !u!114 &7080364131180216866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,8 +232,10 @@ MonoBehaviour:
   rotationAngle: 15
   rotationSpeed: 1
   stoppingDistance: 5
+  IsPlayerEnemy: 1
   stateSide: 1
   stateBot: 2
+  targetPlayer: {fileID: 0}
 --- !u!50 &6825892838485166059
 Rigidbody2D:
   serializedVersion: 4
@@ -320,7 +277,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -437,6 +394,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   side: 1
+--- !u!60 &3284087583492495284
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4103973174957079966}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0}
+      - {x: 8, y: 5}
+      - {x: 8, y: -5}
+  m_UseDelaunayMesh: 0
 --- !u!1 &6384349912178543387
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,15 +639,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noiseIntensity: 5
   _prefabProjectile: {fileID: 8185501928067670845, guid: 7244fdf75437882418c1396c1671173d, type: 3}
-  _audioControl: {fileID: 0}
-  _audioFire: {fileID: 8300000, guid: f6aa75816b9bc394d81a68a878fe7f5e, type: 3}
-  _audioRecharge: {fileID: 8300000, guid: 4fa7a62340ff47041831d1911bf4ff97, type: 3}
-  _audioPlatoon: {fileID: 0}
   <Damage>k__BackingField: 2
   <ShotDelay>k__BackingField: 0.2
-  <AmmoTotal>k__BackingField: 100
+  <AmmoTotal>k__BackingField: 10000
   <AmmoCapacity>k__BackingField: 10
-  <AmmoTotalCurrent>k__BackingField: 0
+  <AmmoTotalCurrent>k__BackingField: 10
   <RechargingTime>k__BackingField: 1
   <AttackRange>k__BackingField: 10
 --- !u!1 &9131769716523926785
@@ -764,3 +765,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
+  explosionProof: 0
+  resiestExplosion: 3

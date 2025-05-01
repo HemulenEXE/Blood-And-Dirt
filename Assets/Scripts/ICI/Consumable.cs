@@ -1,4 +1,7 @@
-﻿/// <summary>
+﻿using UnityEngine;
+
+
+/// <summary>
 /// Класс, реализующий "расходник".<br/>
 /// Этот скрипт позволяет забирать расходники (аптечку, бинты, гранаты) со сцены и изменяет показатель их количества.
 /// </summary>
@@ -6,6 +9,7 @@ public class Consumable : ClickedObject
 {
     public override void Interact()
     {
+        Debug.Log("Consumable: Interact");
         switch (this.tag)
         {
             case "SmokeGrenade":

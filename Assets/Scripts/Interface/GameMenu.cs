@@ -1,8 +1,8 @@
-﻿using UnityEngine.UI;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
-using TMPro;
+using UnityEngine.UI;
 
 /// <summary>
 /// Скрипт управления внутриигровым меню. Навешивается на GameMenu
@@ -33,11 +33,24 @@ public class GameMenu : MonoBehaviour
     /// Кнопка включения/выключения дерева прокачики
     /// </summary>
     private Button _onSkillTree;
+    //Открыто ли меню или его вложенные элементы (дерево прокачки)
+    private bool isOpen = false;
+    //Объеекты, которые нужно отключать, если включено меню
+    [NonSerialized]
+    public Image fader;
+    GameObject interactiveUI;
+    GameObject inventoryUI;
+    GameObject bloodEffect;
+    GameObject dialogueWnd;
+
+    private AudioClip _oldBackGroundAudio;
+    public static event Action<string> AudioEvent;
+
     /// <summary>
     /// Проверка и настройка полей.
     /// </summary>
     /// <exception cref="ArgumentNullException"></exception>
-    private void Awake()
+    private void Start()
     {
         GameObject menu = GameObject.Find("SettingsMenu");
         if (menu == null) throw new ArgumentNullException("GameMenu: menu is null");
@@ -50,19 +63,25 @@ public class GameMenu : MonoBehaviour
         if (_inMainMenu == null) throw new ArgumentNullException("GameMenu: _inMainMenu is null");
         if (_restartScene == null) throw new ArgumentNullException("GameMenu: _restartScene is null");
         if (_audio == null) throw new ArgumentNullException("GameMenu: _audio is null");
+
         _save.onClick.AddListener(Save);
         _inMainMenu.onClick.AddListener(InMainMenu);
         _restartScene.onClick.AddListener(RestartScene);
         _audio.onValueChanged.AddListener(SetVolume);
-        if (PlayerPrefs.HasKey("Volume")) _audio.value = PlayerPrefs.GetFloat("Volume");
+        _audio.value = SettingData.Volume;
         _onSkillTree.onClick.AddListener(OnSkillTree);
+
+        Counter.Instance().points = PlayerData.Score;
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) ControllMenu();
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ControllMenu();
+        
     }
     private void OnSkillTree()
     {
+        Debug.Log("ON SKILL TREE");
         GameObject skillTree = this.transform.GetChild(0).gameObject;
         if (skillTree.activeSelf)
         {
@@ -82,7 +101,6 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private void InMainMenu()
     {
-
         transform.Find("PopUpNotice").gameObject.SetActive(true);
     }
     /// <summary>
@@ -92,19 +110,22 @@ public class GameMenu : MonoBehaviour
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void SetVolume(float volume)
     {
-        if (volume < 0) throw new ArgumentOutOfRangeException("GameMenu: volume < 0");
-        if (volume > 1) throw new ArgumentOutOfRangeException("GameMenu: volume > 1");
-        AudioListener.volume = volume;
+        SettingData.SetVolume(volume);
+        SettingData.ApplySettings();
     }
     /// <summary>
     /// Закрытие меню с сохранением настроек
     /// </summary>
     private void Save()
     {
-        Time.timeScale = 1;
         _animator.SetBool(name: "startOpen", false);
-        PlayerPrefs.SetFloat("Volume", _audio.value); //Сохранение громкости.
-        PlayerPrefs.Save();
+        if (!transform.GetChild(0).gameObject.activeSelf)
+        {
+            isOpen = false;
+            AudioEvent?.Invoke(_oldBackGroundAudio != null ? _oldBackGroundAudio.name : "");
+            ChangeWeaponActivity();
+        }
+        SettingData.SaveData();
     }
     /// <summary>
     /// Запускает заново сцену
@@ -121,15 +142,97 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private void ControllMenu()
     {
+        Debug.Log("ON CONTROLL MENU");
+        Debug.Log(this);
         if (_animator.GetBool(name: "startOpen"))
         {
-            Time.timeScale = 1;
+            Debug.Log("CLOSE");
+            if (!transform.GetChild(0).gameObject.activeSelf)
+            {
+                isOpen = false;
+                AudioEvent?.Invoke(_oldBackGroundAudio != null ? _oldBackGroundAudio.name : "");
+                ChangeWeaponActivity();
+            }
             _animator.SetBool(name: "startOpen", false);
         }
         else
         {
-            Time.timeScale = 0;
+            Debug.Log("OPEN");
+            if (!isOpen)
+                ChangeWeaponActivity();
+            isOpen = true;
+            _oldBackGroundAudio = SoundManager._currentBackGroundAudio;
+            AudioEvent?.Invoke("pause_audio");
             _animator.SetBool(name: "startOpen", true);
+        }
+
+        _audio.enabled = isOpen;
+        _save.enabled = isOpen;
+        _onSkillTree.enabled = isOpen;
+        _inMainMenu.enabled = isOpen;
+        _restartScene.enabled = isOpen;
+
+    }
+    //Выключает/включает остальные UI элементы и игровое время 
+    private void ChangeWeaponActivity()
+    {
+        Debug.Log("CHANGE WEAPON ACTIVITY");
+        Debug.Log(this);
+        Time.timeScale = Time.timeScale == 1 ? 0 : 1;
+
+        Image fd = null;
+        GameObject interactUI = null;
+        GameObject invantUI = null;
+        GameObject bE = null;
+        GameObject dW = null;
+
+        if (fader == null)
+            fd = GameObject.FindWithTag("Fader")?.GetComponentInChildren<Image>();
+        if (interactiveUI == null)
+            interactUI = GameObject.Find("InteractiveUI");
+        if (inventoryUI == null)
+            invantUI = GameObject.Find("InventoryAndConsumableCounterUI");
+        if (bloodEffect == null)
+            bE = GameObject.Find("BloodEffect");
+        if (dialogueWnd == null)
+            dW = GameObject.Find("DialogueWindow");
+
+        //Сохранение ссылок на объекты для их последующего включения
+        if (fd != null && fader == null)
+            fader = fd;
+        if (interactUI != null && interactiveUI == null)
+            interactiveUI = interactUI;
+        if (invantUI != null && inventoryUI == null)
+            inventoryUI = invantUI;
+        if (bE != null && bloodEffect == null)
+            bloodEffect = bE;
+        if (dW != null && dialogueWnd == null)
+            dialogueWnd = dW;
+
+        Debug.Log($"FADER: {fader}");
+        Debug.Log($"INTERECT: {interactiveUI}");
+        Debug.Log($"INVENT: {inventoryUI}");
+        Debug.Log($"BLOOD EFFECT: {bloodEffect}");
+        Debug.Log($"DIALOGUE WND: {dialogueWnd}");
+        
+
+        fader?.gameObject.SetActive(!fader.gameObject.activeSelf);
+        interactiveUI?.SetActive(!interactiveUI.activeSelf);
+        inventoryUI?.SetActive(!inventoryUI.activeSelf);
+        bloodEffect?.SetActive(!bloodEffect.activeSelf);
+        if (dialogueWnd != null && dialogueWnd.GetComponent<DialogueWndState>().currentState == DialogueWndState.WindowState.StartPrint)
+            dialogueWnd.SetActive(!dialogueWnd.activeSelf);
+
+
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            if (player.GetComponent<PlayerKnife>() != null)
+                player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
+            if (player.GetComponent<PlayerShooting>()!= null)
+                player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
+            if (player.GetComponent<PlayerGrenade>() != null)
+                player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
         }
     }
 }

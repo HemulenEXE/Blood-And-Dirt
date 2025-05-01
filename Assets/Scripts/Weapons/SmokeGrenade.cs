@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class SmokeGrenade : ShrapnelGrenade
 {
-    [SerializeField] private ParticleSystem _smokeParticle;
+    private ParticleSystem _smokeParticle;
     [SerializeField] protected float _smokeDuraion = 5f;
+
+    public static event Action<Transform, string> AudioEvent;
+
 
     protected override void Awake()
     {
@@ -20,7 +23,8 @@ public class SmokeGrenade : ShrapnelGrenade
 
     public override void Explode()
     {
-                IsActivated = true;
+        AudioEvent?.Invoke(this.transform, "smoking_grenade_explosion");
+        IsActivated = true;
 
         _smokeParticle.Play();
         this.GetComponent<SpriteRenderer>().sprite = null;

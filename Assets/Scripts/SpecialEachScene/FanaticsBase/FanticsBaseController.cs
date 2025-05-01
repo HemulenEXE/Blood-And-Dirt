@@ -19,7 +19,7 @@ public class FanaticsBaseController : MonoBehaviour
                 {
                     break;
                 }
-            case 2:
+            case 2: case 3: //Убрать case 3, когда будет готов 3ий сценарий появления игрока на этой сцене
                 {
                     InActive(2);
                     Camera.main.transform.position = new Vector3(-48.23f, -10.1f, -10f);
@@ -29,12 +29,13 @@ public class FanaticsBaseController : MonoBehaviour
                     catScene.Play();
                     break;
                 }
+                /* Раскоментировать и дополнить, когда будет готов 3ий сценарий появления игрока
             case 3:
                 {
                     InActive(2);
                     InActive(3);
                     break;
-                }
+                }*/ 
 
         }
     }
@@ -46,6 +47,7 @@ public class FanaticsBaseController : MonoBehaviour
             case 2:
                 {
                     GameObject.Find("Player1").SetActive(false);
+                    GameObject.Find("GameMenu (2)").SetActive(false);
                     GameObject.Find("DoorOpenRight").transform.GetChild(1).gameObject.SetActive(false); //Отключили триггер на двери тюрьмы
                     break;
                 }

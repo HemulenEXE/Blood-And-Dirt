@@ -188,6 +188,7 @@ public class Printer : MonoBehaviour
 
         while (_rInd < text.Length)
         {
+            float timer; //для создания задержки во время печати
             if (text[_rInd] != '<') //текст без анимаций, с обычны форматированием
             {
                 AddLetter(text[_rInd].ToString(), true);
@@ -207,7 +208,13 @@ public class Printer : MonoBehaviour
                             {
                                 GameObject letter = AddLetter(chars[i], true);
                                 letter.transform.DOLocalMoveY(currentY + _lineHight * 0.5f, 0.4f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
-                                yield return new WaitForSeconds(TimeBetweenLetters);
+                                timer = 0f;
+                                while (timer < TimeBetweenLetters)
+                                {
+                                    yield return new WaitForFixedUpdate();
+                                    timer += Time.fixedDeltaTime;
+                                }
+                                //yield return new WaitForSeconds(TimeBetweenLetters);
                             }
                             break;
                         }
@@ -218,7 +225,13 @@ public class Printer : MonoBehaviour
                             {
                                 GameObject letter = AddLetter(chars[i], true);
                                 letter.transform.DOShakePosition(1f, 2.5f).SetLoops(-1);
-                                yield return new WaitForSeconds(TimeBetweenLetters);
+                                timer = 0f;
+                                while (timer < TimeBetweenLetters)
+                                {
+                                    yield return new WaitForFixedUpdate();
+                                    timer += Time.fixedDeltaTime;
+                                }
+                                //yield return new WaitForSeconds(TimeBetweenLetters);
                             }
                             break;
                         }
@@ -228,7 +241,13 @@ public class Printer : MonoBehaviour
                             foreach (var c in chars)
                             {
                                 AddLetter(c, true);
-                                yield return new WaitForSeconds(TimeBetweenLetters);
+                                timer = 0f;
+                                while (timer < TimeBetweenLetters)
+                                {
+                                    yield return new WaitForFixedUpdate();
+                                    timer += Time.fixedDeltaTime;
+                                }
+                                //yield return new WaitForSeconds(TimeBetweenLetters);
                             }
                             break;
                         }
@@ -236,7 +255,13 @@ public class Printer : MonoBehaviour
                 IsAnim = false;
                 _rInd += m.Groups[3].Length + 4;
             }
-            yield return new WaitForSeconds(TimeBetweenLetters);
+            timer = 0f;
+            while (timer < TimeBetweenLetters)
+            {
+                yield return new WaitForFixedUpdate();
+                timer += Time.fixedDeltaTime;
+            }
+            //yield return new WaitForSeconds(TimeBetweenLetters);
         }
         _rInd--;
         Debug.Log($"_replicInd = {_replicInd}");
@@ -282,6 +307,7 @@ public class Printer : MonoBehaviour
     /// <returns></returns>
     private List<string> SplitForSimbols(string text)
     {
+        
         List<string> res = new List<string>();
         Match m = Regex.Match(text, @"(<[^>]+>)(.*?)(<\/[^>]+>)");
         Debug.Log(m.Groups[2].Value);
@@ -292,5 +318,13 @@ public class Printer : MonoBehaviour
             foreach (char c in text)
                 res.Add(c.ToString());
         return res;
+    }
+
+
+
+
+    void OnDestroy()
+    {
+        DOTween.KillAll();
     }
 }

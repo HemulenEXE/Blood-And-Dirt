@@ -9,9 +9,7 @@ public class GrenadeLauncher : MonoBehaviour, IGun
 
     [SerializeField] protected GameObject _prefabProjectile;
 
-    private AudioSource _audioController;
-    private AudioClip _shootingAudio;
-    private AudioClip _rechargingAudio;
+    public static event Action<Transform, string> AudioEvent;
 
     public GunType Type { get; } = GunType.Light;
     public bool IsHeld { get; set; } = true;
@@ -34,7 +32,7 @@ public class GrenadeLauncher : MonoBehaviour, IGun
         {
             if (AmmoTotalCurrent > 0)
             {
-                _audioController.PlayOneShot(_shootingAudio);
+                AudioEvent?.Invoke(this.transform, "fire_grenade_launcher_audio");
                 IsShooting = true;
 
                 var spawnerProjectile = this.transform.Find("SpawnerProjectile");
@@ -53,11 +51,9 @@ public class GrenadeLauncher : MonoBehaviour, IGun
                 }
 
                 IsShooting = false;
-
-                if (IsPlayerShoot)
-                {
-                    makeNoiseShooting?.Invoke(transform, noiseIntensity);
-                }
+                
+                makeNoiseShooting?.Invoke(transform, noiseIntensity);
+                
             }
             else Recharge();
         }
@@ -88,7 +84,7 @@ public class GrenadeLauncher : MonoBehaviour, IGun
         }
 
         int count_need_patrons = AmmoCapacity - AmmoTotalCurrent; //Количество нехватаемых патронов.
-        _audioController.PlayOneShot(_rechargingAudio);
+        AudioEvent?.Invoke(this.transform, "recharging_grenade_launcher_audio");
         if (AmmoTotal > count_need_patrons)
         {
             AmmoTotalCurrent += count_need_patrons;
@@ -108,10 +104,6 @@ public class GrenadeLauncher : MonoBehaviour, IGun
     /// <exception cref="ArgumentNullException"></exception>
     protected void Awake()
     {
-        _audioController = this.GetComponent<AudioSource>();
-        _shootingAudio = Resources.Load<AudioClip>("Audios/Weapons/GrenadeLauncher/ShootingAudio");
-        _rechargingAudio = Resources.Load<AudioClip>("Audios/Weapons/GrenadeLauncher/RechargingAudio");
-
         if (Damage < 0) throw new ArgumentOutOfRangeException("Pistol: Damage < 0");
         if (ShotDelay < 0) throw new ArgumentOutOfRangeException("Pistol: ShotDelay < 0");
         if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("Pistol: AmmoTotal < 0");
@@ -119,9 +111,6 @@ public class GrenadeLauncher : MonoBehaviour, IGun
         if (RechargingTime < 0) throw new ArgumentOutOfRangeException("Pistol: RechargingTime < 0");
         if (AmmoCapacity < AmmoTotalCurrent) throw new ArgumentOutOfRangeException("Pistol: AmmoCapacity < AmmoTotalCurrent");
         if (_prefabProjectile == null) throw new ArgumentNullException("Pistol: _prefabPellet is null");
-        if (_audioController == null) throw new ArgumentNullException("Pistol: _audioControl is null");
-        if (_shootingAudio == null) throw new ArgumentNullException("Pistol: _audioFire is null");
-        if (_rechargingAudio == null) throw new ArgumentNullException("Pistol: _audioRecharge is null");
     }
 
     public bool IsInRange(Vector3 targetPosition)

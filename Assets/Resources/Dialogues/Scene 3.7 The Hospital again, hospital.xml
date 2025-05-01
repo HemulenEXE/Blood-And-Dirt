@@ -3,7 +3,6 @@
     <answer text="Я Сержант Джером, мне прописали успокоительные… " toNode="1" />
   </node>
   <node id="1" npcText="&lt;i&gt;Так, минуточку.&lt;/i&gt; Ага, да вижу, вы есть в списке. Пройдёмте в палату. " npcName="Медсестра">
-    <answer text="" toNode="2" />
   </node>
   <node id="2" npcText="Подождите немного, я подготовлю препарат. " exit="True" npcName="Медсестра" />
 </dialogue>

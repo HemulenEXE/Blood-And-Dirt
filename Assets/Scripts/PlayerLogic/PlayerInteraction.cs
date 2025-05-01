@@ -21,17 +21,21 @@ public class PlayerInteract : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * _interactionDistance, Color.red);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, _interactionDistance, ~_ignoreLayer);
 
-        if (hit.collider != null) _interactiveUI.TurnOnText(hit.transform.gameObject);
-        else _interactiveUI.TurnOffText();
 
         var temp = hit.collider?.gameObject?.GetComponent<IInteractable>();
+
+        if (hit.collider != null)
+        {
+            _interactiveUI.TurnOnText(hit.transform.gameObject);
+        }
+        else _interactiveUI.TurnOffText();
 
         if (temp is Talker t && Input.GetKeyDown(SettingData.Dialogue))
         {
             t.Interact();
         }
 
-        else if (!(temp is Talker) && temp != null && Input.GetKeyDown(SettingData.Interact))
+        else if (temp is not Talker && temp != null && Input.GetKeyDown(SettingData.Interact))
         {
             temp.Interact();
         }

@@ -1,5 +1,4 @@
-﻿using GunLogic;
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,10 +11,8 @@ public class ShotGun : MonoBehaviour, IGun
     [SerializeField] protected int _countPerShotProjectile = 6;
     [SerializeField] protected float _spreadAngle = 15f;
 
-    [SerializeField] private AudioSource _audioControl;
-    [SerializeField] private AudioClip _audioFire;
-    [SerializeField] private AudioClip _audioRecharge;
-    [SerializeField] private AudioClip _audioPlatoon;
+
+    public static event Action<Transform, string> AudioEvent;
 
     public bool IsHeld { get; set; } = true;
     public GunType Type { get; } = GunType.Heavy;
@@ -43,11 +40,11 @@ public class ShotGun : MonoBehaviour, IGun
         {
             if (AmmoTotalCurrent > 0)
             {
-                
-                IsShooting = true;
-                _audioControl.PlayOneShot(_audioFire);
 
-                for (int i = 1; i <= _countPerShotProjectile; i++) // Вылет дробинок
+                IsShooting = true;
+                AudioEvent?.Invoke(this.transform, "fire_shotgun_audio");
+
+                for (int i = 1; i <= _countPerShotProjectile; ++i) // Вылет дробинок
                 {
                     float interim_spread_angle = UnityEngine.Random.Range(-_spreadAngle, _spreadAngle); //Определение угла распространения текущего снаряда.
                     Vector3 direction = this.transform.forward * Mathf.Cos(interim_spread_angle); //Определение направления движения снаряда.
@@ -70,7 +67,7 @@ public class ShotGun : MonoBehaviour, IGun
                 IsShooting = false;
                 //if (IsPlayerShoot)
                 //{
-                    makeNoiseShooting?.Invoke(transform, noiseIntensity);
+                makeNoiseShooting?.Invoke(transform, noiseIntensity);
                 //}
             }
             else Recharge();
@@ -78,9 +75,9 @@ public class ShotGun : MonoBehaviour, IGun
     }
     public void Recharge()
     {
-        if (AmmoTotal > 0 && !IsRecharging && !IsShooting)
+        if (AmmoTotalCurrent != AmmoCapacity && AmmoTotal > 0 && !IsRecharging && !IsShooting)
         {
-            IsRecharging = true; //Начало перезарядки.
+            IsRecharging = true;
             StartCoroutine(RechargeCoroutine());
         }
     }
@@ -92,7 +89,7 @@ public class ShotGun : MonoBehaviour, IGun
     {
         while (AmmoTotalCurrent < AmmoCapacity)
         {
-            _audioControl.PlayOneShot(_audioRecharge);
+            AudioEvent?.Invoke(this.transform, "recharge_shotgun_audio");
             AmmoTotal--;
             AmmoTotalCurrent++;
             yield return new WaitForSeconds(RechargingTime / AmmoCapacity);
@@ -102,13 +99,11 @@ public class ShotGun : MonoBehaviour, IGun
                 yield break;
             }
         }
-        _audioControl.PlayOneShot(_audioPlatoon);
+        AudioEvent?.Invoke(this.transform, "platoon_shotgun_audio");
         IsRecharging = false;
     }
     protected void Awake()
     {
-        _audioControl = this.GetComponent<AudioSource>();
-
         if (Damage < 0) throw new ArgumentOutOfRangeException("ShotGun: Damage < 0");
         if (ShotDelay < 0) throw new ArgumentOutOfRangeException("ShotGun: ShotDelay < 0");
         if (AmmoTotal < 0) throw new ArgumentOutOfRangeException("ShotGun: AmmoTotal < 0");
@@ -118,10 +113,6 @@ public class ShotGun : MonoBehaviour, IGun
         if (_prefabProjectile == null) throw new ArgumentNullException("ShotGun: _prefabPellet is null");
         if (_countPerShotProjectile < 0) throw new ArgumentOutOfRangeException("ShotGun: _countFlyingPellets < 0");
         if (SpeedProjectile < 0) throw new ArgumentOutOfRangeException("ShotGun: SpeedProjectile < 0");
-        if (_audioControl == null) throw new ArgumentNullException("ShotGun: _audioControl is null");
-        if (_audioFire == null) throw new ArgumentNullException("ShotGun: _audioFire is null");
-        if (_audioRecharge == null) throw new ArgumentNullException("ShotGun: _audioRecharge is null");
-        if (_audioPlatoon == null) throw new ArgumentNullException("ShotGun: _audioPlatoon is null");
     }
 
     /// <summary>

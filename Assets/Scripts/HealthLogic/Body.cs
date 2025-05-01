@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Body : ClickedObject
@@ -14,6 +15,8 @@ public class Body : ClickedObject
     private float _timeSecondsLife = 10; // Время жизни тела (нужно, чтобы не перегружать сцены трупами)
     // Эти поля настроены у префаба
 
+    public static event Action<Transform, string> AudioEvent;
+
     public override void Interact()
     {
         if (!PlayerData.HasSkill<LiveInNotVain>()) return;
@@ -25,15 +28,19 @@ public class Body : ClickedObject
         if (_currentHealth <= 0)
         {
             Destroy(this.gameObject.GetComponent<Collider2D>()); // Чтобы с трупом нельзя было дальше взаимодействовать
-            this.gameObject.GetComponent<AudioSource>().PlayOneShot(_eatingFinish);
-            Destroy(gameObject, _eatingFinish.length);
+            AudioEvent?.Invoke(this.transform, "eating_finish_sound");
+            Destroy(this.gameObject, _eatingFinish.length);
         }
-        else this.gameObject.GetComponent<AudioSource>().PlayOneShot(_eating);
+        else AudioEvent?.Invoke(this.transform, "eating_process_sound");
 
     }
-
+    public void Awake()
+    {
+        Description = SettingData.Interact.ToString();
+    }
     public void Start()
     {
+        _eatingFinish = Resources.Load<AudioClip>("Audios/Enemies/eating_finish_sound");
         Destroy(gameObject, _timeSecondsLife); 
     }
 }
