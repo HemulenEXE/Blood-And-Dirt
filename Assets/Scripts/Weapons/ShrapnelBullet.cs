@@ -1,10 +1,5 @@
-using GunLogic;
-using System;
 using UnityEngine;
 
-/// <summary>
-/// Класс, реализующий "жизненный цикл снаряда".
-/// </summary>
 public class ShrapnelBullet : MonoBehaviour, IBullet
 {
     public Side sideBullet { get; set; }
@@ -13,32 +8,26 @@ public class ShrapnelBullet : MonoBehaviour, IBullet
     public float Speed { get; set; } = 5f;
 
     private float _lifeTime = 5.5f;
+    private Rigidbody2D _rigidbody;
 
-    private Vector3 _previousPosition;
     private void Start()
     {
         Destroy(this.gameObject, _lifeTime);
-        _previousPosition = transform.position;
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _rigidbody.velocity = transform.right * Speed;
     }
-    private void FixedUpdate()
-    {
-        Vector3 newPosition = transform.position + transform.right * Speed * Time.fixedDeltaTime;
 
-        // Проверяем наличие препятствий
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, Speed * Time.fixedDeltaTime);
-        if (hit.collider != null && !hit.collider.gameObject.CompareTag("Projectile") && !hit.collider.gameObject.CompareTag("Gun"))
+    protected void OnCollisionEnter2D(Collision2D other)
+    {
+        if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("Mine") && !other.gameObject.CompareTag("Gun"))
         {
             Debug.Log("DESTROYED");
             Destroy(this.gameObject);
         }
-        else
-        {
-            transform.position = newPosition;
-        }
+    }
 
-        Debug.DrawLine(_previousPosition, transform.position, Color.red);
-
-        Debug.Log(hit.collider?.gameObject);
-
+    private void FixedUpdate()
+    {
+        Debug.DrawLine(transform.position - transform.right, transform.position, Color.red);
     }
 }
