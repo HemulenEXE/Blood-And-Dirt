@@ -75,6 +75,7 @@ public class GameMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             ControllMenu();
+        
     }
     private void OnSkillTree()
     {
@@ -138,8 +139,11 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private void ControllMenu()
     {
+        Debug.Log("ON CONTROLL MENU");
+        Debug.Log(this);
         if (_animator.GetBool(name: "startOpen"))
         {
+            Debug.Log("CLOSE");
             if (!transform.GetChild(0).gameObject.activeSelf)
             {
                 isOpen = false;
@@ -150,6 +154,7 @@ public class GameMenu : MonoBehaviour
         }
         else
         {
+            Debug.Log("OPEN");
             if (!isOpen)
                 ChangeWeaponActivity();
             isOpen = true;
@@ -162,14 +167,25 @@ public class GameMenu : MonoBehaviour
     private void ChangeWeaponActivity()
     {
         Debug.Log("CHANGE WEAPON ACTIVITY");
-
+        Debug.Log(this);
         Time.timeScale = Time.timeScale == 1 ? 0 : 1;
 
-        Image fd = GameObject.FindWithTag("Fader")?.GetComponentInChildren<Image>();
-        GameObject interactUI = GameObject.Find("InteractiveUI");
-        GameObject invantUI = GameObject.Find("InventoryAndConsumableCounterUI");
-        GameObject bE = GameObject.Find("BloodEffect");
-        GameObject dW = GameObject.Find("DialogueWindow");
+        Image fd = null;
+        GameObject interactUI = null;
+        GameObject invantUI = null;
+        GameObject bE = null;
+        GameObject dW = null;
+
+        if (fader == null)
+            fd = GameObject.FindWithTag("Fader")?.GetComponentInChildren<Image>();
+        if (interactiveUI == null)
+            interactUI = GameObject.Find("InteractiveUI");
+        if (inventoryUI == null)
+            invantUI = GameObject.Find("InventoryAndConsumableCounterUI");
+        if (bloodEffect == null)
+            bE = GameObject.Find("BloodEffect");
+        if (dialogueWnd == null)
+            dW = GameObject.Find("DialogueWindow");
 
         //Сохранение ссылок на объекты для их последующего включения
         if (fd != null && fader == null)
@@ -183,6 +199,13 @@ public class GameMenu : MonoBehaviour
         if (dW != null && dialogueWnd == null)
             dialogueWnd = dW;
 
+        Debug.Log($"FADER: {fader}");
+        Debug.Log($"INTERECT: {interactiveUI}");
+        Debug.Log($"INVENT: {inventoryUI}");
+        Debug.Log($"BLOOD EFFECT: {bloodEffect}");
+        Debug.Log($"DIALOGUE WND: {dialogueWnd}");
+        
+
         fader?.gameObject.SetActive(!fader.gameObject.activeSelf);
         interactiveUI?.SetActive(!interactiveUI.activeSelf);
         inventoryUI?.SetActive(!inventoryUI.activeSelf);
@@ -194,9 +217,12 @@ public class GameMenu : MonoBehaviour
         GameObject player = GameObject.FindWithTag("Player");
         if (player != null)
         {
-            player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
-            player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
-            player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
+            if (player.GetComponent<PlayerKnife>() != null)
+                player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
+            if (player.GetComponent<PlayerShooting>()!= null)
+                player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
+            if (player.GetComponent<PlayerGrenade>() != null)
+                player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
         }
     }
 }
