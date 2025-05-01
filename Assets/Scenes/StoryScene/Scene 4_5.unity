@@ -131363,6 +131363,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u041C\u044E\u043B\u043B\u0435\u0440  \u0430\u043D\u0438\u043C\u0430\u0446\u0438\u044F"
       objectReference: {fileID: 0}
+    - target: {fileID: 1160356261127867848, guid: 9ba2384f6ca68cc428ec0ab5735856c5, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: cc791716e8205c64a877a5abf14c8f49, type: 2}
     - target: {fileID: 3626916397498700004, guid: 9ba2384f6ca68cc428ec0ab5735856c5, type: 3}
       propertyPath: m_SortingOrder
       value: 3
@@ -134705,6 +134709,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4540870983180539387, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
+    - {fileID: 7428557963552846530, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7936730218683733154, guid: 6005ae5620236eb4bac547445ddd4568, type: 3}

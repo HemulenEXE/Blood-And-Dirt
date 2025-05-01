@@ -33,13 +33,13 @@ public class CutToughtAnim : MonoBehaviour
     }
     private IEnumerator Wait()
     {
-        Debug.Log("StartWait");
+        GameObject.Find("InteractiveUI").GetComponent<InteractiveUI>().TurnOffText();
         var animInfo = animator.GetCurrentAnimatorStateInfo(0);
         if (animInfo.IsName("гг отрубает язык_Clip"))
-        {
             yield return new WaitForSeconds(animInfo.length);
-        }
+        
         EndAnim = true;
+        yield return new WaitForFixedUpdate();
         this.gameObject.SetActive(false);
     }
 }
