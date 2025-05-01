@@ -34,6 +34,8 @@ public class InventoryDistribution : MonoBehaviour
     [SerializeField]
     private GameObject GrenadeLauncher;
 
+    [SerializeField]
+    private int AddinationalScore;
 
     private void Start()
     {
@@ -51,11 +53,14 @@ public class InventoryDistribution : MonoBehaviour
         PlayerData.SimpleGrenadeCount = ShrapnelGrenadeStartCount;
         PlayerData.SmokeGrenadeCount = SmokeGrenadeStartCount;
 
-        var iac = GameObject.Find("InventoryAndConsumableCounterUI").GetComponent<InventoryAndConsumableCounterUI>();
-        if (HasKnife) iac.AddItem(GameObject.Instantiate(Knife).GetComponent<Item>());
-        if (HasMachineGun) iac.AddItem(GameObject.Instantiate(MachineGun).GetComponent<Item>());
-        if (HasShotGun) iac.AddItem(GameObject.Instantiate(ShotGun).GetComponent<Item>());
-        if (HasPistol) iac.AddItem(GameObject.Instantiate(Pistol).GetComponent<Item>());
-        if (HasGrenadeLauncher) iac.AddItem(GameObject.Instantiate(GrenadeLauncher).GetComponent<Item>());
+        var iac = GameObject.Find("InventoryAndConsumableCounterUI")?.GetComponent<InventoryAndConsumableCounterUI>();
+        if (HasKnife) iac?.AddItem(GameObject.Instantiate(Knife)?.GetComponent<Item>());
+        if (HasMachineGun) iac?.AddItem(GameObject.Instantiate(MachineGun)?.GetComponent<Item>());
+        if (HasShotGun) iac?.AddItem(GameObject.Instantiate(ShotGun)?.GetComponent<Item>());
+        if (HasPistol) iac?.AddItem(GameObject.Instantiate(Pistol)?.GetComponent<Item>());
+        if (HasGrenadeLauncher) iac?.AddItem(GameObject.Instantiate(GrenadeLauncher)?.GetComponent<Item>());
+
+        PlayerData.Score += AddinationalScore;
+        Debug.Log("Score: " + PlayerData.Score);
     }
 }

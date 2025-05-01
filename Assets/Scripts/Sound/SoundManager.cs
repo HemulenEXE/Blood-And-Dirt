@@ -115,7 +115,7 @@ public class SoundManager : MonoBehaviour
     }
     public void PlayBackgroundAudio(string audio_name)
     {
-        _currentBackGroundAudio = AudioClips.First(x => x.name.Equals(audio_name));
+        _currentBackGroundAudio = AudioClips.FirstOrDefault(x => x.name.Equals(audio_name));
         StopAllCoroutines();
         StartCoroutine(FadeOutAndPlayNewSound(_currentBackGroundAudio));
     }

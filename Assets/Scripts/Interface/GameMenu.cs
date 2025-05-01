@@ -70,6 +70,8 @@ public class GameMenu : MonoBehaviour
         _audio.onValueChanged.AddListener(SetVolume);
         _audio.value = SettingData.Volume;
         _onSkillTree.onClick.AddListener(OnSkillTree);
+
+        Counter.Instance().points = PlayerData.Score;
     }
     private void Update()
     {
@@ -120,7 +122,7 @@ public class GameMenu : MonoBehaviour
         if (!transform.GetChild(0).gameObject.activeSelf)
         {
             isOpen = false;
-            AudioEvent?.Invoke(_oldBackGroundAudio?.name);
+            AudioEvent?.Invoke(_oldBackGroundAudio != null ? _oldBackGroundAudio.name : "");
             ChangeWeaponActivity();
         }
         SettingData.SaveData();
@@ -148,7 +150,7 @@ public class GameMenu : MonoBehaviour
             if (!transform.GetChild(0).gameObject.activeSelf)
             {
                 isOpen = false;
-                AudioEvent?.Invoke(_oldBackGroundAudio?.name);
+                AudioEvent?.Invoke(_oldBackGroundAudio != null ? _oldBackGroundAudio.name : "");
                 ChangeWeaponActivity();
             }
             _animator.SetBool(name: "startOpen", false);
@@ -163,6 +165,13 @@ public class GameMenu : MonoBehaviour
             AudioEvent?.Invoke("pause_audio");
             _animator.SetBool(name: "startOpen", true);
         }
+
+        _audio.enabled = isOpen;
+        _save.enabled = isOpen;
+        _onSkillTree.enabled = isOpen;
+        _inMainMenu.enabled = isOpen;
+        _restartScene.enabled = isOpen;
+
     }
     //Выключает/включает остальные UI элементы и игровое время 
     private void ChangeWeaponActivity()
