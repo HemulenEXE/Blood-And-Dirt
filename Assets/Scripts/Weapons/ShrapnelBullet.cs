@@ -18,6 +18,7 @@ public class ShrapnelBullet : MonoBehaviour, IBullet
     private void Start()
     {
         Destroy(this.gameObject, _lifeTime);
+        _previousPosition = transform.position;
     }
     protected void OnCollisionEnter2D(Collision2D other)
     {
@@ -32,8 +33,6 @@ public class ShrapnelBullet : MonoBehaviour, IBullet
         this.transform.position += this.transform.right * Speed * Time.fixedDeltaTime;
 
         Debug.DrawLine(_previousPosition, transform.position, Color.red);
-
-        _previousPosition = transform.position;
 
     }
 }
