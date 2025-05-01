@@ -1,12 +1,16 @@
-﻿//Счётчик игровых очков
+﻿using UnityEngine;
+
+//Счётчик игровых очков
 public class Counter
 {
-    private int points;
+    public int points;
     private static Counter instance;
     public static Counter Instance()
     {
         if (instance == null)
+        {
             instance = new Counter();
+        }
         return instance;
     }
     public int Points() { return points; }

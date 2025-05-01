@@ -70,6 +70,8 @@ public class GameMenu : MonoBehaviour
         _audio.onValueChanged.AddListener(SetVolume);
         _audio.value = SettingData.Volume;
         _onSkillTree.onClick.AddListener(OnSkillTree);
+
+        Counter.Instance().points = PlayerData.Score;
     }
     private void Update()
     {
