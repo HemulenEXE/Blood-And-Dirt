@@ -12,6 +12,8 @@ public class DialogueController3_1 : MonoBehaviour
     [SerializeField] DialogueWndState DialogueWnd;
     [SerializeField] PlayableDirector CutScene2;
     [SerializeField] GameObject CutsceneCamera;
+    [SerializeField] GameObject Player;
+
 
     
 
@@ -24,6 +26,7 @@ public class DialogueController3_1 : MonoBehaviour
     //метод запуска диалога для флажка TimeLine
     public void StartDialogue()
     {
+        Player.GetComponent<PlayerMotion>().enabled = false;
         _director.StartDialogue();
     }
 
@@ -32,6 +35,7 @@ public class DialogueController3_1 : MonoBehaviour
         if (DialogueWnd.currentState == DialogueWndState.WindowState.EndPrint) 
         {
             StartCutscene2();
+            Player.GetComponent<PlayerMotion>().enabled = true;
             CancelInvoke("FixedUpdateEvery1Sec");
         }
     }
