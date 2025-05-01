@@ -5301,7 +5301,7 @@ TilemapCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -5315,8 +5315,8 @@ TilemapCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0
+  m_MaximumTileChangeCount: 5000
+  m_ExtrusionFactor: 100
   m_UseDelaunayMesh: 0
 --- !u!483693784 &1727721046
 TilemapRenderer:
