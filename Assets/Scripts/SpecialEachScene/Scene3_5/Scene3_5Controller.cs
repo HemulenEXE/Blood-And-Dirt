@@ -53,8 +53,9 @@ public class Scene3_5Controller : MonoBehaviour
             player.GetComponent<PlayerMotion>().enabled = false;
             Camera.main.GetComponent<CameraMove>().enabled = false;
             Vector3 newPos = new Vector3(churchman.x, churchman.y, -10);
-            Camera.main.transform.DOMove(newPos, 1f);
-            Camera.main.DOOrthoSize(6f, 1f);
+            Camera.main.transform.DOMove(newPos, 1f).SetId(this);
+            Camera.main.DOOrthoSize(6f, 1f).SetId(this);
+
             Director1.StartDialogue();
             StartCoroutine(ActionDuringDialogue());
             triger = false;
@@ -93,4 +94,10 @@ public class Scene3_5Controller : MonoBehaviour
     {
         player.GetComponent<PlayerMotion>().enabled = true;
     }
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(this);
+    }
+
 }
