@@ -92,7 +92,7 @@ public class BossController : BotController
 
     private void SpawnMinion()
     {
-        if (minionPrefab == null || spawnPoints.Length == 0) return;
+        if (minionPrefab == null || spawnPoints == null || spawnPoints.Length == 0) return;
 
         int spawnCount = isSecondPhase ? counthanchman + extraMinionsPhase2 : counthanchman;
 

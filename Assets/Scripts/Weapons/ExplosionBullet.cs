@@ -25,14 +25,14 @@ public class ExplosionBullet : MonoBehaviour, IBullet
     private void Awake()
     {
         _animationController = this.GetComponentInChildren<Animator>();
-
+        _rigidbody = this.GetComponent<Rigidbody2D>();
         if (_animationController == null) throw new ArgumentNullException("ExplosionBullet: _animationController is null");
     }
 
     private void Start()
     {
         _startPosition = this.transform.position;
-        _rigidbody = this.GetComponent<Rigidbody2D>();
+        
         _rigidbody.velocity = this.transform.right * Speed;
         Destroy(this.gameObject, _lifeTime);
     }
@@ -40,7 +40,7 @@ public class ExplosionBullet : MonoBehaviour, IBullet
     {
         if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("Gun"))
         {
-            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.velocity = Vector2.zero; // тут ошибка
 
             this.GetComponent<SpriteRenderer>().sprite = null;
 

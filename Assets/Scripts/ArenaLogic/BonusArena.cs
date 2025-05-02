@@ -5,7 +5,7 @@ using UnityEngine;
 public class BonusArena : MonoBehaviour
 {
     [SerializeField] private List<GameObject> possibleBonuses;
-    [SerializeField] private int timeLife = 120;
+    [SerializeField] private int timeLife = 60;
     private GameObject currentBonus;
 
     public void UpdateCurrentBonus()

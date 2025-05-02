@@ -10,13 +10,14 @@ public class LevelArmyHard : MonoBehaviour, ILevelArmy
     public EnemySides sideArmy;
     private List<Unit> costSolders;
 
-    private void Start()
+    public void Init()
     {
+        if (costSolders != null) return;
         costSolders = new List<Unit>();
         if (sideArmy == EnemySides.believers)
         {
             costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/GreenSoldierWithMachineGun"), 1));
-            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/GreenSoldierWithGrenadeLauncher"), 1)); 
+            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/GreenSoldierWithGrenadeLauncher"), 2));
             costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/BossComponent/Prophet"), 10));
         }
         else if (sideArmy == EnemySides.falcons)
@@ -30,6 +31,10 @@ public class LevelArmyHard : MonoBehaviour, ILevelArmy
         {
             Debug.Log(u.unit);
         }
+    }
+    private void Start()
+    {
+        Init();
     }
 
     public Unit GetRandomSolder(int maxCostSolder)
