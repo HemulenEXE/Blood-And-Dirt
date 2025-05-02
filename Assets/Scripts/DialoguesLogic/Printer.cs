@@ -53,11 +53,16 @@ public class Printer : MonoBehaviour
     /// <param name="text"></param>
     public void PrintReplicEntirely(int _replicInd, string text)
     {
+        Debug.Log("PrintReplicEntirely запущен! [ДОПЕЧАТЫВАЕТ]");
         if (IsAnim == true)
         {
-            Match m = Regex.Match(text, @"<([^>]+)>(.*?)<\/[^>]+>");
+            Match m = Regex.Match(text, @"<(\w+)(?:=\w+)?>([\s\S]*?)</\1>");
             while (!(m.Index < _replicInd && _replicInd < m.Index + m.Length))
+            {
                 m = m.NextMatch();
+                if (m == Match.Empty)
+                    throw new InvalidOperationException("MATCH NOT FOUND!");
+            }
             switch (m.Groups[1].Value)
             {
                 case "wave":
@@ -66,7 +71,6 @@ public class Printer : MonoBehaviour
                         for (int i = _replicInd - m.Groups[2].Index; i < chars.Count; i++)
                         {
                             GameObject letter = AddLetter(chars[i], false);
-                            _rInd++;
                             float hight = currentY + _lineHight * 0.5f + Mathf.Sin(Time.time * (TimeBetweenLetters / i) + 0.4f * i) * (_lineHight * 0.5f);
                             letter.transform.DOLocalMoveY(hight, 0.4f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
                         }
@@ -78,7 +82,6 @@ public class Printer : MonoBehaviour
                         for (int j = _replicInd - m.Groups[2].Index; j < chars.Count; j++)
                         {
                             GameObject letter = AddLetter(chars[j], false);
-                            _rInd++;
                             letter.transform.DOShakePosition(1f, 2.5f).SetLoops(-1);
                         }
                         break;
@@ -86,17 +89,16 @@ public class Printer : MonoBehaviour
                 default:
                     {
                         List<string> chars = SplitForSimbols(m.Value);
-                        for (int i = _replicInd - m.Index - m.Groups[1].Length - 2; i < chars.Count; i++)
+                        for (int i = _replicInd - m.Groups[2].Index + 1; i < chars.Count; i++)
                         {
                             AddLetter(chars[i], false);
-                            _rInd++;
                         }
                         break;
                     }
             }
             _audio.Play();
             IsAnim = false;
-            _replicInd += m.Length - (_replicInd - m.Index);
+            _replicInd += m.Length - (_replicInd - m.Index) + 1;
             _PrintReplicEntirely(_replicInd, text);
         }
         else _PrintReplicEntirely(_replicInd, text);
@@ -109,11 +111,10 @@ public class Printer : MonoBehaviour
     public void _PrintReplicEntirely(int _replicInd, string text)
     {
         _rInd = _replicInd;
-        Debug.Log("PrintReplicEntirely запущен!");
-        
+        Debug.Log("PrintReplicEntirely запущен! [БЫСТРО]");
+       // Debug.Log($"_rInd At START: {_rInd}\n{text[..(_rInd + 1)]}");
         while (_rInd < text.Length - 1)
         {
-            //Debug.Log(_rInd);
             int i = _rInd;
             float length = currentX;
             while ((i != -1) && (length < _lineWidth / 2))
@@ -126,17 +127,16 @@ public class Printer : MonoBehaviour
             if (text.IndexOf("<", _rInd) != -1)
                 i = Math.Min(i, text.IndexOf("<", _rInd) - 1);
 
-           // Debug.Log(text.Substring(_rInd, i - _rInd + 1));
             AddLetter(text.Substring(_rInd, i - _rInd + 1), false);
-            _rInd = i; 
-            
-            
-            Match m = Regex.Match(text[_rInd..], @"<([^>]+)>(.*?)<\/([^>]+)>");
-            int ind = text.Length - 1 - (text.Length - _rInd) + m.Index; 
+            _rInd = i + 1;
+
+            Match m = Regex.Match(text[_rInd..], @"<(\w+)(?:=\w+)?>([\s\S]*?)</\1>");
+            int ind = text.Length - (text.Length - _rInd) + m.Index; 
             if (ind == _rInd) 
             {
-                _rInd += m.Groups[1].Length + 2;
-                Debug.Log(m.Value);
+                int end = _rInd += m.Length;
+                _rInd += m.Groups[2].Index - m.Index;
+
                 switch (m.Groups[1].Value)
                 {
                     case "wave":
@@ -147,6 +147,7 @@ public class Printer : MonoBehaviour
                                 GameObject letter = AddLetter(chars[i], false);
                                 float hight = currentY + _lineHight * 0.5f + Mathf.Sin(Time.time * (TimeBetweenLetters / i) + 0.4f * i) * (_lineHight * 0.5f);
                                 letter.transform.DOLocalMoveY(hight, 0.4f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+                                _rInd++;
                             }
                             break;
                         }
@@ -157,6 +158,7 @@ public class Printer : MonoBehaviour
                             {
                                 GameObject letter = AddLetter(chars[j], false);
                                 letter.transform.DOShakePosition(1f, 2.5f).SetLoops(-1);
+                                _rInd++;
                             }
                             break;
                         }
@@ -164,20 +166,24 @@ public class Printer : MonoBehaviour
                         {
                             List<string> chars = SplitForSimbols(m.Value);
                             foreach (var c in chars)
+                            {
                                 AddLetter(c, false);
+                                _rInd++;
+                            }
                             break;
                         }
                 }
-                _rInd += m.Groups[3].Length + 4;
+                _rInd = end;
             }
         }
+        _rInd--;
+       // Debug.Log($"_rInd At END: {_rInd}");
         _audio.Play();
         currentX = -_lineWidth / 2;
         currentY = _hightPanel / 2 - 20f;
     }
     public void PrintReplicGradually(int _replcInd, string text)
     {
-        Debug.Log($"ind = {_replcInd}, text = {text}");
       StartCoroutine(PrintReplicGraduallyCorutain(_replcInd, text));    
     }
     /// <summary>
@@ -189,7 +195,7 @@ public class Printer : MonoBehaviour
     {
         _rInd = _replicInd;
         Debug.Log("PrintReplicGradually запущен! [ПОБУКВЕННО]");
-
+        //Debug.Log($"_rInd At START: {_rInd}\n{text[..(_rInd + 1)]}");
         currentX = -_lineWidth / 2;
         currentY = _hightPanel / 2 - 20f;
 
@@ -207,7 +213,9 @@ public class Printer : MonoBehaviour
                 Match m = Regex.Match(text[_rInd..], @"<(\w+)(?:=\w+)?>([\s\S]*?)</\1>");
                 Debug.Log(text[.._rInd]);
                 Debug.Log($"FORMATTING TEXT: {m.Value}");
-                _rInd += m.Length;
+                int end = _rInd + m.Length;
+                _rInd += m.Groups[2].Index - m.Index;
+
                 switch (m.Groups[1].Value)
                 {
                     case "wave":
@@ -216,6 +224,7 @@ public class Printer : MonoBehaviour
                             for (int i = 0; i < chars.Count; i++)
                             {
                                 GameObject letter = AddLetter(chars[i], true);
+                                _rInd++;
                                 letter.transform.DOLocalMoveY(currentY + _lineHight * 0.5f, 0.4f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
                                 timer = 0f;
                                 while (timer < TimeBetweenLetters)
@@ -232,6 +241,7 @@ public class Printer : MonoBehaviour
                             for (int i = 0; i < chars.Count; i++)
                             {
                                 GameObject letter = AddLetter(chars[i], true);
+                                _rInd++;
                                 letter.transform.DOShakePosition(1f, 2.5f).SetLoops(-1);
                                 timer = 0f;
                                 while (timer < TimeBetweenLetters)
@@ -248,6 +258,7 @@ public class Printer : MonoBehaviour
                             foreach (var c in chars)
                             {
                                 AddLetter(c, true);
+                                _rInd++;
                                 timer = 0f;
                                 while (timer < TimeBetweenLetters)
                                 {
@@ -259,6 +270,7 @@ public class Printer : MonoBehaviour
                         }
                 }
                 IsAnim = false;
+                _rInd = end;
             }
             timer = 0f;
             while (timer < TimeBetweenLetters)
@@ -268,6 +280,7 @@ public class Printer : MonoBehaviour
             }
         }
         _rInd--;
+       // Debug.Log($"_rInd At END: {_rInd}");
     }
  
     /// <summary>
@@ -278,7 +291,6 @@ public class Printer : MonoBehaviour
     /// <returns></returns>
     private GameObject AddLetter(string text, bool playAudio)
     {
-        //Debug.Log($"current sibol = {text}");
         TextMeshProUGUI letter = Instantiate(_prefab, _panel);
         letter.text = text;
         letter.ForceMeshUpdate(); //Обновление для получения актуальных размеров
@@ -317,8 +329,6 @@ public class Printer : MonoBehaviour
         MatchCollection startTags = Regex.Matches(text, pattern1);
         MatchCollection endTags = Regex.Matches(text, pattern2);
 
-        //var tags = startTags.Concat(endTags).OrderBy(x => x.Index).ToListPooled();
-        //Придумать, как печатать вложенные теги!
 
         int i = 0; //for symbol 
         int j = 0; //for tag
@@ -332,38 +342,32 @@ public class Printer : MonoBehaviour
             else
             {
                 Match end = endTags.First(x => x.Groups[1].Value == startTags[j].Groups[1].Value);
-                Debug.Log($"END:{end.Index} - {end.Value}");
                 var nested = startTags.Where(x => x.Index < end.Index && x.Index != startTags[j].Index);
                 nested = nested.Concat(endTags.Where(x => x.Index < end.Index)).OrderBy(x => x.Index);
-                Debug.Log("NESTED TEGS:");
-                foreach (Match m in nested)
-                    Debug.Log(m.Value);
+
                 for (int k = i + startTags[j].Length; k < end.Index; k++)
                 {
                     if (text[k] == '<')
                     {
-                        Debug.Log($"K in START: {k}");
                         k += nested.First().Length;
                         while (text[k] != '<')
                         {
                             res.Add(startTags[j].Value + nested.First().Value + text[k] + nested.Take(2).Last().Value + end.Value);
-                            Debug.Log(startTags[j].Value + nested.First().Value + text[k] + nested.Take(2).Last().Value + end.Value);
+                            //Debug.Log(startTags[j].Value + nested.First().Value + text[k] + nested.Take(2).Last().Value + end.Value);
                             k++;
                         }
                         k += nested.Take(2).Last().Length - 1;
-                        Debug.Log($"K in END: {k}");
                         nested = nested.Skip(2);
 
                     }
                     else 
                     {
                         res.Add(startTags[j].Value + text[k] + end.Value);
-                        Debug.Log(startTags[j].Value + text[k]  + end.Value);
+                        //Debug.Log(startTags[j].Value + text[k]  + end.Value);
                     }
 
                     i = k;
                 }
-                Debug.Log($"K: {i}");
                 i += end.Length;
                 j += 1 + nested.Count()/2;
 

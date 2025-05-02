@@ -126,11 +126,7 @@ public class ShowDialogueDubl : MonoBehaviour
             SetAct();
         DialogueWindow.gameObject.SetActive(true);
         
-        //Debug.Log(_panelForText);
-        //Debug.Log(TimeBetweenLetters);
-        //Debug.Log(_audio);
         printer.Init(_panelForText, TimeBetweenLetters, _audio);
-        //Debug.Log(printer);
         _dialogue.ToNodeWithInd(0);
         _replicParts.Clear();
         _replicInd = 0;
@@ -207,16 +203,6 @@ public class ShowDialogueDubl : MonoBehaviour
 
         int start = 0, end = 0;
         char[] delimiters = new char[] { '!', '.', '?', '>'};
-        //Queue<string> tags = new Queue<string>();
-
-
-        //MatchCollection tags = Regex.Matches(currentReplic, pattern);
-        //List<KeyValuePair<int, string>> t = new List<KeyValuePair<int, string>>();
-        //foreach (Match tag in tags)
-        //{
-        //  t.Add(new KeyValuePair<int, string>(tag.Groups[1].Index, tag.Groups[1].Value));
-        //  t.Add(new KeyValuePair<int, string>(tag.Groups[3].Index, tag.Groups[3].Value));
-        //}
 
         string color = null;
         // Формирование частей реплики
@@ -242,12 +228,6 @@ public class ShowDialogueDubl : MonoBehaviour
 
             MatchCollection startTags = Regex.Matches(part, pattern1);
             MatchCollection endTags = Regex.Matches(part, pattern2);
-            Debug.Log("START TEGS:");
-            foreach (Match m in startTags)
-                Debug.Log($"{m.Index} - {m.Value}");
-            Debug.Log("END TEGS:");
-            foreach (Match m in endTags)
-                Debug.Log($"{m.Index} - {m.Value}");
             
             if (startTags.Count > endTags.Count)
             {
@@ -272,7 +252,6 @@ public class ShowDialogueDubl : MonoBehaviour
                     int j = 0;
                     while (j < i && startTags[j].Groups[1].Value != endTags[0].Groups[1].Value)
                     {
-                        //Debug.Log("ADD STARTING UNCLOSED TAG");
                         if (startTags[j].Groups[1].Value == "color")
                             color = startTags[i].Groups[2].Value;
                         part = part + @"</" + startTags[j].Groups[1].Value + ">";
@@ -303,7 +282,6 @@ public class ShowDialogueDubl : MonoBehaviour
                     int j = endTags.Count - 1;
                     while (j >= i && endTags[j].Groups[1].Value != startTags[startTags.Count - 1].Groups[1].Value)
                     {
-                        //Debug.Log("ADD ENDING UNCLOSED TAG");
                         if (endTags[j].Groups[1].Value == "color" && color != null)
                             part = "<" + endTags[j].Groups[1].Value + "=" + color + ">" + part;
                         else part = "<" + endTags[j].Groups[1].Value + ">" + part;
