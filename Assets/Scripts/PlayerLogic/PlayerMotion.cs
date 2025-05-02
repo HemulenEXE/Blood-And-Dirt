@@ -106,7 +106,12 @@ public class PlayerMotion : MonoBehaviour
             else if (PlayerData.IsRunning) makeNoise?.Invoke(this.transform, PlayerData.RunNoise);
             else if (PlayerData.IsWalking) makeNoise?.Invoke(this.transform, PlayerData.WalkNoise);
         }
-        else PlayerData.IsWalking = false;
+        else
+        {
+            PlayerData.IsWalking = false;
+            PlayerData.IsRunning = false;
+            PlayerData.IsStealing = false;
+        }
     }
     private void Rotate()
     {

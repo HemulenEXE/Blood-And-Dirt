@@ -35,4 +35,9 @@ public class BalancePlayer : MonoBehaviour
     {
         countMoney += sallary;
     }
+
+    public int CurrentMoney()
+    {
+        return countMoney;
+    }
 }

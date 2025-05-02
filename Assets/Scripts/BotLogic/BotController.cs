@@ -109,7 +109,9 @@ public class BotController : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(selfTransform.position, directionToPlayer, visionRange, sideBot.GetTargetMask());
         if (hit.collider != null && sideBot.IsEnemyMask(hit.collider.gameObject.layer))
         {
+            StopAllCoroutines();
             OnPlayerDetected(playerTransform);
+
         }
         else
         {
@@ -163,8 +165,8 @@ public class BotController : MonoBehaviour
                 break;
 
         }
-        animator.SetBool("IsMoving", Helper.IsAgentMoving(agent)); 
-
+        animator.SetBool("IsMoving", Helper.IsAgentMoving(agent));
+        UpdateLookDirection();
     }
 
     private void CombateState()
@@ -193,12 +195,19 @@ public class BotController : MonoBehaviour
 
     private void PeaceState()
     {
-        float angle = Mathf.Sin(Time.time * rotationSpeed) * rotationAngle;
-        transform.rotation = initialRotation * Quaternion.Euler(0, 0, angle);
+        Vector3 velocity = agent.velocity;
+
+        if (!(velocity.sqrMagnitude > 0.01f))
+        {
+            float angle = Mathf.Sin(Time.time * rotationSpeed) * rotationAngle;
+            transform.rotation = initialRotation * Quaternion.Euler(0, 0, angle);
+        }
+            
     }
 
     private void PatrolState()
     {
+        if (agent.isStopped) agent.isStopped = false;
         if (lastPatrolPoint == null)
         {
             SetNextPatrolPoint(0);
@@ -214,7 +223,7 @@ public class BotController : MonoBehaviour
     private void SetNextPatrolPoint(int index)
     {
         lastPatrolPoint = patrolPoints[index];
-        LookToDirection(lastPatrolPoint.transform);
+        //LookToDirection(lastPatrolPoint.transform);
         agent.SetDestination(lastPatrolPoint.transform.position);
     }
 
@@ -317,7 +326,7 @@ public class BotController : MonoBehaviour
     {
         if (noiseTransform == null)
         {
-            yield break; // ��������� ��������, ���� ���������� ������ �����������
+            yield break; 
         }
 
         sourceNoise = noiseTransform;
@@ -329,25 +338,25 @@ public class BotController : MonoBehaviour
         while (noiseTransform != null && Mathf.Abs(Quaternion.Angle(transform.rotation, Quaternion.Euler(0, 0, SmoothLookToDirection(noiseTransform)))) > 5f)
         {
             if (timer > timeout)
-                break; // ����� �� �����, ���� �� ������ ����������� �� ��������� �����
+                break; 
 
             timer += Time.deltaTime;
             yield return null;
         }
-        if (noiseTransform == null) yield break; // ��������� ����� ����� ������������
+        if (noiseTransform == null) yield break; 
 
         animator.SetBool("IsMoving", true);
         agent.SetDestination(noiseTransform.position);
 
         while (agent != null && !agent.pathPending && agent.remainingDistance > agent.stoppingDistance)
         {
-            if (noiseTransform == null) yield break; // ���� ������ ������, ��������� ��������
+            if (noiseTransform == null) yield break; 
             yield return null;
         }
         animator.SetBool("IsMoving", false);
         yield return new WaitForSeconds(timeAwaiting);
 
-        if (noiseTransform == null) yield break; // ��� ���� ��������� ��������
+        if (noiseTransform == null) yield break; 
 
         animator.SetBool("IsMoving", true);
         InitToStartState();
@@ -379,6 +388,22 @@ public class BotController : MonoBehaviour
     public bool GetIsPlayerDetected()
     {
         return stateBot == StateBot.combat;
+    }
+
+    private void UpdateLookDirection()
+    {
+        Vector3 velocity = agent.velocity;
+
+        // Проверим, движется ли агент
+        if (velocity.sqrMagnitude > 0.01f)
+        {
+            Vector2 dir = new Vector2(velocity.x, velocity.y).normalized;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle);
+
+            // Плавно поворачиваем к нужному углу
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        }
     }
 
     //private void OnDestroy()

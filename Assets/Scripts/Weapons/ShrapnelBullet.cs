@@ -9,12 +9,14 @@ public class ShrapnelBullet : MonoBehaviour, IBullet
 
     private float _lifeTime = 5.5f;
     private Rigidbody2D _rigidbody;
+    private Vector3 _startPosition;
 
     private void Start()
     {
+        _startPosition = this.transform.position;
+        _rigidbody = this.GetComponent<Rigidbody2D>();
+        _rigidbody.velocity = this.transform.right * Speed;
         Destroy(this.gameObject, _lifeTime);
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _rigidbody.velocity = transform.right * Speed;
     }
 
     protected void OnCollisionEnter2D(Collision2D other)
@@ -28,6 +30,6 @@ public class ShrapnelBullet : MonoBehaviour, IBullet
 
     private void FixedUpdate()
     {
-        Debug.DrawLine(transform.position - transform.right, transform.position, Color.red);
+        Debug.DrawLine(_startPosition, this.transform.position, Color.red);
     }
 }

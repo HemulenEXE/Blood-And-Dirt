@@ -11,6 +11,8 @@ public class ExplosionBullet : MonoBehaviour, IBullet
 
     private float _lifeTime = 5.5f;
     private Animator _animationController;
+    private Rigidbody2D _rigidbody;
+    private Vector3 _startPosition;
 
     private float GetAnimationLength(string animationName)
     {
@@ -23,36 +25,36 @@ public class ExplosionBullet : MonoBehaviour, IBullet
     private void Awake()
     {
         _animationController = this.GetComponentInChildren<Animator>();
-
+        _rigidbody = this.GetComponent<Rigidbody2D>();
         if (_animationController == null) throw new ArgumentNullException("ExplosionBullet: _animationController is null");
     }
 
     private void Start()
     {
+        _startPosition = this.transform.position;
+        
+        _rigidbody.velocity = this.transform.right * Speed;
         Destroy(this.gameObject, _lifeTime);
     }
     protected void OnCollisionEnter2D(Collision2D other)
     {
         if (!other.gameObject.CompareTag("Projectile") && !other.gameObject.CompareTag("Gun"))
         {
-            Debug.Log(other.gameObject.name);
+            _rigidbody.velocity = Vector2.zero; // тут ошибка
 
-            Speed = 0; // Остановка снаряда
             this.GetComponent<SpriteRenderer>().sprite = null;
 
             _animationController.SetTrigger("Explosion");
 
             Collider2D[] enemies = Physics2D.OverlapCircleAll(this.transform.position, ExplosionRadius);
             foreach (var x in enemies)
-            {
                 if (!x.gameObject.CompareTag("Player")) x.GetComponent<AbstractHealth>()?.GetDamage(this);
-            }
 
             Destroy(this.gameObject, GetAnimationLength("ExplosionBullet"));
         }
     }
-    private void Update()
+    private void FixedUpdate()
     {
-        this.transform.Translate(Vector2.right * Speed * Time.deltaTime);
+        Debug.DrawLine(_startPosition, this.transform.position, Color.red);
     }
 }

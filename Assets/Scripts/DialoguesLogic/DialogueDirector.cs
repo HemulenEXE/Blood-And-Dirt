@@ -21,17 +21,17 @@ public class ShowDialogueDubl : MonoBehaviour
     public bool WithEnd = true; //Должен ли диалог заканчиваться, при выходе игрока из тигерной зоны 
     public bool WithAction = false; //Должны kи быть доступны другие действия во время диалога (стрельба, расходники и т.д.)
 
-    private Dialogue _dialogue;
-    private Transform _panelForText;
-    private Transform _panelForButtons;
-    private Button _continue;
-    private TextMeshProUGUI _npcName;
-    private AudioSource _audio;
+    protected Dialogue _dialogue;
+    protected Transform _panelForText;
+    protected Transform _panelForButtons;
+    protected Button _continue;
+    protected TextMeshProUGUI _npcName;
+    protected AudioSource _audio;
 
     private bool IsTrigger; //Для контроля включения диалога
-    private Queue<string> _replicParts; //Части текущей реплики. На экране отображается всегда часть сверху очереди
+    protected Queue<string> _replicParts; //Части текущей реплики. На экране отображается всегда часть сверху очереди
     private int _replicInd = 0; //Текущий индекс в ктеущей части реплики
-    private Button _prefab;
+    protected Button _prefab;
     private Printer printer;
     private bool isPrint = false; //идёт ли печать в данный момент
 
@@ -138,7 +138,7 @@ public class ShowDialogueDubl : MonoBehaviour
     /// <summary>
     /// Выводит варианты ответов к реплике
     /// </summary>
-    private void GoToAnswers()
+    protected virtual void GoToAnswers()
     {
         Debug.Log("GoToAnswers запущен!");
         _replicParts.Clear();
@@ -185,7 +185,7 @@ public class ShowDialogueDubl : MonoBehaviour
     /// <summary>
     /// Подготавливает панель к печати реплики после ответов или в самом начале
     /// </summary>
-    private void GoToReplic()
+    protected void GoToReplic()
     {
         Debug.Log("GoToReplic запущен!");
         _continue.gameObject.SetActive(true);

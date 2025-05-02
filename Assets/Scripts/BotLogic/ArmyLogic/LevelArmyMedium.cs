@@ -7,9 +7,10 @@ public class LevelArmyMedium : MonoBehaviour, ILevelArmy
 {
     public EnemySides sideArmy;
     private List<Unit> costSolders;
-
-    private void Awake()
+    public void Init()
     {
+        if (costSolders != null) return;
+
         costSolders = new List<Unit>();
         if (sideArmy == EnemySides.believers)
         {
@@ -30,6 +31,10 @@ public class LevelArmyMedium : MonoBehaviour, ILevelArmy
         {
             Debug.Log(u.unit);
         }
+    }
+    public void Start()
+    {
+        Init();
     }
 
     public Unit GetRandomSolder(int maxCostSolder)
