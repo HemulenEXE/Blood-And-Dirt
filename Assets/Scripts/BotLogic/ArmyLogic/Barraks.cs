@@ -43,7 +43,7 @@ public class Barraks : MonoBehaviour
             int target = UnityEngine.Random.Range(0, targets.Count);
             Unit buyUnit = levelArmy.GetRandomSolder(maxStrenghtWave - currentStrengthWave);
             currentStrengthWave += buyUnit.costUnit;
-            GameObject spawnBot = Instantiate(buyUnit.unit, spawns[placeSpawn].transform.position, Quaternion.identity);
+            GameObject spawnBot = Instantiate(buyUnit.unit, spawns[placeSpawn].transform.position,buyUnit.unit.transform.rotation);
             spawnBot.GetComponent<BotController>().InitEnemy(sideEnemy);
             Helper.SetLayerRecursive(spawnBot, LayerMask.NameToLayer(sideEnemy.GetOwnLayer()));
             spawnBot.tag = sideEnemy.GetOwnLayer();
