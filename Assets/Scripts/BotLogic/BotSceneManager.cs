@@ -26,7 +26,12 @@ public class BotSceneManager : MonoBehaviour
     {
         barraks = GetComponent<Barraks>();
         sideController = new Side(sides, _isPlayerEnemy);
-        if(_analogState)
+        
+    }
+
+    private void Start()
+    {
+        if (_analogState)
         {
             InvokeRepeating("SummonBots", 60, repeatTime);
         }

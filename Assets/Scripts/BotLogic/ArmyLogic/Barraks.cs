@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,6 +15,20 @@ public class Barraks : MonoBehaviour
     private void Awake()
     {
         levelArmy = GetComponent<ILevelArmy>();
+    }
+
+    public void SetArmy(ILevelArmy levelArmy)
+    {
+        this.levelArmy = levelArmy;
+    }
+
+    public void SetMaxStrengthWave(int maxStrenghtWave)
+    {
+        this.maxStrenghtWave = maxStrenghtWave;
+    }
+    public void AddMaxStrengthWave(int maxStrenghtWave)
+    {
+        this.maxStrenghtWave += maxStrenghtWave;
     }
 
     public List<BotController> SpawnSolders(Side sideEnemy)

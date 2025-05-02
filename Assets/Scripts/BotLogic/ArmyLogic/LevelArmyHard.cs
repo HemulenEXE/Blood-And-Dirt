@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
 
-public class LevelArmyMedium : MonoBehaviour, ILevelArmy
+public class LevelArmyHard : MonoBehaviour, ILevelArmy
 {
+    
     public EnemySides sideArmy;
     private List<Unit> costSolders;
 
@@ -14,14 +16,12 @@ public class LevelArmyMedium : MonoBehaviour, ILevelArmy
         if (sideArmy == EnemySides.believers)
         {
             costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/GreenSoldierWithMachineGun"), 1));
-            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/GreenSoldierWithMachineGun"), 1)); // Поправить говно с префабом дробовика
-            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/GreenSoldierWithGrenadeLauncher"), 2));
+            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/GreenSoldierWithGrenadeLauncher"), 1)); 
+            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/BossComponent/Prophet"), 10));
         }
         else if (sideArmy == EnemySides.falcons)
         {
-            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/PurpleSoldierWithMachineGun"), 1));
-            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/PurpleSoldierWithShotGun"), 1));
-            costSolders.Add(new Unit(Resources.Load<GameObject>("Prefabs/Enemies/PurpleSoldierWithLauncher"), 2));
+            throw new Exception("Inccorect side for hard arny!");
         }
 
 

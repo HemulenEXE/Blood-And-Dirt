@@ -10,6 +10,7 @@ public class BonusArena : MonoBehaviour
 
     public void UpdateCurrentBonus()
     {
+        Debug.Log("Bonus!");
         if (possibleBonuses.Count > 0)
         {
             currentBonus = possibleBonuses[UnityEngine.Random.Range(0, possibleBonuses.Count)];

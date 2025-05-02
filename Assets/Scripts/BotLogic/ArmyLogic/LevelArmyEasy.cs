@@ -10,7 +10,7 @@ public class LevelArmyEasy : MonoBehaviour, ILevelArmy
     public EnemySides sideArmy;
     private List<Unit> costSolders;
 
-    private void Awake()
+    private void Start()
     {
         costSolders = new List<Unit>();
         if (sideArmy == EnemySides.believers)
