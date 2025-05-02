@@ -70,8 +70,6 @@ public class GameMenu : MonoBehaviour
         _audio.onValueChanged.AddListener(SetVolume);
         _audio.value = SettingData.Volume;
         _onSkillTree.onClick.AddListener(OnSkillTree);
-
-        Counter.Instance().points = PlayerData.Score;
     }
     private void Update()
     {
@@ -142,6 +140,7 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     private void ControllMenu()
     {
+        Counter.Instance().points = PlayerData.Score;
         Debug.Log("ON CONTROLL MENU");
         Debug.Log(this);
         if (_animator.GetBool(name: "startOpen"))

@@ -105,6 +105,7 @@ public class HealthBot : AbstractHealth
         }
         DisableBotComponents(this.transform.parent.gameObject);
         var temp = this.transform.parent.AddComponent<BoxCollider2D>();
+        temp.isTrigger = true;
         this.transform.parent.AddComponent<Body>();
 
         death?.Invoke(transform.parent.GetComponent<BotController>());
@@ -138,19 +139,26 @@ public class HealthBot : AbstractHealth
     //    // ׃האכÿול מבתוךע
     //    Destroy(botObject);
     //}
-    private void DisableBotComponents(GameObject start)
+    private void DisableBotComponents(GameObject obj)
     {
-        Collider2D[] colliders = start.GetComponentsInChildren<Collider2D>();
+        Collider2D[] colliders = obj.GetComponentsInChildren<Collider2D>();
         foreach (var x in colliders) Destroy(x);
 
-        Rigidbody2D[] rigidbodies = start.GetComponentsInChildren<Rigidbody2D>();
+        Rigidbody2D[] rigidbodies = obj.GetComponentsInChildren<Rigidbody2D>();
         foreach (var x in rigidbodies) Destroy(x);
 
-        var components = start.GetComponents<MonoBehaviour>();
-        foreach (var x in components) if (x.GetType() != typeof(AudioSource)) x.enabled = false;
+        NavMeshAgent[] navMeshAgents = obj.GetComponentsInChildren<NavMeshAgent>();
+        foreach (var x in navMeshAgents)
+        {
+            if (x != null && x.isActiveAndEnabled)
+            {
+                Destroy(x);
+            }
+        }
 
-        var navMeshAgent = start.GetComponent<NavMeshAgent>();
-        if (navMeshAgent != null) navMeshAgent.isStopped = true;
+
+        var components = obj.GetComponents<MonoBehaviour>();
+        foreach (var x in components) if (x.GetType() != typeof(AudioSource)) x.enabled = false;
     }
 
     private void Awake()

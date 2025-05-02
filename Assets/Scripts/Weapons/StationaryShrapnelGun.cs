@@ -23,6 +23,10 @@ public class StationaryShrapnelGun : ClickedObject
     public static event Action<Transform, string> AudioEvent;
     private Side _sideplayer;
 
+    private GameObject _interactUI;
+    private GameObject _inventUI;
+    private GameObject _dW;
+
 
     private bool Shoot()
     {
@@ -50,10 +54,8 @@ public class StationaryShrapnelGun : ClickedObject
 
         _rigidBody.simulated = true;
 
-        GameObject interactUI = GameObject.Find("InteractiveUI");
-        GameObject inventUI = GameObject.Find("InventoryAndConsumableCounterUI");
-        interactUI?.SetActive(true);
-        inventUI?.SetActive(true);
+        _interactUI?.SetActive(true);
+        _inventUI?.SetActive(true);
 
         Debug.Log("StationaryShrapnelGun isn't used");
     }
@@ -77,13 +79,13 @@ public class StationaryShrapnelGun : ClickedObject
         _rigidBody.simulated = false;
         PlayerData.IsMotionless = true;
 
-        GameObject interactUI = GameObject.Find("InteractiveUI");
-        GameObject inventUI = GameObject.Find("InventoryAndConsumableCounterUI");
-        GameObject dW = GameObject.Find("DialogueWindow");
-        interactUI?.SetActive(false);
-        inventUI?.SetActive(false);
-        if (dW != null && dW.GetComponent<DialogueWndState>().currentState == DialogueWndState.WindowState.StartPrint)
-            dW.SetActive(false);
+        _interactUI = GameObject.Find("InteractiveUI");
+        _inventUI = GameObject.Find("InventoryAndConsumableCounterUI");
+        _dW = GameObject.Find("DialogueWindow");
+        _interactUI?.SetActive(false);
+        _inventUI?.SetActive(false);
+        if (_dW != null && _dW.GetComponent<DialogueWndState>().currentState == DialogueWndState.WindowState.StartPrint)
+            _dW.SetActive(false);
 
         Debug.Log("StationaryShrapnelGun is used");
     }
