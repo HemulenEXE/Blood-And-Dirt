@@ -6,6 +6,8 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
+using Unity.VisualScripting;
 
 /// <summary>
 /// Класс, отвечающий за вывод текста на экран. Скрипт навешивается на NPS
@@ -64,6 +66,7 @@ public class Printer : MonoBehaviour
                         for (int i = _replicInd - m.Groups[2].Index; i < chars.Count; i++)
                         {
                             GameObject letter = AddLetter(chars[i], false);
+                            _rInd++;
                             float hight = currentY + _lineHight * 0.5f + Mathf.Sin(Time.time * (TimeBetweenLetters / i) + 0.4f * i) * (_lineHight * 0.5f);
                             letter.transform.DOLocalMoveY(hight, 0.4f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
                         }
@@ -75,6 +78,7 @@ public class Printer : MonoBehaviour
                         for (int j = _replicInd - m.Groups[2].Index; j < chars.Count; j++)
                         {
                             GameObject letter = AddLetter(chars[j], false);
+                            _rInd++;
                             letter.transform.DOShakePosition(1f, 2.5f).SetLoops(-1);
                         }
                         break;
@@ -83,7 +87,10 @@ public class Printer : MonoBehaviour
                     {
                         List<string> chars = SplitForSimbols(m.Value);
                         for (int i = _replicInd - m.Index - m.Groups[1].Length - 2; i < chars.Count; i++)
+                        {
                             AddLetter(chars[i], false);
+                            _rInd++;
+                        }
                         break;
                     }
             }
@@ -181,7 +188,7 @@ public class Printer : MonoBehaviour
     public IEnumerator PrintReplicGraduallyCorutain(int _replicInd, string text)
     {
         _rInd = _replicInd;
-        Debug.Log("PrintReplicGradually запущен!");
+        Debug.Log("PrintReplicGradually запущен! [ПОБУКВЕННО]");
 
         currentX = -_lineWidth / 2;
         currentY = _hightPanel / 2 - 20f;
@@ -192,13 +199,15 @@ public class Printer : MonoBehaviour
             if (text[_rInd] != '<') //текст без анимаций, с обычны форматированием
             {
                 AddLetter(text[_rInd].ToString(), true);
+                _rInd++;
             }
             else//текст с необычным форматированием и/или анимацией 
             {
                 IsAnim = true;
-                Match m = Regex.Match(text[_rInd..], @"<([^>]+)>(.*?)<\/([^>]+)>");
-                Debug.Log(m.Value);
-                _rInd += m.Groups[1].Length + 2;
+                Match m = Regex.Match(text[_rInd..], @"<(\w+)(?:=\w+)?>([\s\S]*?)</\1>");
+                Debug.Log(text[.._rInd]);
+                Debug.Log($"FORMATTING TEXT: {m.Value}");
+                _rInd += m.Length;
                 switch (m.Groups[1].Value)
                 {
                     case "wave":
@@ -214,7 +223,6 @@ public class Printer : MonoBehaviour
                                     yield return new WaitForFixedUpdate();
                                     timer += Time.fixedDeltaTime;
                                 }
-                                //yield return new WaitForSeconds(TimeBetweenLetters);
                             }
                             break;
                         }
@@ -231,7 +239,6 @@ public class Printer : MonoBehaviour
                                     yield return new WaitForFixedUpdate();
                                     timer += Time.fixedDeltaTime;
                                 }
-                                //yield return new WaitForSeconds(TimeBetweenLetters);
                             }
                             break;
                         }
@@ -247,13 +254,11 @@ public class Printer : MonoBehaviour
                                     yield return new WaitForFixedUpdate();
                                     timer += Time.fixedDeltaTime;
                                 }
-                                //yield return new WaitForSeconds(TimeBetweenLetters);
                             }
                             break;
                         }
                 }
                 IsAnim = false;
-                _rInd += m.Groups[3].Length + 4;
             }
             timer = 0f;
             while (timer < TimeBetweenLetters)
@@ -261,10 +266,8 @@ public class Printer : MonoBehaviour
                 yield return new WaitForFixedUpdate();
                 timer += Time.fixedDeltaTime;
             }
-            //yield return new WaitForSeconds(TimeBetweenLetters);
         }
         _rInd--;
-        Debug.Log($"_replicInd = {_replicInd}");
     }
  
     /// <summary>
@@ -296,7 +299,6 @@ public class Printer : MonoBehaviour
         if (playAudio)
             _audio.Play();
 
-        _rInd++;
         return letter.gameObject;
     }
 
@@ -307,16 +309,67 @@ public class Printer : MonoBehaviour
     /// <returns></returns>
     private List<string> SplitForSimbols(string text)
     {
-        
+        Debug.Log("START SplitForSimbols");
         List<string> res = new List<string>();
-        Match m = Regex.Match(text, @"(<[^>]+>)(.*?)(<\/[^>]+>)");
-        Debug.Log(m.Groups[2].Value);
-        if (m.Success)
-            foreach (char c in m.Groups[2].Value)
-                res.Add(m.Groups[1].Value + c + m.Groups[3].Value);
-        else
-            foreach (char c in text)
-                res.Add(c.ToString());
+
+        string pattern1 = @"<(\w+)(?:=\w+)?>";
+        string pattern2 = @"<\/(\w+)>";
+        MatchCollection startTags = Regex.Matches(text, pattern1);
+        MatchCollection endTags = Regex.Matches(text, pattern2);
+
+        //var tags = startTags.Concat(endTags).OrderBy(x => x.Index).ToListPooled();
+        //Придумать, как печатать вложенные теги!
+
+        int i = 0; //for symbol 
+        int j = 0; //for tag
+        while (i < text.Length - 1)
+        {
+            if (startTags.Count() == 0 || i < startTags[j].Index)
+            {
+                res.Add(text[i].ToString());
+                i++;
+            }
+            else
+            {
+                Match end = endTags.First(x => x.Groups[1].Value == startTags[j].Groups[1].Value);
+                Debug.Log($"END:{end.Index} - {end.Value}");
+                var nested = startTags.Where(x => x.Index < end.Index && x.Index != startTags[j].Index);
+                nested = nested.Concat(endTags.Where(x => x.Index < end.Index)).OrderBy(x => x.Index);
+                Debug.Log("NESTED TEGS:");
+                foreach (Match m in nested)
+                    Debug.Log(m.Value);
+                for (int k = i + startTags[j].Length; k < end.Index; k++)
+                {
+                    if (text[k] == '<')
+                    {
+                        Debug.Log($"K in START: {k}");
+                        k += nested.First().Length;
+                        while (text[k] != '<')
+                        {
+                            res.Add(startTags[j].Value + nested.First().Value + text[k] + nested.Take(2).Last().Value + end.Value);
+                            Debug.Log(startTags[j].Value + nested.First().Value + text[k] + nested.Take(2).Last().Value + end.Value);
+                            k++;
+                        }
+                        k += nested.Take(2).Last().Length - 1;
+                        Debug.Log($"K in END: {k}");
+                        nested = nested.Skip(2);
+
+                    }
+                    else 
+                    {
+                        res.Add(startTags[j].Value + text[k] + end.Value);
+                        Debug.Log(startTags[j].Value + text[k]  + end.Value);
+                    }
+
+                    i = k;
+                }
+                Debug.Log($"K: {i}");
+                i += end.Length;
+                j += 1 + nested.Count()/2;
+
+            }
+        }
+
         return res;
     }
 

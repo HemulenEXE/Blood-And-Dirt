@@ -248,13 +248,13 @@ public class ShowDialogueDubl : MonoBehaviour
             Debug.Log("END TEGS:");
             foreach (Match m in endTags)
                 Debug.Log($"{m.Index} - {m.Value}");
-
+            
             if (startTags.Count > endTags.Count)
             {
                 if (endTags.Count == 0)
                 {
                     for (int i = startTags.Count - 1; i >=0 ; i--)
-                        part = part + @"<\/" + startTags[i].Groups[1].Value + ">";
+                        part = part + @"</" + startTags[i].Groups[1].Value + ">";
 
                 }
                 else
@@ -265,16 +265,17 @@ public class ShowDialogueDubl : MonoBehaviour
                     {
                         if (startTags[i].Groups[1].Value == "color")
                             color = startTags[i].Groups[2].Value;
-                        part = part + @"<\/" + startTags[i].Groups[1].Value + ">";
+                        part = part + @"</" + startTags[i].Groups[1].Value + ">";
                         i--;
                     }
                     //Отслеживает когда не закрыт начальный <b> text ... <i>text</i> ...
                     int j = 0;
                     while (j < i && startTags[j].Groups[1].Value != endTags[0].Groups[1].Value)
                     {
+                        //Debug.Log("ADD STARTING UNCLOSED TAG");
                         if (startTags[j].Groups[1].Value == "color")
                             color = startTags[i].Groups[2].Value;
-                        part = part + @"<\/" + startTags[j].Groups[1].Value + ">";
+                        part = part + @"</" + startTags[j].Groups[1].Value + ">";
                         j++;
                     }
 
@@ -300,8 +301,9 @@ public class ShowDialogueDubl : MonoBehaviour
                     }
                     //Отслеживает ... <i>text</i> ... text</b>
                     int j = endTags.Count - 1;
-                    while (j > i && endTags[j].Groups[1].Value != startTags[startTags.Count - 1].Groups[1].Value)
+                    while (j >= i && endTags[j].Groups[1].Value != startTags[startTags.Count - 1].Groups[1].Value)
                     {
+                        //Debug.Log("ADD ENDING UNCLOSED TAG");
                         if (endTags[j].Groups[1].Value == "color" && color != null)
                             part = "<" + endTags[j].Groups[1].Value + "=" + color + ">" + part;
                         else part = "<" + endTags[j].Groups[1].Value + ">" + part;
