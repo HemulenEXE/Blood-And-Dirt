@@ -106,7 +106,7 @@ public class Printer : MonoBehaviour
         
         while (_rInd < text.Length - 1)
         {
-            Debug.Log(_rInd);
+            //Debug.Log(_rInd);
             int i = _rInd;
             float length = currentX;
             while ((i != -1) && (length < _lineWidth / 2))
@@ -119,7 +119,7 @@ public class Printer : MonoBehaviour
             if (text.IndexOf("<", _rInd) != -1)
                 i = Math.Min(i, text.IndexOf("<", _rInd) - 1);
 
-            Debug.Log(text.Substring(_rInd, i - _rInd + 1));
+           // Debug.Log(text.Substring(_rInd, i - _rInd + 1));
             AddLetter(text.Substring(_rInd, i - _rInd + 1), false);
             _rInd = i; 
             

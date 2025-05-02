@@ -24,7 +24,7 @@ public class PlayerInteract : MonoBehaviour
 
         var temp = hit.collider?.gameObject?.GetComponent<IInteractable>();
 
-        Debug.Log($"PlayerInteraction: {hit.collider?.gameObject?.name}");
+        //Debug.Log($"PlayerInteraction: {hit.collider?.gameObject?.name}");
 
         if (hit.collider != null)
         {

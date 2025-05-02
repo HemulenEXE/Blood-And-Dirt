@@ -1,9 +1,13 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 /// <summary>
 /// Отвечает за воспроизведение диалога
@@ -29,6 +33,7 @@ public class ShowDialogueDubl : MonoBehaviour
     private int _replicInd = 0; //Текущий индекс в ктеущей части реплики
     private Button _prefab;
     private Printer printer;
+    private bool isPrint = false; //идёт ли печать в данный момент
 
     public Dialogue GetDialogue() { return _dialogue; }
     private void Awake()
@@ -85,9 +90,11 @@ public class ShowDialogueDubl : MonoBehaviour
     }
     private void Update()
     {
-        if (IsTrigger && Input.GetKeyDown(KeyCode.T)) //Поменялась кнопка!!! 
+        if (IsTrigger && Input.GetKeyDown(KeyCode.T) && !isPrint) //Поменялась кнопка!!! 
         {
+            Debug.Log(isPrint);
             StartDialogue();
+            isPrint = true;
             IsTrigger = false;
         }
     }
@@ -98,8 +105,11 @@ public class ShowDialogueDubl : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision) 
     {
-        if (collision.gameObject.tag == "Player" && !DialogueWindow.gameObject.active && Input.GetKeyDown(KeyCode.T))
+        if (collision.gameObject.tag == "Player" && !DialogueWindow.gameObject.active && Input.GetKeyDown(KeyCode.T) && !isPrint)
+        { 
             StartDialogue();
+            isPrint = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -116,11 +126,11 @@ public class ShowDialogueDubl : MonoBehaviour
             SetAct();
         DialogueWindow.gameObject.SetActive(true);
         
-        Debug.Log(_panelForText);
-        Debug.Log(TimeBetweenLetters);
-        Debug.Log(_audio);
+        //Debug.Log(_panelForText);
+        //Debug.Log(TimeBetweenLetters);
+        //Debug.Log(_audio);
         printer.Init(_panelForText, TimeBetweenLetters, _audio);
-        Debug.Log(printer);
+        //Debug.Log(printer);
         _dialogue.ToNodeWithInd(0);
         _replicParts.Clear();
         _replicInd = 0;
@@ -196,11 +206,23 @@ public class ShowDialogueDubl : MonoBehaviour
         string currentReplic = _dialogue.GetCurentNode().npcText;
 
         int start = 0, end = 0;
-        char[] delimiters = new char[] { '!', '.', '?' };
+        char[] delimiters = new char[] { '!', '.', '?', '>'};
+        //Queue<string> tags = new Queue<string>();
 
+
+        //MatchCollection tags = Regex.Matches(currentReplic, pattern);
+        //List<KeyValuePair<int, string>> t = new List<KeyValuePair<int, string>>();
+        //foreach (Match tag in tags)
+        //{
+        //  t.Add(new KeyValuePair<int, string>(tag.Groups[1].Index, tag.Groups[1].Value));
+        //  t.Add(new KeyValuePair<int, string>(tag.Groups[3].Index, tag.Groups[3].Value));
+        //}
+
+        string color = null;
         // Формирование частей реплики
         while (start < currentReplic.Length)
         {
+
             // Ищем конец предложения или обрезаем, если превышает MaxReplicLength
             while (end - start + 1 < MaxReplicLength)
             {
@@ -212,12 +234,87 @@ public class ShowDialogueDubl : MonoBehaviour
                 }
             }
 
-            // Добавляем часть строки в очередь
+            //Добавляем в часть недостающие теги, если они есть
             string part = currentReplic.Substring(start, end - start + 1);
+
+            string pattern1 = @"<(\w+)(?:=\w+)?>";
+            string pattern2 = @"<\/(\w+)>";
+
+            MatchCollection startTags = Regex.Matches(part, pattern1);
+            MatchCollection endTags = Regex.Matches(part, pattern2);
+            Debug.Log("START TEGS:");
+            foreach (Match m in startTags)
+                Debug.Log($"{m.Index} - {m.Value}");
+            Debug.Log("END TEGS:");
+            foreach (Match m in endTags)
+                Debug.Log($"{m.Index} - {m.Value}");
+
+            if (startTags.Count > endTags.Count)
+            {
+                if (endTags.Count == 0)
+                {
+                    for (int i = startTags.Count - 1; i >=0 ; i--)
+                        part = part + @"<\/" + startTags[i].Groups[1].Value + ">";
+
+                }
+                else
+                {
+                    //Отслеживает <b>text</b>..<i>text  - когда не закрыт тег после какого-то тега                  
+                    int i = startTags.Count -1;
+                    while (startTags[i].Index > endTags[endTags.Count - 1].Index)
+                    {
+                        if (startTags[i].Groups[1].Value == "color")
+                            color = startTags[i].Groups[2].Value;
+                        part = part + @"<\/" + startTags[i].Groups[1].Value + ">";
+                        i--;
+                    }
+                    //Отслеживает когда не закрыт начальный <b> text ... <i>text</i> ...
+                    int j = 0;
+                    while (j < i && startTags[j].Groups[1].Value != endTags[0].Groups[1].Value)
+                    {
+                        if (startTags[j].Groups[1].Value == "color")
+                            color = startTags[i].Groups[2].Value;
+                        part = part + @"<\/" + startTags[j].Groups[1].Value + ">";
+                        j++;
+                    }
+
+                }
+            }
+            else if (endTags.Count > startTags.Count)
+            {
+                if (startTags.Count == 0)
+                {
+                    for (int i = 0; i < endTags.Count; i++)
+                        part = "<" + endTags[i].Groups[1].Value + ">" + part;
+                }
+                else
+                {
+                    //Отслеживает text</b> ... <i>text</i>
+                    int i = 0;
+                    while (endTags[i].Index < startTags[0].Index)
+                    {
+                        if (endTags[i].Groups[1].Value == "color" && color != null)
+                            part = "<" + endTags[i].Groups[1].Value + "="+ color + ">" + part;
+                        else part = "<" + endTags[i].Groups[1].Value + ">" + part;
+                        i++;
+                    }
+                    //Отслеживает ... <i>text</i> ... text</b>
+                    int j = endTags.Count - 1;
+                    while (j > i && endTags[j].Groups[1].Value != startTags[startTags.Count - 1].Groups[1].Value)
+                    {
+                        if (endTags[j].Groups[1].Value == "color" && color != null)
+                            part = "<" + endTags[j].Groups[1].Value + "=" + color + ">" + part;
+                        else part = "<" + endTags[j].Groups[1].Value + ">" + part;
+                        j--;
+                    }
+                }
+            }
+
+            // Добавляем часть строки в очередь
             if (!string.IsNullOrWhiteSpace(part))
             {
                 _replicParts.Enqueue(part);
-                Debug.Log($"Добавлена часть реплики: {part}");
+                Debug.Log($"Добавлена часть реплики: {part}\nДлинной (c тегами): {part.Length}");
             }
 
             start = end + 1;
@@ -242,6 +339,7 @@ public class ShowDialogueDubl : MonoBehaviour
             {
                 DialogueWindow.gameObject.SetActive(false);
                 IsTrigger = false;
+                isPrint = false;
                 DialogueWindow.GetComponent<DialogueWndState>().currentState = DialogueWndState.WindowState.EndPrint;
                 if (!WithAction) //Включаем обратно возможность действовать, если она отключена
                     SetAct();
