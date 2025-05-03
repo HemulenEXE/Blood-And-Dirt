@@ -34,7 +34,7 @@ public class ShowDialogueDubl : MonoBehaviour
     protected Button _prefab;
     private Printer printer;
     private bool isPrint = false; //идёт ли печать в данный момент
-
+    private List<bool> StartState; //отключено ли управление у игрока в самом начале диалога 
     public Dialogue GetDialogue() { return _dialogue; }
     private void Awake()
     {
@@ -88,34 +88,39 @@ public class ShowDialogueDubl : MonoBehaviour
             }
         }
     }
-    private void Update()
+  
+    private void FixedUpdate()
     {
-        if (IsTrigger && Input.GetKeyDown(KeyCode.T) && !isPrint) //Поменялась кнопка!!! 
+        if (Input.GetKeyDown(KeyCode.T) && !isPrint && IsTrigger)
         {
-            Debug.Log(isPrint);
-            StartDialogue();
+            Debug.Log("START");
             isPrint = true;
             IsTrigger = false;
+            StartDialogue();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.tag == "Player")
             IsTrigger = true;
+        
     }
-    private void OnTriggerStay2D(Collider2D collision) 
+    
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && !DialogueWindow.gameObject.active && Input.GetKeyDown(KeyCode.T) && !isPrint)
-        { 
-            StartDialogue();
-            isPrint = true;
-        }
+        if (collision.tag == "Player")
+            IsTrigger = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        IsTrigger = false;
-        EndDialogue(false); 
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            IsTrigger = false; // Игрок вышел из триггера
+            if (WithEnd) isPrint = false;
+            EndDialogue(false); // Заканчиваем диалог, если он был активен
+            Debug.Log($"END IsPRINT: {isPrint}, isTRIGGER: {IsTrigger}");
+        }
     }
     /// <summary>
     /// Запускает диалог
@@ -123,7 +128,9 @@ public class ShowDialogueDubl : MonoBehaviour
     public void StartDialogue()
     {
         if (!WithAction)
-            SetAct();
+            SetAct(false);
+
+        isPrint = true;
         DialogueWindow.gameObject.SetActive(true);
         
         printer.Init(_panelForText, TimeBetweenLetters, _audio);
@@ -317,23 +324,41 @@ public class ShowDialogueDubl : MonoBehaviour
         {
             if ((DialogueWindow.gameObject.activeSelf && WithEnd) || (end && DialogueWindow.gameObject.activeSelf))
             {
+                printer.StopAllCoroutines();
                 DialogueWindow.gameObject.SetActive(false);
-                IsTrigger = false;
                 isPrint = false;
+                IsTrigger = false;
                 DialogueWindow.GetComponent<DialogueWndState>().currentState = DialogueWndState.WindowState.EndPrint;
                 if (!WithAction) //Включаем обратно возможность действовать, если она отключена
-                    SetAct();
+                    SetAct(true);
             }
         }
     }
     //Включает/отключает возможность что-то делать во время диалога
-    public void SetAct()
+    public void SetAct(bool active)
     {
         GameObject player = GameObject.FindWithTag("Player");
 
-        if(player.GetComponent<PlayerGrenade>() != null) player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
-        if (player.GetComponent<PlayerKnife>() != null) player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
-        if (player.GetComponent<PlayerShooting>() != null)  player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
+        if (StartState == null)
+        {
+            StartState = new List<bool> { true, true, true };
+            if (player.GetComponent<PlayerGrenade>() != null) StartState[0] = player.GetComponent<PlayerGrenade>().enabled;
+            if (player.GetComponent<PlayerKnife>() != null) StartState[1] = player.GetComponent<PlayerKnife>().enabled;
+            if (player.GetComponent<PlayerShooting>() != null) StartState[2] = player.GetComponent<PlayerShooting>().enabled;
+        }
+
+        if (active)
+        {
+            if (player.GetComponent<PlayerGrenade>() != null && StartState[0]) player.GetComponent<PlayerGrenade>().enabled = true;
+            if (player.GetComponent<PlayerKnife>() != null && StartState[1]) player.GetComponent<PlayerKnife>().enabled = true;
+            if (player.GetComponent<PlayerShooting>() != null && StartState[2]) player.GetComponent<PlayerShooting>().enabled = true;
+        }
+        else
+        {
+            if (player.GetComponent<PlayerGrenade>() != null) player.GetComponent<PlayerGrenade>().enabled = false;
+            if (player.GetComponent<PlayerKnife>() != null) player.GetComponent<PlayerKnife>().enabled = false;
+            if (player.GetComponent<PlayerShooting>() != null) player.GetComponent<PlayerShooting>().enabled = false;
+        }
     }
 
 }

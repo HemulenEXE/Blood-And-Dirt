@@ -334,7 +334,7 @@ public class Printer : MonoBehaviour
         int j = 0; //for tag
         while (i < text.Length - 1)
         {
-            if (startTags.Count() == 0 || i < startTags[j].Index)
+            if (j >= startTags.Count() || i < startTags[j].Index)
             {
                 res.Add(text[i].ToString());
                 i++;
@@ -376,9 +376,6 @@ public class Printer : MonoBehaviour
 
         return res;
     }
-
-
-
 
     void OnDestroy()
     {

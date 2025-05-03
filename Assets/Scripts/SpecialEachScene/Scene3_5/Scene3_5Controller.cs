@@ -51,6 +51,8 @@ public class Scene3_5Controller : MonoBehaviour
         {
             Vector3 churchman = GameObject.Find("Churchman").transform.position;
             player.GetComponent<PlayerMotion>().enabled = false;
+            player.transform.GetChild(0).GetComponent<Animator>().enabled = false;
+            player.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>("Prefabs/Sprites/Persons/MainCharacter");
             Camera.main.GetComponent<CameraMove>().enabled = false;
             Vector3 newPos = new Vector3(churchman.x, churchman.y, -10);
             Camera.main.transform.DOMove(newPos, 1f).SetId(this);
@@ -77,7 +79,7 @@ public class Scene3_5Controller : MonoBehaviour
         }
        
         for (int i = 0; i < dust.transform.childCount; i++)
-            dust.transform.GetChild(i).GetComponent<SpriteRenderer>().DOColor(new Color(1, 1, 1, 1), 5f);
+            dust.transform.GetChild(i).GetComponent<SpriteRenderer>().DOColor(new Color(1, 1, 1, 1), 4f);
 
         while (DialogueWnd1.gameObject.transform.GetChild(4).gameObject.activeSelf)
             yield return new WaitForFixedUpdate();
@@ -89,6 +91,7 @@ public class Scene3_5Controller : MonoBehaviour
 
         DialogueWnd1.gameObject.transform.GetChild(4).gameObject.SetActive(false);
         player.GetComponent<PlayerMotion>().enabled = true;
+        player.transform.GetChild(0).GetComponent<Animator>().enabled = true;
     }
     public void CatScene1End()
     {

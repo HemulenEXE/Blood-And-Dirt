@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -45,7 +46,7 @@ public class GameMenu : MonoBehaviour
 
     private AudioClip _oldBackGroundAudio;
     public static event Action<string> AudioEvent;
-
+    private List<bool> StartState; //отключено ли управление у игрока в самом начале включения меню
     /// <summary>
     /// Проверка и настройка полей.
     /// </summary>
@@ -121,7 +122,7 @@ public class GameMenu : MonoBehaviour
         {
             isOpen = false;
             AudioEvent?.Invoke(_oldBackGroundAudio != null ? _oldBackGroundAudio.name : "");
-            ChangeWeaponActivity();
+            ChangeWeaponActivity(true);
         }
         SettingData.SaveData();
     }
@@ -150,7 +151,7 @@ public class GameMenu : MonoBehaviour
             {
                 isOpen = false;
                 AudioEvent?.Invoke(_oldBackGroundAudio != null ? _oldBackGroundAudio.name : "");
-                ChangeWeaponActivity();
+                ChangeWeaponActivity(true);
             }
             _animator.SetBool(name: "startOpen", false);
         }
@@ -158,7 +159,7 @@ public class GameMenu : MonoBehaviour
         {
             Debug.Log("OPEN");
             if (!isOpen)
-                ChangeWeaponActivity();
+                ChangeWeaponActivity(false);
             isOpen = true;
             _oldBackGroundAudio = SoundManager._currentBackGroundAudio;
             AudioEvent?.Invoke("pause_audio");
@@ -173,65 +174,93 @@ public class GameMenu : MonoBehaviour
 
     }
     //Выключает/включает остальные UI элементы и игровое время 
-    private void ChangeWeaponActivity()
+    private void ChangeWeaponActivity(bool active)
     {
         Debug.Log("CHANGE WEAPON ACTIVITY");
         Debug.Log(this);
-        Time.timeScale = Time.timeScale == 1 ? 0 : 1;
 
-        Image fd = null;
-        GameObject interactUI = null;
-        GameObject invantUI = null;
-        GameObject bE = null;
-        GameObject dW = null;
-
-        if (fader == null)
-            fd = GameObject.FindWithTag("Fader")?.GetComponentInChildren<Image>();
-        if (interactiveUI == null)
-            interactUI = GameObject.Find("InteractiveUI");
-        if (inventoryUI == null)
-            invantUI = GameObject.Find("InventoryAndConsumableCounterUI");
-        if (bloodEffect == null)
-            bE = GameObject.Find("BloodEffect");
-        if (dialogueWnd == null)
-            dW = GameObject.Find("DialogueWindow");
-
-        //Сохранение ссылок на объекты для их последующего включения
-        if (fd != null && fader == null)
-            fader = fd;
-        if (interactUI != null && interactiveUI == null)
-            interactiveUI = interactUI;
-        if (invantUI != null && inventoryUI == null)
-            inventoryUI = invantUI;
-        if (bE != null && bloodEffect == null)
-            bloodEffect = bE;
-        if (dW != null && dialogueWnd == null)
-            dialogueWnd = dW;
-
-        Debug.Log($"FADER: {fader}");
-        Debug.Log($"INTERECT: {interactiveUI}");
-        Debug.Log($"INVENT: {inventoryUI}");
-        Debug.Log($"BLOOD EFFECT: {bloodEffect}");
-        Debug.Log($"DIALOGUE WND: {dialogueWnd}");
-        
-
-        fader?.gameObject.SetActive(!fader.gameObject.activeSelf);
-        interactiveUI?.SetActive(!interactiveUI.activeSelf);
-        inventoryUI?.SetActive(!inventoryUI.activeSelf);
-        bloodEffect?.SetActive(!bloodEffect.activeSelf);
-        if (dialogueWnd != null && dialogueWnd.GetComponent<DialogueWndState>().currentState == DialogueWndState.WindowState.StartPrint)
-            dialogueWnd.SetActive(!dialogueWnd.activeSelf);
-
-
-        GameObject player = GameObject.FindWithTag("Player");
-        if (player != null)
+        if (active) //включение компонентов
         {
-            if (player.GetComponent<PlayerKnife>() != null)
-                player.GetComponent<PlayerKnife>().enabled = !player.GetComponent<PlayerKnife>().enabled;
-            if (player.GetComponent<PlayerShooting>()!= null)
-                player.GetComponent<PlayerShooting>().enabled = !player.GetComponent<PlayerShooting>().enabled;
-            if (player.GetComponent<PlayerGrenade>() != null)
-                player.GetComponent<PlayerGrenade>().enabled = !player.GetComponent<PlayerGrenade>().enabled;
+            Time.timeScale = 1;
+
+            fader?.gameObject.SetActive(true);
+            interactiveUI?.SetActive(true);
+            inventoryUI?.SetActive(true);
+            bloodEffect?.SetActive(true);
+            dialogueWnd?.SetActive(true);
+
+            SetAct(true);
+        }
+        else //Выключение компонентов
+        {
+            Time.timeScale = 0;
+
+            Image fd = null;
+            GameObject interactUI = null;
+            GameObject invantUI = null;
+
+            //Объекты, которые на сцене в единственном экземпляре ищутся только один раз
+            if (fader == null)
+                fd = GameObject.FindWithTag("Fader")?.GetComponentInChildren<Image>();
+            if (interactiveUI == null)
+                interactUI = GameObject.Find("InteractiveUI");
+            if (inventoryUI == null)
+                invantUI = GameObject.Find("InventoryAndConsumableCounterUI");
+
+            //Всегда ищется активное диалоговое окно и BloodEffect
+            GameObject dW = GameObject.FindWithTag("DialogueWindow");
+            GameObject bE = GameObject.Find("BloodEffect");
+
+            //Сохранение ссылок на объекты для их последующего включения
+            if (fd != null && fader == null)
+                fader = fd;
+            if (interactUI != null && interactiveUI == null)
+                interactiveUI = interactUI;
+            if (invantUI != null && inventoryUI == null)
+                inventoryUI = invantUI;
+            if (bE != null)
+                bloodEffect = bE;
+            if (dW != null)
+                dialogueWnd = dW;
+
+            Debug.Log($"FADER: {fader}");
+            Debug.Log($"INTERECT: {interactiveUI}");
+            Debug.Log($"INVENT: {inventoryUI}");
+            Debug.Log($"BLOOD EFFECT: {bloodEffect}");
+            Debug.Log($"DIALOGUE WND: {dialogueWnd}");
+
+            fader?.gameObject.SetActive(false);
+            interactiveUI?.SetActive(false);
+            inventoryUI?.SetActive(false);
+            bloodEffect?.SetActive(false);
+            dialogueWnd?.SetActive(false);
+            SetAct(false); 
+           
+        }
+    }
+    private void SetAct(bool active)
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+
+        if (StartState == null)
+        {
+            StartState = new List<bool> { true, true, true };
+            if (player.GetComponent<PlayerGrenade>() != null) StartState[0] = player.GetComponent<PlayerGrenade>().enabled;
+            if (player.GetComponent<PlayerKnife>() != null) StartState[1] = player.GetComponent<PlayerKnife>().enabled;
+            if (player.GetComponent<PlayerShooting>() != null) StartState[2] = player.GetComponent<PlayerShooting>().enabled;
+        }
+
+        if (active)
+        {
+            if (player.GetComponent<PlayerGrenade>() != null && StartState[0]) player.GetComponent<PlayerGrenade>().enabled = true;
+            if (player.GetComponent<PlayerKnife>() != null && StartState[1]) player.GetComponent<PlayerKnife>().enabled = true;
+            if (player.GetComponent<PlayerShooting>() != null && StartState[2]) player.GetComponent<PlayerShooting>().enabled = true;
+        }
+        else
+        {
+            if (player.GetComponent<PlayerGrenade>() != null) player.GetComponent<PlayerGrenade>().enabled = false;
+            if (player.GetComponent<PlayerKnife>() != null) player.GetComponent<PlayerKnife>().enabled = false;
+            if (player.GetComponent<PlayerShooting>() != null) player.GetComponent<PlayerShooting>().enabled = false;
         }
     }
 }

@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 8604870890741310074}
   m_Layer: 5
   m_Name: DialogueWindow
-  m_TagString: Untagged
+  m_TagString: DialogueWindow
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -546,7 +546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec85c8238d31f4c44a6ebf9f4247fa7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 2
+  currentState: 0
 --- !u!1 &6934814289841453166
 GameObject:
   m_ObjectHideFlags: 0

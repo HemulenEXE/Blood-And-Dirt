@@ -37,7 +37,7 @@ public class Scene1_0Controller : SwitchScene
         {
             DialogueWindow.transform.Find("Continue").gameObject.SetActive(true);
             _director.WithAction = false;
-            _director.SetAct();
+            _director.SetAct(false);
         }
         if (DialogueWindow.activeSelf && (_dialogue.GetCurentNodeIndex() == _dialogue.Nodes.Length - 1))
             _director.WithEnd = true;
