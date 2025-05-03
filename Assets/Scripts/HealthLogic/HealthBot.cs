@@ -98,26 +98,49 @@ public class HealthBot : AbstractHealth
     }
     public override void Death()
     {
-        if(transform.parent.name == "HenchMan")
+        var parent = this.transform.parent;
+        if (parent == null) return;
+
+        if (parent.name.Equals("HenchMan"))
         {
-            Destroy(transform.parent);
+            Destroy(parent);
             return;
         }
-        DisableBotComponents(this.transform.parent.gameObject);
-        var temp = this.transform.parent.AddComponent<BoxCollider2D>();
-        temp.isTrigger = true;
-        this.transform.parent.AddComponent<Body>();
 
-        death?.Invoke(transform.parent.GetComponent<BotController>());
+        if (parent != null)
+        {
 
-        AudioEvent?.Invoke(this.transform, "death_sound" + UnityEngine.Random.Range(0, 6));
+            death?.Invoke(parent.GetComponent<BotController>());
 
-        var animator = this.transform.parent.GetComponentInChildren<Animator>();
-        deathNum = UnityEngine.Random.Range(0, 2);
-        string deathTrigger = deathNum == 0 ? "Death1" : "Death2";
-        animator.SetTrigger(deathTrigger);
+            AudioEvent?.Invoke(this.transform, "death_sound" + UnityEngine.Random.Range(0, 6));
 
-        Destroy(transform.parent.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
+
+            DisableBotComponents(parent.gameObject);
+
+            foreach(Transform x in parent.transform)
+            {
+                Debug.Log(x.gameObject.name + "<=>" + parent.name);
+                x.SetParent(null);
+                if (x.gameObject.name.Equals("Visual"))
+                {
+                    var temp = x.AddComponent<BoxCollider2D>();
+                    temp.isTrigger = true;
+                    x.AddComponent<Body>();
+
+                    var animator = x.GetComponent<Animator>();
+
+                    deathNum = UnityEngine.Random.Range(0, 2);
+                    x.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+                    string deathTrigger = deathNum == 0 ? "Death1" : "Death2";
+                    animator.SetTrigger(deathTrigger);
+
+                    Destroy(x.gameObject, Math.Max(animator.GetCurrentAnimatorStateInfo(0).length, _deathSound.length));
+                }
+                else if (!x.name.Equals(this.name)) Destroy(x.gameObject);
+            }
+            Destroy(parent.gameObject, 0.05f);
+            Destroy(this.gameObject);
+        }
     }
 
     //private IEnumerator HandleDeathAnimation(GameObject botObject, Animator animator, int prefab)
@@ -149,12 +172,8 @@ public class HealthBot : AbstractHealth
 
         NavMeshAgent[] navMeshAgents = obj.GetComponentsInChildren<NavMeshAgent>();
         foreach (var x in navMeshAgents)
-        {
             if (x != null && x.isActiveAndEnabled)
-            {
                 Destroy(x);
-            }
-        }
 
 
         var components = obj.GetComponents<MonoBehaviour>();
