@@ -93,6 +93,7 @@ public class ShowDialogueDubl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T) && !isPrint && IsTrigger)
         {
+            Debug.Log("START");
             isPrint = true;
             IsTrigger = false;
             StartDialogue();
@@ -100,15 +101,13 @@ public class ShowDialogueDubl : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Проверяем, активен ли триггер и нажата ли кнопка
         if (collision.tag == "Player")
             IsTrigger = true;
         
     }
-
+    
     private void OnTriggerStay2D(Collider2D collision)
     {
-        // Проверяем, активен ли триггер и нажата ли кнопка
         if (collision.tag == "Player")
             IsTrigger = true;
     }
@@ -130,7 +129,8 @@ public class ShowDialogueDubl : MonoBehaviour
     {
         if (!WithAction)
             SetAct(false);
-        
+
+        isPrint = true;
         DialogueWindow.gameObject.SetActive(true);
         
         printer.Init(_panelForText, TimeBetweenLetters, _audio);
@@ -324,6 +324,7 @@ public class ShowDialogueDubl : MonoBehaviour
         {
             if ((DialogueWindow.gameObject.activeSelf && WithEnd) || (end && DialogueWindow.gameObject.activeSelf))
             {
+                printer.StopAllCoroutines();
                 DialogueWindow.gameObject.SetActive(false);
                 isPrint = false;
                 IsTrigger = false;
