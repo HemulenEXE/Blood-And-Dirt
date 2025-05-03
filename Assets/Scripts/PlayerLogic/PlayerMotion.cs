@@ -115,10 +115,8 @@ public class PlayerMotion : MonoBehaviour
     }
     private void Rotate()
     {
-        if (PlayerData.IsMotionless)
-        {
-            return;
-        }
+        if (PlayerData.IsMotionless) return;
+
         Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
         Vector3 direction = mousePosition - this.transform.position;
@@ -160,6 +158,8 @@ public class PlayerMotion : MonoBehaviour
 
         if (_mainCamera == null) throw new ArgumentNullException("PlayerMotion: _mainCamera is mull");
         if (_animator == null) throw new ArgumentNullException("PlayerMotion: _animator is null");
+
+        Debug.Log("Sensitivity: " + SettingData.Sensitivity);
     }
     private void Update()
     {

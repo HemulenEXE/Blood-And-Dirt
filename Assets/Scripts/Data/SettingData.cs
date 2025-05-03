@@ -62,7 +62,7 @@ public static class SettingData
             if (parts.Length == 3 && int.TryParse(parts[0], out int width) && int.TryParse(parts[1], out int height) && int.TryParse(parts[2], out int refreshRate))
                 Resolution = new Resolution { width = width, height = height, refreshRate = refreshRate };
             FullScreen = int.TryParse(root["Fullscreen"]?.InnerText, out int fullscreen) && fullscreen == 1;
-            Sensitivity = float.TryParse(root["Sensivity"]?.InnerText, out float sensivity) ? sensivity : 1.0f;
+            Sensitivity = float.TryParse(root["Sensitivity"]?.InnerText, out float sensivity) ? sensivity : 1.0f;
             Up = LoadKeyElement(root["Up"]);
             Down = LoadKeyElement(root["Down"]);
             Left = LoadKeyElement(root["Left"]);

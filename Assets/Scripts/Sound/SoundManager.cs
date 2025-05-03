@@ -121,7 +121,7 @@ public class SoundManager : MonoBehaviour
     }
     private IEnumerator FadeOutAndPlayNewSound(AudioClip newClip) // Для плавной смены сопровождающей музыки
     {
-        float fadeDuration = 1f;
+        float fadeDuration = 0.25f;
 
         for (float t = 0; t < fadeDuration; t += Time.unscaledDeltaTime)
         {
@@ -132,7 +132,7 @@ public class SoundManager : MonoBehaviour
         _backgroundAudioSource.volume = SettingData.Volume;
         _backgroundAudioSource.Stop();
 
-        yield return new WaitForSecondsRealtime(0.5f);
+        //yield return new WaitForSecondsRealtime(0.5f);
 
         _backgroundAudioSource.PlayOneShot(newClip);
 
