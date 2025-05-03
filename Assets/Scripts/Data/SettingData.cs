@@ -25,8 +25,10 @@ public static class SettingData
 
     public static KeyCode Run { get; private set; }
     public static KeyCode Steal { get; private set; }
+
     public static KeyCode Interact { get; private set; }
     public static KeyCode Dialogue { get; private set; }
+    public static KeyCode Bonus { get; private set; }
 
     public static KeyCode FirstAidKit { get; private set; }
     public static KeyCode Bandage { get; private set; }
@@ -54,7 +56,6 @@ public static class SettingData
 
             XmlNode root = xmlDoc.DocumentElement;
 
-
             Volume = float.TryParse(root["Volume"]?.InnerText, out float volume) ? volume : 0.5f;
             string temp = root["Resolution"]?.InnerText;
             string[] parts = temp.Split(new[] { 'x', '@' });
@@ -74,6 +75,7 @@ public static class SettingData
             Bandage = LoadKeyElement(root["Bandage"]);
             SimpleGrenade = LoadKeyElement(root["SimpleGrenade"]);
             SmokeGrenade = LoadKeyElement(root["SmokeGrenade"]);
+            Bonus = LoadKeyElement(root["Bonus"]);
         }
         else
         {
@@ -111,6 +113,7 @@ public static class SettingData
         root.AppendChild(CreateKeyElement(xmlDoc, "Run", Run));
         root.AppendChild(CreateKeyElement(xmlDoc, "Steal", Steal));
         root.AppendChild(CreateKeyElement(xmlDoc, "Interact", Interact));
+        root.AppendChild(CreateKeyElement(xmlDoc, "Bonus", Bonus));
         root.AppendChild(CreateKeyElement(xmlDoc, "Dialogue", Dialogue));
         root.AppendChild(CreateKeyElement(xmlDoc, "FirstAidKit", FirstAidKit));
         root.AppendChild(CreateKeyElement(xmlDoc, "Bandage", Bandage));
@@ -134,6 +137,8 @@ public static class SettingData
 
         Run = KeyCode.LeftShift;
         Steal = KeyCode.LeftControl;
+
+        Bonus = KeyCode.Q;
         Interact = KeyCode.E;
         Dialogue = KeyCode.T;
 
@@ -151,7 +156,8 @@ public static class SettingData
     {
         if (!File.Exists(_savedPath)) return false;
 
-        try {
+        try
+        {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(_savedPath);
 
@@ -168,6 +174,7 @@ public static class SettingData
                 root["Run"] == null ||
                 root["Steal"] == null ||
                 root["Interact"] == null ||
+                root["Bonus"] == null ||
                 root["Dialogue"] == null ||
                 root["FirstAidKit"] == null ||
                 root["Bandage"] == null ||
@@ -187,7 +194,7 @@ public static class SettingData
 
             foreach (var keyName in new[] { "Up", "Down", "Left", "Right",
                 "Run", "Steal",
-                "Interact", "Dialogue",
+                "Interact", "Dialogue", "Bonus",
                 "FirstAidKit", "Bandage", "SimpleGrenade", "SmokeGrenade" })
                 if (!Enum.TryParse(root[keyName].InnerText, out KeyCode _)) return false;
 

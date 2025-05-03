@@ -118,11 +118,8 @@ public class StationaryShrapnelGun : ClickedObject
     {
         if (Input.GetKey(KeyCode.Mouse0) && IsInStationaryGun && !IsFiring) StartCoroutine(Fire());
 
-        if (IsInStationaryGun && Input.GetKey(KeyCode.Q)) Exit();
+        if (IsInStationaryGun && Input.GetKey(SettingData.Bonus)) Exit();
 
-        if (IsInStationaryGun)
-        {
-            Rotate();
-        }
+        if (IsInStationaryGun) Rotate();
     }
 }
