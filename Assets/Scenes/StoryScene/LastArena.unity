@@ -50179,7 +50179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4566678558007888567, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4630448034528924367, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
       propertyPath: HasKnife
@@ -50231,7 +50231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5568204492620627241, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5629254027158627403, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
       propertyPath: m_NavMeshData
@@ -50263,15 +50263,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7324473736117259512, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7518952643101769183, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7530801025349589262, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164538026578108748, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8517326243342314335, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
       propertyPath: _startBackGroundAudio
@@ -50308,6 +50312,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7296888421336911126, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
+    - {fileID: 8164538026578108748, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c710e04df49b2045a6e1237e86940b3, type: 3}
