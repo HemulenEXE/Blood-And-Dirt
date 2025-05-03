@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -25,7 +25,7 @@ public class CityControllCatScene : MonoBehaviour
             dialogue.StartDialogue();
             GetComponent<Talker>().enabled = false;
             GetComponent<Printer>().enabled = false;
-            dialogue.SetAct();
+            dialogue.SetAct(false);  //Было добавлено явное выключение (если нужно было включить - поменять на true)
             var player = GameObject.FindGameObjectWithTag("Player");
             player.GetComponent<PlayerMotion>().enabled = false;
             player.GetComponentInChildren<Animator>().SetBool("IsMoving", false);
@@ -42,7 +42,7 @@ public class CityControllCatScene : MonoBehaviour
         if(!checkSecond && !dialogue.DialogueWindow.gameObject.activeSelf && (dialogue.GetDialogue().GetCurentNode().exit == "True"))
         {
             GetComponent<ShowDialogueDubl>().enabled = false;
-            dialogue.SetAct();
+            dialogue.SetAct(true); //аналогично
             checkSecond = true;
             catScene_2.Play();
         }
