@@ -70,19 +70,15 @@ public class Icon : MonoBehaviour
             {
                 Debug.Log($"Открытие, isOpen = {window.GetBool("isOpen")}"); 
                 window.SetBool("isOpen", true);
-                Transform panel = window.transform.GetChild(0);
-                panel.GetChild(0).GetComponent<TextMeshProUGUI>().text = title;
-                panel.GetChild(1).GetComponent<TextMeshProUGUI>().text = discription;
-                panel.GetChild(2).GetComponent<TextMeshProUGUI>().text = techDiscription;
-                panel.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Стоимость: " + price;
-                panel.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
-                panel.GetChild(4).GetComponent<Button>().onClick.AddListener(OpenSkill);
             }
-            else
-            {
-                Debug.Log($"Закрытие, isOpen = {window.GetBool("isOpen")}");
-                window.SetBool("isOpen", false);
-            }
+
+            Transform panel = window.transform.GetChild(0);
+            panel.GetChild(0).GetComponent<TextMeshProUGUI>().text = title;
+            panel.GetChild(1).GetComponent<TextMeshProUGUI>().text = discription;
+            panel.GetChild(2).GetComponent<TextMeshProUGUI>().text = techDiscription;
+            panel.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Стоимость: " + price;
+            panel.GetChild(4).GetComponent<Button>().onClick.RemoveAllListeners();
+            panel.GetChild(4).GetComponent<Button>().onClick.AddListener(OpenSkill);
         });
 
         if (PlayerData.HasSkill(skill))
