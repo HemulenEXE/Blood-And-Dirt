@@ -35,7 +35,7 @@ namespace CameraLogic.CameraEffects
                 if (_instance == null)
                 {
                     var prefab = Resources.Load<Fader>("Prefabs/Interfaces/Fader");
-                    _instance = Instantiate(prefab);
+                    _instance = Instantiate(prefab);     
                     DontDestroyOnLoad(_instance.gameObject);
                 }
 
@@ -55,6 +55,7 @@ namespace CameraLogic.CameraEffects
             fading = true;
             Debug.Log($"FadeIn! - {animator.GetBool("isFaded")}");
             _fadeInCallback = fadeInCallback;
+            animator.updateMode = AnimatorUpdateMode.UnscaledTime;
             animator.SetBool(name: "isFaded", true);
 
         }
@@ -70,6 +71,7 @@ namespace CameraLogic.CameraEffects
             fading = true;
             Debug.Log($"FadeOut! - {animator.GetBool("isFaded")}");
             _fadeOutCallback = fadeOutCallback;
+            animator.updateMode = AnimatorUpdateMode.UnscaledTime;
             animator.SetBool(name: "isFaded", false);
         }
         
