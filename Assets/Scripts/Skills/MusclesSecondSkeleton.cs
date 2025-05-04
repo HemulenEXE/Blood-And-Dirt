@@ -4,7 +4,7 @@ public class MusclesSecondSkeleton : Skill
 {
     private int _newHitsToSurvive = 3;
     private float _newStealNoise = 1f;
-    private float _newWalkNoise = 4f;
+    private float _newWalkNoise = 5f;
     private float _newRunNoise = 7f;
 
 

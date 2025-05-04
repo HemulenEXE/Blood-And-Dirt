@@ -27,6 +27,7 @@ public class PlayerInventory : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0) inventoryAndConsumableCounterUI.SelectNextSlot();
         if (Input.GetAxis("Mouse ScrollWheel") < 0) inventoryAndConsumableCounterUI.SelectPreviousSlot();
         // Освобождение выбранного слота
+        
         if (Input.GetKeyDown(SettingData.Bonus)) inventoryAndConsumableCounterUI.RemoveItem();
     }
 }

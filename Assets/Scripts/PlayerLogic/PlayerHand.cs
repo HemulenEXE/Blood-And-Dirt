@@ -21,5 +21,6 @@ public class PlayerHand : MonoBehaviour
             temp.gameObject.layer = LayerMask.NameToLayer("Invisible");
         }
         if (temp?.GetComponent<GrenadeLauncher>() != null) temp.transform.position = this.transform.position + transform.up / 2;
+        if (temp?.GetComponent<Knife>() != null) temp.transform.position = this.transform.position - this.transform.right / 4;
     }
 }

@@ -50,9 +50,9 @@ public static class PlayerData
     public static bool IsRunning { get; set; } = false;
     public static bool IsMotionless { get; set; } = false; // Определяет, может ли игрок двигаться
 
-    public static float StealSpeed { get; set; } = 1f;
+    public static float StealSpeed { get; set; } = 1.75f;
     public static float WalkSpeed { get; set; } = 3f;
-    public static float RunSpeed { get; set; } = 4.5f;
+    public static float RunSpeed { get; set; } = 4.25f;
 
     public static float StealNoise { get; set; } = 1f;
     public static float WalkNoise { get; set; } = 4f;
@@ -71,7 +71,7 @@ public static class PlayerData
 
     public static void Initialize()
     {
-        _savedPath = Path.Combine(Application.persistentDataPath, "PlayerData.xml");
+        _savedPath = Path.Combine(Application.persistentDataPath, "BADPlayerData.xml");
         if (!CheckFile())
         {
             Debug.Log("The PlayerData.xml is uncorrect or deleted. This file will be (re-)created");

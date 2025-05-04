@@ -162,10 +162,12 @@ public class GameMenu : MonoBehaviour
         {
             Debug.Log("OPEN");
             if (!isOpen)
+            {
+                _oldBackGroundAudio = SoundManager._currentBackGroundAudio;
+                AudioEvent?.Invoke("pause_audio");
                 ChangeWeaponActivity(false);
+            }
             isOpen = true;
-            _oldBackGroundAudio = SoundManager._currentBackGroundAudio;
-            AudioEvent?.Invoke("pause_audio");
             _animator.SetBool(name: "startOpen", true);
         }
 
