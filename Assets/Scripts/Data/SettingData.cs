@@ -37,7 +37,7 @@ public static class SettingData
 
     public static void Initialize()
     {
-        _savedPath = Path.Combine(Application.persistentDataPath, "SettingData.xml");
+        _savedPath = Path.Combine(Application.persistentDataPath, "BADSettingData.xml");
         Resolutions = Screen.resolutions;
         if (!CheckFile())
         {

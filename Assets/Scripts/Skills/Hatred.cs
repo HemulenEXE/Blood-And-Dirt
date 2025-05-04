@@ -2,7 +2,7 @@
 
 public class Hatred : Skill
 {
-    private float _newRunSpeed = 8f;
+    private float _newRunSpeed = 4.5f;
 
     public Hatred()
     {
