@@ -54,6 +54,7 @@ public class Printer : MonoBehaviour
     public void PrintReplicEntirely(int _replicInd, string text)
     {
         Debug.Log("PrintReplicEntirely запущен! [ДОПЕЧАТЫВАЕТ]");
+        Debug.Log($"_rInd At START: {_replicInd}");
         if (IsAnim == true)
         {
             Match m = Regex.Match(text, @"<(\w+)(?:=\w+)?>([\s\S]*?)</\1>");
@@ -98,7 +99,7 @@ public class Printer : MonoBehaviour
             }
             _audio.Play();
             IsAnim = false;
-            _replicInd += m.Length - (_replicInd - m.Index) + 1;
+            _replicInd += m.Length - (_replicInd - m.Index);
             _PrintReplicEntirely(_replicInd, text);
         }
         else _PrintReplicEntirely(_replicInd, text);
@@ -112,7 +113,7 @@ public class Printer : MonoBehaviour
     {
         _rInd = _replicInd;
         Debug.Log("PrintReplicEntirely запущен! [БЫСТРО]");
-       // Debug.Log($"_rInd At START: {_rInd}\n{text[..(_rInd + 1)]}");
+        Debug.Log($"_rInd At START: {_rInd}");
         while (_rInd < text.Length - 1)
         {
             int i = _rInd;
@@ -136,7 +137,6 @@ public class Printer : MonoBehaviour
             {
                 int end = _rInd += m.Length;
                 _rInd += m.Groups[2].Index - m.Index;
-
                 switch (m.Groups[1].Value)
                 {
                     case "wave":
@@ -177,7 +177,7 @@ public class Printer : MonoBehaviour
             }
         }
         _rInd--;
-       // Debug.Log($"_rInd At END: {_rInd}");
+        Debug.Log($"_rInd At END: {_rInd}");
         _audio.Play();
         currentX = -_lineWidth / 2;
         currentY = _hightPanel / 2 - 20f;
@@ -195,7 +195,7 @@ public class Printer : MonoBehaviour
     {
         _rInd = _replicInd;
         Debug.Log("PrintReplicGradually запущен! [ПОБУКВЕННО]");
-        //Debug.Log($"_rInd At START: {_rInd}\n{text[..(_rInd + 1)]}");
+        Debug.Log($"_rInd At START: {_rInd}");
         currentX = -_lineWidth / 2;
         currentY = _hightPanel / 2 - 20f;
 
@@ -211,11 +211,11 @@ public class Printer : MonoBehaviour
             {
                 IsAnim = true;
                 Match m = Regex.Match(text[_rInd..], @"<(\w+)(?:=\w+)?>([\s\S]*?)</\1>");
-                Debug.Log(text[.._rInd]);
                 Debug.Log($"FORMATTING TEXT: {m.Value}");
                 int end = _rInd + m.Length;
-                _rInd += m.Groups[2].Index - m.Index;
+                _rInd += m.Groups[2].Index - m.Index - 1;
 
+                Debug.Log($"start Formating Index _rInd: {_rInd}");
                 switch (m.Groups[1].Value)
                 {
                     case "wave":
@@ -280,7 +280,7 @@ public class Printer : MonoBehaviour
             }
         }
         _rInd--;
-       // Debug.Log($"_rInd At END: {_rInd}");
+        Debug.Log($"_rInd At END: {_rInd}");
     }
  
     /// <summary>
@@ -353,7 +353,6 @@ public class Printer : MonoBehaviour
                         while (text[k] != '<')
                         {
                             res.Add(startTags[j].Value + nested.First().Value + text[k] + nested.Take(2).Last().Value + end.Value);
-                            //Debug.Log(startTags[j].Value + nested.First().Value + text[k] + nested.Take(2).Last().Value + end.Value);
                             k++;
                         }
                         k += nested.Take(2).Last().Length - 1;
@@ -361,10 +360,8 @@ public class Printer : MonoBehaviour
 
                     }
                     else 
-                    {
                         res.Add(startTags[j].Value + text[k] + end.Value);
-                        //Debug.Log(startTags[j].Value + text[k]  + end.Value);
-                    }
+                    
 
                     i = k;
                 }
