@@ -27,7 +27,6 @@ public class StationaryShrapnelGun : ClickedObject
     private GameObject _inventUI;
     private GameObject _dW;
 
-
     private bool Shoot()
     {
         if (AmmoTotal > 0)
