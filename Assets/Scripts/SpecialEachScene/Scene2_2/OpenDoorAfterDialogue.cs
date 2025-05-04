@@ -19,7 +19,7 @@ public class OpenDoorAfterDialogue : MonoBehaviour
     }
     void Update()
     {
-        if (!isTriger && !DialogueWindow.activeInHierarchy && (_dialogue.GetCurentNode().answers[0].exit == "True"))
+        if (!isTriger && (DialogueWindow.GetComponent<DialogueWndState>().currentState == DialogueWndState.WindowState.EndPrint))
         {
             isTriger = true;
             GameObject.Find("door").GetComponent<CircleCollider2D>().enabled = true;
