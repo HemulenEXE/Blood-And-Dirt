@@ -209,7 +209,7 @@ public class ShowDialogueDubl : MonoBehaviour
         string currentReplic = _dialogue.GetCurentNode().npcText;
 
         int start = 0, end = 0;
-        char[] delimiters = new char[] { '!', '.', '?', '>'};
+        char[] delimiters = new char[] { '!', '.', '?', '>', '-'};
 
         string color = null;
         // Формирование частей реплики
@@ -235,7 +235,12 @@ public class ShowDialogueDubl : MonoBehaviour
 
             MatchCollection startTags = Regex.Matches(part, pattern1);
             MatchCollection endTags = Regex.Matches(part, pattern2);
-            
+            Debug.Log("START TAGS:");
+            foreach (var t in startTags)
+                Debug.Log(t);
+            Debug.Log("END TAGS:");
+            foreach (var t in endTags)
+                Debug.Log(t);
             if (startTags.Count > endTags.Count)
             {
                 if (endTags.Count == 0)

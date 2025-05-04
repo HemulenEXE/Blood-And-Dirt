@@ -130,9 +130,10 @@ public class Printer : MonoBehaviour
 
             AddLetter(text.Substring(_rInd, i - _rInd + 1), false);
             _rInd = i + 1;
-
+            Debug.Log(_rInd);
             Match m = Regex.Match(text[_rInd..], @"<(\w+)(?:=\w+)?>([\s\S]*?)</\1>");
-            int ind = text.Length - (text.Length - _rInd) + m.Index; 
+            int ind = text.Length - (text.Length - _rInd) + m.Index;
+            Debug.Log(ind);
             if (ind == _rInd) 
             {
                 int end = _rInd += m.Length;
@@ -142,10 +143,11 @@ public class Printer : MonoBehaviour
                     case "wave":
                         {
                             List<string> chars = SplitForSimbols(m.Groups[2].Value);
-                            for (int j = 0; i < chars.Count; j++)
+                            for (int j = 0; j < chars.Count; j++)
                             {
-                                GameObject letter = AddLetter(chars[i], false);
-                                float hight = currentY + _lineHight * 0.5f + Mathf.Sin(Time.time * (TimeBetweenLetters / i) + 0.4f * i) * (_lineHight * 0.5f);
+                                GameObject letter = AddLetter(chars[j], false);
+                                var del = j == 0 ? 0 : (TimeBetweenLetters / j);
+                                float hight = currentY + _lineHight * 0.5f + Mathf.Sin(Time.time * del + 0.4f * j) * (_lineHight * 0.5f);
                                 letter.transform.DOLocalMoveY(hight, 0.4f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
                                 _rInd++;
                             }
@@ -329,10 +331,11 @@ public class Printer : MonoBehaviour
         MatchCollection startTags = Regex.Matches(text, pattern1);
         MatchCollection endTags = Regex.Matches(text, pattern2);
 
+        Debug.Log($"{startTags.Count()}");
 
         int i = 0; //for symbol 
         int j = 0; //for tag
-        while (i < text.Length - 1)
+        while (i <= text.Length - 1)
         {
             if (j >= startTags.Count() || i < startTags[j].Index)
             {
@@ -361,14 +364,14 @@ public class Printer : MonoBehaviour
                     }
                     else 
                         res.Add(startTags[j].Value + text[k] + end.Value);
-                    
-
                     i = k;
+                    Debug.Log(text[k]);
                 }
-                i += end.Length;
+                i += end.Length + 1;
                 j += 1 + nested.Count()/2;
 
             }
+            Debug.Log($"i: {i}");
         }
 
         return res;
