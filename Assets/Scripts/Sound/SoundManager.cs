@@ -26,6 +26,7 @@ public class SoundManager : MonoBehaviour
 
         SettingAudioSource(_backgroundAudioSource);
         _backgroundAudioSource.spatialBlend = 0f;
+        _backgroundAudioSource.loop = true;
 
         PlayBackgroundAudio(_startBackGroundAudio);
     }
@@ -134,14 +135,26 @@ public class SoundManager : MonoBehaviour
 
         //yield return new WaitForSecondsRealtime(0.5f);
 
-        _backgroundAudioSource.PlayOneShot(newClip);
+        _backgroundAudioSource.clip = newClip;
+        _backgroundAudioSource.Play();
 
         for (float t = 0; t < fadeDuration; t += Time.unscaledDeltaTime)
         {
             _backgroundAudioSource.volume = Mathf.Lerp(0, SettingData.Volume, t / fadeDuration);
             yield return null;
         }
+
         _backgroundAudioSource.volume = SettingData.Volume;
+
+        StartCoroutine(RepeatBackgroundAudio(newClip));
+    }
+    private IEnumerator RepeatBackgroundAudio(AudioClip clip)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(clip.length);
+            _backgroundAudioSource.Play();
+        }
     }
     private void OnDestroy()
     {
