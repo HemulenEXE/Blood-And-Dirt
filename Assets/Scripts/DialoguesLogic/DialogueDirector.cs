@@ -89,7 +89,7 @@ public class ShowDialogueDubl : MonoBehaviour
         }
     }
   
-    private void FixedUpdate()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.T) && !isPrint && IsTrigger)
         {

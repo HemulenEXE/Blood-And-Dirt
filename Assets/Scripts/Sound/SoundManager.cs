@@ -49,11 +49,14 @@ public class SoundManager : MonoBehaviour
         StationaryShrapnelGun.AudioEvent += PlayAudio;
         SummonExplosive.Explosive += PlayAudio;
         PlaceToHide.AudioEvent += PlayAudio;
+        ControllerArena.playHorn += PlayAudio;
 
         AudioTrigger.AudioEvent += PlayBackgroundAudio;
         TitleManager.AudioEvent += PlayBackgroundAudio;
         GameMenu.AudioEvent += PlayBackgroundAudio;
         GameOverMenu.AudioEvent += PlayBackgroundAudio;
+
+        
     }
     private void OnDisable()
     {
@@ -73,6 +76,7 @@ public class SoundManager : MonoBehaviour
         StationaryShrapnelGun.AudioEvent -= PlayAudio;
         SummonExplosive.Explosive -= PlayAudio;
         PlaceToHide.AudioEvent -= PlayAudio;
+        ControllerArena.playHorn -= PlayAudio;
 
         AudioTrigger.AudioEvent -= PlayBackgroundAudio;
         TitleManager.AudioEvent -= PlayBackgroundAudio;

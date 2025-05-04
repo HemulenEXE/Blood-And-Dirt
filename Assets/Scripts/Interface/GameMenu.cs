@@ -153,6 +153,9 @@ public class GameMenu : MonoBehaviour
                 AudioEvent?.Invoke(_oldBackGroundAudio != null ? _oldBackGroundAudio.name : "");
                 ChangeWeaponActivity(true);
             }
+            GameObject popUp = transform.Find("PopUpNotice").gameObject;
+            if (popUp.activeSelf)
+                popUp.SetActive(false);
             _animator.SetBool(name: "startOpen", false);
         }
         else

@@ -1,10 +1,125 @@
-﻿using System.Collections; using System.Collections.Generic; using System.Text.RegularExpressions; using UnityEngine; using UnityEngine.UIElements;  enum StateDifficultyWave { easyFirstWave, easySecondWave, easyThirdWave, mediumFirstWave, mediumSecondWave, mediumThirdWave, hardFirstWave, hardSecondWave, hardThirdWave }; enum Product {pistol, shotgun, machineGun, launchGun, bandage, firstKit, granade, flask };  public class ControllerArena : MonoBehaviour {         [SerializeField] private BonusArena[] bonusArena;     [SerializeField] private GameObject controllerBeliever;     [SerializeField] private GameObject controllerFalcons;     [SerializeField] private int updateTimeBonusAndWave = 60;     [SerializeField] private GameObject spawnSellerPlace;     [SerializeField] private GameObject[] products;     [SerializeField] private GameObject stathonarMachineGun;         private StateDifficultyWave currentWaveStay = StateDifficultyWave.easySecondWave;     private BalancePlayer balance;     private bool startTrigger = false;     private bool isAlreadyUpgradeFalcons = false;      private void OnTriggerEnter2D(Collider2D collision)     {         if (!startTrigger && collision.gameObject.tag == "Player")         {             startTrigger = true;             InvokeRepeating("UpDifficultyArena", 0, updateTimeBonusAndWave);             InvokeRepeating("UpdateBonus", 0, updateTimeBonusAndWave);             controllerBeliever.SetActive(true);             controllerFalcons.SetActive(true);                      }     }      void OnDisable()     {         CancelInvoke();         ShowDialogueWithLogging.OnAnswerChosen -= ReactToAnswer;     }      void Start()     {         balance = BalancePlayer.Instance;     }      private void OnEnable()
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using UnityEngine;
+using UnityEngine.UIElements;
+using System;
+
+enum StateDifficultyWave { easyFirstWave, easySecondWave, easyThirdWave, mediumFirstWave, mediumSecondWave, mediumThirdWave, hardFirstWave, hardSecondWave, hardThirdWave };
+enum Product {pistol, shotgun, machineGun, launchGun, bandage, firstKit, granade, flask };
+
+public class ControllerArena : MonoBehaviour
+{    
+    [SerializeField] private BonusArena[] bonusArena;
+    [SerializeField] private GameObject controllerBeliever;
+    [SerializeField] private GameObject controllerFalcons;
+    [SerializeField] private int updateTimeBonusAndWave = 60;
+    [SerializeField] private GameObject spawnSellerPlace;
+    [SerializeField] private GameObject[] products;
+    [SerializeField] private GameObject stathonarMachineGun;
+
+
+
+    public static event Action<Transform, string> playHorn;
+
+    private StateDifficultyWave currentWaveStay = StateDifficultyWave.easySecondWave;
+    private BalancePlayer balance;
+    private bool startTrigger = false;
+    private bool isAlreadyUpgradeFalcons = false;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!startTrigger && collision.gameObject.tag == "Player")
+        {
+            startTrigger = true;
+            InvokeRepeating("UpDifficultyArena", 0, updateTimeBonusAndWave);
+            InvokeRepeating("UpdateBonus", 0, updateTimeBonusAndWave);
+            controllerBeliever.SetActive(true);
+            controllerFalcons.SetActive(true);
+            InvokeRepeating("PlayHorn", 60, updateTimeBonusAndWave);
+        }
+    }
+
+    void OnDisable()
+    {
+        CancelInvoke();
+        ShowDialogueWithLogging.OnAnswerChosen -= ReactToAnswer;
+    }
+
+    void Start()
+    {
+        balance = BalancePlayer.Instance;
+    }
+
+    private void OnEnable()
     {
         ShowDialogueWithLogging.OnAnswerChosen += ReactToAnswer;
     }
 
     // Update is called once per frame
-    void Update()     {         if(startTrigger)          {          }     }      private void UpDifficultyArena()     {         switch(currentWaveStay)          {             case StateDifficultyWave.easyFirstWave:                 controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(5);                 break;             case StateDifficultyWave.easySecondWave:                 controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(10);                 break;             case StateDifficultyWave.easyThirdWave:                 controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(15);                 break;             case StateDifficultyWave.mediumFirstWave:                 controllerBeliever.GetComponent<LevelArmyEasy>().enabled = false;                 controllerBeliever.GetComponent<LevelArmyMedium>().enabled = true;                 controllerBeliever.GetComponent<LevelArmyMedium>().Init();                 controllerBeliever.GetComponent<Barraks>().SetArmy(controllerBeliever.GetComponent<LevelArmyMedium>());                 controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(10);                 break;             case StateDifficultyWave.mediumSecondWave:                 controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(15);                 break;             case StateDifficultyWave.mediumThirdWave:                 controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(20);                 break;             case StateDifficultyWave.hardFirstWave:                 controllerBeliever.GetComponent<LevelArmyMedium>().enabled = false;                 controllerBeliever.GetComponent<LevelArmyHard>().enabled = true;                 controllerBeliever.GetComponent<LevelArmyHard>().Init();                 controllerBeliever.GetComponent<Barraks>().SetArmy(controllerBeliever.GetComponent<LevelArmyHard>());                 controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(15);                 break;             case StateDifficultyWave.hardSecondWave:                 controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(20);                 break;             case StateDifficultyWave.hardThirdWave:                 controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(25);                 break;         }          balance.GiveSallary(20);         currentWaveStay++;     }      private void UpdateBonus()     {         foreach(var bonus in bonusArena)         {             bonus.UpdateCurrentBonus();         }         PlayerData.Score++;     }      private void ReactToAnswer(ShowDialogueWithLogging directoDialogue, Dialogue.Answer answer)
+    void Update()
+    {
+        if(startTrigger) 
+        {
+
+        }
+    }
+
+    private void UpDifficultyArena()
+    {
+        switch(currentWaveStay) 
+        {
+            case StateDifficultyWave.easyFirstWave:
+                controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(5);
+                break;
+            case StateDifficultyWave.easySecondWave:
+                controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(10);
+                break;
+            case StateDifficultyWave.easyThirdWave:
+                controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(15);
+                break;
+            case StateDifficultyWave.mediumFirstWave:
+                controllerBeliever.GetComponent<LevelArmyEasy>().enabled = false;
+                controllerBeliever.GetComponent<LevelArmyMedium>().enabled = true;
+                controllerBeliever.GetComponent<LevelArmyMedium>().Init();
+                controllerBeliever.GetComponent<Barraks>().SetArmy(controllerBeliever.GetComponent<LevelArmyMedium>());
+                controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(10);
+                break;
+            case StateDifficultyWave.mediumSecondWave:
+                controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(15);
+                break;
+            case StateDifficultyWave.mediumThirdWave:
+                controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(20);
+                break;
+            case StateDifficultyWave.hardFirstWave:
+                controllerBeliever.GetComponent<LevelArmyMedium>().enabled = false;
+                controllerBeliever.GetComponent<LevelArmyHard>().enabled = true;
+                controllerBeliever.GetComponent<LevelArmyHard>().Init();
+                controllerBeliever.GetComponent<Barraks>().SetArmy(controllerBeliever.GetComponent<LevelArmyHard>());
+                controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(15);
+                break;
+            case StateDifficultyWave.hardSecondWave:
+                controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(20);
+                break;
+            case StateDifficultyWave.hardThirdWave:
+                controllerBeliever.GetComponent<Barraks>().SetMaxStrengthWave(25);
+                break;
+        }
+
+        balance.GiveSallary(20);
+        currentWaveStay++;
+    }
+
+    private void UpdateBonus()
+    {
+        foreach(var bonus in bonusArena)
+        {
+            bonus.UpdateCurrentBonus();
+        }
+        PlayerData.Score++;
+    }
+
+    private void ReactToAnswer(ShowDialogueWithLogging directoDialogue, Dialogue.Answer answer)
     {
         Debug.Log("React!");
         int? cost = IsPurchase(answer.text);
@@ -46,7 +161,9 @@
             }
             
         }
-    }      int? IsPurchase(string text)
+    }
+
+    int? IsPurchase(string text)
     {
         int? result = null;
         Match match = Regex.Match(text, @"\((\d+)\s*очков\)");
@@ -56,4 +173,10 @@
         }
 
         return result;
-    } } 
+    }
+
+    void PlayHorn()
+    {
+        playHorn?.Invoke(transform, "battle_horn_1-6931");
+    }
+}

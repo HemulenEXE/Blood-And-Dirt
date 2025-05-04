@@ -1,12 +1,12 @@
 <dialogue name="Scene 2.5 Hospital, Eric">
-  <node id="0" npcName="Эрик">
+  <node id="0" npcName="">
     <answer text="Привет, ты тоже за витаминами? " toNode="1" />
   </node>
-  <node id="1" npcText="&lt;i&gt;А..? А, это ты. Да, за ними.&lt;i&gt;" npcName="Эрик">
+  <node id="1" npcText="&lt;i&gt;А..? А, это ты. Да, за ними.&lt;/i&gt; " npcName="Эрик">
     <answer text="Ты в порядке?.." toNode="2" />
     <answer text="Выглядишь уставшим..." toNode="2" />
   </node>
-  <node id="2" npcText="Не говори так громко. Голова &lt;b&gt;раскалывается... Аргх.&lt;/b&gt;" npcName="Эрик">
+  <node id="2" npcText="Не говори так громко. Голова &lt;b&gt;раскалывается... Аргх.&lt;/b&gt; " npcName="Эрик">
   </node>
   <node id="3" npcText="Ох, &lt;b&gt;так-то лучше.&lt;/b&gt; Привет, Джером! Извини, что сразу не отреагировал, устал за последнее время &lt;b&gt;ужасно.&lt;/b&gt; Куча работы, нужно быть в двух местах одновременно, чтобы всё успевать. А ты только вернулся, да? Как прошла первая миссия? " npcName="Эрик">
     <answer text="Хорошо. Командир меня похвалил." toNode="4" />

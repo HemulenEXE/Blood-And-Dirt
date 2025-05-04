@@ -44,9 +44,10 @@ public class ScenesManager : MonoBehaviour
         if (!isLoad)
         {
             isLoad = true;
-            Time.timeScale = 1;
+            Time.timeScale = 0;
 
             Fader.Instance.FadeIn(() => _isfade = true);
+
             while (!_isfade)
                 yield return null;
 
@@ -55,6 +56,7 @@ public class ScenesManager : MonoBehaviour
                 yield return null;
 
             Fader.Instance.FadeOut(() => _isfade = false);
+            Time.timeScale = 1;
             isLoad = false;
         }
     }
@@ -91,7 +93,7 @@ public class ScenesManager : MonoBehaviour
             isLoad = true;
             if (index < 0) throw new ArgumentOutOfRangeException("index can't be < 0!"); //Добавить проверку, что индекс не больше, чем есть индексы у сцен
 
-            Time.timeScale = 1;
+            Time.timeScale = 0;
             PlayerPrefs.SetInt("currentScene", index); //Сохраняет, что мы перешли на указанный уровень 
             PlayerPrefs.Save();
             Fader.Instance.FadeIn(() => _isfade = true);
@@ -104,8 +106,12 @@ public class ScenesManager : MonoBehaviour
                 yield return null;
 
             Fader.Instance.FadeOut(() => _isfade = false);
-
             InitPosition(index);
+
+            while (_isfade)
+                yield return null;
+            
+            Time.timeScale = 1;
             isLoad = false;
         }
     }

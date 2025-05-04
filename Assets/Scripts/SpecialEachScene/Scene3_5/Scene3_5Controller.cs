@@ -61,6 +61,7 @@ public class Scene3_5Controller : MonoBehaviour
             Director1.StartDialogue();
             StartCoroutine(ActionDuringDialogue());
             triger = false;
+            GetComponent<BoxCollider2D>().enabled = false;
         }
     }
     private IEnumerator ActionDuringDialogue()
